@@ -2,7 +2,7 @@
 *.7z
 *SHP_LAMB93_*
 *GPKG_LAM*
-
+*TIFF_LAMB*
 cache/
 
 potentiel-gisement-solaire-brut-au-bati.gpkg
