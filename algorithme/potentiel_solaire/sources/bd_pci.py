@@ -29,6 +29,7 @@ def get_urls_for_bd_pci_gpkg(
 
     return [href_element for href_element in href_elements if re.search(gpkg_regex, href_element)]
 
+
 def get_url_for_bd_pci_gpkg_for_departement(
     code_departement: str
 ):
