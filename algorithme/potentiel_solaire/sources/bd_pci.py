@@ -5,10 +5,11 @@ import requests
 from bs4 import BeautifulSoup
 
 from potentiel_solaire.constants import DATA_FOLDER
-from potentiel_solaire.logger import get_logger
 from potentiel_solaire.sources.utils import download_file, extract_7z, find_matching_files
+from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
+
 
 def get_urls_for_bd_pci_gpkg(
     bd_pci_page="https://geoservices.ign.fr/parcellaire-express-pci",
