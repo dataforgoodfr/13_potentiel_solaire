@@ -46,7 +46,6 @@ def get_url_for_bd_pci_gpkg_for_departement(
     return url
 
 
-
 def find_gpkg_file_bd_pci(
     code_departement: str,
     data_directory: str = DATA_FOLDER,
