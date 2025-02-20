@@ -91,6 +91,7 @@ def main():
         ("https://data.smartidf.services/api/explore/v2.1/catalog/datasets/potentiel-gisement-solaire-brut-au-bati0/exports/geojson", "potentiel-gisement-solaire-brut-au-bati.geojson"),
         ("https://data.geopf.fr/telechargement/download/BDTOPO/BDTOPO_3-4_TOUSTHEMES_GPKG_LAMB93_D093_2024-12-15/BDTOPO_3-4_TOUSTHEMES_GPKG_LAMB93_D093_2024-12-15.7z", "BDTOPO_3-4_TOUSTHEMES_GPKG_LAMB93_D093_2024-12-15.7z"),
         ("https://data.geopf.fr/telechargement/download/PARCELLAIRE-EXPRESS/PARCELLAIRE-EXPRESS_1-1__SHP_LAMB93_D093_2024-10-01/PARCELLAIRE-EXPRESS_1-1__SHP_LAMB93_D093_2024-10-01.7z", "PARCELLAIRE-EXPRESS_1-1__SHP_LAMB93_D093_2024-10-01.7z"),
+        ("https://data.geopf.fr/telechargement/download/ENR/ENR_1-0_IRR-SOL_TIFF_WGS84G_FXX_2023-10-01/ENR_1-0_IRR-SOL_TIFF_WGS84G_FXX_2023-10-01.7z","ENR_1-0_IRR-SOL_TIFF_WGS84G_FXX_2023-10-01.7z"),
         ("https://data.geopf.fr/telechargement/download/MNS-CORREL/MNS-Correl_1-0__TIFF_LAMB93_D093_2024-01-01/MNS-Correl_1-0__TIFF_LAMB93_D093_2024-01-01.7z","MNS-Correl_1-0__TIFF_LAMB93_D093_2024-01-01.7z")
     ]
 
