@@ -35,7 +35,7 @@ def get_urls_for_bd_topo_gpkg(
 def get_url_for_bd_topo_gpkg_for_departement(
     code_departement: str
 ):
-    """Get url to download BD TOPO data at gpkg format the departement
+    """Get url to download BD TOPO data at gpkg format for the departement
 
     :param code_departement: code of departement
     :return: url
