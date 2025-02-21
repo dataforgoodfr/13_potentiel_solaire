@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -8,11 +8,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
+      <head>
+        <script
+          src="/js/leaflet.mask.js"
+          defer
+        ></script>
+      </head>
       <body>{children}</body>
     </html>
   );
