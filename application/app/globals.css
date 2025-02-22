@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Style du geocoder de Leaflet */
+.leaflet-control-geocoder-icon {
+  display: none !important;
+}
+.leaflet-control-geocoder-form input {
+  background: white;
+  border-radius: 8px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 200px;
+}
+.leaflet-control-geocoder-alternatives {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 5px 0;
+  list-style: none;
+  margin: 5px 0 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.leaflet-control-geocoder-alternatives li {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+.leaflet-control-geocoder-alternatives li:hover {
+  background: #f0f0f0;
+}
+.leaflet-control-geocoder-form-no-error {
+  color: #666;
+  font-size: 14px;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  display: inline-block;
+  margin-top: 5px;
+}
