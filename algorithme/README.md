@@ -71,6 +71,10 @@ se référer à la [documentation officielle](https://python-poetry.org/docs/#in
 
     poetry update
 
+# Executer les calculs de potentiel solaire
+
+    run-pipeline-algorithme -d 093
+
 # Tester & verifier son code
 
 ## Lancer les precommit-hook localement

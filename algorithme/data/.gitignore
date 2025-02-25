@@ -1,5 +1,11 @@
 *.geojson
 *.7z
-*SHP_LAMB93_*
-*GPKG_LAM*
-
+*SHP_*
+*BDTOPO*
+*TIFF_LAMB*
+cache/
+*_LAMB93_*
+potentiel-gisement-solaire-brut-au-bati.gpkg
+potentiel-solaire.gpkg
+*_TIFF_*
+cache.gpkg
