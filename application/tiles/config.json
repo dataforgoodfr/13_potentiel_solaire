@@ -1,0 +1,25 @@
+{
+  "options": {
+    "paths": {
+      "root": ".",
+      "mbtiles": "."
+    }
+  },
+  "data": {
+    "reunion": {
+      "mbtiles": "reunion-tiles.mbtiles"
+    },
+    "martinique": {
+      "mbtiles": "martinique-tiles.mbtiles"
+    },
+    "guyane": {
+      "mbtiles": "guyane-tiles.mbtiles"
+    },
+    "guadeloupe": {
+      "mbtiles": "guadeloupe-tiles.mbtiles"
+    },
+    "mayotte": {
+      "mbtiles": "mayotte-tiles.mbtiles"
+    }
+  }
+}
