@@ -330,16 +330,14 @@ function Map({
   const getTooltip = useCallback(
     ({
       object,
-    }: PickingInfo<
-      Feature<Geometry, TerritoryProperties> | EtablissementProperties
-    >) => {
+    }: PickingInfo<Feature<Geometry, TerritoryProperties> | Etablissement>) => {
       if (!object) return null;
 
-      if ("properties" in object) {
-        if ("nom_etablissement" in object.properties) {
-          return object.properties.nom_etablissement as string;
-        }
+      if ("nom_etablissement" in object) {
+        return object.nom_etablissement;
+      }
 
+      if ("properties" in object) {
         return object.properties.libgeo;
       }
 
