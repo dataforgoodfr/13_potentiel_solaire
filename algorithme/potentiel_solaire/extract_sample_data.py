@@ -2,6 +2,9 @@ import os
 import requests
 import py7zr
 import geopandas as gpd
+import sys
+import os
+sys.path.append(os.path.abspath(".."))  
 from potentiel_solaire.constants import DATA_FOLDER
 from potentiel_solaire.logger import get_logger
 
@@ -75,7 +78,7 @@ def convert_geojson_to_gpkg(geojson_filename, data_folder=DATA_FOLDER):
 
     if os.path.exists(geojson_path):
         logger.info(f"Conversion de {geojson_filename} en {gpkg_filename}...")
-        gdf = gpd.read_file(geojson_path)
+        gdf = gpd.read_file(geojson_path, engine='pyogrio')
         gdf.to_file(gpkg_path, driver="GPKG")
         logger.info(f"Conversion terminée pour {geojson_filename}.")
     else:

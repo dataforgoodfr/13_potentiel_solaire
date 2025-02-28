@@ -1,3 +1,5 @@
+
+#TODO
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
@@ -21,7 +23,7 @@ class Roof(BaseModel):
 class SolarRequest(BaseModel):
     roofs: List[Roof]
 
-def run_sam_simulation(lat, lon, elevation, system_size, tilt_angle, azimuth_angle):
+def run_sam_simulation(lat, lon, hauteur, surfaces, tilt_angle = 30, azimuth_angle = 180):
     """
     This function runs a SAM simulation with the provided parameters.
     The system should be set up to run SAM command-line simulations.
@@ -34,10 +36,10 @@ def run_sam_simulation(lat, lon, elevation, system_size, tilt_angle, azimuth_ang
     sam_data = {
         "latitude": lat,
         "longitude": lon,
-        "elevation": elevation,
-        "system_size": system_size,
-        "tilt_angle": tilt_angle,
-        "azimuth_angle": azimuth_angle
+        "elevation": hauteur,
+        "system_size": surfaces,
+        "tilt_angle": tilt_angle, #TODO: à changer quand on pourra
+        "azimuth_angle": azimuth_angle #TODO: à changer quand on pourra
     }
 
     # Write the input data to a file or set environment variables if needed
@@ -72,10 +74,10 @@ async def calculate_solar_potential_batch(request: SolarRequest):
         gdf = gdf.to_crs(epsg=3395)  # Convert to meters (Web Mercator)
         area = gdf.geometry.area[0]  # Area in square meters
         
-        # Example parameters for SAM simulation
-        system_size = area * 0.1  # 10% of roof area for system size (example)
+        '''# Example parameters for SAM simulation
+        system_size = area * 0.1  # 10% of roof area for system size (example) # TODO prendre ça en compte plus tard
         tilt_angle = 30  # Example tilt angle
-        azimuth_angle = 180  # Example azimuth angle (South-facing)
+        azimuth_angle = 180  # Example azimuth angle (South-facing)'''
 
         # Run the SAM simulation
         sam_result = run_sam_simulation(
