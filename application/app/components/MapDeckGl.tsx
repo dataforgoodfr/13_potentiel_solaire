@@ -19,6 +19,7 @@ import DeckGL, { DeckGLProps } from "@deck.gl/react";
 import { GeoPermissibleObjects, geoMercator, geoPath } from "d3";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
 import { feature } from "topojson-client";
+import { Etablissement } from "../models/etablissements";
 import { debounce } from "../utils/debounce";
 import { useAllEtablissements } from "./fakeApi/useAllEtablissements";
 import { useTopoJsonData } from "./fakeApi/useTopoJson";
@@ -99,23 +100,15 @@ const iconAtlasPath = "data/locationIconAtlas.png";
 const iconMappingPath = "data/locationIconMapping.json";
 
 function createClusterEtablissementLayer(
-  props?: Omit<IconLayerProps<Feature<Point, EtablissementProperties>>, "id">
+  props?: Omit<IconLayerProps<Etablissement>, "id">
 ) {
-  return new IconClusterLayer<Feature<Point, EtablissementProperties>>({
+  return new IconClusterLayer<Etablissement>({
     id: "icon-cluster",
     sizeScale: 40,
     pickable: true,
     iconAtlas: iconAtlasPath,
     iconMapping: iconMappingPath,
-    getPosition: (d) => {
-      // TODO - Some have null in geometry, what to do with those?
-      if (d.geometry == null) return [0, 0];
-      if (d.geometry.coordinates.length !== 2) {
-        throw new Error("Coordinates are not of length 2");
-      }
-
-      return d.geometry.coordinates as [number, number];
-    },
+    getPosition: (d) => [d.longitude, d.latitude],
     ...props,
   });
 }
@@ -152,6 +145,8 @@ function Map({
 }: MapProps) {
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [level, setLevel] = useState<Level>(Level.Region);
+  const [selectedRegion, setSelectedRegion] = useState<string>();
+  const [selectedDepartement, setSelectedDepartement] = useState<string>();
   const etablissements = useAllEtablissements();
 
   const geojsonCom = useMemo(
@@ -201,16 +196,10 @@ function Map({
     return [topLeftCorner, bottomRightCorner];
   }
 
-  function zoomToShape(
-    pickingInfo: PickingInfo<Feature<Geometry, TerritoryProperties>>
-  ) {
-    if (pickingInfo.object === undefined) {
-      throw new Error("Picked object is undefined");
-    }
-
+  function zoomToShape(object: Feature<Geometry, TerritoryProperties>) {
     const viewport = new WebMercatorViewport({ height, width });
 
-    const bbx = getObjectBoundingBox(pickingInfo.object);
+    const bbx = getObjectBoundingBox(object);
 
     const updatedViewState = viewport.fitBounds(bbx, { padding: 10 });
 
@@ -241,21 +230,72 @@ function Map({
     });
   }
 
+  function handleClickCommune(
+    pickingInfo: PickingInfo<Feature<Geometry, TerritoryProperties>>
+  ) {
+    const { object } = pickingInfo;
+    if (object === undefined) {
+      throw new Error("Picked object is undefined");
+    }
+
+    zoomToShape(object);
+  }
+
+  function handleClickDepartement(
+    pickingInfo: PickingInfo<Feature<Geometry, TerritoryProperties>>
+  ) {
+    const { object } = pickingInfo;
+    if (object === undefined) {
+      throw new Error("Picked object is undefined");
+    }
+
+    zoomToShape(object);
+
+    setSelectedDepartement(object.properties.dep);
+  }
+
+  function handleClickRegion(
+    pickingInfo: PickingInfo<Feature<Geometry, TerritoryProperties>>
+  ) {
+    const { object } = pickingInfo;
+    if (object === undefined) {
+      throw new Error("Picked object is undefined");
+    }
+
+    zoomToShape(object);
+
+    setSelectedRegion(object.properties.reg);
+  }
+
+  const filteredCommunes = useMemo(
+    () =>
+      geojsonCom.features.filter(
+        (d) => d.properties.dep === selectedDepartement
+      ),
+    [selectedDepartement]
+  );
+
+  const filteredDepartements = useMemo(
+    () =>
+      geojsonDep.features.filter((d) => d.properties.reg === selectedRegion),
+    [selectedRegion]
+  );
+
   const layers = [
     createCommunesLayer({
-      data: geojsonCom.features,
+      data: filteredCommunes,
       visible: level === Level.Communes,
-      onClick: zoomToShape,
+      onClick: handleClickCommune,
     }),
     createDepartementsLayer({
-      data: geojsonDep.features,
+      data: filteredDepartements,
       filled: level === Level.Departement,
-      onClick: zoomToShape,
+      onClick: handleClickDepartement,
     }),
     createRegionsLayer({
       data: geojsonReg.features,
       filled: level === Level.Region,
-      onClick: zoomToShape,
+      onClick: handleClickRegion,
     }),
     etablissements &&
       createClusterEtablissementLayer({

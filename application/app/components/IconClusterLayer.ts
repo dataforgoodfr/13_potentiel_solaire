@@ -6,12 +6,12 @@ import { CompositeLayer } from "@deck.gl/core";
 import { IconLayer, IconLayerProps } from "@deck.gl/layers";
 import Supercluster from "supercluster";
 
+import type { PickingInfo, UpdateParameters } from "@deck.gl/core";
 import type {
-  PointFeature,
   ClusterFeature,
   ClusterProperties,
+  PointFeature,
 } from "supercluster";
-import type { UpdateParameters, PickingInfo } from "@deck.gl/core";
 
 export type IconClusterLayerPickingInfo<DataT> = PickingInfo<
   DataT | (DataT & ClusterProperties),
