@@ -7,8 +7,8 @@ app = FastAPI()
 
 # Chemin de l'exécutable SAM
 SAM_EXECUTABLE_PATH = "/path/to/SAM/executable"  # Modifier selon ton installation
-SAM_INPUT_FILE = "/path/to/sam/input_file.csv"  # Chemin du fichier d'entrée CSV pour SAM
-SAM_OUTPUT_FILE = "/path/to/sam/output_file.json"  # Fichier de sortie
+SAM_INPUT_FILE = "../notebooks/ouput.csv"  # Chemin du fichier d'entrée CSV pour SAM
+SAM_OUTPUT_FILE = "/notebooks/output_file.json"  # Fichier de sortie
 
 def run_sam_simulation(df):
     """
