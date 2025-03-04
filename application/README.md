@@ -72,8 +72,6 @@ Il existe différentes façon de faire selon le terminal utilisé (voir [shell s
 
 La version de `Node` doit être supérieure à la version 18.18 ([version minimum requise](https://nextjs.org/docs/app/getting-started/installation#system-requirements)), il est conseillé d'utiliser une version LTS (Long Term Support).
 
-Les exemples seront données avec `npm` mais d'autres gestionnaire de paquets pourraient être utilisés (`yarn` / `pnpm`).
-
 ### Installation des dépendances
 
 Il faut se placer dans le dossier `application` du projet.
@@ -98,16 +96,16 @@ En utilisant le CLI :
 
 1. Télécharger le CLI pour son environnement et l'installer - https://duckdb.org/docs/installation/?version=stable&environment=cli
 
-   Pour linux, par exemple :
-   `curl https://install.duckdb.org | sh`
+    Pour linux, par exemple :
+    `curl https://install.duckdb.org | sh`
 
 2. Se rendre dans le répertoire où se trouve le script SQL ({repertoire_projet}/application/database/prepare-JDD-test.sql)
 
-   `cd /path/to/folder`
+    `cd /path/to/folder`
 
 3. Lancer la commande de création de la base
 
-   `duckdb < prepare-JDD-test.sql data-test.duckdb` ou `duckdb -init prepare-JDD-test.sql -no-stdin data-test.duckdb`
+    `duckdb < prepare-JDD-test.sql data-test.duckdb` ou `duckdb -init prepare-JDD-test.sql -no-stdin data-test.duckdb`
 
 En utilisant un éditeur SQL, par exemple DBeaver : https://dbeaver.io/
 
