@@ -20,6 +20,11 @@ const duckDbSingleton = async () => {
 	// it may be possible without it if we use the database differently or configure next (maybe ?), but as we are only reading in the db it should be better like this
 	return DuckDBInstance.create(databasePath, {
 		access_mode: 'READ_ONLY',
+	}).then(async (db) => {  
+		// ensure the spatial extension is installed
+		const connection = await db.connect();
+		await connection.run('INSTALL SPATIAL;');
+		return db;
 	});
 };
 
