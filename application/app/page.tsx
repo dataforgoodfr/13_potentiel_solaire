@@ -1,7 +1,9 @@
+import PotentielSolaireMap from './components/Map';
+
 export default function Home() {
 	return (
 		<main>
-			<div>Hello world!</div>
+			<PotentielSolaireMap />
 		</main>
 	);
 }
