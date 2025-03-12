@@ -26,7 +26,6 @@ def aggregate_solar_potential_by(
 
     aggregated = solar_potential_of_schools_buildings.groupby(by=group_by).agg({
         "surface_utile": "sum",
-        "rayonnement_solaire": "mean",  # TODO : quelle aggregation pour commune, departement et region ?
         "potentiel_solaire": "sum",
         "protection": "any"  # TODO : quelle aggregation pour commune, departement et region ?
     }).reset_index()
@@ -39,4 +38,4 @@ def aggregate_solar_potential_by(
         aggregated,
         on=group_by,
         how="left",
-    )[[*group_by, "surface_utile", "rayonnement_solaire", "potentiel_solaire", "protection", "geometry"]]
+    )[[*group_by, "surface_utile", "potentiel_solaire", "protection", "geometry"]]
