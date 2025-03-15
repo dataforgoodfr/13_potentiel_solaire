@@ -8,6 +8,6 @@ export interface DepartementProperties {
 	count_etablissements: number;
 	count_etablissements_proteges: number;
 }
-export type Departement = Departements['features'][number];
+export type DepartementFeature = DepartementsJSON['features'][number];
 
-export type Departements = GeoJSON.FeatureCollection<GeoJSON.Geometry, DepartementProperties>;
+export type DepartementsJSON = GeoJSON.FeatureCollection<GeoJSON.Geometry, DepartementProperties>;

@@ -1,3 +1,9 @@
+import Map from './components/Map/MapWithLoader';
+
 export default function Home() {
-	return <div>Hello world!</div>;
+	return (
+		<main>
+			<Map />
+		</main>
+	);
 }
