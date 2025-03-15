@@ -2,8 +2,8 @@
   "version": 8,
   "name": "Positron",
   "metadata": {
-    "mapbox:autocomposite": false,
-    "mapbox:groups": {
+    "maplibre:autocomposite": false,
+    "maplibre:groups": {
       "101da9f13b64a08fa4b6ac1168e89e5f": {
         "collapsed": false,
         "name": "Places"
@@ -14,9 +14,9 @@
         "name": "Transportation"
       }
     },
-    "mapbox:type": "template",
-    "openmaptiles:mapbox:owner": "openmaptiles",
-    "openmaptiles:mapbox:source:url": "mapbox://openmaptiles.4qljc88t",
+    "maplibre:type": "template",
+    "openmaptiles:maplibre:owner": "openmaptiles",
+    "openmaptiles:maplibre:source:url": "maplibre://openmaptiles.4qljc88t",
     "openmaptiles:version": "3.x",
     "maputnik:renderer": "mlgljs"
   },
@@ -162,7 +162,7 @@
     {
       "id": "tunnel_motorway_casing",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -185,7 +185,7 @@
     {
       "id": "tunnel_motorway_inner",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -207,7 +207,7 @@
     {
       "id": "aeroway-taxiway",
       "type": "line",
-      "metadata": {"mapbox:group": "1444849345966.4436"},
+      "metadata": {"maplibre:group": "1444849345966.4436"},
       "source": "openmaptiles",
       "source-layer": "aeroway",
       "minzoom": 12,
@@ -226,7 +226,7 @@
     {
       "id": "aeroway-runway-casing",
       "type": "line",
-      "metadata": {"mapbox:group": "1444849345966.4436"},
+      "metadata": {"maplibre:group": "1444849345966.4436"},
       "source": "openmaptiles",
       "source-layer": "aeroway",
       "minzoom": 11,
@@ -245,7 +245,7 @@
     {
       "id": "aeroway-area",
       "type": "fill",
-      "metadata": {"mapbox:group": "1444849345966.4436"},
+      "metadata": {"maplibre:group": "1444849345966.4436"},
       "source": "openmaptiles",
       "source-layer": "aeroway",
       "minzoom": 4,
@@ -263,7 +263,7 @@
     {
       "id": "aeroway-runway",
       "type": "line",
-      "metadata": {"mapbox:group": "1444849345966.4436"},
+      "metadata": {"maplibre:group": "1444849345966.4436"},
       "source": "openmaptiles",
       "source-layer": "aeroway",
       "minzoom": 11,
@@ -309,7 +309,7 @@
     {
       "id": "highway_path",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "filter": ["all", ["==", "$type", "LineString"], ["==", "class", "path"]],
@@ -327,7 +327,7 @@
     {
       "id": "highway_minor",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 8,
@@ -350,7 +350,7 @@
     {
       "id": "highway_major_casing",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 11,
@@ -373,7 +373,7 @@
     {
       "id": "highway_major_inner",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 11,
@@ -395,7 +395,7 @@
     {
       "id": "highway_major_subtle",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "maxzoom": 11,
@@ -414,7 +414,7 @@
     {
       "id": "highway_motorway_casing",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -442,7 +442,7 @@
     {
       "id": "highway_motorway_inner",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -471,7 +471,7 @@
     {
       "id": "highway_motorway_subtle",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "maxzoom": 6,
@@ -493,7 +493,7 @@
     {
       "id": "railway_transit",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -508,7 +508,7 @@
     {
       "id": "railway_transit_dashline",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -527,7 +527,7 @@
     {
       "id": "railway_service",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -542,7 +542,7 @@
     {
       "id": "railway_service_dashline",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -562,7 +562,7 @@
     {
       "id": "railway",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 13,
@@ -580,7 +580,7 @@
     {
       "id": "railway_dashline",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 13,
@@ -599,7 +599,7 @@
     {
       "id": "highway_motorway_bridge_casing",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -623,7 +623,7 @@
     {
       "id": "highway_motorway_bridge_inner",
       "type": "line",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -648,7 +648,7 @@
     {
       "id": "highway_name_other",
       "type": "symbol",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation_name",
       "filter": [
@@ -679,7 +679,7 @@
     {
       "id": "highway_name_motorway",
       "type": "symbol",
-      "metadata": {"mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"},
+      "metadata": {"maplibre:group": "b6371a3f2f5a9932464fa3867530a2e5"},
       "source": "openmaptiles",
       "source-layer": "transportation_name",
       "filter": [
@@ -708,7 +708,7 @@
     {
       "id": "boundary_state",
       "type": "line",
-      "metadata": {"mapbox:group": "a14c9607bc7954ba1df7205bf660433f"},
+      "metadata": {"maplibre:group": "a14c9607bc7954ba1df7205bf660433f"},
       "source": "openmaptiles",
       "source-layer": "boundary",
       "filter": ["==", "admin_level", 4],
@@ -728,7 +728,7 @@
     {
       "id": "boundary_country_z0-4",
       "type": "line",
-      "metadata": {"mapbox:group": "a14c9607bc7954ba1df7205bf660433f"},
+      "metadata": {"maplibre:group": "a14c9607bc7954ba1df7205bf660433f"},
       "source": "openmaptiles",
       "source-layer": "boundary",
       "maxzoom": 5,
@@ -744,7 +744,7 @@
     {
       "id": "boundary_country_z5-",
       "type": "line",
-      "metadata": {"mapbox:group": "a14c9607bc7954ba1df7205bf660433f"},
+      "metadata": {"maplibre:group": "a14c9607bc7954ba1df7205bf660433f"},
       "source": "openmaptiles",
       "source-layer": "boundary",
       "minzoom": 5,
@@ -760,14 +760,14 @@
     {
       "id": "place_other",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 14,
       "filter": [
         "all",
         ["in", "class", "hamlet", "neighbourhood", "isolated_dwelling"],
-        ["==", "$type", "Point"]
+        ["==", "$type", "Point"], ["==", "name", ""]
       ],
       "layout": {
         "text-anchor": "center",
@@ -789,11 +789,11 @@
     {
       "id": "place_suburb",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 15,
-      "filter": ["all", ["==", "$type", "Point"], ["==", "class", "suburb"]],
+      "filter": ["all", ["==", "$type", "Point"], ["==", "class", "suburb"], ["==", "name", ""]],
       "layout": {
         "text-anchor": "center",
         "text-field": "{name:latin}\n{name:nonlatin}",
@@ -814,11 +814,11 @@
     {
       "id": "place_village",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 14,
-      "filter": ["all", ["==", "$type", "Point"], ["==", "class", "village"]],
+      "filter": ["all", ["==", "$type", "Point"], ["==", "class", "village"], ["==", "name", ""]],
       "layout": {
         "icon-size": 0.4,
         "text-anchor": "left",
@@ -841,7 +841,7 @@
     {
       "id": "place_town",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 15,
@@ -849,16 +849,7 @@
         "all",
         ["==", "$type", "Point"],
         ["==", "class", "town"],
-        [
-          "!in",
-          "name",
-          "Andorra la Vella",
-          "Ordino",
-          "La Massana",
-          "Encamp",
-          "Canillo",
-          "les Escaldes"
-        ]
+        ["==", "name", ""]
       ],
       "layout": {
         "icon-image": {"base": 1, "stops": [[0, "circle-11"], [8, ""]]},
@@ -883,7 +874,7 @@
     {
       "id": "place_city",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 14,
@@ -898,65 +889,9 @@
           [
             "match",
             ["get", "name"],
-            [
-              "Kraków",
-              "Bergen",
-              "Мурманск",
-              "Tromsø",
-              "Trondheim",
-              "Θεσσαλονίκη",
-              "Севастополь",
-              "Malmö",
-              "Basel",
-              "Venezia",
-              "Freiburg im Breisgau",
-              "Genève",
-              "Lausanne",
-              "Luxembourg",
-              "Monaco",
-              "Palermo",
-              "Saarbrücken",
-              "Genova",
-              "Torino",
-              "Stuttgart",
-              "Nürnberg",
-              "Köln",
-              "Bremen",
-              "Dresden",
-              "Firenze",
-              "Bilbao",
-              "Vigo",
-              "Sevilla",
-              "Córdoba",
-              "València",
-              "Pamplona / Iruña",
-              "Valladolid",
-              "Zaragoza",
-              "Murcia",
-              "Granada",
-              "Palma",
-              "Cádiz",
-              "Setúbal",
-              "Porto",
-              "Ourense",
-              "A Coruña",
-              "Antwerpen",
-              "Cardiff",
-              "Birmingham",
-              "Liverpool",
-              "Manchester",
-              "Leeds",
-              "Newcastle upon Tyne",
-              "Edinburgh",
-              "Glasgow",
-              "Belfast",
-              "Limerick",
-              "Cork",
-              "Rotterdam",
-              "Den Haag"
-            ],
-            false,
-            true
+            [""],
+            true,
+            false
           ]
         ]
       ],
@@ -983,7 +918,7 @@
     {
       "id": "place_capital",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 12,
@@ -994,7 +929,7 @@
           "all",
           ["==", ["get", "capital"], 2],
           ["==", ["get", "class"], "city"],
-          ["==", ["get", "name"], "Paris"]
+          ["==", ["get", "name"], ""]
         ]
       ],
       "layout": {
@@ -1020,7 +955,7 @@
     {
       "id": "place_city_large",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 12,
@@ -1058,7 +993,7 @@
     {
       "id": "place_state",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 12,
@@ -1066,28 +1001,7 @@
         "all",
         ["==", "$type", "Point"],
         ["==", "class", "state"],
-        [
-          "in",
-          "name",
-          "Corse",
-          "Guadeloupe",
-          "Guyane",
-          "Martinique",
-          "La Réunion",
-          "Mayotte",
-          "Île-de-France",
-          "Occitanie",
-          "Normandie",
-          "Bretagne",
-          "Pays de la Loire",
-          "Hauts-de-France",
-          "Grand Est",
-          "Bourgogne-Franche-Comté",
-          "Provence-Alpes-Côte d'Azur",
-          "Auvergne-Rhône-Alpes",
-          "Nouvelle-Aquitaine",
-          "Centre-Val de Loire"
-        ]
+        ["in", "name", ""]
       ],
       "layout": {
         "text-field": "{name:latin}\n{name:nonlatin}",
@@ -1106,7 +1020,7 @@
     {
       "id": "place_country_other",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 8,
@@ -1114,7 +1028,7 @@
         "all",
         ["==", "$type", "Point"],
         ["==", "class", "country"],
-        ["==", "iso_a2", "FR"]
+        ["==", "iso_a2", ""]
       ],
       "layout": {
         "text-field": "{name:latin}",
@@ -1135,7 +1049,7 @@
     {
       "id": "place_country_minor",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 8,
@@ -1144,7 +1058,7 @@
         ["==", "$type", "Point"],
         ["==", "class", "country"],
         [">=", "rank", 2],
-        ["==", "iso_a2", "FR"]
+        ["==", "iso_a2", ""]
       ],
       "layout": {
         "text-field": "{name:latin}",
@@ -1165,7 +1079,7 @@
     {
       "id": "place_country_major",
       "type": "symbol",
-      "metadata": {"mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
+      "metadata": {"maplibre:group": "101da9f13b64a08fa4b6ac1168e89e5f"},
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 6,
@@ -1174,7 +1088,7 @@
         ["==", "$type", "Point"],
         ["<=", "rank", 1],
         ["==", "class", "country"],
-        ["==", "iso_a2", "FR"]
+        ["==", "iso_a2", ""]
       ],
       "layout": {
         "text-anchor": "center",
