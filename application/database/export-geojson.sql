@@ -1,4 +1,4 @@
---INSTALL spatial;
+INSTALL spatial;
 LOAD spatial;
 
 -- 1: export geojson (optionnel)

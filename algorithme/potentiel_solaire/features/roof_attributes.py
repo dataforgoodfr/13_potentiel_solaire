@@ -1,11 +1,15 @@
-# TODO
-from owslib.wms import WebMapService
-import rasterio.mask
-import geopandas as gpd
 import os
 import hashlib
+
+import geopandas as gpd
+import numpy as np
+import pandas as pd
+import rasterio.mask
+
 from shapely import wkt
 from rasterio import MemoryFile
+from owslib.wms import WebMapService
+from scipy.ndimage import sobel, label
 
 from potentiel_solaire.constants import DATA_FOLDER
 
@@ -202,3 +206,77 @@ def recuperation_mnh(
     return mns - mnt
 
 
+def segmentation_toits(data):
+    """Calcule la pente, l'azimut et la surface des segments de toits.
+
+    Voir notebook example_utilisation_segmentation_des_toits.ipynb pour illustrer
+    l utilisation de cette fonction.
+
+    Parameters
+    data : numpy.ndarray
+        Masked elevation raster data corresponding to the building geometry.
+
+    Return
+      Dataframe with one mine equivalent to a utile segment with a slope and an azimut.
+    """
+    # Calculate gradients, then slopes and azimuths.
+    dx = sobel(data[0], axis=0)  # Gradient selon l'axe X (est-ouest)
+    dy = sobel(data[0], axis=1)  # Gradient selon l'axe Y (nord-sud)
+    slope = np.arctan(np.sqrt(dx**2 + dy**2)) * (180 / np.pi)
+    azimut = (360 - np.degrees(np.arctan2(dy, dx))) % 360
+
+    # Creating bins for the slope
+    bins = list(np.arange(0, slope.max(),20)) 
+    values = list(np.convolve(bins, [0.5, 0.5]))
+    values = values[:-1]
+    indexed = np.digitize(slope, bins, right=False)  # Trouve l'index de la fourchette
+    result_slope = np.array(values)[indexed - 1] 
+
+    # Identification of flat roof and filter on azimut and slope
+    flat_mask = result_slope < 15   
+    slope_filtered = np.where(flat_mask, 0, slope)
+    azimut_filtered = np.where(flat_mask, 0, azimut)
+
+    # Border detection with change in azimut
+    border_x = np.abs(np.diff(azimut_filtered, axis=0, prepend=azimut_filtered[0:1, :])) > 25
+    border_y = np.abs(np.diff(azimut_filtered, axis=1, prepend=azimut_filtered[:, 0:1])) > 25
+    regions_mask = ~(border_x | border_y)
+    azimut_bounds = np.where(regions_mask,0,1)
+
+    # Border detection with change in slope
+    border_x = np.abs(np.diff(slope_filtered, axis=0, prepend=slope_filtered[0:1, :])) > 40
+    border_y = np.abs(np.diff(slope_filtered, axis=1, prepend=slope_filtered[:, 0:1])) > 40
+    slope_bounds = np.where(regions_mask,0,1)
+    regions_mask = ~(border_x | border_y)
+
+    # Border detection with high slope
+    regions_mask = slope_filtered > 80
+    high_slope_bounds = np.where(regions_mask,1,0)
+
+    # Final bounds
+    final_bounds = azimut_bounds + slope_bounds + high_slope_bounds
+    final_bounds = (final_bounds > 0).astype(int) 
+
+    # Creating clusters
+    labeled_bounds, num_features = label(final_bounds == 0)
+    mask = data == 0
+    labeled_bounds = np.where(mask, None, labeled_bounds)
+
+    # Final dataframe
+    df_segment_toiture = pd.DataFrame({"label":[],"surface":[],"slope":[],"azimut":[]})
+    
+    for n in range(1,num_features+1) : 
+        labeled_bounds_mask = labeled_bounds == n 
+        slope_n = np.where(labeled_bounds_mask, slope_filtered, 0)
+        azimut_n = np.where(labeled_bounds_mask, azimut_filtered, 0)
+        surface_m = np.sum(labeled_bounds_mask) * 0.25
+        slope_degree = np.sum(slope_n) / np.sum(labeled_bounds_mask)
+        azimut_degree = np.sum(azimut_n) / np.sum(labeled_bounds_mask)
+        new_row = pd.DataFrame({"label":[int(n)],"surface":[surface_m],"slope":[slope_degree],"azimut":[azimut_degree]})
+        df_segment_toiture = pd.concat([df_segment_toiture,new_row])
+
+    # Filter on Minimum surfact
+    min_surface = 50
+    final_segment_toiture = df_segment_toiture[df_segment_toiture["surface"]>min_surface].sort_values("surface")
+
+    return final_segment_toiture

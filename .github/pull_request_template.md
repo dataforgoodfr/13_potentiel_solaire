@@ -28,5 +28,7 @@ Non obligatoires mais fortement appréciées !
 - J'écrit des tests unitaires pour les fonctions les plus complexes
 - Je consulte cette [page](../docs/algorithme_best_code_practices.md) si je veux avoir plus d'explications et d'exemples sur ces bonnes pratiques
 
-#### Si ca concerne le code l'application web
-@TODO
+#### Si ca concerne le code de l'application web
+- Je m'assure que mon code est à jour par rapport à la branche `main` pour tester avec la dernière version du code
+- Le linter ne remonte pas d'erreur : `npm run lint`
+- J'évite d'utiliser le type `any`
