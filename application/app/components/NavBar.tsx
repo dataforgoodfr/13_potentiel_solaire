@@ -19,15 +19,15 @@ const links = [
 
 export default function NavBar() {
 	return (
-		<nav className='bg-yellow-600'>
-			<div className='mx-auto flex max-w-screen-xl items-center justify-between p-4'>
+		<nav className='bg-accent'>
+			<div className='mx-auto flex max-w-screen-xl items-center justify-between p-sm'>
 				<Link href='/'>
 					<div className='text-2xl font-semibold'>{APP_NAME}</div>
 				</Link>
-				<ul className='mt-4 flex flex-col p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:p-0'>
+				<ul className='mt-sm flex flex-col p-sm font-medium md:mt-0 md:flex-row md:space-x-md md:p-0'>
 					{links.map((link) => (
 						<li key={link.href}>
-							<Link href={link.href} className='block px-3 py-2 md:p-0'>
+							<Link href={link.href} className='block px-sm py-xs md:p-0'>
 								{link.title}
 							</Link>
 						</li>
