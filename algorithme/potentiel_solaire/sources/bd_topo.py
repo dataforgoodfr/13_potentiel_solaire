@@ -43,7 +43,7 @@ def get_url_for_bd_topo_gpkg_for_departement(
     gpkg_urls = get_urls_for_bd_topo_gpkg()
     logger.info("%s urls available for BD TOPO data per departement with GPKG format", len(gpkg_urls))
 
-    url = [url for url in gpkg_urls if re.search(rf"{code_departement}", url)][0]
+    url = [url for url in gpkg_urls if re.search(rf"D{code_departement}", url)][0]
     logger.info("url for departement %s is %s", code_departement, url)
 
     return url

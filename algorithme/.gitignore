@@ -161,3 +161,20 @@ cython_debug/
 
 # Precommit hooks: ruff cache
 .ruff_cache
+
+# Data
+*.geojson
+*.7z
+*SHP_*
+*BDTOPO*
+*TIFF_LAMB*
+cache/
+ENR*
+*_LAMB93_*
+*.gpkg
+*.jpg
+/notebooks/exports/
+*.duck
+*.duckdb
+*.duckdb.wal
+*.json

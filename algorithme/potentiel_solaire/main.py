@@ -1,48 +1,103 @@
 import argparse
-import os
+import traceback
 
 import papermill as pm
+from papermill.exceptions import PapermillExecutionError
 
-from potentiel_solaire.constants import ALGORITHME_FOLDER
+from potentiel_solaire.constants import ALGORITHME_FOLDER, RESULTS_FOLDER
+from potentiel_solaire.duckdb_manager import (
+    get_departements, get_regions,
+    get_departements_for_region,
+    save_solar_potential_by_region,
+)
 from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
 
-codes_departement_choices = [
-    '001', '002', '003', '004', '005', '006', '007', '008', '009', '010', '011', '012', '013', '014', '015', '016',
-    '017', '018', '019', '021', '022', '023', '024', '025', '026', '027', '028', '029', '02A', '02B', '030', '031',
-    '032', '033', '034', '035', '036', '037', '038', '039', '040', '041', '042', '043', '044', '045', '046', '047',
-    '048', '049', '050', '051', '052', '053', '054', '055', '056', '057', '058', '059', '060', '061', '062', '063',
-    '064', '065', '066', '067', '068', '069', '070', '071', '072', '073', '074', '075', '076', '077', '078', '079',
-    '080', '081', '082', '083', '084', '085', '086', '087', '088', '089', '090', '091', '092', '093', '094', '095',
-    '971', '972', '973', '974', '975', '976', '977', '978', '986', '987', '988'
-]
-
 
 def run_pipeline_algorithme():
+    """Script principal pour realiser les calculs de potentiel solaire"""
+    codes_departements = get_departements()
+    codes_regions = get_regions()
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
         "-d",
         "--code_departement",
         required=False,
-        default="093",
-        choices=codes_departement_choices
+        choices=codes_departements
     )
 
-    args = parser.parse_args()
-    code_departement = args.code_departement
+    parser.add_argument(
+        "-r",
+        "--code_region",
+        required=False,
+        choices=codes_regions
+    )
+
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="run pipeline on all departements",
+    )
 
     notebooks_folder = ALGORITHME_FOLDER / "notebooks"
     exports_folder = notebooks_folder / "exports"
     exports_folder.mkdir(exist_ok=True)
 
-    pm.execute_notebook(
-        os.path.join(notebooks_folder, "pipeline_algorithme.ipynb"),
-        os.path.join(exports_folder, f"{code_departement}_pipeline_algorithme.ipynb"),
-        parameters={"code_departement": code_departement,
-                    "logs_level": "WARNING"},
-    )
+    # parse arguments
+    args = parser.parse_args()
+    code_departement = args.code_departement
+    code_region = args.code_region
+    run_on_france = args.all
+
+    # selection des departements sur lesquels les calculs vont se faire
+    if run_on_france:
+        run_on_departements = codes_departements
+    elif code_departement:
+        run_on_departements = [code_departement]
+    elif code_region:
+        departements_of_region = get_departements_for_region(code_region=code_region)
+        run_on_departements = departements_of_region
+    else:
+        raise ValueError("No arguments provided")
+
+    # calcul du potentiel solaire de chaque departement
+    notebook_pipeline_algorithm_path = notebooks_folder / "pipeline_algorithme.ipynb"
+    for departement in run_on_departements:
+        notebook_result_pipeline_algorithm_path = exports_folder / f"D{departement}_pipeline_algorithme.ipynb"
+        error_file_path = RESULTS_FOLDER / f"D{departement}.err"
+        error_file_path.unlink(missing_ok=True)
+        try:
+            # on execute le notebook pipeline_algorithme.ipynb pour chaque departement
+            # un notebook resultat sera cree dans le dossier d export pour chaque departement
+            pm.execute_notebook(
+                notebook_pipeline_algorithm_path,
+                notebook_result_pipeline_algorithm_path,
+                parameters={"code_departement": departement},
+            )
+        except PapermillExecutionError as e:
+            logger.exception(e)
+            logger.error(
+                "Exception %s, go check notebook %s for more details.",
+                str(e),
+                f"D{departement}_pipeline_algorithme.ipynb"
+                )
+            # en cas d erreur un fichier d erreur est cree dans le dossier result avec la trace de l exception
+            with open(error_file_path, "w") as error_file:
+                error_file.write(traceback.format_exc())
+
+    # aggregation des resultats pour les regions
+    agg_on_regions = []
+    if run_on_france:
+        agg_on_regions = codes_regions
+    elif code_region:
+        agg_on_regions.append(code_region)
+
+    for region in agg_on_regions:
+        logger.info("Aggregation on region %s", region)
+        save_solar_potential_by_region(code_region=region)
 
 
 if __name__ == "__main__":

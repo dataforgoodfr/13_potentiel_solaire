@@ -20,9 +20,9 @@ export type Etablissement = EtablissementProperties & {
 	latitude: number;
 };
 
-export type EtablissementGeojson = EtablissementsGeojson['features'][number];
-
-export type EtablissementsGeojson = GeoJSON.FeatureCollection<
-	GeoJSON.Geometry,
+export type EtablissementsGeoJSON = GeoJSON.FeatureCollection<
+	GeoJSON.Point,
 	EtablissementProperties
 >;
+
+export type EtablissementFeature = EtablissementsGeoJSON['features'][number];

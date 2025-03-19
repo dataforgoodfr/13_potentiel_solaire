@@ -1,0 +1,24 @@
+etablissements:
+  url: "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-annuaire-education/exports/geojson"
+  filename: "fr-en-annuaire-education.geojson"
+  description: "Annuaire des etablissements scolaires francais"
+
+immeubles_proteges:
+  url: "https://data.culturecommunication.gouv.fr/api/explore/v2.1/catalog/datasets/liste-des-immeubles-proteges-au-titre-des-monuments-historiques/exports/geojson?lang=fr&timezone=Europe%2FBerlin"
+  filename: "liste_immeubles_proteges.geojson"
+  description: "Immeubles proteges en France"
+
+communes:
+  url: "https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581"
+  filename: "communes.json"
+  description: "Geometries des communes francaises"
+
+departements:
+  url: "https://www.data.gouv.fr/fr/datasets/r/92f37c92-3aae-452c-8af1-c77e6dd590e5"
+  filename: "departements.json"
+  description: "Geometries des departements francais"
+
+regions:
+  url: "https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4"
+  filename: "regions.json"
+  description: "Geometries des regions francaises"

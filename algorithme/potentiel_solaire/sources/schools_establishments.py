@@ -1,33 +1,9 @@
-import os
-
 import geopandas as gpd
 
-from potentiel_solaire.constants import DATA_FOLDER, SCHOOLS_ESTABLISHMENTS_FILENAME, DEFAULT_CRS
-from potentiel_solaire.sources.utils import download_file
+from potentiel_solaire.constants import DEFAULT_CRS
 from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
-
-
-def extract_schools_establishments(
-    output_filename: str = SCHOOLS_ESTABLISHMENTS_FILENAME,
-    output_directory: str = DATA_FOLDER,
-):
-    """Extrait les donnees des etablissements scolaires francais
-
-    :param output_filename: nom du fichier cree
-    :param output_directory: dossier ou est sauvegarde le fichier
-    :return: le chemin du fichier cree
-    """
-    filepath = os.path.join(output_directory, output_filename)
-    if os.path.exists(filepath):
-        logger.info("file %s for french schools already extracted", filepath)
-        return filepath
-
-    url = "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-annuaire-education/exports/geojson"
-    download_file(url=url, output_filepath=filepath)
-
-    return filepath
 
 
 def get_schools_establishments_of_interest(

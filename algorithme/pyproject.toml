@@ -32,6 +32,9 @@ beautifulsoup4 = "^4.13.3"
 papermill = "^2.6.0"
 thefuzz = "^0.22.1"
 owslib = "^0.32.1"
+duckdb = "^1.2.1"
+alembic = "^1.15.1"
+duckdb-engine = "^0.15.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^2.20.0"
@@ -39,7 +42,6 @@ pytest = "^7.2.0"
 tox = "^4.4.8"
 
 [tool.poetry.scripts]
-extract-sample-data = "potentiel_solaire.extract_sample_data:main"
 run-pipeline-algorithme = "potentiel_solaire.main:run_pipeline_algorithme"
 
 [tool.ruff]

@@ -1,41 +1,40 @@
-import random
-
 import geopandas as gpd
 
 
-def aggregate_solar_potential_by(
+# En réalité, seul le calcul par établissement compte
+# Le reste peut se compute en base de données (à ce stade, en tout cas)
+def get_schools_etablissements_with_solar_potential(
     schools_establishments: gpd.GeoDataFrame,
-    solar_potential_of_schools_buildings: gpd.GeoDataFrame,
-    group_by: list[str]
+    solar_potential_of_schools_buildings: gpd.GeoDataFrame
 ):
-    """Aggrege les resultats de potentiel solaire.
-
-    :param schools_establishments: annuaire des etablissements scolaires
-    :param solar_potential_of_schools_buildings: potentiel solaire a lechelle des batiments
-    :param group_by: colonnes sur lesquelles il faut aggreger
-    :return: geodataframe des resultats aggreges
-    """
-
-    # TODO : les aggregations sont tres problablement a revoir / modifier
-
-    solar_potential_of_schools_buildings = schools_establishments.merge(
+    return schools_establishments.merge(
         solar_potential_of_schools_buildings,
         how="left",
         on="identifiant_de_l_etablissement"
     ).copy()
 
-    aggregated = solar_potential_of_schools_buildings.groupby(by=group_by).agg({
+
+def aggregate_solar_potential_by_etablishment(
+    schools_establishments: gpd.GeoDataFrame,
+    solar_potential_of_schools_buildings: gpd.GeoDataFrame
+):
+    """Aggrege les resultats de potentiel solaire par établissement
+
+    :param schools_establishments: annuaire des etablissements scolaires
+    :param solar_potential_of_schools_buildings: potentiel solaire a lechelle des batiments
+    :return: geodataframe des resultats aggreges
+    """
+    solar_potential_of_schools_buildings = get_schools_etablissements_with_solar_potential(
+        schools_establishments,
+        solar_potential_of_schools_buildings
+    )
+    
+    solar_potential_of_schools_buildings.loc[solar_potential_of_schools_buildings['surface_utile'].isna(), 'surface_utile'] = 0
+    solar_potential_of_schools_buildings.loc[solar_potential_of_schools_buildings['potentiel_solaire'].isna(), 'potentiel_solaire'] = 0
+    solar_potential_of_schools_buildings.loc[solar_potential_of_schools_buildings['protection'].isna(), 'protection'] = False
+
+    return solar_potential_of_schools_buildings.groupby(by=["identifiant_de_l_etablissement"]).agg({
         "surface_utile": "sum",
         "potentiel_solaire": "sum",
-        "protection": "any"  # TODO : quelle aggregation pour commune, departement et region ?
+        "protection": "any"  # Si un seul batiment est protégé, l'établissement est protégé.
     }).reset_index()
-
-    aggregated["potentiel_solaire_categorie"] = aggregated.apply(
-        lambda building: random.choice(["important", "intermediaire", "faible", "non_favorable"]), axis=1
-    )  # TODO: pertinent uniquement a la maille dun etablissement ?
-
-    return schools_establishments.dissolve(by=group_by).merge(
-        aggregated,
-        on=group_by,
-        how="left",
-    )[[*group_by, "surface_utile", "potentiel_solaire", "protection", "geometry"]]

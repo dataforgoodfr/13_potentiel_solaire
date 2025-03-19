@@ -61,6 +61,7 @@ se référer à la [documentation officielle](https://python-poetry.org/docs/#in
 
     poetry shell
 
+
 # Modifier les dépendances
 
 ### Ajouter une dépendance
@@ -71,11 +72,29 @@ se référer à la [documentation officielle](https://python-poetry.org/docs/#in
 
     poetry update
 
+# Initialiser la base de données duckdb
+
+    alembic upgrade head
+
 # Executer les calculs de potentiel solaire
 
-    run-pipeline-algorithme -d 093
+* Sur un departement: `run-pipeline-algorithme -d 093`
+
+* Sur une region: `run-pipeline-algorithme -r 11`
+
+* Sur toute la France: `run-pipeline-algorithme --all`
+
+Note : pour executer la pipeline sur toute la France, il faut avoir à minima 180 Go d'espace disponible et compter minimum 4H de temps d'execution.
+
+## Resultats
+* un fichier .gpkg dans le dossier [results](data/results) pour les resultats pour chaque departement (ex: [D093_pipeline_results.gpkg](data/results/D093_pipeline_results.gpkg))
+* dans la [database duckdb](database/potentiel_solaire.duckdb)
+* un notebook resultats est aussi genere pour chaque departement dans le dossier [exports](notebooks/exports) (ex: [D093_pipeline_algorithme.ipynb](notebooks/exports/D093_pipeline_algorithme.ipynb))
 
 # Tester & verifier son code
+
+## Analyser les resultats sur un departement
+Le notebook [analyse_qualite_resultats_pipeline.ipynb](notebooks/analyse_qualite_resultats_pipeline.ipynb) permet d'analyser les resulats sur le departement de son choix.
 
 ## Lancer les precommit-hook localement
 

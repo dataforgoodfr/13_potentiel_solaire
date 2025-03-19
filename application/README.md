@@ -125,9 +125,12 @@ En utilisant le CLI :
     Pour linux, par exemple :
     `curl https://install.duckdb.org | sh`
 
+	Pour Windows, par exemple :
+	`winget install DuckDB.cli`
+
 2. Se rendre dans le répertoire où se trouve le script SQL ({repertoire_projet}/application/database/prepare-JDD-test.sql)
 
-    `cd /path/to/folder`
+    `cd /database/`
 
 3. Lancer la commande de création de la base
 

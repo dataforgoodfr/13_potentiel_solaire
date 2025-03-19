@@ -42,18 +42,22 @@ def download_file(
     :param output_filepath: Path to save the downloaded file.
     """
     filename = url.split('/')[-1]
-    if not os.path.exists(output_filepath):
-        logger.info(f"Downloading {filename}...")
-        response = requests.get(url, stream=True)
-        if response.status_code == 200:
-            with open(output_filepath, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            logger.info(f"Downloaded {filename}")
-        else:
-            logger.error(f"Failed to download {filename}: {response.status_code}")
-    else:
+    if os.path.exists(output_filepath):
         logger.info(f"{filename} already exists, skipping download.")
+        return
+
+    logger.info(f"Downloading {filename}...")
+    response = requests.get(url, stream=True)
+    if response.status_code == 200:
+        with open(output_filepath, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        logger.info(f"Downloaded {filename}")
+        return
+
+    message = f"Failed to download {filename}: {response.status_code}"
+    logger.error(message)
+    raise requests.HTTPError(message)
 
 
 def extract_7z(
@@ -64,11 +68,13 @@ def extract_7z(
 
     :param input_filepath: Path to file to unzip.
     :param output_folder: Path to folder where extracted files are saved."""
-    if os.path.exists(input_filepath):
-        logger.info(f"Extracting {input_filepath}...")
-        with SevenZipFile(input_filepath, mode='r') as archive:
-            archive.extractall(output_folder)
-        logger.info(f"Extracted {input_filepath}")
-    else:
-        logger.info(f"File {input_filepath} not found, skipping extraction.")
+    if not os.path.exists(input_filepath):
+        message = f"File {input_filepath} not found"
+        logger.error(message)
+        raise FileNotFoundError(message)
 
+    logger.info(f"Extracting {input_filepath}...")
+    with SevenZipFile(input_filepath, mode='r') as archive:
+        archive.extractall(output_folder)
+
+    logger.info(f"Extracted {input_filepath}")

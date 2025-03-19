@@ -1,35 +1,8 @@
 import geopandas as gpd
-from potentiel_solaire.constants import DATA_FOLDER, DEFAULT_CRS, BUFFER_SIZE_FOR_PROTECTED_BUILDINGS, CRS_FOR_BUFFERS
+from potentiel_solaire.constants import DEFAULT_CRS, BUFFER_SIZE_FOR_PROTECTED_BUILDINGS, CRS_FOR_BUFFERS
 from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
-
-
-def extract_protected_buildings(
-    crs: int = DEFAULT_CRS
-) -> str:
-    """Extrait les batiments proteges
-
-    :param crs: projection
-    :return: chemin du fichier .geojson des batiments proteges
-    """
-    protected_buildings_file_url = "https://data.culturecommunication.gouv.fr/api/explore/v2.1/catalog/datasets/liste-des-immeubles-proteges-au-titre-des-monuments-historiques/exports/geojson?lang=fr&timezone=Europe%2FBerlin"
-
-    protected_buildings = gpd.read_file(protected_buildings_file_url)
-
-    protected_buildings = protected_buildings.to_crs(crs)
-
-    protected_buildings = protected_buildings[[
-        "reference",
-        "departement_format_numerique",
-        "geometry"
-    ]]
-
-    protected_buildings_path = f"{DATA_FOLDER}/liste_immeubles_proteges.geojson"
-
-    protected_buildings.to_file(protected_buildings_path, driver='GeoJSON')  
-
-    return protected_buildings_path
 
 
 def get_areas_with_protected_buildings(
@@ -54,9 +27,14 @@ def get_areas_with_protected_buildings(
     ).buffer(buffer_size_for_protected_buildings)
 
     # Lecture de la bdd des batiments proteges sur la zone dinteret bufferizee
+    columns = [
+        "reference",
+        "departement_format_numerique",
+        "geometry"
+    ]
     protected_buildings = gpd.read_file(
         bd_protected_buildings_path, mask=geom_of_interest_buffered
-    ).to_crs(crs_for_buffers)
+    )[columns].to_crs(crs_for_buffers)
 
     # On cree un buffer autour de chaque batiment protege
     areas_with_protected_buildings = protected_buildings.buffer(

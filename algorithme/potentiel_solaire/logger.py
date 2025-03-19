@@ -7,7 +7,7 @@ logger_init = False
 def setup_logger():
     global logger_init
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(name)s - %(pathname)s - %(funcName)s - %(message)s',
         handlers=[logging.StreamHandler()]
     )
