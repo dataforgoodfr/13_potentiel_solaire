@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 
 import { fetchEtablissementsFromBoundingBox } from '@/app/lib/data';
 
+//TODO: remove later - just here for demo purpose
 /**
  * Get etablissements from bounding box.
  * @param request

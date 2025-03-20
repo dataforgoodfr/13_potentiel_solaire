@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 
 import { fetchCommunesFromBoundingBox } from '@/app/lib/data';
 
+//TODO: remove later - just here for demo purpose
 // an api route fetching data
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
