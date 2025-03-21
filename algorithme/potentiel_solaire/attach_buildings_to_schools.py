@@ -1,10 +1,39 @@
-import pandas as pd
 import geopandas as gpd
-from thefuzz.fuzz import token_sort_ratio
 
 from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
+
+
+def attach_educational_zones_to_schools(
+    schools_establishments: gpd.GeoDataFrame,
+    educational_zones: gpd.GeoDataFrame,
+) -> gpd.GeoDataFrame:
+    """Determine les zones d education de chaque etablissement scolaire
+
+    :param schools_establishments: annuraires des etablissements scolaires
+    :param educational_zones: zones d educations (BD TOPO)
+    :return: geodataframe des zones scolaires
+    """
+    # Preparation 'educational_zones'
+    educational_zones = educational_zones.dropna(subset=["identifiants_sources"])
+    educational_zones["identifiants_sources"] = educational_zones["identifiants_sources"].apply(
+        lambda x: [y.strip() for y in str(x).replace("MEN:", "").split("/")]
+    )
+    educational_zones = educational_zones.explode('identifiants_sources')
+
+    # Rattachement
+    educational_zones_attached_to_schools = educational_zones.merge(
+        schools_establishments[["identifiant_de_l_etablissement", "nom_etablissement"]],
+        left_on='identifiants_sources',
+        right_on='identifiant_de_l_etablissement',
+        how="inner"
+    )
+    # Cleanup
+    educational_zones_attached_to_schools = educational_zones_attached_to_schools.dropna(
+        subset=["cleabs", "identifiants_sources"]
+    )
+    return educational_zones_attached_to_schools
 
 
 def attach_buildings_to_schools(
@@ -19,47 +48,10 @@ def attach_buildings_to_schools(
     :param buildings: batiments (BD TOPO)
     :return: geodataframe des batiments scolaires
     """
-    # TODO: faire le rapprochement par type detablissement
-    # type_etablissement_nature_mapping = {
-    #     "Ecole": "Collège",
-    #     "Lycée": "Lycée",
-    #     "Collège": "Enseignement primaire"
-    # }
 
-    # Pour chaque ecole on regarde la zone d education la plus proche
-    nearest_educational_zones_for_schools = gpd.sjoin_nearest(
-        schools_establishments,
-        educational_zones,
-        how='inner',
-        distance_col="distances",
-        exclusive=True
-    )
-
-    # On calcule la proximite du nom_etablissement de lannuraire des etablissements scolaires
-    # avec le toponyme renseigne pour la zone d education de la BD TOPO
-    nearest_educational_zones_for_schools["proximite"] = nearest_educational_zones_for_schools.apply(
-        lambda row: token_sort_ratio(row["nom_etablissement"], row["toponyme"]), axis=1
-    )
-
-    # On filtre les ecoles trop loin d une zone d education
-    # On filtre les ecoles et zones qui ont un nom et toponyme trop differents
-    schools_with_educational_zones = nearest_educational_zones_for_schools[
-        (nearest_educational_zones_for_schools["distances"] < 0.0002) &
-        (nearest_educational_zones_for_schools["proximite"] > 70)
-    ].copy()
-    schools_with_educational_zones.sort_values(by="proximite", inplace=True, ascending=False)
-
-    # On fait en sorte de ne pas avoir plusieurs ecoles avec la meme zone deducation
-    schools_with_educational_zones = schools_with_educational_zones.drop_duplicates(
-        subset="cleabs", keep="first"
-    )
-
-    # TODO : comment faire le ratachement pour autres etablissements scolaires ?
-
-    # On ne garde que les zones d education pour lesquelles une ecole a ete affectee
-    educational_zones_attached_to_schools = pd.merge(
-        educational_zones,
-        schools_with_educational_zones[["cleabs", "identifiant_de_l_etablissement"]],
+    educational_zones_attached_to_schools = attach_educational_zones_to_schools(
+        schools_establishments=schools_establishments,
+        educational_zones=educational_zones
     )
 
     # On ne garde que les batiments qui sont dans des zones affectees a une ecole
