@@ -3,22 +3,28 @@
 import useCommunesGeoJSON from '@/app/utils/hooks/useCommunesGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
 
+import Error from '../Error';
 import Loading from '../Loading';
 import Map from './Map';
 
 export default function MapWithLoader() {
-	const communesQuery = useCommunesGeoJSON();
-	const etablissementsQuery = useEtablissementsGeoJSON();
+	const {
+		communesGeoJSON,
+		isError: communesError,
+		isLoading: isCommunesLoading,
+	} = useCommunesGeoJSON();
+	const {
+		etablissementsGeoJSON,
+		isError: etablissementsError,
+		isLoading: isEtablissementsLoading,
+	} = useEtablissementsGeoJSON();
 
-	if (communesQuery === undefined || etablissementsQuery === undefined) {
+	if (isCommunesLoading || isEtablissementsLoading) {
 		return <Loading />;
 	}
 
-	const { data: communesGeoJSON, error: communesError } = communesQuery;
-	const { data: etablissementsGeoJSON, error: etablissementsError } = etablissementsQuery;
-
 	if (communesError || etablissementsError || !communesGeoJSON || !etablissementsGeoJSON) {
-		return 'Erreur lors du chargement des données de la carte.';
+		return <Error />;
 	}
 
 	return <Map etablissements={etablissementsGeoJSON} communes={communesGeoJSON} />;

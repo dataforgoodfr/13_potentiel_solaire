@@ -25,7 +25,12 @@ import {
 } from './etablissementsLayers';
 import { ClusterFeature } from './interfaces';
 
-const MAP_STYLE_URL = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+const MAP_STYLE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/map-styles/map-style.json`;
+
+// TODO: Respecter les conditions de réutilisation des données Etalab
+// - Mentionner la source des données (Etalab)
+// - Indiquer la date de mise à jour du fichier map-style.json
+// - Vérifier et respecter la licence (Licence Ouverte 2.0 ou ODbL)
 
 const initialViewState: MapPropsReactMapLibre['initialViewState'] = {
 	longitude: 1.888334,

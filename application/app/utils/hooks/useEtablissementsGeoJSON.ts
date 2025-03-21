@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import useSWRImmutable from 'swr/immutable';
 
 import { fetchEtablissementsGeoJSON } from '../fetchers/fetchEtablissementsGeoJSON';
 
-//TODO: use swr / tanstack query to handle loading/errors
 export default function useEtablissementsGeoJSON() {
-	const [result, setResult] = useState<
-		undefined | Awaited<ReturnType<typeof fetchEtablissementsGeoJSON>>
-	>();
+	const { data, error, isLoading } = useSWRImmutable(
+		'etablissementsGeoJSON',
+		fetchEtablissementsGeoJSON,
+	);
 
-	useEffect(() => {
-		fetchEtablissementsGeoJSON().then(setResult);
-	}, []);
-
-	return result;
+	return {
+		etablissementsGeoJSON: data,
+		isError: error,
+		isLoading,
+	};
 }

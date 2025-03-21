@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react';
+import useSWRImmutable from 'swr/immutable';
 
 import { fetchCommunesGeoJSON } from '../fetchers/fetchCommunesGeoJSON';
 
-//TODO: use swr / tanstack query to handle loading/errors
 export default function useCommunesGeoJSON() {
-	const [result, setResult] = useState<
-		undefined | Awaited<ReturnType<typeof fetchCommunesGeoJSON>>
-	>();
+	const { data, error, isLoading } = useSWRImmutable('communesGeoJSON', fetchCommunesGeoJSON);
 
-	useEffect(() => {
-		fetchCommunesGeoJSON().then(setResult);
-	}, []);
-
-	return result;
+	return {
+		communesGeoJSON: data,
+		isError: error,
+		isLoading,
+	};
 }

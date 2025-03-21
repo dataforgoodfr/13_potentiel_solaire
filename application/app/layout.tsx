@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import Providers from './Providers';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 import './styles/globals.css';
@@ -20,7 +21,9 @@ export default function RootLayout({
 				<header className='sticky top-0 z-50'>
 					<NavBar />
 				</header>
-				<main className='h-full flex-1'>{children}</main>
+				<main className='h-full flex-1'>
+					<Providers>{children}</Providers>
+				</main>
 				<Footer />
 			</body>
 		</html>
