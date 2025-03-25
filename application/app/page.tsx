@@ -1,14 +1,15 @@
-import { Button } from '@/components/ui/button';
+'use client';
 
 import MapWithLoader from './components/Map/MapWithLoader';
-import { SelectDemo } from './components/SelectDemo';
+import SearchBar from './components/SearchBar/SearchBar';
 
 export default function Home() {
 	return (
-		<div className='mx-auto flex max-w-screen-xl items-center justify-around'>
+		<div className='mx-auto flex max-w-screen-xl flex-col items-center justify-around'>
+			<SearchBar
+				onSelect={(selection) => alert(selection.libelle + ' - ' + selection.source)}
+			/>
 			<MapWithLoader />
-			<Button variant='outline'>Clique !</Button>
-			<SelectDemo />
 		</div>
 	);
 }

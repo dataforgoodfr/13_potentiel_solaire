@@ -16,6 +16,7 @@ import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover'
 import { CommandLoading } from 'cmdk';
 import { MapPin, School, Search, X } from 'lucide-react';
 
+const DEFAULT_PLACEHOLDER = 'Entrez une ville, un établissement...';
 const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 const DEFAULT_LOADING_TEXT = 'Recherche...';
 
@@ -26,15 +27,15 @@ const SOURCE_TO_LABEL: Record<Exclude<SearchResult['source'], 'etablissements'>,
 };
 
 type SearchBarProps = {
-	label: string;
 	onSelect: (selection: SearchResult) => void;
+	placeholder?: string;
 	emptyResultText?: string;
 	loadingText?: string;
 };
 
 export default function SearchBar({
-	label,
 	onSelect,
+	placeholder = DEFAULT_PLACEHOLDER,
 	emptyResultText = DEFAULT_EMPTY_RESULT_TEXT,
 	loadingText = DEFAULT_LOADING_TEXT,
 }: SearchBarProps) {
@@ -59,51 +60,51 @@ export default function SearchBar({
 	}
 
 	return (
-		<div className='flex grow items-center space-x-6'>
-			<div className='w-full'>
-				<label className='mb-1 block text-sm font-medium text-gray-700'>{label}</label>
-				<div className='relative'>
+		<div className='mg-x m-4 w-full max-w-screen-sm'>
+			<div className='relative w-full'>
+				{!isOpen && (
 					<Search className='text-muted-foreground pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform' />
-					<Popover open={isOpen} onOpenChange={setIsOpen}>
-						<PopoverAnchor asChild>
-							<Input
-								className='rounded-sm pl-8 pr-8 outline-1 outline-blue-500'
-								value={query}
-								placeholder='Saisir le nom de votre commune'
-								onChange={(e) => handleQuery(e.target.value)}
-								onFocus={() => setIsOpen(true)}
-								onBlur={() => setIsOpen(false)}
-							/>
-						</PopoverAnchor>
-						{query.length > 0 && (
-							<PopoverContent
-								asChild={true}
-								onOpenAutoFocus={(e) => e.preventDefault()}
-								align='start'
-								sideOffset={5}
-							>
-								<Command className='flex w-full px-8 shadow-xl'>
-									{isLoading && <CommandLoading>{loadingText}</CommandLoading>}
-									{!isLoading && items?.length === 0 && (
-										<CommandEmpty className='text-muted-foreground text-center text-sm'>
-											{emptyResultText}
-										</CommandEmpty>
-									)}
-									<Suggestions items={items ?? []} onSelect={handleSelect} />
-								</Command>
-							</PopoverContent>
-						)}
-					</Popover>
+				)}
+				<Popover open={isOpen} /*  onOpenChange={setIsOpen} */>
+					<PopoverAnchor asChild>
+						<Input
+							className='pl-8 pr-8'
+							style={{ paddingLeft: isOpen ? 8 : 32 }}
+							value={query}
+							placeholder={placeholder}
+							onChange={(e) => handleQuery(e.target.value)}
+							onFocus={() => setIsOpen(true)}
+							onBlur={() => setIsOpen(false)}
+						/>
+					</PopoverAnchor>
 					{query.length > 0 && (
-						<button
-							onClick={clearSearch}
-							className='absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none'
-							aria-label='Clear search'
+						<PopoverContent
+							asChild={true}
+							onOpenAutoFocus={(e) => e.preventDefault()}
+							align='start'
+							sideOffset={5}
 						>
-							<X size={16} />
-						</button>
+							<Command className='flex w-full p-0 shadow-xl'>
+								{isLoading && <CommandLoading>{loadingText}</CommandLoading>}
+								{!isLoading && items?.length === 0 && (
+									<CommandEmpty className='text-muted-foreground p-2 text-center text-sm'>
+										{emptyResultText}
+									</CommandEmpty>
+								)}
+								<Suggestions items={items ?? []} onSelect={handleSelect} />
+							</Command>
+						</PopoverContent>
 					)}
-				</div>
+				</Popover>
+				{query.length > 0 && (
+					<button
+						onClick={clearSearch}
+						className='absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none'
+						aria-label='Clear search'
+					>
+						<X size={16} />
+					</button>
+				)}
 			</div>
 		</div>
 	);
@@ -139,9 +140,9 @@ function Suggestions({ items, onSelect }: ResultsListProps) {
 				className='flex grow cursor-pointer'
 				onSelect={() => onSelect(item)}
 			>
-				<div className='flex grow'>
-					<div className='size-5'>{icon}</div>
-					<div className='fit grow gap-2'>
+				<div className='flex items-center gap-2'>
+					{icon}
+					<div>
 						{libelle}
 						{source !== 'etablissements' && ` (${SOURCE_TO_LABEL[source]})`}
 					</div>
@@ -151,7 +152,7 @@ function Suggestions({ items, onSelect }: ResultsListProps) {
 	});
 
 	return (
-		<CommandList className='grow'>
+		<CommandList>
 			<CommandGroup>{commandItems}</CommandGroup>
 		</CommandList>
 	);
