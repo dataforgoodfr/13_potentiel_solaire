@@ -6,7 +6,6 @@ export type BaseResult = {
 export type EtablissementResult = BaseResult & {
 	source: 'etablissements';
 	data: {
-		code_commune: string;
 		nom_commune: string;
 	};
 };
