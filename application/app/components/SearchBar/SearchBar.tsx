@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { SearchResult } from '@/app/models/search';
-import useDebouncedSearch from '@/app/utils/hooks/useSearch';
+import useDebouncedSearch from '@/app/utils/hooks/useDebouncedSearch';
 import {
 	Command,
 	CommandEmpty,
@@ -42,7 +42,7 @@ export default function SearchBar({
 	const [query, setQuery] = useState('');
 	const [isOpen, setIsOpen] = useState(true);
 
-	const { items, isLoading } = useDebouncedSearch(query, query.length > 0);
+	const { items, isLoading } = useDebouncedSearch(query);
 
 	function handleQuery(query: string) {
 		setQuery(query);
@@ -63,7 +63,7 @@ export default function SearchBar({
 		<div className='mg-x m-4 w-full max-w-screen-sm'>
 			<div className='relative w-full'>
 				{!isOpen && (
-					<Search className='text-muted-foreground pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform' />
+					<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
 				)}
 				<Popover open={isOpen} /*  onOpenChange={setIsOpen} */>
 					<PopoverAnchor asChild>
@@ -84,10 +84,10 @@ export default function SearchBar({
 							align='start'
 							sideOffset={5}
 						>
-							<Command className='flex w-full p-0 shadow-xl'>
+							<Command className='flex w-full max-w-screen-sm p-0 shadow-xl'>
 								{isLoading && <CommandLoading>{loadingText}</CommandLoading>}
 								{!isLoading && items?.length === 0 && (
-									<CommandEmpty className='text-muted-foreground p-2 text-center text-sm'>
+									<CommandEmpty className='p-2 text-center text-sm text-muted-foreground'>
 										{emptyResultText}
 									</CommandEmpty>
 								)}
