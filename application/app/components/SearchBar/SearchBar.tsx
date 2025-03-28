@@ -63,9 +63,9 @@ export default function SearchBar({
 		<div className='mg-x m-4 w-full max-w-screen-sm'>
 			<div className='relative w-full'>
 				{!isOpen && (
-					<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
+					<Search className='text-muted-foreground pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform' />
 				)}
-				<Popover open={isOpen} /*  onOpenChange={setIsOpen} */>
+				<Popover open={isOpen}>
 					<PopoverAnchor asChild>
 						<Input
 							className='pl-8 pr-8'
@@ -87,7 +87,7 @@ export default function SearchBar({
 							<Command className='flex w-full max-w-screen-sm p-0 shadow-xl'>
 								{isLoading && <CommandLoading>{loadingText}</CommandLoading>}
 								{!isLoading && items?.length === 0 && (
-									<CommandEmpty className='p-2 text-center text-sm text-muted-foreground'>
+									<CommandEmpty className='text-muted-foreground p-2 text-center text-sm'>
 										{emptyResultText}
 									</CommandEmpty>
 								)}

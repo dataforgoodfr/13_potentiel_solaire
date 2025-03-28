@@ -6,8 +6,6 @@ import { useDebounce } from './useDebounce';
 export default function useDebouncedSearch(query: string, enabled = true, delay?: number) {
 	const debouncedQuery = useDebounce(query, delay);
 
-	console.log(query, debouncedQuery);
-
 	const key =
 		enabled && debouncedQuery !== null && debouncedQuery.length > 0
 			? ['search', debouncedQuery]
