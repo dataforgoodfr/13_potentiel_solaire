@@ -178,3 +178,4 @@ ENR*
 *.duckdb
 *.duckdb.wal
 *.json
+*.err

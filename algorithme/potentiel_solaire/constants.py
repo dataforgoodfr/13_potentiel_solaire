@@ -22,5 +22,5 @@ BUFFER_SIZE_FOR_PROTECTED_BUILDINGS = 500  # meters
 # epsilon for simplification - the higher the more simplified
 EPSILON_SIMPLIFICATION = 0.001
 
-# departement avec arrondissement - tuple (departement, région)
-DEP_AVEC_ARRONDISSEMENT = [("75", "11"), ("13", "93"), ("69", "84")]
+# departements avec arrondissement
+DEP_AVEC_ARRONDISSEMENT = ["13", "69", "75"]

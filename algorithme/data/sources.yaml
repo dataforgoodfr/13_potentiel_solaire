@@ -8,12 +8,6 @@ immeubles_proteges:
   filename: "liste_immeubles_proteges.geojson"
   description: "Immeubles proteges en France"
 
-communes_avec_arrondissments:
-  url: "https://data.geopf.fr/telechargement/download/ADMIN-EXPRESS/ADMIN-EXPRESS_3-2__SHP_WGS84G_FRA_2025-02-17/ADMIN-EXPRESS_3-2__SHP_WGS84G_FRA_2025-02-17.7z"
-  zip_filename: "geographie_france.7z"
-  filename: "communes_avec_arronsissement.geojson"
-  description: "dossier avec un shp par niveau géographique (incluant un niveau pour les arrondissements de communes)"
-
 communes:
   url: "https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581"
   filename: "communes.json"

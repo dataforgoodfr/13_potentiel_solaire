@@ -22,11 +22,12 @@ def extract_sources(
 
     for name, source in sources.items():
         filepath = output_directory / source.filename
-        if source.zip_filename is not None:
-            filepath = output_directory / source.zip_filename
         if filepath.exists():
             logger.info("source %s already extracted at %s", name, filepath)
         else: 
             download_file(url=source.url, output_filepath=filepath)
 
     return sources
+
+if __name__ == "__main__":
+    extract_sources()
