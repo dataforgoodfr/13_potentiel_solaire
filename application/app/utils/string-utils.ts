@@ -20,3 +20,10 @@ export function sanitizeString(libelle: string) {
 	// Step 3: Replace multiple spaces with a single space
 	return sanitized.replace(/\s{2,}/g, ' ').trim();
 }
+
+/**
+ * Returns true if the string matches the pattern for a code postal (i.e : only digits).
+ * @param query
+ * @returns
+ */
+export const isCodePostal = (query: string) => /^\d+$/.test(query);

@@ -70,6 +70,11 @@ CREATE OR REPLACE TABLE etablissements AS
 	nom_etablissement,
 	type_etablissement,
 	libelle_nature,
+	adresse_1,
+	adresse_2,
+	adresse_3,
+	code_postal,
+	nombre_d_eleves AS nb_eleves,
 	code_commune,
 	nom_commune,
 	code_departement,
@@ -141,20 +146,25 @@ FROM (
 ) AS communeEtablissements
 WHERE c.code_commune = communeEtablissements.code_commune;
 
+-- create reference table between code_postal and code_insee
+-- source : https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
+CREATE OR REPLACE TABLE ref_code_postal AS
+SELECT DISTINCT ON(code_insee, code_postal) "#Code_commune_INSEE" AS code_insee, Code_postal AS code_postal
+FROM read_parquet('https://object.files.data.gouv.fr/hydra-parquet/hydra-parquet/54535896c301b2b3928f8db6305309ad.parquet'); -- 0.7s
+
 -- create materialized view with a common libelle column on every tables
 -- On nettoie le libellé dans la colonne sanitized_libelle :
 -- 1. suppression des accents
 -- 2. remplacement de la ponctuation par des espaces
 -- 3. suppression des doublons d'espaces
 -- 4. conversion en lowercase.
--- TODO: add code_postal in etablissement extra_data
 CREATE OR REPLACE TABLE search_view AS 
 SELECT 
 'etablissements' AS source_table, 
 identifiant_de_l_etablissement as id, 
 nom_etablissement AS libelle, 
 lower(regexp_replace(regexp_replace(strip_accents(nom_etablissement), '[^\w\s]', ' ', 'g'), '[\s]{2,}', ' ', 'g')) AS sanitized_libelle, 
-to_json(struct_pack(nom_commune)) AS extra_data 
+to_json(struct_pack(nom_commune, code_postal)) AS extra_data 
 FROM etablissements
 UNION ALL
 SELECT 

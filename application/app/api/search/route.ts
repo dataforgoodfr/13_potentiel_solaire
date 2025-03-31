@@ -4,6 +4,7 @@ import { fetchSearchResults } from '@/app/lib/data';
 
 /**
  * Get search results from a query.
+ * If the query is a code postal, the results will be limited to communes.
  * @param request
  * @returns
  */

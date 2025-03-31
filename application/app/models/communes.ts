@@ -12,4 +12,7 @@ export interface CommuneProperties {
 }
 export type CommuneFeature = CommunesGeoJSON['features'][number];
 
-export type CommunesGeoJSON = GeoJSON.FeatureCollection<GeoJSON.Geometry, CommuneProperties>;
+export type CommunesGeoJSON = GeoJSON.FeatureCollection<
+	GeoJSON.Polygon | GeoJSON.MultiPolygon,
+	CommuneProperties
+>;

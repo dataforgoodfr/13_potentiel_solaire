@@ -9,7 +9,7 @@ import {
 } from '../models/etablissements';
 import { RegionFeature } from '../models/regions';
 import { SearchResult } from '../models/search';
-import { sanitizeString } from '../utils/string-utils';
+import { isCodePostal, sanitizeString } from '../utils/string-utils';
 import db from './duckdb';
 
 // --- Etablissements ---
@@ -102,6 +102,16 @@ export async function fetchEtablissementsGeoJSON(
 						e.type_etablissement,
 						'libelle_nature',
 						e.libelle_nature,
+						'adresse_1',
+						e.adresse_1,
+						'adresse_2',
+						e.adresse_2,
+						'adresse_3',
+						e.adresse_3,
+						'code_postal',
+						e.code_postal,
+						'nb_eleves',
+						e.nb_eleves,
 						'code_commune',
 						e.code_commune,
 						'nom_commune',
@@ -163,6 +173,16 @@ export async function fetchEtablissementGeoJSONById(
 					e.type_etablissement,
 					'libelle_nature',
 					e.libelle_nature,
+					'adresse_1',
+					e.adresse_1,
+					'adresse_2',
+					e.adresse_2,
+					'adresse_3',
+					e.adresse_3,
+					'code_postal',
+					e.code_postal,
+					'nb_eleves',
+					e.nb_eleves,
 					'code_commune',
 					e.code_commune,
 					'nom_commune',
@@ -472,7 +492,7 @@ export async function fetchDepartementGeoJSONById(id: string): Promise<Departeme
 	}
 }
 
-// --- Régions ----
+// --- Regions ---
 export async function fetchRegionGeoJSONById(id: string): Promise<RegionFeature | null> {
 	try {
 		const connection = await db.connect();
@@ -521,6 +541,7 @@ const DEFAULT_LIMIT = 10;
 
 /**
  * Fetch results from the search view.
+ * If the query is a code postal, the results will be limited to communes.
  * @param query
  * @param limit
  * @returns
@@ -532,16 +553,31 @@ export async function fetchSearchResults(
 	try {
 		const connection = await db.connect();
 
-		const prepared = await connection.prepare(
-			`
-		SELECT source_table as source, id, libelle, extra_data
-		FROM main.search_view sv
-		WHERE sv.sanitized_libelle like $1
-		ORDER BY sv.libelle
-		LIMIT $2;
-		`,
-		);
-		prepared.bindVarchar(1, `%${sanitizeString(query).toLowerCase()}%`);
+		let prepared;
+		if (isCodePostal(query)) {
+			prepared = await connection.prepare(
+				`
+			SELECT sv.source_table as source, sv.id, sv.libelle, sv.extra_data
+			FROM ref_code_postal refCp
+			INNER JOIN search_view sv ON sv.source_table = 'communes' AND sv.id = refCp.code_insee
+			WHERE refCp.code_postal like $1
+			ORDER BY sv.libelle
+			LIMIT $2;
+			`,
+			);
+			prepared.bindVarchar(1, `${query}%`);
+		} else {
+			prepared = await connection.prepare(
+				`
+			SELECT source_table as source, id, libelle, extra_data
+			FROM main.search_view sv
+			WHERE sv.sanitized_libelle like $1
+			ORDER BY sv.libelle
+			LIMIT $2;
+			`,
+			);
+			prepared.bindVarchar(1, `%${sanitizeString(query).toLowerCase()}%`);
+		}
 		prepared.bindInteger(2, limit);
 
 		const reader = await prepared.runAndReadAll();

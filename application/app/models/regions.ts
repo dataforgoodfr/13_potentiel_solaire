@@ -8,4 +8,4 @@ export interface RegionProperties {
 }
 export type RegionFeature = RegionsGeoJSON['features'][number];
 
-export type RegionsGeoJSON = GeoJSON.FeatureCollection<GeoJSON.Geometry, RegionProperties>;
+export type RegionsGeoJSON = GeoJSON.FeatureCollection<GeoJSON.Polygon, RegionProperties>;

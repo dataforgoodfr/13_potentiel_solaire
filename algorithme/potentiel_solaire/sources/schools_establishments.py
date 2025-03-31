@@ -37,8 +37,7 @@ def get_schools_establishments_of_interest(
         "code_region",
         "libelle_region",
         "etat",
-        "etablissement_mere",
-        "geometry"
+        "geometry",
     ]
 
     schools_establishments = gpd.read_file(schools_filepath)
