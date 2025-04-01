@@ -1,104 +1,142 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import { SearchResult } from '@/app/models/search';
 import useDebouncedSearch from '@/app/utils/hooks/useDebouncedSearch';
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandItem,
-	CommandList,
-} from '@/components/ui/command';
+import { Command, CommandEmpty, CommandGroup, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
-import { CommandLoading } from 'cmdk';
-import { MapPin, School, Search, X } from 'lucide-react';
+import { CommandInput, CommandLoading } from 'cmdk';
+import { Search, X } from 'lucide-react';
+
+import Loading from '../Loading';
+import Suggestions from './Suggestions';
 
 const DEFAULT_PLACEHOLDER = 'Entrez une ville, un établissement...';
 const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
-const DEFAULT_LOADING_TEXT = 'Recherche...';
-
-const SOURCE_TO_LABEL: Record<Exclude<SearchResult['source'], 'etablissements'>, string> = {
-	communes: 'Commune',
-	departements: 'Département',
-	regions: 'Région',
-};
 
 type SearchBarProps = {
 	onSelect: (selection: SearchResult) => void;
-	placeholder?: string;
-	emptyResultText?: string;
-	loadingText?: string;
 };
 
-export default function SearchBar({
-	onSelect,
-	placeholder = DEFAULT_PLACEHOLDER,
-	emptyResultText = DEFAULT_EMPTY_RESULT_TEXT,
-	loadingText = DEFAULT_LOADING_TEXT,
-}: SearchBarProps) {
+export default function SearchBar({ onSelect }: SearchBarProps) {
 	const [query, setQuery] = useState('');
-	const [isOpen, setIsOpen] = useState(true);
-
 	const { items, isLoading } = useDebouncedSearch(query);
 
-	function handleQuery(query: string) {
-		setQuery(query);
-	}
-
 	function handleSelect(selection: SearchResult) {
-		setIsOpen(false);
 		setQuery(selection.libelle);
 		onSelect(selection);
 	}
 
 	function clearSearch() {
-		handleQuery('');
-		setIsOpen(false);
+		setQuery('');
+	}
+
+	return (
+		<Autocomplete
+			inputValue={query}
+			onInputChange={setQuery}
+			options={items}
+			loading={isLoading}
+			onSelect={handleSelect}
+			onClear={clearSearch}
+		/>
+	);
+}
+
+type AutocompleteProps = {
+	inputValue: string;
+	options: SearchResult[] | undefined;
+	onInputChange: (v: string) => void;
+	onSelect: (option: SearchResult) => void;
+	onClear?: () => void;
+	placeholder?: string;
+	noOptionsText?: string;
+	loadingText?: string;
+	loading?: boolean;
+	openSuggestionsAtInputLength?: number;
+};
+
+// Inspired from: https://github.com/shadcn-ui/ui/issues/1069
+export function Autocomplete({
+	inputValue,
+	options,
+	onInputChange,
+	onSelect,
+	onClear,
+	loading = false,
+	placeholder = DEFAULT_PLACEHOLDER,
+	noOptionsText = DEFAULT_EMPTY_RESULT_TEXT,
+	openSuggestionsAtInputLength = 1,
+}: AutocompleteProps) {
+	const cmdInputRef = useRef<HTMLInputElement>(null);
+
+	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+	function onInputValueChange(e: ChangeEvent<HTMLInputElement>) {
+		const value = e.target.value;
+		onInputChange(value);
+		if (!isPopoverOpen && value.length >= openSuggestionsAtInputLength) {
+			setIsPopoverOpen(true);
+		}
+	}
+
+	/**
+	 * Pass all keydown events from the input to the `CommandInput` to provide navigation using up/down arrow keys etc.
+	 */
+	function relayInputKeyDownToCommand(e: React.KeyboardEvent<HTMLInputElement>) {
+		const { key, code, bubbles } = e;
+		cmdInputRef.current?.dispatchEvent(new KeyboardEvent('keydown', { key, code, bubbles }));
+
+		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+			e.preventDefault();
+		}
+	}
+
+	function handleClear() {
+		setIsPopoverOpen(false);
+		onClear?.();
 	}
 
 	return (
 		<div className='mg-x m-4 w-full max-w-screen-sm'>
 			<div className='relative w-full'>
-				{!isOpen && (
-					<Search className='text-muted-foreground pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform' />
-				)}
-				<Popover open={isOpen}>
-					<PopoverAnchor asChild>
+				<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
+				<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+					<PopoverAnchor>
 						<Input
-							className='pl-8 pr-8'
-							style={{ paddingLeft: isOpen ? 8 : 32 }}
-							value={query}
+							value={inputValue}
 							placeholder={placeholder}
-							onChange={(e) => handleQuery(e.target.value)}
-							onFocus={() => setIsOpen(true)}
-							onBlur={() => setIsOpen(false)}
+							onKeyDown={relayInputKeyDownToCommand}
+							onChange={onInputValueChange}
+							onClick={() => setIsPopoverOpen(true)}
+							className='pl-8 pr-8'
 						/>
 					</PopoverAnchor>
-					{query.length > 0 && (
-						<PopoverContent
-							asChild={true}
-							onOpenAutoFocus={(e) => e.preventDefault()}
-							align='start'
-							sideOffset={5}
-						>
-							<Command className='flex w-full max-w-screen-sm p-0 shadow-xl'>
-								{isLoading && <CommandLoading>{loadingText}</CommandLoading>}
-								{!isLoading && items?.length === 0 && (
-									<CommandEmpty className='text-muted-foreground p-2 text-center text-sm'>
-										{emptyResultText}
-									</CommandEmpty>
+					<PopoverContent
+						onOpenAutoFocus={(e) => e.preventDefault()}
+						className='max-h-[--radix-popover-content-available-height] w-[--radix-popover-trigger-width] p-1'
+					>
+						<Command shouldFilter={false} loop>
+							<CommandInput ref={cmdInputRef} value={inputValue} className='hidden' />
+							<CommandList>
+								{loading && (
+									<CommandLoading>
+										<Loading />
+									</CommandLoading>
 								)}
-								<Suggestions items={items ?? []} onSelect={handleSelect} />
-							</Command>
-						</PopoverContent>
-					)}
+								<CommandEmpty>{noOptionsText}</CommandEmpty>
+								<CommandGroup>
+									<Suggestions items={options ?? []} onSelect={onSelect} />
+								</CommandGroup>
+							</CommandList>
+						</Command>
+					</PopoverContent>
 				</Popover>
-				{query.length > 0 && (
+				{inputValue.length > 0 && (
 					<button
-						onClick={clearSearch}
+						onClick={handleClear}
 						className='absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none'
 						aria-label='Clear search'
 					>
@@ -107,53 +145,5 @@ export default function SearchBar({
 				)}
 			</div>
 		</div>
-	);
-}
-
-function getIconFromResult(source: SearchResult['source']) {
-	switch (source) {
-		case 'communes':
-		case 'departements':
-		case 'regions':
-			return <MapPin />;
-		case 'etablissements':
-			return <School />;
-
-		default:
-			throw new Error('Unexpected type - ' + source);
-	}
-}
-
-type ResultsListProps = {
-	items: SearchResult[];
-	onSelect: (selection: SearchResult) => void;
-};
-
-function Suggestions({ items, onSelect }: ResultsListProps) {
-	const commandItems = items.map((item) => {
-		const { id, libelle, source } = item;
-		const icon = getIconFromResult(source);
-
-		return (
-			<CommandItem
-				key={id}
-				className='flex grow cursor-pointer'
-				onSelect={() => onSelect(item)}
-			>
-				<div className='flex items-center gap-2'>
-					{icon}
-					<div>
-						{libelle}
-						{source !== 'etablissements' && ` (${SOURCE_TO_LABEL[source]})`}
-					</div>
-				</div>
-			</CommandItem>
-		);
-	});
-
-	return (
-		<CommandList>
-			<CommandGroup>{commandItems}</CommandGroup>
-		</CommandList>
 	);
 }

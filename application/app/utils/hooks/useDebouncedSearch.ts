@@ -11,9 +11,7 @@ export default function useDebouncedSearch(query: string, enabled = true, delay?
 			? ['search', debouncedQuery]
 			: null;
 
-	const { data, error, isLoading } = useSWR(key, () => fetchSearchResults(debouncedQuery), {
-		keepPreviousData: true,
-	});
+	const { data, error, isLoading } = useSWR(key, () => fetchSearchResults(debouncedQuery));
 
 	return {
 		items: data,
