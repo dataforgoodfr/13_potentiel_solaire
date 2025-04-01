@@ -3,6 +3,11 @@ export interface EtablissementProperties {
 	nom_etablissement: string;
 	type_etablissement: string;
 	libelle_nature: string;
+	adresse_1: string | null;
+	adresse_2: string | null;
+	adresse_3: string | null;
+	code_postal: string;
+	nb_eleves: number | null;
 	code_commune: string;
 	nom_commune: string;
 	code_departement: string;

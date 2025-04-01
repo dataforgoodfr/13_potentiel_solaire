@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 
 import { fetchEtablissements } from '@/app/lib/data';
 
+//TODO: remove later - just here for demo purpose
 /**
  * Get etablissements.
  * Get every etablissements if no code_commune is provided.

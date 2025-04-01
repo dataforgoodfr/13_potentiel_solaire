@@ -6,6 +6,6 @@ export interface RegionProperties {
 	count_etablissements: number;
 	count_etablissements_proteges: number;
 }
-export type Region = Regions['features'][number];
+export type RegionFeature = RegionsGeoJSON['features'][number];
 
-export type Regions = GeoJSON.FeatureCollection<GeoJSON.Geometry, RegionProperties>;
+export type RegionsGeoJSON = GeoJSON.FeatureCollection<GeoJSON.Polygon, RegionProperties>;
