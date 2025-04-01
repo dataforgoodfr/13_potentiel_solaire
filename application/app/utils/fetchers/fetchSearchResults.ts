@@ -15,7 +15,6 @@ export async function fetchSearchResults(query: string): Promise<SearchResult[]>
 
 		return data;
 	} catch (error) {
-		//TODO: create empty geojson collection as fallback value
 		console.error('Error while retrieving search data with query ' + query, error);
 		throw new Error('Failed to fetch results from search with query ' + query);
 	}
