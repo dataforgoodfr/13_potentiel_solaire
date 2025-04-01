@@ -41,8 +41,10 @@ export default function Suggestions({ items, onSelect }: ResultsListProps) {
 				<div className='flex items-center gap-2'>
 					{icon}
 					<div>
-						{libelle}
-						{source !== 'etablissements' && ` (${SOURCE_TO_LABEL[source]})`}
+						{libelle}{' '}
+						{source === 'etablissements'
+							? `(${item.extra_data.code_postal})`
+							: `(${SOURCE_TO_LABEL[source]})`}
 					</div>
 				</div>
 			</CommandItem>
