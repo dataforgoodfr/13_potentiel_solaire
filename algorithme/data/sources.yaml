@@ -15,7 +15,7 @@ communes:
 
 departements:
   url: "https://www.data.gouv.fr/fr/datasets/r/92f37c92-3aae-452c-8af1-c77e6dd590e5"
-  filename: "departements.json"
+  filename: "departements.geojson"
   description: "Geometries des departements francais"
 
 regions:

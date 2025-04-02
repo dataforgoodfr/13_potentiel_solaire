@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  pre-commit-algorithme:
+  ci-algorithme:
     runs-on: ubuntu-latest
     env:
       working-directory: ./algorithme
@@ -27,3 +27,8 @@ jobs:
       run: |
         source .venv/bin/activate
         pre-commit run --show-diff-on-failure --color=always --all-files
+    - name: Run unit tests
+      working-directory: ${{env.working-directory}}
+      run: |
+        source .venv/bin/activate
+        tox -vv

@@ -131,6 +131,7 @@ def get_topo_zones_of_interest(
         "categorie",
         "nature",
         "toponyme",
+        "identifiants_sources",  # ID pour rattachement aux ecoles
         "geometry"
     ]
 
