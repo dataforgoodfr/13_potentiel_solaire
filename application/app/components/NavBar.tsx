@@ -36,14 +36,14 @@ export default function NavBar() {
 	}
 
 	const handleKeypress = (e:KeyboardEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-
+		
 		if(e.code === 'Escape'){
 			setIsOpen(false);
 		};
 		
 		if(e.code === 'Enter')
 		{
+			e.preventDefault();
 			setIsOpen(!isOpen);
 		};
 	}
@@ -61,12 +61,12 @@ export default function NavBar() {
 					{isOpen ? <X className='stroke-light-green' /> : <Menu className='stroke-light-green' /> }
 				</button>
 
-				<nav onKeyDown={handleClose} aria-label='menu-principal' className={`absolute  left-0 top-0 bg-BG-darkmode p-5 rounded-md shadow-primary translate-x-sm z-50 transition-all ease-in-out
+				<nav  onKeyDown={handleClose} aria-label='menu-principal' className={`absolute left-0 top-0 bg-BG-darkmode p-5 rounded-md shadow-primary translate-x-sm z-50 transition-all ease-in-out
 					${isOpen ? "duration-300 translate-y-20 pointer-events-auto " : "duration-150 -translate-y-0 opacity-0 pointer-events-none "}`}>
 					<ul>
 						{links.map((link) => (
 							<li key={link.href}>
-								<Link href={link.href} className='block px-sm py-1 text-white text-base font-verdana'>
+								<Link href={link.href} tabIndex={!isOpen ? -1 : 0} className='block px-sm py-1 text-white text-base font-verdana'>
 									{link.title}
 								</Link>
 							</li>
