@@ -6,31 +6,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        'sol-ok': "#FAEA5E",
-        'sol-top': "#E19803",
-        'sol-ko': "#FFFBD6",
-		'BG-darkmode':"#221C3E",
-		'light-green': "#E7FFD3",
-		'gray': "#5D5B65",
-		'dark-green': "#355917",
-		'gray-light-bg': "#FAFAFA",
-		'select': "#A29DB9",
+        'sol-ok': "var(--sol-ok)",
+        'sol-top': "var(--sol-top)",
+        'sol-ko': "var(--sol-ko)",
+		'BG-darkmode':"var(--BG-darkmode)",
+		'light-green': "var(--light-green)",
+		'gray': "var(--gray)",
+		'dark-green': "var(--dark-green)",
+		'gray-light-bg': "var(--gray-light-bg)",
+		'select': "var(--select)",
       },
       fontFamily: {
-        verdana: ["verdana", "open-sans"],
+        verdana: ["var(--verdana)", "open-sans"],
       },
 	  fontSize:{
-		sm: '0.875rem',
-		base: '1rem',
-		lg:'2rem',
-		xl:'2.5rem',
+		sm: "var(--fontSize-Sm)",
+		base: "var(--fontSize-Base)",
+		lg:'var(--fontSize-Lg)',
+		xl:'var(--fontSize-Xl)',
 	  },
 	  lineHeight:{
-		normal:'100%',
-		md:'1.313rem',
-		lg:'1.375rem',
-		xl:'1.75rem',
-		'2xl':'2.813rem',
+		normal:'var(--lineHeight-normal)',
+		md:'var(--lineHeight-md)',
+		lg:'var(--lineHeight-lg)',
+		xl:'var(--lineHeight-xl)',
+		'2xl':'var(--lineHeight-2xl)',
 	  },
 	  letterSpacing: {
 		sm: '-3%',
@@ -51,3 +51,4 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+
