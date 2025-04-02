@@ -8,23 +8,23 @@ SELECT *
 FROM
 	regions
 )
-TO '/app/output/regions.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Régions');
+TO '/app/output/geojson/regions.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Régions');
 
 COPY (
 SELECT *
 FROM
 	departements
-) TO '/app/output/departements.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Départements');
+) TO '/app/output/geojson/departements.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Départements');
 
 COPY (
 SELECT *
 FROM
 	communes
-) TO '/app/output/communes.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Communes');
+) TO '/app/output/geojson/communes.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Communes');
 
 COPY (
 SELECT *
 FROM
 	etablissements
-) TO '/app/output/etablissements.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Etablissements');
+) TO '/app/output/geojson/etablissements.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Etablissements');
 

@@ -16,7 +16,8 @@ RUN curl -L -O https://github.com/duckdb/duckdb/releases/download/v1.2.1/duckdb_
     && rm duckdb_cli-linux-amd64.zip
 
 # Create output directory for database and generated files
-RUN mkdir -p /app/output
+RUN mkdir -p /app/output/db
+RUN mkdir -p /app/output/geojson
 
 # Set working directory to /app/database for executing SQL scripts
 WORKDIR /app/database/input
@@ -31,6 +32,6 @@ WORKDIR /app/database
 COPY prepare-JDD-test.sql export-geojson.sql .
 
 # Always execute SQL scripts (no layer cache) and store the generated database/files in /app/output
-RUN echo "Force cache busting at $(date)" &&  sh -c "duckdb < prepare-JDD-test.sql /app/output/data.duckdb && duckdb /app/output/data.duckdb < export-geojson.sql"
+RUN echo "Force cache busting at $(date)" &&  sh -c "duckdb < prepare-JDD-test.sql /app/output/db/data.duckdb && duckdb /app/output/db/data.duckdb < export-geojson.sql"
 
 CMD ["ls", "-l", "/app/output"]

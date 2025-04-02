@@ -29,7 +29,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Copy generated files from first stage - necessary for the build
-COPY --from=generator /app/output /app/database
+COPY --from=generator /app/output/db /app/database
+COPY --from=generator /app/output/geojson /app/public/data
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -59,7 +60,8 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 # Copy generated files from first stage
-COPY --from=generator /app/output /app/database
+COPY --from=generator /app/output/db /app/database
+COPY --from=generator /app/output/geojson /app/public/data
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
