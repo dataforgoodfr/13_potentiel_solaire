@@ -57,6 +57,7 @@ export default {
 				},
 			},
 			fontFamily: {
+				verdana: ['var(--font-verdana)', 'sans-serif'],
 				sans: ['var(--font-sans)', 'sans-serif'],
 				serif: ['var(--font-serif)', 'serif'],
 			},
