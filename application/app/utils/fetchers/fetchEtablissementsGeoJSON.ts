@@ -1,8 +1,16 @@
 import { EtablissementsGeoJSON } from '@/app/models/etablissements';
 
-export async function fetchEtablissementsGeoJSON() {
+import getBaseURL from './getBaseURL';
+
+const API_ROUTE = '/api/etablissements';
+
+export async function fetchEtablissementsGeoJSON(codeCommune: string | null) {
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/data/etablissements.geojson`);
+		const url = new URL(API_ROUTE, getBaseURL());
+
+		if (codeCommune) url.searchParams.append('codeCommune', codeCommune);
+
+		const res = await fetch(url.toString());
 		if (!res.ok) throw new Error('Failed to load etablissements from geojson file');
 
 		const data = (await res.json()) as EtablissementsGeoJSON;

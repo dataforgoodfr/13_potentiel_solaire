@@ -18,3 +18,9 @@ CRS_FOR_BUFFERS = 6933
 
 # hypotheses
 BUFFER_SIZE_FOR_PROTECTED_BUILDINGS = 500  # meters
+
+# epsilon for simplification - the higher the more simplified
+EPSILON_SIMPLIFICATION = 0.001
+
+# departements avec arrondissement
+DEP_AVEC_ARRONDISSEMENT = ["13", "69", "75"]

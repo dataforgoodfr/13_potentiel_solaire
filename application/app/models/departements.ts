@@ -11,6 +11,6 @@ export interface DepartementProperties {
 export type DepartementFeature = DepartementsGeoJSON['features'][number];
 
 export type DepartementsGeoJSON = GeoJSON.FeatureCollection<
-	GeoJSON.Geometry,
+	GeoJSON.Polygon | GeoJSON.MultiPolygon,
 	DepartementProperties
 >;
