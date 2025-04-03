@@ -48,17 +48,3 @@ export function getDynamicalClusterLayer(isVisible: boolean): LayerProps {
 		layout: { visibility: isVisible ? 'visible' : 'none' },
 	};
 }
-
-export function getDynamicalClusterCountLayer(isVisible: boolean): LayerProps {
-	return {
-		...clusterCountLayer,
-		layout: { visibility: isVisible ? 'visible' : 'none' },
-	};
-}
-
-export function getDynamicalUnclusteredPointLayer(isVisible: boolean): LayerProps {
-	return {
-		...unclusteredPointLayer,
-		layout: { visibility: isVisible ? 'visible' : 'none' },
-	};
-}

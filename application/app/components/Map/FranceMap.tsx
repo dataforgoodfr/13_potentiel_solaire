@@ -41,10 +41,10 @@ import {
 } from './layers/departementsLayers';
 import {
 	ETABLISSEMENTS_SOURCE_ID,
+	clusterCountLayer,
 	clusterLayer,
-	getDynamicalClusterCountLayer,
 	getDynamicalClusterLayer,
-	getDynamicalUnclusteredPointLayer,
+	unclusteredPointLayer,
 } from './layers/etablissementsLayers';
 import { REGIONS_SOURCE_ID, getDynamicalRegionsLayer, regionsLayer } from './layers/regionsLayers';
 
@@ -287,8 +287,8 @@ export default function FranceMap({ onLevelChange }: FranceMapProps) {
 					}}
 				>
 					<Layer {...getDynamicalClusterLayer(isEtablissementsLayerVisible)} />
-					<Layer {...getDynamicalClusterCountLayer(isEtablissementsLayerVisible)} />
-					<Layer {...getDynamicalUnclusteredPointLayer(isEtablissementsLayerVisible)} />
+					<Layer {...clusterCountLayer} />
+					<Layer {...unclusteredPointLayer} />
 				</Source>
 			)}
 		</MapFromReactMapLibre>
