@@ -1,4 +1,6 @@
-import { Color, Thresholds } from '../constants';
+import { ColorSpecification } from 'maplibre-gl';
+
+import { Thresholds } from '../constants';
 
 const SVG_CONFIG = {
 	viewBoxWidth: 200,
@@ -8,6 +10,7 @@ const SVG_CONFIG = {
 	margin: 5,
 };
 
+const BORDER_RADIUS = 10;
 const OPACITY = 1;
 
 function getLabel(unit: string) {
@@ -30,11 +33,11 @@ type LegendColorScale = {
 };
 
 function LegendColorScale({ thresholds }: LegendColorScale) {
-	const thresholdValues = Object.entries<Color>(thresholds);
+	const thresholdValues = Object.entries<ColorSpecification>(thresholds);
 
 	const { width, height, margin, viewBoxWidth, viewBoxheight } = SVG_CONFIG;
 	const slicesCount = thresholdValues.length;
-	const sliceWidth = (width - 2 * margin) / slicesCount;
+	const sliceWidth = (width - 2 * margin - 2 * BORDER_RADIUS) / slicesCount;
 	const sliceHeight = (height - 2 * margin) / 2;
 
 	return (
@@ -43,22 +46,40 @@ function LegendColorScale({ thresholds }: LegendColorScale) {
 				transform={`translate(${margin}, ${margin})`}
 				style={{ borderRadius: 5, backgroundColor: 'red' }}
 			>
+				<rect
+					width={2 * BORDER_RADIUS}
+					height={sliceHeight}
+					x={0}
+					fill={thresholdValues[0][1]}
+					fillOpacity={OPACITY}
+					rx={BORDER_RADIUS}
+				/>
 				{thresholdValues.map(([thresholdValue, color], i) => (
 					<rect
 						key={thresholdValue}
 						width={sliceWidth}
 						height={sliceHeight}
-						x={sliceWidth * i}
+						x={sliceWidth * i + BORDER_RADIUS}
 						fill={color}
 						fillOpacity={OPACITY}
 					/>
 				))}
+				<rect
+					width={2 * BORDER_RADIUS}
+					height={sliceHeight}
+					x={width - 2 * margin - 2 * BORDER_RADIUS}
+					fill={thresholdValues.slice(-1)[0][1]}
+					fillOpacity={OPACITY}
+					rx={BORDER_RADIUS}
+				/>
 				{thresholdValues.slice(1).map(([thresholdValue], i) => (
 					<text
 						key={thresholdValue}
-						x={sliceWidth * (i + 1)}
+						x={sliceWidth * (i + 1) + BORDER_RADIUS}
 						y={sliceHeight + 15}
 						textAnchor='middle'
+						className='text-sm'
+						style={{ color: 'red' }}
 					>
 						{thresholdValue}
 					</text>
