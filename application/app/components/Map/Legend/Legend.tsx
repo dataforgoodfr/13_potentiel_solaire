@@ -21,7 +21,7 @@ type Legend = { thresholds: Thresholds };
 
 export default function Legend({ thresholds }: Legend) {
 	return (
-		<div className='flex flex-col items-center'>
+		<div className='flex flex-col items-center rounded-md bg-primary text-sm text-primary-foreground'>
 			{getLabel('TODO')}
 			<LegendColorScale thresholds={thresholds} />
 		</div>
@@ -42,10 +42,7 @@ function LegendColorScale({ thresholds }: LegendColorScale) {
 
 	return (
 		<svg width={width} height={height} viewBox={`0 0 ${viewBoxWidth} ${viewBoxheight}`}>
-			<g
-				transform={`translate(${margin}, ${margin})`}
-				style={{ borderRadius: 5, backgroundColor: 'red' }}
-			>
+			<g transform={`translate(${margin}, ${margin})`}>
 				<rect
 					width={2 * BORDER_RADIUS}
 					height={sliceHeight}
@@ -78,8 +75,7 @@ function LegendColorScale({ thresholds }: LegendColorScale) {
 						x={sliceWidth * (i + 1) + BORDER_RADIUS}
 						y={sliceHeight + 15}
 						textAnchor='middle'
-						className='text-sm'
-						style={{ color: 'red' }}
+						className='fill-primary-foreground'
 					>
 						{thresholdValue}
 					</text>
