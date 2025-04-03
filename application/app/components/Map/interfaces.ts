@@ -11,3 +11,5 @@ export type ClusterFeature<TGeometry extends Geometry> = {
 	};
 	geometry: TGeometry;
 };
+
+export type Level = 'communes' | 'departements' | 'regions';

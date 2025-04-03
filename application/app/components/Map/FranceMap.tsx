@@ -25,7 +25,7 @@ import { GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementsGeoJSON } from '../../models/etablissements';
-import { ClusterFeature } from './interfaces';
+import { ClusterFeature, Level } from './interfaces';
 import {
 	COMMUNES_SOURCE_ID,
 	communesLayer,
@@ -85,6 +85,10 @@ type ClusterEtablissementFeature = EventFeature<
 	ClusterFeature<EtablissementsGeoJSON['features'][number]['geometry']>
 >;
 
+type FranceMapProps = {
+	onLevelChange: (level: Level) => void;
+};
+
 /**
  * Type guard function that checks if the feature is from a layer
  * @param feature to check
@@ -100,7 +104,7 @@ function isFeatureFrom<T extends EventFeature>(
 	return feature.layer.id === layer.id;
 }
 
-export default function FranceMap() {
+export default function FranceMap({ onLevelChange }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 	const [currentZoom, setCurrentZoom] = useState(initialViewState.zoom);
 
@@ -215,17 +219,20 @@ export default function FranceMap() {
 	}
 
 	function handleZoom(event: ViewStateChangeEvent) {
-		setCurrentZoom(event.viewState.zoom);
-	}
+		const { zoom } = event.viewState;
+		setCurrentZoom(zoom);
 
-	if (
-		!clusterLayer.id ||
-		!regionsLayer.id ||
-		!departementsLayer.id ||
-		!communesLayer.id ||
-		!communesTransparentLayer.id
-	) {
-		throw new Error('Layers not defined');
+		if (zoom > COMMUNES_VISIBLE_ZOOM_THRESHOLD) {
+			onLevelChange('communes');
+			return;
+		}
+
+		if (zoom > DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD) {
+			onLevelChange('departements');
+			return;
+		}
+
+		onLevelChange('regions');
 	}
 
 	const isDepartementsLayerVisible =
@@ -275,7 +282,9 @@ export default function FranceMap() {
 					data={etablissementsGeoJSON}
 					cluster={true}
 					clusterMaxZoom={14}
-					clusterRadius={50}
+					clusterProperties={{
+						potentiel_solaire: ['number', ['get', 'potentiel_solaire']],
+					}}
 				>
 					<Layer {...getDynamicalClusterLayer(isEtablissementsLayerVisible)} />
 					<Layer {...getDynamicalClusterCountLayer(isEtablissementsLayerVisible)} />
