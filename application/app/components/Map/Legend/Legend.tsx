@@ -1,3 +1,5 @@
+import { getClosestEnergyUnit } from '@/app/utils/energy-utils';
+import { roundToClosest } from '@/app/utils/number-utils';
 import { ColorSpecification } from 'maplibre-gl';
 
 import { Thresholds } from '../constants';
@@ -20,9 +22,12 @@ function getLabel(unit: string) {
 type Legend = { thresholds: Thresholds };
 
 export default function Legend({ thresholds }: Legend) {
+	const lastThreshold = Number(Object.keys(thresholds).slice(-1)[0]);
+	const lastThresholdUnit = getClosestEnergyUnit(lastThreshold);
+
 	return (
-		<div className='flex flex-col items-center rounded-md bg-primary text-sm text-primary-foreground'>
-			{getLabel('TODO')}
+		<div className='pointer-events-none flex flex-col items-center rounded-md bg-primary text-sm text-primary-foreground'>
+			{getLabel(lastThresholdUnit)}
 			<LegendColorScale thresholds={thresholds} />
 		</div>
 	);
@@ -77,7 +82,7 @@ function LegendColorScale({ thresholds }: LegendColorScale) {
 						textAnchor='middle'
 						className='fill-primary-foreground'
 					>
-						{thresholdValue}
+						{roundToClosest(Number(thresholdValue), 1000)}
 					</text>
 				))}
 			</g>
