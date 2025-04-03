@@ -4,7 +4,7 @@ INSTALL httpfs;
 LOAD httpfs;
 
 -- Chemin absolu du dossier contenant les fichiers source éventuels (string qui doit finir par le caractère /)
-SET VARIABLE path_to_folder = null; -- exemple : '/path/to/folder/'
+SET VARIABLE path_to_folder = '/app/database/input/'; -- exemple : '/path/to/folder/'
 
 -- 1. création des tables depuis les fichiers geojson (la ligne commentée se base sur un fichier local qui sera plus rapide que via https)
 -- Dans certains fichiers le code etablissement n'est pas au format 0xx, on utilise donc LPAD à certains endroits pour homogénéiser le format
@@ -31,8 +31,8 @@ CREATE OR REPLACE TABLE regions AS
 	0 AS count_etablissements,
 	0 AS count_etablissements_proteges,
 	geom
-	FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4') reg;  --16s
--- FROM ST_Read(getvariable('path_to_folder') || 'a-reg2021.json') reg;
+	FROM ST_Read(getvariable('path_to_folder') || 'a-reg2021.json') reg;
+	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4') reg;  --16s
 
 CREATE OR REPLACE TABLE departements AS
     SELECT LPAD(dep, 3, '0') AS code_departement,
@@ -44,8 +44,8 @@ CREATE OR REPLACE TABLE departements AS
 	0 AS count_etablissements,
 	0 AS count_etablissements_proteges,
     geom
-	FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/92f37c92-3aae-452c-8af1-c77e6dd590e5') dept;   --40s
--- FROM ST_Read(getvariable('path_to_folder') || 'a-dep2021.json') dept;
+	FROM ST_Read(getvariable('path_to_folder') || 'a-dep2021.json') dept;
+	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/92f37c92-3aae-452c-8af1-c77e6dd590e5') dept;   --40s
 
 CREATE OR REPLACE TABLE communes AS
     SELECT
@@ -60,8 +60,8 @@ CREATE OR REPLACE TABLE communes AS
 	0 AS count_etablissements,
 	0 AS count_etablissements_proteges,
 	geom
-	FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581') com; -- ~15 min
--- FROM ST_Read(getvariable('path_to_folder') || 'a-com2022.json') com;
+	FROM ST_Read(getvariable('path_to_folder') || 'a-com2022.json') com;
+	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581') com; -- ~15 min
 
 
 CREATE OR REPLACE TABLE etablissements AS
@@ -86,8 +86,8 @@ CREATE OR REPLACE TABLE etablissements AS
 	FLOOR(RANDOM() * (getvariable('potentiel_solaire_max') - getvariable('potentiel_solaire_min') + 1)) + getvariable('potentiel_solaire_min') AS potentiel_solaire,
 	(RANDOM() < 0.5) AS protection,
 	geom
-	FROM ST_Read('https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-annuaire-education/exports/geojson?lang=fr') etab; --42s
--- FROM ST_Read(getvariable('path_to_folder') || 'fr-en-annuaire-education.geojson') etab;
+	FROM ST_Read(getvariable('path_to_folder') || 'fr-en-annuaire-education.geojson') etab;
+	-- FROM ST_Read('https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-annuaire-education/exports/geojson?lang=fr') etab; --42s
 
 -- 2. maj count_etablissements, count_etablissements_proteges, surface_utile, potentiel_solaire depuis les tables créées
 -- certains etablissements ont le meme identifiant, peut etre que le calcul n'est pas correct
