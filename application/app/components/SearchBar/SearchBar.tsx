@@ -126,10 +126,12 @@ export function Autocomplete({
 										<Loading />
 									</CommandLoading>
 								)}
-								<CommandEmpty>{noOptionsText}</CommandEmpty>
-								<CommandGroup>
-									<Suggestions items={options ?? []} onSelect={onSelect} />
-								</CommandGroup>
+								<CommandEmpty className='p-2'>{noOptionsText}</CommandEmpty>
+								{options && options.length > 0 && (
+									<CommandGroup>
+										<Suggestions items={options ?? []} onSelect={onSelect} />
+									</CommandGroup>
+								)}
 							</CommandList>
 						</Command>
 					</PopoverContent>
