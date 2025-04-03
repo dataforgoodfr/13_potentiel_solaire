@@ -1,5 +1,8 @@
 import type { LayerProps } from '@vis.gl/react-maplibre';
 
+import { COLOR_THRESHOLDS } from '../constants';
+import thresholdsToStepColorsParams from './thresholdsToColorsParams';
+
 export const ETABLISSEMENTS_SOURCE_ID = 'etablissements';
 
 export const clusterLayer = {
@@ -8,8 +11,8 @@ export const clusterLayer = {
 	source: ETABLISSEMENTS_SOURCE_ID,
 	filter: ['has', 'point_count'],
 	paint: {
-		'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 100, '#f1f075', 750, '#f28cb1'],
-		'circle-radius': ['step', ['get', 'point_count'], 11, 100, 22, 750, 30],
+		'circle-color': '#e7ffd3',
+		'circle-radius': 25,
 	},
 } satisfies LayerProps;
 
@@ -30,10 +33,12 @@ export const unclusteredPointLayer = {
 	source: ETABLISSEMENTS_SOURCE_ID,
 	filter: ['!', ['has', 'point_count']],
 	paint: {
-		'circle-color': '#11b4da',
-		'circle-radius': 4,
-		'circle-stroke-width': 1,
-		'circle-stroke-color': '#fff',
+		'circle-color': [
+			'step',
+			['get', 'potentiel_solaire'],
+			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.etablissements),
+		],
+		'circle-radius': 15,
 	},
 } satisfies LayerProps;
 
