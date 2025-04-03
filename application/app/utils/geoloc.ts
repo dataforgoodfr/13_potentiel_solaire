@@ -22,7 +22,6 @@ export function getUserLocation(): Promise<GeolocationCoordinates> {
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
-				console.log({ position });
 				return resolve(position.coords);
 			},
 			(error) => reject(new Error(`Error getting location: ${error.message}`)),
