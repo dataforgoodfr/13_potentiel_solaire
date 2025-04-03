@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@duckdb/node-api": "^1.2.0-alpha.14",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-popover": "^1.1.6",
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "lucide-react": "^0.479.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",

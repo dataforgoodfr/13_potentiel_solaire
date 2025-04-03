@@ -581,7 +581,14 @@ export async function fetchSearchResults(
 		prepared.bindInteger(2, limit);
 
 		const reader = await prepared.runAndReadAll();
-		return reader.getRowObjectsJson() as unknown as SearchResult[];
+		// TODO - query data with extra_data using duckdb directly
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		return reader.getRowObjectsJson().map((d: any) => ({
+			id: d.id,
+			source: d.source,
+			libelle: d.libelle,
+			extra_data: 'extra_data' in d ? JSON.parse(d.extra_data) : undefined,
+		})) as SearchResult[];
 	} catch (error) {
 		console.error('Database Error:', error);
 		throw new Error('Failed to fetch search view rows.');
