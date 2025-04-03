@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Verdana';
+    src: local('Verdana Bold'), local('Verdana-Bold'),
+        url('Verdana-Bold.woff2') format('woff2'),
+        url('Verdana-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Verdana';
+    src: local('Verdana'),
+        url('Verdana.woff2') format('woff2'),
+        url('Verdana.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Verdana';
+    src: local('Verdana Bold'), local('Verdana-Bold'),
+        url('Verdana-Bold.woff2') format('woff2'),
+        url('Verdana-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Verdana';
+    src: local('Verdana'),
+        url('Verdana.woff2') format('woff2'),
+        url('Verdana.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
