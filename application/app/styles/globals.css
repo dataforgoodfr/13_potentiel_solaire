@@ -5,7 +5,9 @@
 /* Fonts */
 @font-face {
 	font-family: 'Verdana';
-	src: local('Verdana Bold'), local('Verdana-Bold'),
+	src:
+		local('Verdana Bold'),
+		local('Verdana-Bold'),
 		url('../fonts/Verdana-Bold.woff2') format('woff2'),
 		url('../fonts/Verdana-Bold.woff') format('woff');
 	font-weight: bold;
@@ -15,7 +17,8 @@
 
 @font-face {
 	font-family: 'Verdana';
-	src: local('Verdana'),
+	src:
+		local('Verdana'),
 		url('../fonts/Verdana.woff2') format('woff2'),
 		url('../fonts/Verdana.woff') format('woff');
 	font-weight: normal;
@@ -51,26 +54,26 @@
 		--chart-5: 27 87% 67%;
 		--radius: 0.5rem;
 
-		--sol-ok: #FAEA5E;
-        --sol-top: #E19803;
-        --sol-ko: #FFFBD6;
-		--BG-darkmode: #221C3E;
-		--light-green: #E7FFD3;
-		--gray: #5D5B65;
+		--sol-ok: #faea5e;
+		--sol-top: #e19803;
+		--sol-ko: #fffbd6;
+		--BG-darkmode: #221c3e;
+		--light-green: #e7ffd3;
+		--gray: #5d5b65;
 		--dark-green: #355917;
-		--gray-light-bg: #FAFAFA;
-		--select: #A29DB9;
+		--gray-light-bg: #fafafa;
+		--select: #a29db9;
 
 		--fontSize-Sm: '0.875rem';
 		--fontSize-Base: '1rem';
-		--fontSize-Lg:'2rem';
-		--fontSize-Xl:'2.5rem';
-		--font-verdana: "Verdana";
-		--lineHeight-normal :'100%';
-		--lineHeight-md:'1.313rem';
-		--lineHeight-lg:'1.375rem';
-		--lineHeight-xl:'1.75rem';
-		--lineHeight-2xl:'2.813rem';
+		--fontSize-Lg: '2rem';
+		--fontSize-Xl: '2.5rem';
+		--font-verdana: 'Verdana';
+		--lineHeight-normal: '100%';
+		--lineHeight-md: '1.313rem';
+		--lineHeight-lg: '1.375rem';
+		--lineHeight-xl: '1.75rem';
+		--lineHeight-2xl: '2.813rem';
 		--letterSpacing-sm: '-3%';
 		--letterSpacing-lg: '50%';
 		--boxShadow-base: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)';
