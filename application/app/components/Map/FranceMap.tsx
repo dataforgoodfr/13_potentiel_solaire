@@ -43,7 +43,6 @@ import {
 	ETABLISSEMENTS_SOURCE_ID,
 	clusterCountLayer,
 	clusterLayer,
-	getDynamicalClusterLayer,
 	unclusteredPointLayer,
 } from './layers/etablissementsLayers';
 import { REGIONS_SOURCE_ID, getDynamicalRegionsLayer, regionsLayer } from './layers/regionsLayers';
@@ -275,7 +274,7 @@ export default function FranceMap({ onLevelChange }: FranceMapProps) {
 					<Layer {...getDynamicalCommunesLayer(isCommunesLayerVisible)} />
 				</Source>
 			)}
-			{etablissementsGeoJSON && (
+			{etablissementsGeoJSON && isEtablissementsLayerVisible && (
 				<Source
 					id={ETABLISSEMENTS_SOURCE_ID}
 					type='geojson'
@@ -286,7 +285,7 @@ export default function FranceMap({ onLevelChange }: FranceMapProps) {
 						potentiel_solaire: ['number', ['get', 'potentiel_solaire']],
 					}}
 				>
-					<Layer {...getDynamicalClusterLayer(isEtablissementsLayerVisible)} />
+					<Layer {...clusterLayer} />
 					<Layer {...clusterCountLayer} />
 					<Layer {...unclusteredPointLayer} />
 				</Source>

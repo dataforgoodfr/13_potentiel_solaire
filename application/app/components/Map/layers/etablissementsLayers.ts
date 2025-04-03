@@ -41,10 +41,3 @@ export const unclusteredPointLayer = {
 		'circle-radius': 15,
 	},
 } satisfies LayerProps;
-
-export function getDynamicalClusterLayer(isVisible: boolean): LayerProps {
-	return {
-		...clusterLayer,
-		layout: { visibility: isVisible ? 'visible' : 'none' },
-	};
-}
