@@ -1,5 +1,4 @@
-import { getClosestEnergyUnit } from '@/app/utils/energy-utils';
-import { roundToClosest } from '@/app/utils/number-utils';
+import { EnergyUnit, convertKWhTo, getClosestEnergyUnit } from '@/app/utils/energy-utils';
 import { ColorSpecification } from 'maplibre-gl';
 
 import { Thresholds } from '../constants';
@@ -28,16 +27,17 @@ export default function Legend({ thresholds }: Legend) {
 	return (
 		<div className='pointer-events-none flex flex-col items-center rounded-md bg-primary text-sm text-primary-foreground'>
 			{getLabel(lastThresholdUnit)}
-			<LegendColorScale thresholds={thresholds} />
+			<LegendColorScale thresholds={thresholds} unit={lastThresholdUnit} />
 		</div>
 	);
 }
 
 type LegendColorScale = {
 	thresholds: Thresholds;
+	unit: EnergyUnit;
 };
 
-function LegendColorScale({ thresholds }: LegendColorScale) {
+function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 	const thresholdValues = Object.entries<ColorSpecification>(thresholds);
 
 	const { width, height, margin, viewBoxWidth, viewBoxheight } = SVG_CONFIG;
@@ -82,7 +82,7 @@ function LegendColorScale({ thresholds }: LegendColorScale) {
 						textAnchor='middle'
 						className='fill-primary-foreground'
 					>
-						{roundToClosest(Number(thresholdValue), 1000)}
+						{Math.round(convertKWhTo(Number(thresholdValue), unit))}
 					</text>
 				))}
 			</g>
