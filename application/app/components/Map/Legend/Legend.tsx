@@ -5,13 +5,13 @@ import { Thresholds } from '../constants';
 
 const SVG_CONFIG = {
 	viewBoxWidth: 200,
-	viewBoxheight: 50,
+	viewBoxheight: 40,
 	width: 200,
-	height: 50,
+	height: 40,
 	margin: 5,
 };
 
-const BORDER_RADIUS = 10;
+const BORDER_RADIUS = 8;
 const OPACITY = 1;
 
 function getLabel(unit: string) {
@@ -25,7 +25,7 @@ export default function Legend({ thresholds }: Legend) {
 	const lastThresholdUnit = getClosestEnergyUnit(lastThreshold);
 
 	return (
-		<div className='pointer-events-none flex flex-col items-center rounded-md bg-primary text-sm text-primary-foreground'>
+		<div className='pointer-events-none flex flex-col items-center rounded-md bg-primary p-1 text-sm text-primary-foreground'>
 			{getLabel(lastThresholdUnit)}
 			<LegendColorScale thresholds={thresholds} unit={lastThresholdUnit} />
 		</div>
@@ -80,7 +80,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 						x={sliceWidth * (i + 1) + BORDER_RADIUS}
 						y={sliceHeight + 15}
 						textAnchor='middle'
-						className='fill-primary-foreground'
+						className='fill-primary-foreground font-normal opacity-80'
 					>
 						{Math.round(convertKWhTo(Number(thresholdValue), unit))}
 					</text>
