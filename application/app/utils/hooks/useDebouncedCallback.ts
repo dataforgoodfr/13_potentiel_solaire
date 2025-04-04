@@ -19,7 +19,6 @@ export function useDebouncedCallback<T extends (...args: unknown[]) => void>(
 		[callback, delay],
 	);
 
-	// Cleanup on unmount to clear the timer
 	useEffect(() => {
 		return () => {
 			if (timer.current) {

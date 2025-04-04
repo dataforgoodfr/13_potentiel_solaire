@@ -1,4 +1,5 @@
-// 'use client';
+'use client';
+
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/hooks/use-toast';
 import { LocateFixed } from 'lucide-react';
