@@ -67,7 +67,7 @@ const style: React.CSSProperties = {
 
 const ANIMATION_TIME_MS = 800;
 
-const ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD = 8;
+const ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD = 11;
 const COMMUNES_VISIBLE_ZOOM_THRESHOLD = 7;
 const DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD = 6;
 
@@ -217,29 +217,37 @@ export default function FranceMap({ onLevelChange }: FranceMapProps) {
 		}
 	}
 
+	function isDepartementsLayerVisible(zoom: number) {
+		return Boolean(codeRegion) && zoom > DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD;
+	}
+	function isCommunesLayerVisible(zoom: number) {
+		return Boolean(codeDepartement) && zoom > COMMUNES_VISIBLE_ZOOM_THRESHOLD;
+	}
+	function isEtablissementsLayerVisible(zoom: number) {
+		return Boolean(codeCommune) && zoom > ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD;
+	}
+
 	function handleZoom(event: ViewStateChangeEvent) {
 		const { zoom } = event.viewState;
 		setCurrentZoom(zoom);
 
-		if (zoom > COMMUNES_VISIBLE_ZOOM_THRESHOLD) {
+		if (isEtablissementsLayerVisible(zoom)) {
+			onLevelChange('etablissements');
+			return;
+		}
+
+		if (isCommunesLayerVisible(zoom)) {
 			onLevelChange('communes');
 			return;
 		}
 
-		if (zoom > DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD) {
+		if (isDepartementsLayerVisible(zoom)) {
 			onLevelChange('departements');
 			return;
 		}
 
 		onLevelChange('regions');
 	}
-
-	const isDepartementsLayerVisible =
-		Boolean(codeRegion) && currentZoom > DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD;
-	const isCommunesLayerVisible =
-		Boolean(codeDepartement) && currentZoom > COMMUNES_VISIBLE_ZOOM_THRESHOLD;
-	const isEtablissementsLayerVisible =
-		Boolean(codeCommune) && currentZoom > ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD;
 
 	return (
 		<MapFromReactMapLibre
@@ -264,17 +272,25 @@ export default function FranceMap({ onLevelChange }: FranceMapProps) {
 			)}
 			{departementsGeoJSON && (
 				<Source id={DEPARTEMENTS_SOURCE_ID} type='geojson' data={departementsGeoJSON}>
-					<Layer {...getDynamicalDepartementsLayer(isDepartementsLayerVisible)} />
+					<Layer
+						{...getDynamicalDepartementsLayer(isDepartementsLayerVisible(currentZoom))}
+					/>
 				</Source>
 			)}
 			{communesGeoJSON && (
 				<Source id={COMMUNES_SOURCE_ID} type='geojson' data={communesGeoJSON}>
-					<Layer {...getDynamicalCommunesTransparentLayer(isCommunesLayerVisible)} />
-					<Layer {...getDynamicalCommunesLineLayer(isCommunesLayerVisible)} />
-					<Layer {...getDynamicalCommunesLayer(isCommunesLayerVisible)} />
+					<Layer
+						{...getDynamicalCommunesTransparentLayer(
+							isCommunesLayerVisible(currentZoom),
+						)}
+					/>
+					<Layer
+						{...getDynamicalCommunesLineLayer(isCommunesLayerVisible(currentZoom))}
+					/>
+					<Layer {...getDynamicalCommunesLayer(isCommunesLayerVisible(currentZoom))} />
 				</Source>
 			)}
-			{etablissementsGeoJSON && isEtablissementsLayerVisible && (
+			{etablissementsGeoJSON && isEtablissementsLayerVisible(currentZoom) && (
 				<Source
 					id={ETABLISSEMENTS_SOURCE_ID}
 					type='geojson'
