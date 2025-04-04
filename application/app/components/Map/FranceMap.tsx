@@ -25,6 +25,7 @@ import { GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementFeature, EtablissementsGeoJSON } from '../../models/etablissements';
+import MenuDrom from './MenuDrom';
 import { ClusterFeature } from './interfaces';
 import {
 	COMMUNES_SOURCE_ID,
@@ -300,6 +301,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					<Layer {...getDynamicalUnclusteredPointLayer(isEtablissementsLayerVisible)} />
 				</Source>
 			)}
+			<MenuDrom mapRef={mapRef} />
 		</MapFromReactMapLibre>
 	);
 }
