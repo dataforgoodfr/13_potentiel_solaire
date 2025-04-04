@@ -25,7 +25,7 @@ import { GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementsGeoJSON } from '../../models/etablissements';
-import { ClusterFeature } from './interfaces';
+import { ClusterFeature, Level } from './interfaces';
 import {
 	COMMUNES_SOURCE_ID,
 	communesLayer,
@@ -41,10 +41,9 @@ import {
 } from './layers/departementsLayers';
 import {
 	ETABLISSEMENTS_SOURCE_ID,
+	clusterCountLayer,
 	clusterLayer,
-	getDynamicalClusterCountLayer,
-	getDynamicalClusterLayer,
-	getDynamicalUnclusteredPointLayer,
+	unclusteredPointLayer,
 } from './layers/etablissementsLayers';
 import { REGIONS_SOURCE_ID, getDynamicalRegionsLayer, regionsLayer } from './layers/regionsLayers';
 
@@ -68,7 +67,7 @@ const style: React.CSSProperties = {
 
 const ANIMATION_TIME_MS = 800;
 
-const ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD = 8;
+const ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD = 11;
 const COMMUNES_VISIBLE_ZOOM_THRESHOLD = 7;
 const DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD = 6;
 
@@ -85,6 +84,10 @@ type ClusterEtablissementFeature = EventFeature<
 	ClusterFeature<EtablissementsGeoJSON['features'][number]['geometry']>
 >;
 
+type FranceMapProps = {
+	onLevelChange: (level: Level) => void;
+};
+
 /**
  * Type guard function that checks if the feature is from a layer
  * @param feature to check
@@ -100,7 +103,7 @@ function isFeatureFrom<T extends EventFeature>(
 	return feature.layer.id === layer.id;
 }
 
-export default function FranceMap() {
+export default function FranceMap({ onLevelChange }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 	const [currentZoom, setCurrentZoom] = useState(initialViewState.zoom);
 
@@ -214,26 +217,37 @@ export default function FranceMap() {
 		}
 	}
 
+	function isDepartementsLayerVisible(zoom: number) {
+		return Boolean(codeRegion) && zoom > DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD;
+	}
+	function isCommunesLayerVisible(zoom: number) {
+		return Boolean(codeDepartement) && zoom > COMMUNES_VISIBLE_ZOOM_THRESHOLD;
+	}
+	function isEtablissementsLayerVisible(zoom: number) {
+		return Boolean(codeCommune) && zoom > ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD;
+	}
+
 	function handleZoom(event: ViewStateChangeEvent) {
-		setCurrentZoom(event.viewState.zoom);
-	}
+		const { zoom } = event.viewState;
+		setCurrentZoom(zoom);
 
-	if (
-		!clusterLayer.id ||
-		!regionsLayer.id ||
-		!departementsLayer.id ||
-		!communesLayer.id ||
-		!communesTransparentLayer.id
-	) {
-		throw new Error('Layers not defined');
-	}
+		if (isEtablissementsLayerVisible(zoom)) {
+			onLevelChange('etablissements');
+			return;
+		}
 
-	const isDepartementsLayerVisible =
-		Boolean(codeRegion) && currentZoom > DEPARTEMENTS_VISIBLE_ZOOM_THRESHOLD;
-	const isCommunesLayerVisible =
-		Boolean(codeDepartement) && currentZoom > COMMUNES_VISIBLE_ZOOM_THRESHOLD;
-	const isEtablissementsLayerVisible =
-		Boolean(codeCommune) && currentZoom > ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD;
+		if (isCommunesLayerVisible(zoom)) {
+			onLevelChange('communes');
+			return;
+		}
+
+		if (isDepartementsLayerVisible(zoom)) {
+			onLevelChange('departements');
+			return;
+		}
+
+		onLevelChange('regions');
+	}
 
 	return (
 		<MapFromReactMapLibre
@@ -258,28 +272,38 @@ export default function FranceMap() {
 			)}
 			{departementsGeoJSON && (
 				<Source id={DEPARTEMENTS_SOURCE_ID} type='geojson' data={departementsGeoJSON}>
-					<Layer {...getDynamicalDepartementsLayer(isDepartementsLayerVisible)} />
+					<Layer
+						{...getDynamicalDepartementsLayer(isDepartementsLayerVisible(currentZoom))}
+					/>
 				</Source>
 			)}
 			{communesGeoJSON && (
 				<Source id={COMMUNES_SOURCE_ID} type='geojson' data={communesGeoJSON}>
-					<Layer {...getDynamicalCommunesTransparentLayer(isCommunesLayerVisible)} />
-					<Layer {...getDynamicalCommunesLineLayer(isCommunesLayerVisible)} />
-					<Layer {...getDynamicalCommunesLayer(isCommunesLayerVisible)} />
+					<Layer
+						{...getDynamicalCommunesTransparentLayer(
+							isCommunesLayerVisible(currentZoom),
+						)}
+					/>
+					<Layer
+						{...getDynamicalCommunesLineLayer(isCommunesLayerVisible(currentZoom))}
+					/>
+					<Layer {...getDynamicalCommunesLayer(isCommunesLayerVisible(currentZoom))} />
 				</Source>
 			)}
-			{etablissementsGeoJSON && (
+			{etablissementsGeoJSON && isEtablissementsLayerVisible(currentZoom) && (
 				<Source
 					id={ETABLISSEMENTS_SOURCE_ID}
 					type='geojson'
 					data={etablissementsGeoJSON}
 					cluster={true}
 					clusterMaxZoom={14}
-					clusterRadius={50}
+					clusterProperties={{
+						potentiel_solaire: ['number', ['get', 'potentiel_solaire']],
+					}}
 				>
-					<Layer {...getDynamicalClusterLayer(isEtablissementsLayerVisible)} />
-					<Layer {...getDynamicalClusterCountLayer(isEtablissementsLayerVisible)} />
-					<Layer {...getDynamicalUnclusteredPointLayer(isEtablissementsLayerVisible)} />
+					<Layer {...clusterLayer} />
+					<Layer {...clusterCountLayer} />
+					<Layer {...unclusteredPointLayer} />
 				</Source>
 			)}
 		</MapFromReactMapLibre>
