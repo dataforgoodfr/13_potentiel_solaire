@@ -1,6 +1,8 @@
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
 const options: PositionOptions = {
 	timeout: 5000,
-	maximumAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+	maximumAge: ONE_DAY_MS,
 	enableHighAccuracy: false,
 };
 
