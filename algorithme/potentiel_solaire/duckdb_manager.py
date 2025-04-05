@@ -1,3 +1,5 @@
+from importlib.metadata import version
+
 import duckdb
 import pandas as pd
 
@@ -59,12 +61,17 @@ def save_solar_potential_by_school(
     with get_connection() as conn:
         conn.register("results_by_school", results_by_school)
 
-        update_query = """
+        code_version = version('potentiel_solaire')
+
+        update_query = f"""
             UPDATE etablissements
             SET 
                 surface_utile = results_by_school.surface_utile,
                 potentiel_solaire = results_by_school.potentiel_solaire,
-                protection = results_by_school.protection
+                protection = results_by_school.protection,
+                date_calcul = CURRENT_TIMESTAMP,
+                version = '{code_version}',
+                nb_batiments_associes = results_by_school.nb_batiments_associes
             FROM
                 results_by_school
             WHERE
@@ -76,7 +83,7 @@ def save_solar_potential_by_school(
         query = f"""
             SELECT
                 *,
-                ST_AsGeoJSON(geo_point) as geometry
+                ST_AsGeoJSON(geom) as geometry
             FROM
                 etablissements
             WHERE

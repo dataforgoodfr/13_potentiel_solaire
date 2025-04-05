@@ -11,11 +11,7 @@ down_revision: Union[str, None] = '73f36b7b95ee'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
-sources = extract_sources()
-arrondissements_path = create_arrondissements_geojson()
-etablissements_path = sources["etablissements"].filepath
-communes_path = sources["communes"].filepath
-
+# schema
 etablissements_table = "etablissements"
 communes_table = "communes"
 departements_table = "departements"
@@ -23,6 +19,8 @@ regions_table = "regions"
 
 def upgrade() -> None:
     """Upgrade schema."""
+    arrondissements_path = create_arrondissements_geojson()
+
     op.execute("""
         INSTALL spatial;
         LOAD spatial;
@@ -126,6 +124,11 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     """Downgrade schema."""
+    sources = extract_sources()
+    arrondissements_path = create_arrondissements_geojson()
+    etablissements_path = sources["etablissements"].filepath
+    communes_path = sources["communes"].filepath
+
     op.execute("""
         INSTALL spatial;
         LOAD spatial;

@@ -7,6 +7,7 @@ def get_schools_etablissements_with_solar_potential(
     schools_establishments: gpd.GeoDataFrame,
     solar_potential_of_schools_buildings: gpd.GeoDataFrame
 ):
+    solar_potential_of_schools_buildings["nb_batiments_associes"] = 1
     return schools_establishments.merge(
         solar_potential_of_schools_buildings,
         how="left",
@@ -32,9 +33,11 @@ def aggregate_solar_potential_by_etablishment(
     solar_potential_of_schools_buildings.loc[solar_potential_of_schools_buildings['surface_utile'].isna(), 'surface_utile'] = 0
     solar_potential_of_schools_buildings.loc[solar_potential_of_schools_buildings['potentiel_solaire'].isna(), 'potentiel_solaire'] = 0
     solar_potential_of_schools_buildings.loc[solar_potential_of_schools_buildings['protection'].isna(), 'protection'] = False
+    solar_potential_of_schools_buildings.loc[solar_potential_of_schools_buildings['nb_batiments_associes'].isna(), 'nb_batiments_associes'] = 0
 
     return solar_potential_of_schools_buildings.groupby(by=["identifiant_de_l_etablissement"]).agg({
         "surface_utile": "sum",
         "potentiel_solaire": "sum",
-        "protection": "any"  # Si un seul batiment est protégé, l'établissement est protégé.
+        "protection": "any",  # Si un seul batiment est protégé, l'établissement est protégé.
+        "nb_batiments_associes": "sum",
     }).reset_index()

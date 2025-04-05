@@ -15,7 +15,6 @@ export interface EtablissementProperties {
 	code_region: string;
 	libelle_region: string;
 	surface_utile: number;
-	rayonnement_solaire: number;
 	potentiel_solaire: number;
 	protection: boolean;
 }
