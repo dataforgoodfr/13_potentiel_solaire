@@ -285,6 +285,67 @@ export async function fetchCommunesFromBoundingBox({
 	}
 }
 
+/**
+ * Fetch one commune containing the provided latitude and longitude coordinates.
+ * If nothing is enclosing the coordinates, it returns null.
+ * @returns
+ */
+export async function fetchCommuneContainsLatLng({
+	lat,
+	lng,
+}: {
+	lat: number;
+	lng: number;
+}): Promise<CommuneFeature | null> {
+	try {
+		const connection = await db.connect();
+		await connection.run('LOAD SPATIAL;');
+
+		const prepared = await connection.prepare(
+			`
+		SELECT
+		json_object(
+			'type','Feature',
+			'properties',
+			json_object(
+			'code_commune',
+			c.code_commune,
+			'nom_commune',
+			c.nom_commune,
+			'code_departement',
+			c.code_departement,
+			'libelle_departement',
+			c.libelle_departement,
+			'code_region',
+			c.code_region,
+			'libelle_region',
+			c.libelle_region,
+			'surface_utile',
+			c.surface_utile,
+			'potentiel_solaire',
+			c.potentiel_solaire,
+			'count_etablissements',
+			c.count_etablissements,
+			'count_etablissements_proteges',
+			c.count_etablissements_proteges
+			),
+			'geometry', ST_AsGeoJSON(c.geom)::JSON
+		) as geojson
+		FROM main.communes c
+		WHERE ST_CONTAINS(c.geom, ST_POINT($1, $2))`,
+		);
+		prepared.bindFloat(1, lng);
+		prepared.bindFloat(2, lat);
+
+		const reader = await prepared.runAndReadAll();
+		const result = reader.getRowsJson()?.[0]?.[0];
+		return result ? JSON.parse(result as string) : null;
+	} catch (error) {
+		console.error('Database Error:', error);
+		throw new Error('Failed to fetch communes rows.');
+	}
+}
+
 export async function fetchCommunesGeoJSON(
 	codeDepartement: string | null,
 ): Promise<CommunesGeoJSON> {
