@@ -16,6 +16,8 @@ import {
 import { CommuneFeature } from '@/app/models/communes';
 import { DepartementFeature } from '@/app/models/departements';
 import { RegionFeature } from '@/app/models/regions';
+import { fetchCommuneGeoJSONWithGeoloc } from '@/app/utils/fetchers/getCommuneGeolocGeoJSON';
+import { getUserLocation } from '@/app/utils/geoloc';
 import useCommunesGeoJSON from '@/app/utils/hooks/useCommunesGeoJSON';
 import useDepartementsGeoJSON from '@/app/utils/hooks/useDepartementsGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
@@ -25,6 +27,7 @@ import { GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementFeature, EtablissementsGeoJSON } from '../../models/etablissements';
+import GeolocButton from '../GeolocButton';
 import { ClusterFeature } from './interfaces';
 import {
 	COMMUNES_SOURCE_ID,
@@ -252,6 +255,25 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	const isEtablissementsLayerVisible =
 		Boolean(codeCommune) && currentZoom > ETABLISSEMENT_VISIBLE_ZOOM_THRESHOLD;
 
+	const handleGeoloc = async () => {
+		if (!mapRef.current) return;
+		//TODO: avoid multiple clicks callback (debounce)
+		try {
+			const { latitude, longitude } = await getUserLocation();
+			const res = await fetchCommuneGeoJSONWithGeoloc({ lat: latitude, lng: longitude });
+			if (!res) {
+				console.error('Commune not found with geoloc data');
+				return;
+			}
+			zoomOnFeature(res);
+			setCommuneFeature(res);
+			//TODO: load higher levels (departement, region)
+		} catch (error) {
+			console.error('Error getting location:', error);
+			//TODO: display error - toaster ?
+		}
+	};
+
 	return (
 		<MapFromReactMapLibre
 			ref={mapRef}
@@ -269,6 +291,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			onClick={onClick}
 			onZoom={handleZoom}
 		>
+			<GeolocButton handleClick={handleGeoloc} />
 			{regionsGeoJSON && (
 				<Source id={REGIONS_SOURCE_ID} type='geojson' data={regionsGeoJSON}>
 					<Layer {...getDynamicalRegionsLayer(true)} />
