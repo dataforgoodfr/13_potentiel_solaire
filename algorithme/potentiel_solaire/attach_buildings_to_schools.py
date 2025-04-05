@@ -1,7 +1,7 @@
 import geopandas as gpd
 import pandas as pd
 
-from potentiel_solaire.constants import CRS_FOR_BUFFERS
+from potentiel_solaire.constants import CRS_FOR_BUFFERS, DATA_FOLDER
 from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
@@ -148,6 +148,18 @@ def attach_buildings_to_schools(
         schools_establishments=schools_establishments,
         educational_zones=educational_zones_merged,
     )
+
+    # On dump la relation grande zone - etablissement pour analyser les ambiguités
+    ambiguity_file_path = DATA_FOLDER / "ambiguites_etablissements_zones.geojson"
+    educational_zones_attached_to_schools[[
+        "identifiant_de_l_etablissement", 
+        "cleabs_grande_zone", 
+        "categorie",
+        "nature",
+        "toponyme",
+        "identifiants_sources",
+        "geometry"
+    ]].to_file(ambiguity_file_path, index=False, driver="GeoJSON", mode="a")
 
     # On souhaite garder une seule zone par etablissement
     # En cas d'ambiguité (plusieurs établissements sur la meme grande zone), 
