@@ -47,3 +47,21 @@ export function getDynamicalCommunesLineLayer(isVisible: boolean): LayerProps {
 		layout: { visibility: isVisible ? 'visible' : 'none' },
 	};
 }
+export function getCommunesLabelLayer(isVisible: boolean): LayerProps {
+	return {
+		id: 'communes-labels',
+		type: 'symbol',
+		source: COMMUNES_SOURCE_ID,
+		layout: {
+			'text-field': ['get', 'nom_commune'],
+			'text-size': 10,
+			'text-anchor': 'center',
+			visibility: isVisible ? 'visible' : 'none',
+		},
+		paint: {
+			'text-color': '#555555',
+			'text-halo-color': '#ffffff',
+			'text-halo-width': 1.5,
+		},
+	};
+}

@@ -10,9 +10,13 @@ export default function Home() {
 	}
 
 	return (
-		<div className='mx-auto flex max-w-screen-xl flex-col items-center justify-around'>
-			<SearchBar onSelect={handleSearchSelect} />
-			<MapWithFiches />
+		<div className='flex h-screen flex-col'>
+			<div className='p-4'>
+				<SearchBar onSelect={handleSearchSelect} />
+			</div>
+			<div className='flex-1'>
+				<MapWithFiches />
+			</div>
 		</div>
 	);
 }

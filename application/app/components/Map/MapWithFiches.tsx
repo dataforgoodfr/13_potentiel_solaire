@@ -13,7 +13,7 @@ export default function MapWithFiches() {
 	);
 
 	return (
-		<>
+		<div className='relative h-full w-full'>
 			<FranceMap onSelect={setSelectedEtablissement} />
 			{selectedEtablissement && (
 				<Fiches
@@ -25,6 +25,6 @@ export default function MapWithFiches() {
 					onClose={() => setSelectedEtablissement(null)}
 				/>
 			)}
-		</>
+		</div>
 	);
 }
