@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { Toaster } from '@/components/ui/toaster';
+
 import Providers from './Providers';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
@@ -24,6 +26,7 @@ export default function RootLayout({
 				<main className='h-full flex-1'>
 					<Providers>{children}</Providers>
 				</main>
+				<Toaster />
 				<Footer />
 			</body>
 		</html>
