@@ -12,6 +12,22 @@ import { SearchResult } from '../models/search';
 import { isCodePostal, sanitizeString } from '../utils/string-utils';
 import db from './duckdb';
 
+/**
+ * A simple longitude and latitude object.
+ */
+export type SimpleLngLat = {
+	lat: number;
+	lng: number;
+};
+
+/**
+ * A simple bounding box with only lat and lng of the south west and north east corners.
+ */
+export type SimpleBoundingBox = {
+	southWest: SimpleLngLat;
+	northEast: SimpleLngLat;
+};
+
 // --- Etablissements ---
 export async function fetchEtablissements(codeCommune: string | null): Promise<Etablissement[]> {
 	try {
@@ -48,10 +64,7 @@ export async function fetchEtablissements(codeCommune: string | null): Promise<E
 export async function fetchEtablissementsFromBoundingBox({
 	southWest,
 	northEast,
-}: {
-	southWest: { lat: number; lng: number };
-	northEast: { lat: number; lng: number };
-}): Promise<Etablissement[]> {
+}: SimpleBoundingBox): Promise<Etablissement[]> {
 	try {
 		const connection = await db.connect();
 		await connection.run('LOAD SPATIAL;');
@@ -225,10 +238,7 @@ export async function fetchEtablissementGeoJSONById(
 export async function fetchCommunesFromBoundingBox({
 	southWest,
 	northEast,
-}: {
-	southWest: { lat: number; lng: number };
-	northEast: { lat: number; lng: number };
-}): Promise<CommunesGeoJSON> {
+}: SimpleBoundingBox): Promise<CommunesGeoJSON> {
 	try {
 		const connection = await db.connect();
 		await connection.run('LOAD SPATIAL;');
@@ -293,10 +303,7 @@ export async function fetchCommunesFromBoundingBox({
 export async function fetchCommuneContainsLatLng({
 	lat,
 	lng,
-}: {
-	lat: number;
-	lng: number;
-}): Promise<CommuneFeature | null> {
+}: SimpleLngLat): Promise<CommuneFeature | null> {
 	try {
 		const connection = await db.connect();
 		await connection.run('LOAD SPATIAL;');

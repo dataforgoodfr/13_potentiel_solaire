@@ -1,10 +1,11 @@
+import { SimpleLngLat } from '@/app/lib/data';
 import { CommuneFeature } from '@/app/models/communes';
 
 import getBaseURL from './getBaseURL';
 
 const API_ROUTE = '/api/geolocate';
 
-export async function fetchCommuneGeoJSONWithGeoloc({ lat, lng }: { lat: number; lng: number }) {
+export async function fetchCommuneGeoJSONWithGeoloc({ lat, lng }: SimpleLngLat) {
 	try {
 		const url = new URL(API_ROUTE, getBaseURL());
 
