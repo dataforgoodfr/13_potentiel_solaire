@@ -24,7 +24,7 @@ import { bbox } from '@turf/turf';
 import { GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-import { EtablissementsGeoJSON } from '../../models/etablissements';
+import { EtablissementFeature } from '../../models/etablissements';
 import { ClusterFeature, Level } from './interfaces';
 import {
 	COMMUNES_SOURCE_ID,
@@ -79,14 +79,13 @@ type EventFeature<Feature extends GeoJSON.Feature = GeoJSON.Feature> = Feature &
 type EventRegionFeature = EventFeature<RegionFeature>;
 type EventDepartementFeature = EventFeature<DepartementFeature>;
 type EventCommunesFeature = EventFeature<CommuneFeature>;
+type EventEtablissementFeature = EventFeature<EtablissementFeature>;
+type ClusterEtablissementFeature = EventFeature<ClusterFeature<EtablissementFeature['geometry']>>;
 
-type ClusterEtablissementFeature = EventFeature<
-	ClusterFeature<EtablissementsGeoJSON['features'][number]['geometry']>
->;
-
-type FranceMapProps = {
+interface FranceMapProps {
+	onSelect: (feature: EtablissementFeature) => void;
 	onLevelChange: (level: Level) => void;
-};
+}
 
 /**
  * Type guard function that checks if the feature is from a layer
@@ -103,7 +102,7 @@ function isFeatureFrom<T extends EventFeature>(
 	return feature.layer.id === layer.id;
 }
 
-export default function FranceMap({ onLevelChange }: FranceMapProps) {
+export default function FranceMap({ onSelect, onLevelChange }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 	const [currentZoom, setCurrentZoom] = useState(initialViewState.zoom);
 
@@ -215,6 +214,11 @@ export default function FranceMap({ onLevelChange }: FranceMapProps) {
 
 			return;
 		}
+
+		if (isFeatureFrom<EventEtablissementFeature>(feature, unclusteredPointLayer)) {
+			onSelect(feature);
+			return;
+		}
 	}
 
 	function isDepartementsLayerVisible(zoom: number) {
@@ -260,6 +264,7 @@ export default function FranceMap({ onLevelChange }: FranceMapProps) {
 				communesLayer.id,
 				communesTransparentLayer.id,
 				clusterLayer.id,
+				unclusteredPointLayer.id,
 			]}
 			style={style}
 			onClick={onClick}
