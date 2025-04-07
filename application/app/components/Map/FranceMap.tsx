@@ -188,20 +188,20 @@ export default function FranceMap({ onSelect, onLevelChange }: FranceMapProps) {
 
 		const feature = event.features[0] as unknown as EventFeature;
 
-		if (isFeatureFrom<EventRegionFeature>(feature, regionsLayer)) {
+		if (isFeatureFrom<EventRegionFeature>(feature, regionsLayer())) {
 			handleClickOnRegion(feature);
 
 			return;
 		}
 
-		if (isFeatureFrom<EventDepartementFeature>(feature, departementsLayer)) {
+		if (isFeatureFrom<EventDepartementFeature>(feature, departementsLayer())) {
 			handleClickOnDepartement(feature);
 
 			return;
 		}
 
 		if (
-			isFeatureFrom<EventCommunesFeature>(feature, communesLayer) ||
+			isFeatureFrom<EventCommunesFeature>(feature, communesLayer()) ||
 			isFeatureFrom<EventCommunesFeature>(feature, communesTransparentLayer)
 		) {
 			handleClickOnCommunes(feature);
@@ -259,9 +259,9 @@ export default function FranceMap({ onSelect, onLevelChange }: FranceMapProps) {
 			initialViewState={initialViewState}
 			mapStyle={MAP_STYLE_URL}
 			interactiveLayerIds={[
-				regionsLayer.id,
-				departementsLayer.id,
-				communesLayer.id,
+				regionsLayer().id,
+				departementsLayer().id,
+				communesLayer().id,
 				communesTransparentLayer.id,
 				clusterLayer.id,
 				unclusteredPointLayer.id,
@@ -271,19 +271,39 @@ export default function FranceMap({ onSelect, onLevelChange }: FranceMapProps) {
 			onZoom={handleZoom}
 		>
 			{regionsGeoJSON && (
-				<Source id={REGIONS_SOURCE_ID} type='geojson' data={regionsGeoJSON}>
-					<Layer {...getDynamicalRegionsLayer(true)} />
+				<Source
+					key={REGIONS_SOURCE_ID}
+					id={REGIONS_SOURCE_ID}
+					type='geojson'
+					data={regionsGeoJSON}
+				>
+					<Layer
+						{...getDynamicalRegionsLayer(!isDepartementsLayerVisible(currentZoom))}
+					/>
 				</Source>
 			)}
 			{departementsGeoJSON && (
-				<Source id={DEPARTEMENTS_SOURCE_ID} type='geojson' data={departementsGeoJSON}>
+				<Source
+					key={DEPARTEMENTS_SOURCE_ID}
+					id={DEPARTEMENTS_SOURCE_ID}
+					type='geojson'
+					data={departementsGeoJSON}
+				>
 					<Layer
-						{...getDynamicalDepartementsLayer(isDepartementsLayerVisible(currentZoom))}
+						{...getDynamicalDepartementsLayer(
+							!isCommunesLayerVisible(currentZoom) &&
+								isDepartementsLayerVisible(currentZoom),
+						)}
 					/>
 				</Source>
 			)}
 			{communesGeoJSON && (
-				<Source id={COMMUNES_SOURCE_ID} type='geojson' data={communesGeoJSON}>
+				<Source
+					key={COMMUNES_SOURCE_ID}
+					id={COMMUNES_SOURCE_ID}
+					type='geojson'
+					data={communesGeoJSON}
+				>
 					<Layer
 						{...getDynamicalCommunesTransparentLayer(
 							isCommunesLayerVisible(currentZoom),
@@ -297,6 +317,7 @@ export default function FranceMap({ onSelect, onLevelChange }: FranceMapProps) {
 			)}
 			{etablissementsGeoJSON && isEtablissementsLayerVisible(currentZoom) && (
 				<Source
+					key={ETABLISSEMENTS_SOURCE_ID}
 					id={ETABLISSEMENTS_SOURCE_ID}
 					type='geojson'
 					data={etablissementsGeoJSON}

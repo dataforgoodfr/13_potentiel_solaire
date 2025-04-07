@@ -5,17 +5,18 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 
 export const COMMUNES_SOURCE_ID = 'communes';
 
-export const communesLayer = {
-	id: 'communes',
-	type: 'fill',
-	source: COMMUNES_SOURCE_ID,
-	paint: zonesLayerPaint(COLOR_THRESHOLDS.communes),
-	maxzoom: 11,
-} satisfies LayerProps;
+export const communesLayer = (isVisible = true) =>
+	({
+		id: 'communes',
+		type: 'fill',
+		source: COMMUNES_SOURCE_ID,
+		paint: zonesLayerPaint(COLOR_THRESHOLDS.communes, isVisible),
+		maxzoom: 11,
+	}) satisfies LayerProps;
 
 export function getDynamicalCommunesLayer(isVisible: boolean): LayerProps {
 	return {
-		...communesLayer,
+		...communesLayer(isVisible),
 		layout: { visibility: isVisible ? 'visible' : 'none' },
 	};
 }
