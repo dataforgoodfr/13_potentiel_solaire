@@ -4,6 +4,7 @@ assumptions.
 https://joint-research-centre.ec.europa.eu/photovoltaic-geographical-information-system-pvgis_en
 """
 from time import sleep
+import geopandas as gpd
 import requests
 
 from potentiel_solaire.logger import get_logger
@@ -69,4 +70,44 @@ def get_potentiel_solaire_from_pvgis_api(
         )
 
     logger.error(f'Failed to query API. Response: {response}')
-    raise requests.exceptions.HTTPError()
+    response.raise_for_status()
+
+
+
+def get_potentiel_solaire_from_closest_building(
+    schools_with_distance: gpd.GeoDataFrame,
+    peakpower: float,
+) -> float:
+    """
+    Method used to get the solar potential from the building with the minimum value for distance_to_center.
+    
+    Args:  
+        schools_with_distance (gpd.GeoDataFrame): DataFrame containing the buildings and their distance to the center.
+        peakpower (float): Peak power of the solar system.
+    """
+
+    for number_building in range(len(schools_with_distance)):
+        n_closest_building = schools_with_distance.sort_values(
+                by = 'distance_to_center',
+                ascending = True).iloc[number_building]
+            
+        longitude = n_closest_building.geometry.centroid.x
+        latitude = n_closest_building.geometry.centroid.y
+        
+        try : 
+            potentiel_solaire = get_potentiel_solaire_from_pvgis_api(
+                latitude=latitude,
+                longitude=longitude,
+                peakpower=peakpower
+            )
+
+            logger.info(f"Potentiel solaire calculé sur le batiment {n_closest_building.cleabs_bat}")
+
+            return potentiel_solaire
+        
+        except requests.exceptions.HTTPError as e:
+            # Cette erreur arrive quand lapi ne couvre pas la position demandee
+            if e.response.status_code == 500:
+                logger.warning(f'500 error encountered for building {n_closest_building.cleabs_bat}. Trying next building.')
+                continue 
+            raise e       

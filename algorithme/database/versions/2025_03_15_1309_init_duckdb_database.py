@@ -17,25 +17,22 @@ down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
-# extract sources
-sources = extract_sources()
-
 # schema
 regions_table = "regions"
-regions_path = sources["regions"].filepath
-
 departements_table = "departements"
-departements_path = sources["departements"].filepath
-
 communes_table = "communes"
-communes_path = sources["communes"].filepath
-
 etablissements_table = "etablissements"
-etablissements_path = sources["etablissements"].filepath
 
 
 def upgrade() -> None:
     """Upgrade schema."""
+    # extract sources
+    sources = extract_sources()
+    regions_path = sources["regions"].filepath
+    departements_path = sources["departements"].filepath
+    communes_path = sources["communes"].filepath
+    etablissements_path = sources["etablissements"].filepath
+
     op.execute("""
         INSTALL spatial;
         LOAD spatial;

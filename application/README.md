@@ -95,24 +95,23 @@ Visual studio code est recommandé pour le développement de l'application.
 1. Suivre le processus d'installation sur le site officiel - https://code.visualstudio.com/
 2. Installer l'extension [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-	Modifier les paramètres pour utiliser Prettier comme formatteur par défaut et activer le formattage à la sauvegarde.
+    Modifier les paramètres pour utiliser Prettier comme formatteur par défaut et activer le formattage à la sauvegarde.
 
-	Configuration à placer dans les paramètres `settings.json` :
+    Configuration à placer dans les paramètres `settings.json` :
 
-	```json
-	{
-		//... autres configurations
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
-  		"editor.formatOnSave": true,
-	}
-	```
+    ```json
+    {
+    	//... autres configurations
+    	"editor.defaultFormatter": "esbenp.prettier-vscode",
+    	"editor.formatOnSave": true
+    }
+    ```
 
-
-3. (Conseillé) Installer les autres extensions recommandées pour le projet :	
-	- Un linter - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-	- Intégration de règles de formattage standardisé - [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=editorconfig.editorconfig)
-	- Suggestion de code pour Tailwind - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-	- Affichage amélioré des erreurs typescript - [Pretty TypeScript Errors](https://marketplace.visualstudio.com/items?itemName=yoavbls.pretty-ts-errors)
+3. (Conseillé) Installer les autres extensions recommandées pour le projet :
+    - Un linter - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+    - Intégration de règles de formattage standardisé - [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=editorconfig.editorconfig)
+    - Suggestion de code pour Tailwind - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+    - Affichage amélioré des erreurs typescript - [Pretty TypeScript Errors](https://marketplace.visualstudio.com/items?itemName=yoavbls.pretty-ts-errors)
 
 ### Installer la base de test
 
@@ -128,31 +127,31 @@ docker run --rm -v $(pwd)/output:/app/output 13_potentiel_solaire_mock_data #les
 
 2. Manuellement :
 
-	Pour initialiser une base duckdb :
+    Pour initialiser une base duckdb :
 
-	En utilisant le CLI :
+    En utilisant le CLI :
 
-	1. Télécharger le CLI pour son environnement et l'installer - https://duckdb.org/docs/installation/?version=stable&environment=cli
+    1. Télécharger le CLI pour son environnement et l'installer - https://duckdb.org/docs/installation/?version=stable&environment=cli
 
-		Pour linux, par exemple :
-		`curl https://install.duckdb.org | sh`
+        Pour linux, par exemple :
+        `curl https://install.duckdb.org | sh`
 
-		Pour Windows, par exemple :
-		`winget install DuckDB.cli`
+        Pour Windows, par exemple :
+        `winget install DuckDB.cli`
 
-	2. Se rendre dans le répertoire où se trouve le script SQL ({repertoire_projet}/application/database/prepare-JDD-test.sql)
+    2. Se rendre dans le répertoire où se trouve le script SQL ({repertoire_projet}/application/database/prepare-JDD-test.sql)
 
-		`cd /database/`
+        `cd /database/`
 
-	3. Lancer la commande de création de la base
+    3. Lancer la commande de création de la base
 
-		`duckdb < prepare-JDD-test.sql data-test.duckdb` ou `duckdb -init prepare-JDD-test.sql -no-stdin data-test.duckdb`
+        `duckdb < prepare-JDD-test.sql data-test.duckdb` ou `duckdb -init prepare-JDD-test.sql -no-stdin data-test.duckdb`
 
-	En utilisant un éditeur SQL, par exemple DBeaver : https://dbeaver.io/
+    En utilisant un éditeur SQL, par exemple DBeaver : https://dbeaver.io/
 
-	1. Installer l'outil
-	2. Créer une connexion duckdb en choisissant l'option pour créer une base et lui fournir un chemin pour la base de données
-	3. Ouvrir le script sql sur cette nouvelle base de données et l'executer
+    1. Installer l'outil
+    2. Créer une connexion duckdb en choisissant l'option pour créer une base et lui fournir un chemin pour la base de données
+    3. Ouvrir le script sql sur cette nouvelle base de données et l'executer
 
 ### Exporter les fichiers geojson
 
@@ -162,26 +161,26 @@ L'application se sert de la base de données mais aussi de fichiers geojson comp
 
 La commande utilisée pour [Installer la base de test](#installer-la-base-de-test) exporte également les geojson.
 
-2. Manuellement : 
+2. Manuellement :
 
-	1. Se rendre dans le répertoire où se trouve le script SQL ({repertoire_projet}/application/database/export-geojson.sql)
+    1. Se rendre dans le répertoire où se trouve le script SQL ({repertoire_projet}/application/database/export-geojson.sql)
 
-	2. Décommenter les lignes du fichiers où se situent les commandes `COPY` et remplacer la chemin absolu `/path/to/folder/`.
+    2. Décommenter les lignes du fichiers où se situent les commandes `COPY` et remplacer la chemin absolu `/path/to/folder/`.
 
-		Si le {repertoire_projet} se situe à l'emplacement : `/home/my-user/projets/13_potentiel_solaire`, on obtient ainsi :
+        Si le {repertoire_projet} se situe à l'emplacement : `/home/my-user/projets/13_potentiel_solaire`, on obtient ainsi :
 
-		```sql
-		COPY (
-		SELECT *
-		FROM
-			regions
-		)
-		TO '/home/my-user/projets/13_potentiel_solaire/application/public/data/regions.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Régions');
-		```
+        ```sql
+        COPY (
+        SELECT *
+        FROM
+        	regions
+        )
+        TO '/home/my-user/projets/13_potentiel_solaire/application/public/data/regions.geojson' WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_NAME 'Régions');
+        ```
 
-	3. Lancer la fichier sql sur la base de données précédemment créée
+    3. Lancer la fichier sql sur la base de données précédemment créée
 
-		`duckdb data-test.duckdb < export-geojson.sql`
+        `duckdb data-test.duckdb < export-geojson.sql`
 
 ### Configurer les variables d'environnement
 
@@ -242,6 +241,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
 2. Lancer le build docker
+
 ```sh
 # on s'assure de générer une base de données de test tant que l'image data n'est pas disponible
 cd database

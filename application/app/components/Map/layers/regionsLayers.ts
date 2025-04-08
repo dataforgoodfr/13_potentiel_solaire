@@ -14,3 +14,21 @@ export function regionsLayer(isBackground = true) {
 		maxzoom: 10,
 	} satisfies LayerProps;
 }
+export function getRegionsLabelLayer(isVisible: boolean): LayerProps {
+	return {
+		id: 'regions-labels',
+		type: 'symbol',
+		source: 'regions-labels-source',
+		layout: {
+			'text-field': ['get', 'libelle_region'],
+			'text-size': 14,
+			'text-anchor': 'center',
+			visibility: isVisible ? 'visible' : 'none',
+		},
+		paint: {
+			'text-color': '#000000',
+			'text-halo-color': '#ffffff',
+			'text-halo-width': 2,
+		},
+	};
+}
