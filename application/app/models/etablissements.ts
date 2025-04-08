@@ -14,7 +14,7 @@ export interface EtablissementProperties {
 	libelle_departement: string;
 	code_region: string;
 	libelle_region: string;
-	surface_utile: number;
+	surface_exploitable_max: number;
 	potentiel_solaire: number;
 	protection: boolean;
 }
@@ -30,3 +30,9 @@ export type EtablissementsGeoJSON = GeoJSON.FeatureCollection<
 >;
 
 export type EtablissementFeature = EtablissementsGeoJSON['features'][number];
+
+export interface TopEtablissement {
+	id: string;
+	libelle: string;
+	potentiel_solaire: number;
+}
