@@ -8,8 +8,8 @@ export function getClosestEnergyUnit(value: number): EnergyUnit {
 }
 
 export function convertKWhTo(valueInKWh: number, newUnit: EnergyUnit) {
-	if (newUnit === 'kWh') return valueInKWh;
+	if (newUnit === 'GWh') return valueInKWh / 1000000;
 	if (newUnit === 'MWh') return valueInKWh / 1000;
 
-	return valueInKWh / 1000000;
+	return valueInKWh;
 }
