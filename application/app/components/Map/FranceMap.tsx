@@ -24,21 +24,24 @@ import { GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementFeature } from '../../models/etablissements';
+import GeolocButton from '../GeolocButton';
 import BackButton from './BackButton';
 import Legend from './Legend/Legend';
 import { COLOR_THRESHOLDS } from './constants';
 import { ClusterFeature, Layer } from './interfaces';
 import {
+	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
+	communesLabelsLayer,
 	communesLayer,
 	communesLineLayer,
 	communesTransparentLayer,
-	getCommunesLabelLayer,
 } from './layers/communesLayers';
 import {
+	DEPARTEMENTS_LABELS_SOURCE_ID,
 	DEPARTEMENTS_SOURCE_ID,
-	departementsLayer,
-	getDepartementsLabelLayer,
+	departementsLabelsLayer,
+	getDepartementsLayer,
 } from './layers/departementsLayers';
 import {
 	ETABLISSEMENTS_SOURCE_ID,
@@ -46,7 +49,12 @@ import {
 	clusterLayer,
 	unclusteredPointLayer,
 } from './layers/etablissementsLayers';
-import { REGIONS_SOURCE_ID, getRegionsLabelLayer, regionsLayer } from './layers/regionsLayers';
+import {
+	REGIONS_LABELS_SOURCE_ID,
+	REGIONS_SOURCE_ID,
+	getRegionsLayer,
+	regionsLabelsLayer,
+} from './layers/regionsLayers';
 
 const MAP_STYLE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/map-styles/map-style.json`;
 
@@ -60,6 +68,11 @@ const initialViewState = {
 	latitude: 45.603354,
 	zoom: 4.5,
 } satisfies MapPropsReactMapLibre['initialViewState'];
+
+const style: React.CSSProperties = {
+	width: 1200,
+	height: 800,
+};
 
 const ANIMATION_TIME_MS = 800;
 const INTERACTIONS = [
@@ -244,13 +257,13 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 
 		const feature = event.features[0] as unknown as EventFeature;
 
-		if (isFeatureFrom<EventRegionFeature>(feature, regionsLayer())) {
+		if (isFeatureFrom<EventRegionFeature>(feature, getRegionsLayer())) {
 			handleClickOnRegion(feature);
 
 			return;
 		}
 
-		if (isFeatureFrom<EventDepartementFeature>(feature, departementsLayer())) {
+		if (isFeatureFrom<EventDepartementFeature>(feature, getDepartementsLayer())) {
 			handleClickOnDepartement(feature);
 
 			return;
@@ -285,22 +298,24 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	}
 
 	return (
-		<div>
+		<div className='relative'>
 			<MapFromReactMapLibre
 				ref={mapRef}
 				initialViewState={initialViewState}
 				mapStyle={MAP_STYLE_URL}
 				interactiveLayerIds={[
-					regionsLayer().id,
-					departementsLayer().id,
+					getRegionsLayer().id,
+					getDepartementsLayer().id,
 					communesLayer().id,
 					communesTransparentLayer.id,
 					clusterLayer.id,
 					unclusteredPointLayer.id,
 				]}
+				style={style}
 				onClick={onClick}
 				onLoad={() => toggleInteractions(false)}
 			>
+				<GeolocButton onLocate={handleOnLocate} />
 				{regionsGeoJSON && (
 					<Source
 						key={REGIONS_SOURCE_ID}
@@ -308,15 +323,15 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						type='geojson'
 						data={regionsGeoJSON}
 					>
-						{isRegionsLayerVisible && <LayerReactMapLibre {...regionsLayer()} />}
+						{isRegionsLayerVisible && <LayerReactMapLibre {...getRegionsLayer()} />}
 						{isDepartementsLayerVisible && (
-							<LayerReactMapLibre {...regionsLayer(false)} />
+							<LayerReactMapLibre {...getRegionsLayer(false)} />
 						)}
 					</Source>
 				)}
 				{regionLabelPoints && (
-					<Source id='regions-labels' type='geojson' data={regionLabelPoints}>
-						<LayerReactMapLibre {...getRegionsLabelLayer(isRegionsLayerVisible)} />
+					<Source id={REGIONS_LABELS_SOURCE_ID} type='geojson' data={regionLabelPoints}>
+						{isRegionsLayerVisible && <LayerReactMapLibre {...regionsLabelsLayer} />}
 					</Source>
 				)}
 				{departementsGeoJSON && (
@@ -327,18 +342,22 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						data={departementsGeoJSON}
 					>
 						{isDepartementsLayerVisible && (
-							<LayerReactMapLibre {...departementsLayer()} />
+							<LayerReactMapLibre {...getDepartementsLayer()} />
 						)}
 						{isCommunesLayerVisible && (
-							<LayerReactMapLibre {...departementsLayer(false)} />
+							<LayerReactMapLibre {...getDepartementsLayer(false)} />
 						)}
 					</Source>
 				)}
 				{departementLabelPoints && (
-					<Source id='departements-labels' type='geojson' data={departementLabelPoints}>
-						<LayerReactMapLibre
-							{...getDepartementsLabelLayer(isDepartementsLayerVisible)}
-						/>
+					<Source
+						id={DEPARTEMENTS_LABELS_SOURCE_ID}
+						type='geojson'
+						data={departementLabelPoints}
+					>
+						{isDepartementsLayerVisible && (
+							<LayerReactMapLibre {...departementsLabelsLayer} />
+						)}
 					</Source>
 				)}
 				{communesGeoJSON && (
@@ -358,8 +377,8 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					</Source>
 				)}
 				{communeLabelPoints && (
-					<Source id='communes-labels' type='geojson' data={communeLabelPoints}>
-						<LayerReactMapLibre {...getCommunesLabelLayer(isCommunesLayerVisible)} />
+					<Source id={COMMUNES_LABELS_SOURCE_ID} type='geojson' data={communeLabelPoints}>
+						{isCommunesLayerVisible && <LayerReactMapLibre {...communesLabelsLayer} />}
 					</Source>
 				)}
 				{etablissementsGeoJSON && (
@@ -370,6 +389,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						data={etablissementsGeoJSON}
 						cluster={true}
 						clusterMaxZoom={14}
+						clusterRadius={50}
 						clusterProperties={{
 							potentiel_solaire: ['number', ['get', 'potentiel_solaire']],
 						}}

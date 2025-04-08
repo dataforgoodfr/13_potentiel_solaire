@@ -4,8 +4,9 @@ import { COLOR_THRESHOLDS } from '../constants';
 import { zonesLayerPaint } from './zonesLayersPaint';
 
 export const REGIONS_SOURCE_ID = 'regions';
+export const REGIONS_LABELS_SOURCE_ID = 'regions-labels';
 
-export function regionsLayer(isBackground = true) {
+export function getRegionsLayer(isBackground = true) {
 	return {
 		id: 'regions',
 		type: 'fill',
@@ -14,21 +15,18 @@ export function regionsLayer(isBackground = true) {
 		maxzoom: 10,
 	} satisfies LayerProps;
 }
-export function getRegionsLabelLayer(isVisible: boolean): LayerProps {
-	return {
-		id: 'regions-labels',
-		type: 'symbol',
-		source: 'regions-labels-source',
-		layout: {
-			'text-field': ['get', 'libelle_region'],
-			'text-size': 14,
-			'text-anchor': 'center',
-			visibility: isVisible ? 'visible' : 'none',
-		},
-		paint: {
-			'text-color': '#000000',
-			'text-halo-color': '#ffffff',
-			'text-halo-width': 2,
-		},
-	};
-}
+export const regionsLabelsLayer = {
+	id: 'regions-labels',
+	type: 'symbol',
+	source: REGIONS_LABELS_SOURCE_ID,
+	layout: {
+		'text-field': ['get', 'libelle_region'],
+		'text-size': 14,
+		'text-anchor': 'center',
+	},
+	paint: {
+		'text-color': '#000000',
+		'text-halo-color': '#ffffff',
+		'text-halo-width': 2,
+	},
+} satisfies LayerProps;
