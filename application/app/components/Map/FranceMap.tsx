@@ -330,7 +330,12 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					</Source>
 				)}
 				{regionLabelPoints && (
-					<Source id={REGIONS_LABELS_SOURCE_ID} type='geojson' data={regionLabelPoints}>
+					<Source
+						key={REGIONS_LABELS_SOURCE_ID}
+						id={REGIONS_LABELS_SOURCE_ID}
+						type='geojson'
+						data={regionLabelPoints}
+					>
 						{isRegionsLayerVisible && <LayerReactMapLibre {...regionsLabelsLayer} />}
 					</Source>
 				)}
@@ -351,6 +356,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				)}
 				{departementLabelPoints && (
 					<Source
+						key={DEPARTEMENTS_LABELS_SOURCE_ID}
 						id={DEPARTEMENTS_LABELS_SOURCE_ID}
 						type='geojson'
 						data={departementLabelPoints}
@@ -377,7 +383,12 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					</Source>
 				)}
 				{communeLabelPoints && (
-					<Source id={COMMUNES_LABELS_SOURCE_ID} type='geojson' data={communeLabelPoints}>
+					<Source
+						key={COMMUNES_LABELS_SOURCE_ID}
+						id={COMMUNES_LABELS_SOURCE_ID}
+						type='geojson'
+						data={communeLabelPoints}
+					>
 						{isCommunesLayerVisible && <LayerReactMapLibre {...communesLabelsLayer} />}
 					</Source>
 				)}
