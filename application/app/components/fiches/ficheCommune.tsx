@@ -1,12 +1,12 @@
 import { CommuneProperties } from '@/app/models/communes';
-import { Info } from 'lucide-react';
 
 import AccordionCard from './AccordionCard';
 import ActionButtons from './ActionButtons';
 import CollectiviteHeaderCard from './CollectiviteHeaderCard';
 import PotentielSolaireCard from './PotentielSolaireCard';
+import ResponsabiliteMessage from './ResponsabiliteMessage';
 import RepartitionPotentielSolaire from './RepartitionPotentielSolaire';
-import TopPrimairesCard from './TopPrimairesCard';
+import TopCard from './TopCard';
 
 interface FicheCommuneProps {
 	commune: CommuneProperties;
@@ -24,18 +24,7 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			<br />
 			<ActionButtons />
 			<hr className='my-4' />
-
-			<div className='mb-4 flex gap-4 rounded-lg bg-gray-100 p-2'>
-				<Info size={48} />
-				<div>
-					<p>La commune est responsable des bâtiments des écoles primaires.</p>
-					<p className='text-sm italic'>
-						Pour les collèges, choisissez la vue département et pour les lycées la vue
-						région.
-					</p>
-				</div>
-			</div>
-
+      <ResponsabiliteMessage niveau="commune" />
 			<br />
 			<PotentielSolaireCard
 				potentiel_solaire={commune.potentiel_solaire_primaires}
@@ -43,7 +32,6 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 				niveau="d'écoles primaires"
 			/>
 			<hr className='my-4' />
-
 			<RepartitionPotentielSolaire
 				niveau='Écoles'
 				repartition={{
@@ -53,8 +41,7 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 				}}
 			/>
 			<hr className='my-4' />
-
-			<TopPrimairesCard topEtablissements={commune.top_etablissements_primaires} />
+			<TopCard topEtablissements={commune.top_etablissements_primaires} />
 			<br />
 			<AccordionCard />
 		</div>

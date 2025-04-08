@@ -1,12 +1,12 @@
 import { DepartementProperties } from '@/app/models/departements';
-import { Info } from 'lucide-react';
 
 import AccordionCard from './AccordionCard';
 import ActionButtons from './ActionButtons';
+import ResponsabiliteMessage from './ResponsabiliteMessage';
 import CollectiviteHeaderCard from './CollectiviteHeaderCard';
 import PotentielSolaireCard from './PotentielSolaireCard';
 import RepartitionPotentielSolaire from './RepartitionPotentielSolaire';
-import TopPrimairesCard from './TopPrimairesCard';
+import TopCard from './TopCard';
 
 interface FicheDepartementProps {
 	departement: DepartementProperties;
@@ -24,18 +24,7 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 			<br />
 			<ActionButtons />
 			<hr className='my-4' />
-
-			<div className='mb-4 flex gap-4 rounded-lg bg-gray-100 p-2'>
-				<Info size={48} />
-				<div>
-					<p>La departement est responsable des bâtiments des collèges.</p>
-					<p className='text-sm italic'>
-						Pour les écoles élémentaires, choisissez la vue commune et pour les lycées
-						la vue région.
-					</p>
-				</div>
-			</div>
-
+			<ResponsabiliteMessage niveau="departement" />
 			<br />
 			<PotentielSolaireCard
 				potentiel_solaire={departement.potentiel_solaire_colleges}
@@ -43,7 +32,6 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 				niveau='de collèges'
 			/>
 			<hr className='my-4' />
-
 			<RepartitionPotentielSolaire
 				niveau='Collèges'
 				repartition={{
@@ -53,8 +41,7 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 				}}
 			/>
 			<hr className='my-4' />
-
-			<TopPrimairesCard topEtablissements={departement.top_etablissements_colleges} />
+			<TopCard topEtablissements={departement.top_etablissements_colleges} />
 			<br />
 			<AccordionCard />
 		</div>
