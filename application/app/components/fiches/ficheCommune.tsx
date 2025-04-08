@@ -1,30 +1,28 @@
-import { Commune } from '@/app/models/communes';
-import { CircleHelp, HousePlug, Info, Sun, University, Zap } from 'lucide-react';
+import { CommuneProperties } from '@/app/models/communes';
+import { Info } from 'lucide-react';
 
-import AccordionCard from '../fiches/ficheEtablissement/AccordionCard';
-import ActionButtons from '../fiches/ficheEtablissement/ActionButtons';
+import AccordionCard from './AccordionCard';
+import ActionButtons from './ActionButtons';
+import CollectiviteHeaderCard from './CollectiviteHeaderCard';
+import PotentielSolaireCard from './PotentielSolaireCard';
+import RepartitionPotentielSolaire from './RepartitionPotentielSolaire';
+import TopPrimairesCard from './TopPrimairesCard';
 
 interface FicheCommuneProps {
-	commune: Commune;
+	commune: CommuneProperties;
 }
 
 export default function FicheCommune({ commune }: FicheCommuneProps) {
-	const consommationParFoyer = 2300;
-	const personnesParFoyer = 2;
-	const consoTotaleParFoyer = personnesParFoyer * consommationParFoyer;
-	const equivalentFoyers = Math.round(commune.potentiel_solaire / consoTotaleParFoyer);
-
 	return (
 		<div>
-			<h1 className='text-xl font-bold'>{commune.nom_commune}</h1>
-			<p className='text-gray-600'>Commune</p>
-			<br />
-			<p>
-				<span className='text-xl'>102 345</span> élèves d&apos;écoles primaires concernés
-			</p>
+			<CollectiviteHeaderCard
+				type='commune'
+				nom={commune.nom_commune}
+				nbEleves={commune.nb_eleves_primaires}
+				niveau="d'écoles primaires"
+			/>
 			<br />
 			<ActionButtons />
-
 			<hr className='my-4' />
 
 			<div className='mb-4 flex gap-4 rounded-lg bg-gray-100 p-2'>
@@ -39,71 +37,24 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			</div>
 
 			<br />
-
-			<div className='mb-4 rounded-2xl border-4 border-solid bg-gray-100 p-2 outline-gray-300'>
-				<div className='flex gap-1'>
-					<University />
-					<p className='text-base font-bold'>Nombre total d&apos;écoles primaires :</p>
-				</div>
-				<p className='font-bold'>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<span className='text-3xl'>{commune.count_etablissements}</span>
-				</p>
-
-				<br />
-				<div className='flex gap-1'>
-					<Zap />
-					<p className='text-base font-bold'>Potentiel de production annuelle :</p>
-				</div>
-				<p className='font-bold'>
-					🟡 &nbsp;
-					<span className='text-3xl'>{commune.potentiel_solaire}</span>
-					&nbsp;MWh/an
-				</p>
-				<br />
-
-				<div className='flex gap-1'>
-					<HousePlug />
-					<p className='text-base font-bold'>
-						&nbsp;Équivalent à la consommation électrique annuelle de :
-					</p>
-				</div>
-				<div className='flex w-full items-center justify-between ps-7 text-darkgreen'>
-					<div className='flex items-center gap-2'>
-						<span className='text-3xl font-bold text-darkgreen'>
-							{equivalentFoyers}
-						</span>
-						<div className='flex flex-col text-sm leading-tight'>
-							<span className='font-bold'>foyers de</span>
-							<span className='font-bold'>4 personnes</span>
-						</div>
-					</div>
-					<CircleHelp />
-				</div>
-			</div>
-
+			<PotentielSolaireCard
+				potentiel_solaire={commune.potentiel_solaire_primaires}
+				nb_etablissements={commune.nb_etablissements_primaires}
+				niveau="d'écoles primaires"
+			/>
 			<hr className='my-4' />
 
-			<p>🟠 Écoles potentiel solaire élevé :</p>
-			<p className='text-center text-xl font-bold'>ND</p>
-			<br />
-			<p>🟡 Écoles potentiel solaire bon :</p>
-			<p className='text-center text-xl font-bold'>ND</p>
-			<br />
-			<p>⚪️ Écoles potentiel solaire bas :</p>
-			<p className='text-center text-xl font-bold'>ND</p>
-
+			<RepartitionPotentielSolaire
+				niveau='Écoles'
+				repartition={{
+					eleve: commune.nb_etablissements_potentiel_eleve_primaires,
+					bon: commune.nb_etablissements_potentiel_bon_primaires,
+					bas: commune.nb_etablissements_potentiel_bas_primaires,
+				}}
+			/>
 			<hr className='my-4' />
 
-			<div className='flex gap-1'>
-				<Sun />
-				<p>Top 3 potentiel solaire :</p>
-			</div>
-			<ul className='list-none pl-0 font-bold text-darkgreen'>
-				<li>🥇 École 1</li>
-				<li>🥈 École 2</li>
-				<li>🥉 École 3</li>
-			</ul>
+			<TopPrimairesCard topEtablissements={commune.top_etablissements_primaires} />
 			<br />
 			<AccordionCard />
 		</div>
