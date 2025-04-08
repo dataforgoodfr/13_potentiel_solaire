@@ -5,18 +5,12 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 
 export const REGIONS_SOURCE_ID = 'regions';
 
-export const regionsLayer = (isVisible = true) =>
-	({
+export function regionsLayer(isBackground = true) {
+	return {
 		id: 'regions',
 		type: 'fill',
 		source: REGIONS_SOURCE_ID,
-		paint: zonesLayerPaint(COLOR_THRESHOLDS.regions, isVisible),
+		paint: zonesLayerPaint(COLOR_THRESHOLDS.regions, isBackground),
 		maxzoom: 10,
-	}) satisfies LayerProps;
-
-export function getDynamicalRegionsLayer(isVisible: boolean): LayerProps {
-	return {
-		...regionsLayer(isVisible),
-		layout: { visibility: isVisible ? 'visible' : 'none' },
-	};
+	} satisfies LayerProps;
 }

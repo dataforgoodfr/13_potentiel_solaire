@@ -5,21 +5,15 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 
 export const COMMUNES_SOURCE_ID = 'communes';
 
-export const communesLayer = (isVisible = true) =>
-	({
+export const communesLayer = (isBackground = true) => {
+	return {
 		id: 'communes',
 		type: 'fill',
 		source: COMMUNES_SOURCE_ID,
-		paint: zonesLayerPaint(COLOR_THRESHOLDS.communes, isVisible),
+		paint: zonesLayerPaint(COLOR_THRESHOLDS.communes, isBackground),
 		maxzoom: 11,
-	}) satisfies LayerProps;
-
-export function getDynamicalCommunesLayer(isVisible: boolean): LayerProps {
-	return {
-		...communesLayer(isVisible),
-		layout: { visibility: isVisible ? 'visible' : 'none' },
-	};
-}
+	} satisfies LayerProps;
+};
 
 // Used to be able to click
 export const communesTransparentLayer = {
