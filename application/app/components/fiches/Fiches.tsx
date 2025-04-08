@@ -1,20 +1,34 @@
 import { useState } from 'react';
 
+import { CommuneProperties } from '@/app/models/communes';
+import { DepartementProperties } from '@/app/models/departements';
 import { Etablissement } from '@/app/models/etablissements';
+import { RegionProperties } from '@/app/models/regions';
 import { X } from 'lucide-react';
 
 import FicheCommune from './ficheCommune';
+import FicheDepartement from './ficheDepartement';
 import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
+import FicheRegion from './ficheRegion';
 
 type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
 type Tab = { id: TabId; label: string }[];
 
 interface FichesProps {
 	etablissement?: Etablissement;
+	commune?: CommuneProperties;
+	departement?: DepartementProperties;
+	region?: RegionProperties;
 	onClose: () => void;
 }
 
-export default function Fiches({ etablissement, onClose }: FichesProps) {
+export default function Fiches({
+	etablissement,
+	commune,
+	departement,
+	region,
+	onClose,
+}: FichesProps) {
 	const [activeTab, setActiveTab] = useState<TabId>('etablissement');
 
 	if (!etablissement) return null;
@@ -25,19 +39,6 @@ export default function Fiches({ etablissement, onClose }: FichesProps) {
 		{ id: 'commune', label: etablissement?.nom_commune || 'Commune' },
 		{ id: 'etablissement', label: etablissement?.nom_etablissement || 'Établissement' },
 	];
-
-	const commune = {
-		code_commune: etablissement.code_commune,
-		nom_commune: etablissement.nom_commune,
-		code_departement: etablissement.code_departement,
-		libelle_departement: etablissement.libelle_departement,
-		code_region: etablissement.code_region,
-		libelle_region: etablissement.libelle_region,
-		surface_utile: etablissement.surface_utile ?? 0,
-		potentiel_solaire: etablissement.potentiel_solaire ?? 0,
-		count_etablissements: 0,
-		count_etablissements_proteges: 0,
-	};
 
 	return (
 		<div className='fixed right-0 top-0 z-50 h-full w-full max-w-sm overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:w-96'>
@@ -61,9 +62,11 @@ export default function Fiches({ etablissement, onClose }: FichesProps) {
 			</div>
 
 			<div className='p-4'>
-				{activeTab === 'region' && <div>Contenu onglet région</div>}
-				{activeTab === 'departement' && <div>Contenu onglet département</div>}
-				{activeTab === 'commune' && <FicheCommune commune={commune} />}
+				{activeTab === 'region' && region && <FicheRegion region={region} />}
+				{activeTab === 'departement' && departement && (
+					<FicheDepartement departement={departement} />
+				)}
+				{activeTab === 'commune' && commune && <FicheCommune commune={commune} />}
 				{activeTab === 'etablissement' && (
 					<FicheEtablissement feature={etablissement} onClose={onClose} />
 				)}
