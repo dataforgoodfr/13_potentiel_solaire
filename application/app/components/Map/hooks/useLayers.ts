@@ -11,8 +11,8 @@ export default function useLayers() {
 
 	function addLayer(layer: Layer) {
 		setLayers((prev) => {
-			const isAlreadyLayerWithLevel = prev.findIndex((l) => l.level === layer.level) > -1;
-			return isAlreadyLayerWithLevel ? [...prev.slice(0, -1), layer] : [...prev, layer];
+			const isAlreadyLayerWithSameLevel = prev.findIndex((l) => l.level === layer.level) > -1;
+			return isAlreadyLayerWithSameLevel ? [...prev.slice(0, -1), layer] : [...prev, layer];
 		});
 	}
 
