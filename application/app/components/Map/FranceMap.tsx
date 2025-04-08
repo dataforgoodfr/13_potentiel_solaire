@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
 	LayerProps,
 	Layer as LayerReactMapLibre,
@@ -76,15 +76,6 @@ const style: React.CSSProperties = {
 };
 
 const ANIMATION_TIME_MS = 800;
-const INTERACTIONS = [
-	'scrollZoom',
-	'boxZoom',
-	'dragRotate',
-	'dragPan',
-	'keyboard',
-	'doubleClickZoom',
-	'touchZoomRotate',
-] as const;
 
 type EventFeature<Feature extends GeoJSON.Feature = GeoJSON.Feature> = Feature & {
 	layer: LayerProps;
@@ -116,6 +107,18 @@ function isFeatureFrom<T extends EventFeature>(
 	return feature.layer.id === layer.id;
 }
 
+function interact(enabled: boolean) {
+	return {
+		scrollZoom: enabled,
+		boxZoom: enabled,
+		dragRotate: enabled,
+		dragPan: enabled,
+		keyboard: enabled,
+		doubleClickZoom: enabled,
+		touchZoomRotate: enabled,
+	};
+}
+
 export default function FranceMap({ onSelect }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 	const {
@@ -124,6 +127,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		addLayer,
 		removeLayer,
 	} = useLayers();
+	const [isInteractive, setIsInteractive] = useState(false);
 
 	const isRegionsLayerVisible = level === 'regions';
 	const isDepartementsLayerVisible = level === 'departements';
@@ -181,16 +185,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	}
 
 	function toggleInteractions(enabled: boolean) {
-		// TODO - find a way to toggle interactions
-		// This doesnt work
-		INTERACTIONS.forEach((interaction) => {
-			if (!mapRef.current) return;
-			if (enabled) {
-				//mapRef.current[interaction].enable();
-			} else {
-				//mapRef.current[interaction].disable();
-			}
-		});
+		setIsInteractive(enabled);
 	}
 
 	function goBackOneLevel() {
@@ -313,6 +308,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				style={style}
 				onClick={onClick}
 				onLoad={() => toggleInteractions(false)}
+				{...interact(isInteractive)}
 			>
 				<GeolocButton onLocate={handleOnLocate} />
 				{regionsGeoJSON && (
