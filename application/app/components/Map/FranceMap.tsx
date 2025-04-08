@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
 	LayerProps,
 	Layer as LayerReactMapLibre,
@@ -28,7 +28,8 @@ import GeolocButton from '../GeolocButton';
 import BackButton from './BackButton';
 import Legend from './Legend/Legend';
 import { COLOR_THRESHOLDS } from './constants';
-import { ClusterFeature, Layer } from './interfaces';
+import useLayers from './hooks/useLayers';
+import { ClusterFeature } from './interfaces';
 import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
@@ -117,10 +118,12 @@ function isFeatureFrom<T extends EventFeature>(
 
 export default function FranceMap({ onSelect }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
-	const [layers, setLayers] = useState<Layer[]>([{ level: 'regions', code: '' }]);
-	const lastLevel = layers.slice(-1)[0];
-
-	const { code, level } = lastLevel;
+	const {
+		layers,
+		lastLayer: { code, level },
+		addLayer,
+		removeLayer,
+	} = useLayers();
 
 	const isRegionsLayerVisible = level === 'regions';
 	const isDepartementsLayerVisible = level === 'departements';
@@ -193,9 +196,9 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	function goBackOneLevel() {
 		if (layers.length < 2) return;
 
-		const levelUp = layers.slice(-2)[0];
+		const layerUp = layers.slice(-2)[0];
 
-		if (levelUp.level === 'regions' && mapRef.current) {
+		if (layerUp.level === 'regions' && mapRef.current) {
 			mapRef.current.easeTo({
 				center: [initialViewState.longitude, initialViewState.latitude],
 				zoom: initialViewState.zoom,
@@ -203,51 +206,47 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			});
 		}
 
-		if (levelUp.level === 'departements') {
-			const levelUpFeature = regionsGeoJSON?.features.find(
-				(f) => f.properties.code_region === levelUp.code,
+		if (layerUp.level === 'departements') {
+			const layerUpFeature = regionsGeoJSON?.features.find(
+				(f) => f.properties.code_region === layerUp.code,
 			);
-			if (!levelUpFeature) {
+			if (!layerUpFeature) {
 				throw new Error('Failed to get level up region');
 			}
 
-			zoomOnFeature(levelUpFeature);
+			zoomOnFeature(layerUpFeature);
 		}
 
-		if (levelUp.level === 'communes') {
-			const levelUpFeature = departementsGeoJSON?.features.find(
-				(f) => f.properties.code_departement === levelUp.code,
+		if (layerUp.level === 'communes') {
+			const layerUpFeature = departementsGeoJSON?.features.find(
+				(f) => f.properties.code_departement === layerUp.code,
 			);
-			if (!levelUpFeature) {
+			if (!layerUpFeature) {
 				throw new Error('Failed to get level up departement');
 			}
 
-			zoomOnFeature(levelUpFeature);
+			zoomOnFeature(layerUpFeature);
 
 			toggleInteractions(false);
 		}
 
-		setLayers((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
-	}
-
-	function handleLevelChange(level: Layer) {
-		setLayers((prev) => [...prev, level]);
+		removeLayer();
 	}
 
 	async function handleClickOnRegion(feature: RegionFeature) {
 		zoomOnFeature(feature);
 
-		handleLevelChange({ code: feature.properties.code_region, level: 'departements' });
+		addLayer({ code: feature.properties.code_region, level: 'departements' });
 	}
 	async function handleClickOnDepartement(feature: DepartementFeature) {
 		zoomOnFeature(feature);
 
-		handleLevelChange({ code: feature.properties.code_departement, level: 'communes' });
+		addLayer({ code: feature.properties.code_departement, level: 'communes' });
 	}
 	async function handleClickOnCommunes(feature: CommuneFeature) {
 		zoomOnFeature(feature);
 
-		handleLevelChange({ code: feature.properties.code_commune, level: 'etablissements' });
+		addLayer({ code: feature.properties.code_commune, level: 'etablissements' });
 
 		toggleInteractions(true);
 	}
@@ -415,9 +414,9 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					</Source>
 				)}
 			</MapFromReactMapLibre>
-			{lastLevel.level !== 'regions' && <BackButton onBack={goBackOneLevel} />}
+			{level !== 'regions' && <BackButton onBack={goBackOneLevel} />}
 			<div className='absolute bottom-2 left-2'>
-				<Legend thresholds={COLOR_THRESHOLDS[lastLevel.level]} />
+				<Legend thresholds={COLOR_THRESHOLDS[level]} />
 			</div>
 		</div>
 	);
