@@ -2,10 +2,10 @@ import { DepartementProperties } from '@/app/models/departements';
 
 import AccordionCard from './AccordionCard';
 import ActionButtons from './ActionButtons';
-import ResponsabiliteMessage from './ResponsabiliteMessage';
 import CollectiviteHeaderCard from './CollectiviteHeaderCard';
 import PotentielSolaireCard from './PotentielSolaireCard';
 import RepartitionPotentielSolaire from './RepartitionPotentielSolaire';
+import ResponsabiliteMessage from './ResponsabiliteMessage';
 import TopCard from './TopCard';
 
 interface FicheDepartementProps {
@@ -24,7 +24,7 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 			<br />
 			<ActionButtons />
 			<hr className='my-4' />
-			<ResponsabiliteMessage niveau="departement" />
+			<ResponsabiliteMessage niveau='departement' />
 			<br />
 			<PotentielSolaireCard
 				potentiel_solaire={departement.potentiel_solaire_colleges}
