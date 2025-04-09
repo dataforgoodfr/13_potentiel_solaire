@@ -20,13 +20,14 @@ import useDepartementsGeoJSON from '@/app/utils/hooks/useDepartementsGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
 import { bbox } from '@turf/turf';
-import { GeoJSONSource } from 'maplibre-gl';
+import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementFeature } from '../../models/etablissements';
 import GeolocButton from '../GeolocButton';
 import BackButton from './BackButton';
 import Legend from './Legend/Legend';
+import MenuDrom, { MenuDromLocation } from './MenuDrom';
 import { COLOR_THRESHOLDS } from './constants';
 import useLayers from './hooks/useLayers';
 import { ClusterFeature } from './interfaces';
@@ -126,6 +127,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		lastLayer: { code, level },
 		addLayer,
 		removeLayer,
+		resetLayer,
 	} = useLayers();
 	const [isInteractive, setIsInteractive] = useState(false);
 
@@ -148,6 +150,22 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		isEtablissementsLayerVisible,
 	);
 
+	function easeTo(options: EaseToOptions) {
+		if (!mapRef.current) return;
+
+		mapRef.current.easeTo({
+			...options,
+			duration: ANIMATION_TIME_MS,
+		});
+	}
+
+	function easeToInitialView() {
+		easeTo({
+			center: [initialViewState.longitude, initialViewState.latitude],
+			zoom: initialViewState.zoom,
+		});
+	}
+
 	async function zoomOnCluster(feature: ClusterEtablissementFeature) {
 		if (!mapRef.current) return;
 
@@ -163,10 +181,9 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			throw new Error('The coordinates doesnt have a length of 2');
 		}
 
-		mapRef.current.easeTo({
+		easeTo({
 			center: coordinates as LngLatLike,
 			zoom,
-			duration: ANIMATION_TIME_MS,
 		});
 	}
 
@@ -194,11 +211,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		const layerUp = layers.slice(-2)[0];
 
 		if (layerUp.level === 'regions' && mapRef.current) {
-			mapRef.current.easeTo({
-				center: [initialViewState.longitude, initialViewState.latitude],
-				zoom: initialViewState.zoom,
-				duration: ANIMATION_TIME_MS,
-			});
+			easeToInitialView();
 		}
 
 		if (layerUp.level === 'departements') {
@@ -228,6 +241,15 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		removeLayer();
 	}
 
+	async function handleResetMap() {
+		easeToInitialView();
+		resetLayer();
+	}
+	async function handleClickOnDroms(location: MenuDromLocation) {
+		easeTo(location.coordinates);
+
+		addLayer({ code: location.code, level: 'departements' });
+	}
 	async function handleClickOnRegion(feature: RegionFeature) {
 		zoomOnFeature(feature);
 
@@ -411,8 +433,11 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				)}
 			</MapFromReactMapLibre>
 			{level !== 'regions' && <BackButton onBack={goBackOneLevel} />}
-			<div className='absolute bottom-2 left-2'>
+			<div className='absolute bottom-2 left-2 flex flex-col items-start gap-1 md:flex-row'>
 				<Legend thresholds={COLOR_THRESHOLDS[level]} />
+				{isRegionsLayerVisible && (
+					<MenuDrom onClickDrom={handleClickOnDroms} onClickMetropole={handleResetMap} />
+				)}
 			</div>
 		</div>
 	);

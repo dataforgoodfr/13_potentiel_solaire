@@ -25,7 +25,7 @@ export default function Legend({ thresholds }: Legend) {
 	const lastThresholdUnit = getClosestEnergyUnit(lastThreshold);
 
 	return (
-		<div className='pointer-events-none flex flex-col items-center rounded-md bg-background p-1 text-sm text-foreground'>
+		<div className='pointer-events-none flex flex-grow-0 flex-col items-center rounded-md bg-background p-1 text-sm text-foreground'>
 			{getLabel(lastThresholdUnit)}
 			<LegendColorScale thresholds={thresholds} unit={lastThresholdUnit} />
 		</div>
