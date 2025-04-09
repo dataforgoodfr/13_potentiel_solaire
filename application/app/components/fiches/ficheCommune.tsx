@@ -1,18 +1,34 @@
+import { useState } from 'react';
+
 import { CommuneProperties } from '@/app/models/communes';
+import { Etablissement } from '@/app/models/etablissements';
 
 import AccordionCard from './AccordionCard';
 import ActionButtons from './ActionButtons';
 import CollectiviteHeaderCard from './CollectiviteHeaderCard';
 import PotentielSolaireCard from './PotentielSolaireCard';
-import ResponsabiliteMessage from './ResponsabiliteMessage';
 import RepartitionPotentielSolaire from './RepartitionPotentielSolaire';
+import ResponsabiliteMessage from './ResponsabiliteMessage';
 import TopCard from './TopCard';
+import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
 
 interface FicheCommuneProps {
 	commune: CommuneProperties;
 }
 
 export default function FicheCommune({ commune }: FicheCommuneProps) {
+	const [selectedEtablissement, setSelectedEtablissement] = useState<Etablissement | null>(null);
+
+	const topEtablissements = [
+		{ identifiant_de_l_etablissement: '9710648C', nom_etablissement: 'Ecole primaire Grand Camp 1', potentiel_solaire: 677957 },
+		{ identifiant_de_l_etablissement: '9710514G', nom_etablissement: 'Ecole primaire Maurice St-Pierre', potentiel_solaire: 632018 },
+		{
+			identifiant_de_l_etablissement: '9711292C',
+			nom_etablissement:
+				'Ecole élémentaire publique Germaine Petit-Devaed du Groupe Scolaire Guy Cornely',
+			potentiel_solaire: 511879,
+		},
+	];
 	return (
 		<div>
 			<CollectiviteHeaderCard
@@ -24,7 +40,7 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			<br />
 			<ActionButtons />
 			<hr className='my-4' />
-      <ResponsabiliteMessage niveau="commune" />
+			<ResponsabiliteMessage niveau='commune' />
 			<br />
 			<PotentielSolaireCard
 				potentiel_solaire={commune.potentiel_solaire_primaires}
@@ -41,8 +57,18 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 				}}
 			/>
 			<hr className='my-4' />
-			<TopCard topEtablissements={commune.top_etablissements_primaires} />
+			<TopCard
+				topEtablissements={topEtablissements}
+				setSelectedEtablissement={setSelectedEtablissement}
+			/>
 			<br />
+			{selectedEtablissement && (
+				<FicheEtablissement
+					feature={selectedEtablissement}
+					onClose={() => setSelectedEtablissement(null)}
+				/>
+			)}
+
 			<AccordionCard />
 		</div>
 	);
