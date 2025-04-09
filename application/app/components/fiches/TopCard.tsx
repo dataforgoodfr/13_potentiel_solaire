@@ -1,22 +1,17 @@
-import Link from 'next/link';
-
 import { Sun } from 'lucide-react';
+import { Etablissement } from '@/app/models/etablissements';
 
 const UNKNOWN_TEXTS = {
 	top_etablissement: 'Aucun établissement mis en avant pour cette collectivité.',
 };
 
-type Etablissement = {
-	id: string;
-	libelle: string;
-	potentiel_solaire: number;
-};
 
 type Props = {
-	topEtablissements: Etablissement[] | null;
+  topEtablissements: Etablissement[] | null;
+  setSelectedEtablissement: (etablissement: Etablissement) => void;
 };
 
-const TopCard = ({ topEtablissements }: Props) => {
+const TopCard = ({ topEtablissements, setSelectedEtablissement }: Props) => {
 	const medals = ['🥇', '🥈', '🥉'];
 
 	if (!topEtablissements || topEtablissements.length === 0) {
@@ -35,14 +30,14 @@ const TopCard = ({ topEtablissements }: Props) => {
 			</div>
 			<ul className='list-none space-y-1 pl-0 font-bold text-darkgreen'>
 				{topEtablissements.slice(0, 3).map((etab, index) => (
-					<li key={etab.id}>
+					<li key={etab.identifiant_de_l_etablissement}>
 						{medals[index] ?? '🏅'}{' '}
-						<Link
-							href={`/etablissement/${etab.id}`}
-							className='underline transition hover:text-primary'
+						<button
+							onClick={() => setSelectedEtablissement(etab)}
+							className='text-start transition hover:text-primary'
 						>
-							{etab.libelle}
-						</Link>
+							{etab.nom_etablissement}
+						</button>
 					</li>
 				))}
 			</ul>
