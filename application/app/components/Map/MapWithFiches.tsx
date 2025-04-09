@@ -14,8 +14,6 @@ export default function MapWithFiches() {
 	);
 	const { commune, departement, region } = useSelectedTerritoires(selectedEtablissement);
 
-	const { commune, departement, region } = useSelectedTerritoires(selectedEtablissement);
-
 	return (
 		<div className='flex flex-1 flex-col'>
 			<div className='flex-1'>
