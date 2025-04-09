@@ -86,40 +86,33 @@ function MenuDrom({ onClickDrom, onClickMetropole }: MenuDromProps) {
 	}
 
 	return (
-		<div className='flex flex-col items-start px-4 md:px-0'>
-			<div className='mt-2 flex w-full max-w-sm flex-row justify-center gap-2 bg-transparent'>
-				<button onClick={() => setIsOpen(!isOpen)} className={buttonStyle}>
-					{isOpen ? (
-						<X color='white' />
-					) : (
-						<Image
-							src={activeLocation.icon}
-							alt={activeLocation.name}
-							width={24}
-							height={24}
-						/>
-					)}
-				</button>
-				{isOpen && (
-					<div className='flex gap-2'>
-						{LOCATIONS.map((location) => (
-							<button
-								key={location.code}
-								onClick={() => handleTabChange(location)}
-								className={`${buttonStyle} ${activeTab === location.code ? buttonActiveStyle : buttonHoverStyle}`}
-								aria-label={`Go to ${location.name}`}
-							>
-								<Image
-									src={location.icon}
-									alt={location.name}
-									width={24}
-									height={24}
-								/>
-							</button>
-						))}
-					</div>
+		<div className='mt-2 flex w-full max-w-sm flex-row justify-center gap-2 bg-transparent'>
+			<button onClick={() => setIsOpen(!isOpen)} className={buttonStyle}>
+				{isOpen ? (
+					<X color='white' />
+				) : (
+					<Image
+						src={activeLocation.icon}
+						alt={activeLocation.name}
+						width={24}
+						height={24}
+					/>
 				)}
-			</div>
+			</button>
+			{isOpen && (
+				<div className='flex gap-2'>
+					{LOCATIONS.map((location) => (
+						<button
+							key={location.code}
+							onClick={() => handleTabChange(location)}
+							className={`${buttonStyle} ${activeTab === location.code ? buttonActiveStyle : buttonHoverStyle}`}
+							aria-label={`Go to ${location.name}`}
+						>
+							<Image src={location.icon} alt={location.name} width={24} height={24} />
+						</button>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }

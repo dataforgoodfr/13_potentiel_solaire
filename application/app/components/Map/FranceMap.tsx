@@ -433,7 +433,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				)}
 			</MapFromReactMapLibre>
 			{level !== 'regions' && <BackButton onBack={goBackOneLevel} />}
-			<div className='absolute bottom-2 left-2 flex flex-col items-start gap-1 md:flex-row'>
+			<div className='absolute bottom-2 left-2 flex flex-col items-start md:flex-row md:gap-4'>
 				<Legend thresholds={COLOR_THRESHOLDS[level]} />
 				{isRegionsLayerVisible && (
 					<MenuDrom onClickDrom={handleClickOnDroms} onClickMetropole={handleResetMap} />
