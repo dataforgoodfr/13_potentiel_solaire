@@ -4,19 +4,16 @@ type Niveau = 'commune' | 'departement' | 'region';
 
 const responsabilites = {
 	commune: {
-		principal: "La commune est responsable des bâtiments des écoles primaires.",
-		autres:
-			"Pour les collèges, choisissez la vue département et pour les lycées la vue région.",
+		principal: 'La commune est responsable des bâtiments des écoles primaires.',
+		autres: 'Pour les collèges, choisissez la vue département et pour les lycées la vue région.',
 	},
 	departement: {
-		principal: "Le département est responsable des bâtiments des collèges.",
-		autres:
-			"Pour les écoles élémentaires, choisissez la vue commune et pour les lycées la vue région.",
+		principal: 'Le département est responsable des bâtiments des collèges.',
+		autres: 'Pour les écoles élémentaires, choisissez la vue commune et pour les lycées la vue région.',
 	},
 	region: {
-		principal: "La région est responsable des bâtiments des lycées.",
-		autres:
-			"Pour les écoles élémentaires, choisissez la vue commune et pour les collèges la vue département.",
+		principal: 'La région est responsable des bâtiments des lycées.',
+		autres: 'Pour les écoles élémentaires, choisissez la vue commune et pour les collèges la vue département.',
 	},
 };
 
