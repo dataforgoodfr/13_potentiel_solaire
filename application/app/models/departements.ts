@@ -15,6 +15,10 @@ export interface DepartementProperties {
 	nb_etablissements_potentiel_eleve_colleges: number;
 	nb_etablissements_potentiel_bon_colleges: number;
 	nb_etablissements_potentiel_bas_colleges: number;
+	nb_eleves_total: number;
+	nb_etablissements_total: number;
+	potentiel_nb_foyers_total: number;
+	potentiel_solaire_total: number;
 }
 export type DepartementFeature = DepartementsGeoJSON['features'][number];
 
