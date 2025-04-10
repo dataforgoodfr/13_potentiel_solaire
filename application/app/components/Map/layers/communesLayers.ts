@@ -6,7 +6,7 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 export const COMMUNES_SOURCE_ID = 'communes';
 export const COMMUNES_LABELS_SOURCE_ID = 'communes-labels';
 
-export const communesLayer = (isBackground = true) => {
+export function getCommunesLayer(isBackground = false) {
 	return {
 		id: 'communes',
 		type: 'fill',
@@ -14,7 +14,7 @@ export const communesLayer = (isBackground = true) => {
 		paint: zonesLayerPaint(COLOR_THRESHOLDS.communes, isBackground),
 		maxzoom: 11,
 	} satisfies LayerProps;
-};
+}
 
 // Used to be able to click
 export const communesTransparentLayer = {

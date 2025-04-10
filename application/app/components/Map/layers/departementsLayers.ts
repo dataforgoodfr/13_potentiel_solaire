@@ -6,7 +6,7 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 export const DEPARTEMENTS_SOURCE_ID = 'departements';
 export const DEPARTEMENTS_LABELS_SOURCE_ID = 'departements-labels';
 
-export const getDepartementsLayer = (isBackground = true) => {
+export const getDepartementsLayer = (isBackground = false) => {
 	return {
 		id: 'departements',
 		type: 'fill',

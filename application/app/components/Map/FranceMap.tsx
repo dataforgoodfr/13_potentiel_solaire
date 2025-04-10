@@ -35,9 +35,9 @@ import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
 	communesLabelsLayer,
-	communesLayer,
 	communesLineLayer,
 	communesTransparentLayer,
+	getCommunesLayer,
 } from './layers/communesLayers';
 import {
 	DEPARTEMENTS_LABELS_SOURCE_ID,
@@ -286,7 +286,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		}
 
 		if (
-			isFeatureFrom<EventCommuneFeature>(feature, communesLayer()) ||
+			isFeatureFrom<EventCommuneFeature>(feature, getCommunesLayer()) ||
 			isFeatureFrom<EventCommuneFeature>(feature, communesTransparentLayer)
 		) {
 			handleClickOnCommunes(feature);
@@ -322,7 +322,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				interactiveLayerIds={[
 					getRegionsLayer().id,
 					getDepartementsLayer().id,
-					communesLayer().id,
+					getCommunesLayer().id,
 					communesTransparentLayer.id,
 					clusterLayer.id,
 					unclusteredPointLayer.id,
@@ -340,9 +340,10 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						type='geojson'
 						data={regionsGeoJSON}
 					>
-						{isRegionsLayerVisible && <LayerReactMapLibre {...getRegionsLayer()} />}
-						{isDepartementsLayerVisible && (
-							<LayerReactMapLibre {...getRegionsLayer(false)} />
+						{isRegionsLayerVisible ? (
+							<LayerReactMapLibre {...getRegionsLayer()} />
+						) : (
+							<LayerReactMapLibre {...getRegionsLayer(true)} />
 						)}
 					</Source>
 				)}
@@ -367,7 +368,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 							<LayerReactMapLibre {...getDepartementsLayer()} />
 						)}
 						{isCommunesLayerVisible && (
-							<LayerReactMapLibre {...getDepartementsLayer(false)} />
+							<LayerReactMapLibre {...getDepartementsLayer(true)} />
 						)}
 					</Source>
 				)}
@@ -396,7 +397,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						{isEtablissementsLayerVisible && (
 							<LayerReactMapLibre {...communesLineLayer} />
 						)}
-						{isCommunesLayerVisible && <LayerReactMapLibre {...communesLayer()} />}
+						{isCommunesLayerVisible && <LayerReactMapLibre {...getCommunesLayer()} />}
 					</Source>
 				)}
 				{communeLabelPoints && (

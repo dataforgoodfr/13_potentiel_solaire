@@ -6,7 +6,7 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 export const REGIONS_SOURCE_ID = 'regions';
 export const REGIONS_LABELS_SOURCE_ID = 'regions-labels';
 
-export function getRegionsLayer(isBackground = true) {
+export function getRegionsLayer(isBackground = false) {
 	return {
 		id: 'regions',
 		type: 'fill',
