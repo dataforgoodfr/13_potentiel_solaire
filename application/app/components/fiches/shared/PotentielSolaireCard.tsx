@@ -59,11 +59,11 @@ export default function PotentielSolaireCard({
 
 			{showNbEtablissements && (
 				<>
-					<div className='text-grey flex gap-1'>
+					<div className='flex gap-1 text-grey'>
 						<University />
 						<p className='text-sm font-bold'>Nombre total {niveau} :</p>
 					</div>
-					<p className='text-grey font-bold'>
+					<p className='font-bold text-grey'>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span className='text-3xl'>
 							{nb_etablissements !== undefined && nb_etablissements !== null
@@ -75,7 +75,7 @@ export default function PotentielSolaireCard({
 				</>
 			)}
 
-			<div className='text-grey flex gap-1'>
+			<div className='flex gap-1 text-grey'>
 				<Users />
 				{nb_eleves !== undefined ? (
 					<>
@@ -89,7 +89,7 @@ export default function PotentielSolaireCard({
 				)}
 			</div>
 
-			<div className='text-grey mt-5 flex gap-1'>
+			<div className='mt-5 flex gap-1 text-grey'>
 				<Zap />
 				<p className='text-sm font-bold'>Potentiel de production annuelle :</p>
 			</div>
@@ -100,7 +100,7 @@ export default function PotentielSolaireCard({
 			</p>
 			<br />
 
-			<div className='text-grey flex gap-1'>
+			<div className='flex gap-1 text-grey'>
 				<HousePlug size={36} />
 				<p className='text-sm font-bold'>
 					&nbsp;Équivalent à la consommation électrique annuelle de :

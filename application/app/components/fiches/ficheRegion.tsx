@@ -1,36 +1,57 @@
+import { useState } from 'react';
+
 import { RegionProperties } from '@/app/models/regions';
 
-import AccordionCard from './AccordionCard';
-import ActionButtons from './ActionButtons';
-import CollectiviteHeaderCard from './CollectiviteHeaderCard';
-import PotentielSolaireCard from './PotentielSolaireCard';
-import RepartitionPotentielSolaire from './RepartitionPotentielSolaire';
-import ResponsabiliteMessage from './ResponsabiliteMessage';
-import TopCard from './TopCard';
+import AccordionCard from './shared/AccordionCard';
+import ActionButtons from './shared/ActionButtons';
+import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
+import PotentielSolaireCard from './shared/PotentielSolaireCard';
+import RepartitionPotentielSolaire from './shared/RepartitionPotentielSolaire';
+import ResponsabiliteMessage from './shared/ResponsabiliteMessage';
+import Tabs from './shared/Tabs';
+import TopCard from './shared/TopCard';
 
 interface FicheRegionProps {
 	region: RegionProperties;
 }
 
 export default function FicheRegion({ region }: FicheRegionProps) {
+	const [activeTab, setActiveTab] = useState('all');
+
+	const handleTabChange = (tab: string) => {
+		setActiveTab(tab);
+	};
+
+	const tabs = [
+		{ id: 'all', label: 'Tous' },
+		{ id: 'managed', label: 'Lycées' },
+	];
+
 	return (
 		<div>
-			<CollectiviteHeaderCard
-				type='region'
-				nom={region.libelle_region}
-				nbEleves={region.nb_eleves_lycees}
-				niveau='de lycées'
-			/>
-			<br />
+			<CollectiviteHeaderCard type='region' nom={region.libelle_region} />
 			<ActionButtons />
 			<hr className='my-4' />
+
+			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='region' />
 			<br />
-			<PotentielSolaireCard
-				potentiel_solaire={region.potentiel_solaire_lycees}
-				nb_etablissements={region.nb_etablissements_lycees}
-				niveau='de lycées'
-			/>
+			{activeTab === 'all' ? (
+				<PotentielSolaireCard
+					potentiel_solaire={region.potentiel_solaire_total}
+					nb_etablissements={region.nb_etablissements_total}
+					nb_eleves={region.nb_eleves_total}
+					niveau="d'établissements"
+				/>
+			) : (
+				<PotentielSolaireCard
+					potentiel_solaire={region.potentiel_solaire_lycees}
+					nb_etablissements={region.nb_etablissements_lycees}
+					nb_eleves={region.nb_eleves_lycees}
+					niveau="d'écoles primaires"
+				/>
+			)}
+
 			<hr className='my-4' />
 			<RepartitionPotentielSolaire
 				niveau='Lycées'

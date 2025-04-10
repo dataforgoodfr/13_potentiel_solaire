@@ -1,8 +1,8 @@
 import { Etablissement } from '@/app/models/etablissements';
 
-import AccordionCard from '../AccordionCard';
-import ActionButtons from '../ActionButtons';
-import PotentielSolaireCard from '../PotentielSolaireCard';
+import AccordionCard from '../shared/AccordionCard';
+import ActionButtons from '../shared/ActionButtons';
+import PotentielSolaireCard from '../shared/PotentielSolaireCard';
 import EtablissementCard from './EtablissementCard';
 import GraphiqueCard from './GraphiqueCard';
 import InstallationCard from './InstallationCard';
@@ -22,11 +22,12 @@ export default function FicheEtablissement({ feature }: FicheEtablissementProps)
 			<br />
 			<ActionButtons />
 			<hr className='my-4' />
-			<ProtectionCard isProtected={!!feature.protection} />
+			{feature.protection && <ProtectionCard />}
 			<PotentielSolaireCard
 				potentiel_solaire={feature.potentiel_solaire}
 				showInterpretation
 				showNbEtablissements={false}
+				nb_eleves={feature.nb_eleves ?? undefined}
 			/>
 			<hr className='my-4' />
 			<div className='ml-2'>
