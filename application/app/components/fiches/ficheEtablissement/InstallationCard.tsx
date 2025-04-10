@@ -1,14 +1,14 @@
 import { ChartPie, Ruler } from 'lucide-react';
 
 const UNKNOWN_TEXTS = {
-	surface_utile: 'Non disponible',
+	surface_exploitable_max: 'Non disponible',
 };
 
 interface installationCardProps {
-	surface_utile?: number;
+	surface_exploitable_max?: number;
 }
 
-const InstallationCard = ({ surface_utile }: installationCardProps) => {
+const InstallationCard = ({ surface_exploitable_max }: installationCardProps) => {
 	return (
 		<div>
 			<div className='flex gap-1'>
@@ -16,7 +16,10 @@ const InstallationCard = ({ surface_utile }: installationCardProps) => {
 				<p className='font-medium'>Superficie exploitable maximale: </p>
 			</div>
 			<p className='text-center font-medium'>
-				<span className='text-xl'>≈{surface_utile || UNKNOWN_TEXTS.surface_utile}</span> M²
+				<span className='text-xl'>
+					≈{surface_exploitable_max || UNKNOWN_TEXTS.surface_exploitable_max}
+				</span>{' '}
+				M²
 			</p>
 			<br />
 			<div className='flex gap-1'>
