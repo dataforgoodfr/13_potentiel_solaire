@@ -13,6 +13,7 @@ export default function useLayers() {
 
 	function addLayer(layer: Layer) {
 		setLayers((prev) => {
+			// Add layer if a layer with the same level doesnt exist, otherwise it replaces it
 			const isAlreadyLayerWithSameLevel = prev.findIndex((l) => l.level === layer.level) > -1;
 			return isAlreadyLayerWithSameLevel ? [...prev.slice(0, -1), layer] : [...prev, layer];
 		});
