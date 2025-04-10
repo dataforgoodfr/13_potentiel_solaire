@@ -121,17 +121,26 @@ Visual studio code est recommandé pour le développement de l'application.
     cd database
     # build the docker image
     docker build -f Dockerfile -t 13_potentiel_solaire_mock_data .
-    # création d'un volume docker qui contiendra les fichiers générés
-    docker run --rm -v $(pwd)/output:/app/output 13_potentiel_solaire_mock_data #les fichiers seront disponibles dans {repertoire_projet}/application/database/output
     ```
 
     Copier les données aux emplacements attendus par l'application
 
     ```sh
+    # lancer le docker avec un terminal interactif afin de garder le container ouvert
+    docker run --rm -it 13_potentiel_solaire_mock_data sh
+
+    # récupérer l'id du container (colonne NAMES)
+    docker ps
+    # ex de retour de la commande :
+    # CONTAINER ID   IMAGE                              COMMAND   CREATED          STATUS          PORTS     NAMES
+    # e280be0cc5a0   13_potentiel_solaire_mock_data   "sh"      32 seconds ago   Up 31 seconds             recursing_pike
+
     # le contenu du dossier db - data.duckdb - doit être placé dans le répertoire {racine_du_projet}/application/database
-    cp ./output/db/data.duckdb .
+    docker cp <container_id>:/app/output/db/data.duckdb .
+    # ex : docker cp recursing_pike:/app/output/db/data.duckdb .
+
     # le contenu de geojson - normalement 4 fichiers geojson - doit être placé dans le répertoire {racine_du_projet}/application/public/data
-    cp ./output/geojson/* ../public/data
+    docker cp <container_id>:/app/output/geojson/* ../public/data
     ```
 
 2. Manuellement :
