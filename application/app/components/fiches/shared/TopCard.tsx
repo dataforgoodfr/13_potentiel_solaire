@@ -25,7 +25,7 @@ const TopCard = ({ topEtablissements }: Props) => {
 
 	return (
 		<div>
-			<div className='flex gap-1'>
+			<div className='flex gap-1 text-grey'>
 				<Sun />
 				<p>Top 3 potentiel solaire :</p>
 			</div>
@@ -34,7 +34,7 @@ const TopCard = ({ topEtablissements }: Props) => {
 					<li key={etab.id}>
 						{medals[index] ?? '🏅'}{' '}
 						<Link
-            // the href might need to be corrected
+							// the href might need to be corrected
 							href={`/etablissement/${etab.id}`}
 							className='underline transition hover:text-primary'
 						>

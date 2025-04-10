@@ -1,36 +1,55 @@
+import { useState } from 'react';
+
 import { DepartementProperties } from '@/app/models/departements';
 
-import AccordionCard from './AccordionCard';
-import ActionButtons from './ActionButtons';
-import CollectiviteHeaderCard from './CollectiviteHeaderCard';
-import PotentielSolaireCard from './PotentielSolaireCard';
-import RepartitionPotentielSolaire from './RepartitionPotentielSolaire';
-import ResponsabiliteMessage from './ResponsabiliteMessage';
-import TopCard from './TopCard';
+import AccordionCard from './shared/AccordionCard';
+import ActionButtons from './shared/ActionButtons';
+import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
+import PotentielSolaireCard from './shared/PotentielSolaireCard';
+import RepartitionPotentielSolaire from './shared/RepartitionPotentielSolaire';
+import ResponsabiliteMessage from './shared/ResponsabiliteMessage';
+import Tabs from './shared/Tabs';
+import TopCard from './shared/TopCard';
 
 interface FicheDepartementProps {
 	departement: DepartementProperties;
 }
 
 export default function FicheDepartement({ departement }: FicheDepartementProps) {
+	const [activeTab, setActiveTab] = useState('all');
+
+	const handleTabChange = (tab: string) => {
+		setActiveTab(tab);
+	};
+
+	const tabs = [
+		{ id: 'all', label: 'Tous' },
+		{ id: 'managed', label: 'Collèges' },
+	];
+
 	return (
 		<div>
-			<CollectiviteHeaderCard
-				type='departement'
-				nom={departement.libelle_departement}
-				nbEleves={departement.nb_eleves_colleges}
-				niveau='de collèges'
-			/>
-			<br />
+			<CollectiviteHeaderCard type='departement' nom={departement.libelle_departement} />
 			<ActionButtons />
 			<hr className='my-4' />
+			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='departement' />
 			<br />
-			<PotentielSolaireCard
-				potentiel_solaire={departement.potentiel_solaire_colleges}
-				nb_etablissements={departement.nb_etablissements_colleges}
-				niveau='de collèges'
-			/>
+			{activeTab === 'all' ? (
+				<PotentielSolaireCard
+					potentiel_solaire={departement.potentiel_solaire_total}
+					nb_etablissements={departement.nb_etablissements_total}
+					nb_eleves={departement.nb_eleves_total}
+					niveau="d'établissements"
+				/>
+			) : (
+				<PotentielSolaireCard
+					potentiel_solaire={departement.potentiel_solaire_colleges}
+					nb_etablissements={departement.nb_etablissements_colleges}
+					nb_eleves={departement.nb_eleves_colleges}
+					niveau='de collèges'
+				/>
+			)}
 			<hr className='my-4' />
 			<RepartitionPotentielSolaire
 				niveau='Collèges'
