@@ -6,7 +6,7 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 export const DEPARTEMENTS_SOURCE_ID = 'departements';
 export const DEPARTEMENTS_LABELS_SOURCE_ID = 'departements-labels';
 
-export const getDepartementsLayer = (isBackground = false) => {
+function getDepartementsLayer(isBackground = false) {
 	return {
 		id: 'departements',
 		type: 'fill',
@@ -14,7 +14,10 @@ export const getDepartementsLayer = (isBackground = false) => {
 		paint: zonesLayerPaint(COLOR_THRESHOLDS.departements, isBackground),
 		maxzoom: 11,
 	} satisfies LayerProps;
-};
+}
+
+export const departementsLayer = getDepartementsLayer();
+export const departementsBackgroundLayer = getDepartementsLayer(true);
 
 export const departementsLabelsLayer = {
 	id: 'departements-labels',

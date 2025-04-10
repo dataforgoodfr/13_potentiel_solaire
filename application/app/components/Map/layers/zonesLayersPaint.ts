@@ -8,7 +8,7 @@ export function zonesLayerPaint(thresholds: Thresholds, isBackground: boolean) {
 
 	return {
 		'fill-color': ['step', ['get', 'potentiel_solaire'], ...fillColors],
-		'fill-opacity': isBackground ? 0.7 : 1,
+		'fill-opacity': isBackground ? 0.5 : 1,
 		'fill-outline-color': 'black',
 	} satisfies FillLayerSpecification['paint'];
 }

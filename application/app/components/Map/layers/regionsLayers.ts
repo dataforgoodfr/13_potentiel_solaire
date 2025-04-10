@@ -6,7 +6,7 @@ import { zonesLayerPaint } from './zonesLayersPaint';
 export const REGIONS_SOURCE_ID = 'regions';
 export const REGIONS_LABELS_SOURCE_ID = 'regions-labels';
 
-export function getRegionsLayer(isBackground = false) {
+function getRegionsLayer(isBackground = false) {
 	return {
 		id: 'regions',
 		type: 'fill',
@@ -15,6 +15,10 @@ export function getRegionsLayer(isBackground = false) {
 		maxzoom: 10,
 	} satisfies LayerProps;
 }
+
+export const regionsLayer = getRegionsLayer();
+export const regionsBackgroundLayer = getRegionsLayer(true);
+
 export const regionsLabelsLayer = {
 	id: 'regions-labels',
 	type: 'symbol',

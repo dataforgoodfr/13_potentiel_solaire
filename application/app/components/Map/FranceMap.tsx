@@ -35,15 +35,16 @@ import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
 	communesLabelsLayer,
+	communesLayer,
 	communesLineLayer,
 	communesTransparentLayer,
-	getCommunesLayer,
 } from './layers/communesLayers';
 import {
 	DEPARTEMENTS_LABELS_SOURCE_ID,
 	DEPARTEMENTS_SOURCE_ID,
+	departementsBackgroundLayer,
 	departementsLabelsLayer,
-	getDepartementsLayer,
+	departementsLayer,
 } from './layers/departementsLayers';
 import {
 	ETABLISSEMENTS_SOURCE_ID,
@@ -54,8 +55,9 @@ import {
 import {
 	REGIONS_LABELS_SOURCE_ID,
 	REGIONS_SOURCE_ID,
-	getRegionsLayer,
+	regionsBackgroundLayer,
 	regionsLabelsLayer,
+	regionsLayer,
 } from './layers/regionsLayers';
 
 const MAP_STYLE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/map-styles/map-style.json`;
@@ -273,20 +275,20 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 
 		const feature = event.features[0] as unknown as EventFeature;
 
-		if (isFeatureFrom<EventRegionFeature>(feature, getRegionsLayer())) {
+		if (isFeatureFrom<EventRegionFeature>(feature, regionsLayer)) {
 			handleClickOnRegion(feature);
 
 			return;
 		}
 
-		if (isFeatureFrom<EventDepartementFeature>(feature, getDepartementsLayer())) {
+		if (isFeatureFrom<EventDepartementFeature>(feature, departementsLayer)) {
 			handleClickOnDepartement(feature);
 
 			return;
 		}
 
 		if (
-			isFeatureFrom<EventCommuneFeature>(feature, getCommunesLayer()) ||
+			isFeatureFrom<EventCommuneFeature>(feature, communesLayer) ||
 			isFeatureFrom<EventCommuneFeature>(feature, communesTransparentLayer)
 		) {
 			handleClickOnCommunes(feature);
@@ -320,9 +322,9 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				initialViewState={initialViewState}
 				mapStyle={MAP_STYLE_URL}
 				interactiveLayerIds={[
-					getRegionsLayer().id,
-					getDepartementsLayer().id,
-					getCommunesLayer().id,
+					regionsLayer.id,
+					departementsLayer.id,
+					communesLayer.id,
 					communesTransparentLayer.id,
 					clusterLayer.id,
 					unclusteredPointLayer.id,
@@ -341,9 +343,9 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						data={regionsGeoJSON}
 					>
 						{isRegionsLayerVisible ? (
-							<LayerReactMapLibre {...getRegionsLayer()} />
+							<LayerReactMapLibre {...regionsLayer} />
 						) : (
-							<LayerReactMapLibre {...getRegionsLayer(true)} />
+							<LayerReactMapLibre {...regionsBackgroundLayer} />
 						)}
 					</Source>
 				)}
@@ -365,10 +367,10 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						data={departementsGeoJSON}
 					>
 						{isDepartementsLayerVisible && (
-							<LayerReactMapLibre {...getDepartementsLayer()} />
+							<LayerReactMapLibre {...departementsLayer} />
 						)}
 						{isCommunesLayerVisible && (
-							<LayerReactMapLibre {...getDepartementsLayer(true)} />
+							<LayerReactMapLibre {...departementsBackgroundLayer} />
 						)}
 					</Source>
 				)}
@@ -397,7 +399,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						{isEtablissementsLayerVisible && (
 							<LayerReactMapLibre {...communesLineLayer} />
 						)}
-						{isCommunesLayerVisible && <LayerReactMapLibre {...getCommunesLayer()} />}
+						{isCommunesLayerVisible && <LayerReactMapLibre {...communesLayer} />}
 					</Source>
 				)}
 				{communeLabelPoints && (
