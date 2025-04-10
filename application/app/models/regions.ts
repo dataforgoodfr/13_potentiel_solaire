@@ -13,6 +13,10 @@ export interface RegionProperties {
 	nb_etablissements_potentiel_eleve_lycees: number;
 	nb_etablissements_potentiel_bon_lycees: number;
 	nb_etablissements_potentiel_bas_lycees: number;
+	nb_eleves_total: number;
+	nb_etablissements_total: number;
+	potentiel_nb_foyers_total: number;
+	potentiel_solaire_total: number;
 }
 export type RegionFeature = RegionsGeoJSON['features'][number];
 
