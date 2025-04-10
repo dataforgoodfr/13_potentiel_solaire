@@ -26,7 +26,7 @@ export default function FicheEtablissement({ feature }: FicheEtablissementProps)
 			<PotentielSolaireCard potentiel_solaire={feature.potentiel_solaire} />
 			<hr className='my-4' />
 			<div className='ml-2'>
-				<InstallationCard surface_utile={feature.surface_utile} />
+				<InstallationCard surface_exploitable_max={feature.surface_exploitable_max} />
 				<GraphiqueCard />
 			</div>
 			<hr className='my-4' />
