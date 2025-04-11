@@ -73,11 +73,6 @@ const initialViewState = {
 	zoom: 4.5,
 } satisfies MapPropsReactMapLibre['initialViewState'];
 
-const style: React.CSSProperties = {
-	width: 1200,
-	height: 800,
-};
-
 const ANIMATION_TIME_MS = 800;
 
 type EventFeature<Feature extends GeoJSON.Feature = GeoJSON.Feature> = Feature & {
@@ -316,7 +311,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	}
 
 	return (
-		<div className='relative'>
+		<div className='w-full h-[80vh] sm:h-[600px] md:h-[800px] lg:h-[1000px] relative'>
 			<MapFromReactMapLibre
 				ref={mapRef}
 				initialViewState={initialViewState}
@@ -329,7 +324,6 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					clusterLayer.id,
 					unclusteredPointLayer.id,
 				]}
-				style={style}
 				onClick={onClick}
 				onLoad={() => toggleInteractions(false)}
 				{...interact(isInteractive)}
