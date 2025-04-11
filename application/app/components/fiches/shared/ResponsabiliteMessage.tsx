@@ -24,7 +24,7 @@ export default function ResponsabiliteMessage({ niveau }: { niveau: Niveau }) {
 	const contenu = responsabilites[niveau];
 
 	return (
-		<div className='mb-4 flex gap-4 rounded-lg bg-gray-100 p-2 text-grey'>
+		<div className='mb-4 flex gap-4 rounded-lg bg-gray-50 p-2 text-grey'>
 			<Info size={72} />
 			<div>
 				<p className='text-sm'>{contenu.principal}</p>

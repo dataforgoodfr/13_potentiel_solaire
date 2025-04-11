@@ -56,7 +56,6 @@ export default {
 				sol_top: 'var(--color-sol_top)',
 				sol_ko: 'var(--color-sol_ko)',
 				select: 'var(--color-select)',
-				grey: 'var(--color-grey)',
 				gray: 'var(--color-gray)',
 			},
 			fontFamily: {

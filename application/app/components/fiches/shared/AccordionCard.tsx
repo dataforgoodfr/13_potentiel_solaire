@@ -15,6 +15,7 @@ const ACTIONS = [
 					C’est aussi, une fois l’investissement remboursé, une opportunité de réduire les
 					factures énergétiques de la commune tout en réduisant son empreinte carbone !
 				</p>
+				<br />
 				<p>
 					A Greenpeace France, nous pensons que pour réussir la transition énergétique des
 					bâtiments publics, ces projets solaires doivent s’inscrire dans une réflexion
@@ -24,35 +25,32 @@ const ACTIONS = [
 				</p>
 				<br />
 
-				<ul>
-					<li>
-						<p className='mt-2'>
-							De nombreuses communes nous ont fait remonter leurs difficultés à
-							financer ces projets, de rénovation comme de panneaux photovoltaïques,
-							par manque de moyens financiers mis par l’État.
-							<span className='font-bold'>
-								&nbsp;Si cela est votre cas, nous vous invitons à nous contacter à
-								l’adresse suivante :
-							</span>
-						</p>
-						<button className='w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
+				<ul className='list-inside list-disc'>
+					<li className='mt-2'>
+						De nombreuses communes nous ont fait remonter leurs difficultés à financer
+						ces projets, de rénovation comme de panneaux photovoltaïques, par manque de
+						moyens financiers mis par l’État.
+						<span className='font-bold'>
+							&nbsp;Si cela est votre cas, nous vous invitons à nous contacter à
+							l’adresse suivante
+						</span>
+						<button className='mt-3 w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
 							Nous contacter
 						</button>
 					</li>
 					<br />
 					<li>
-						<p>
-							De multiplies démarches sont nécessaires pour monter un tel projet :
-							conformité avec le PLU(i) et si dans zone protégée avis des ABF, étude
-							de faisabilité, modèle économique, plan de financement, demande de
-							subventions, demande de raccordement au réseau, … 
-						</p>
-						<p className='font-bold'>
+						De multiplies démarches sont nécessaires pour monter un tel projet :
+						conformité avec le PLU(i) et si dans zone protégée avis des ABF, étude de
+						faisabilité, modèle économique, plan de financement, demande de subventions,
+						demande de raccordement au réseau, … 
+						<br />
+						<span className='font-bold'>
 							Voici quelques ressources pour vous aider dans l’élaboration de ces
 							projets :
-						</p>
+						</span>
 						<br />
-						<p>
+						<p className='mt-3'>
 							- Le site
 							<span className='text-green'>&nbsp;photovoltaïque.info&nbsp;</span>
 							de l’association Hespul, avec les étapes pour réaliser un projet
@@ -105,37 +103,30 @@ const ACTIONS = [
 					vos territoires :
 				</p>
 
-				<ul className='list-disc'>
-					<li>
-						<p className='mt-2'>
-							Signer notre pétition nationale demandant des moyens et des actions
-							d’urgence pour
-							<span className='font-bold'>
-								&nbsp;la rénovation énergétique des établissements scolaires :
-							</span>
-						</p>
-						<button className='w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
+				<ul className='list-inside list-disc'>
+					<li className='mb-2 mt-2'>
+						Signer notre pétition nationale demandant des moyens et des actions
+						d’urgence pour
+						<span className='font-bold'>
+							&nbsp;la rénovation énergétique des établissements scolaires :
+						</span>
+						<button className='mt-3 w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
 							Signez la pétition nationale
 						</button>
 					</li>
 					<br />
-					<br />
-					<li>
-						<p>
-							Informer
-							<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
-							sur le potentiel solaire des écoles de la commune et interroger pour
-							savoir ce qu’elle prévoit de faire :
-						</p>
-						<button className='w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
+					<li className='mb-2'>
+						Informer
+						<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
+						sur le potentiel solaire des écoles de la commune et interroger pour savoir
+						ce qu’elle prévoit de faire :
+						<button className='mt-3 w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
 							Contacter par mail mon élu
 						</button>
 					</li>
 					<br />
-					<li>
-						<p className='mt-2'>
-							Découvrez les projets de transition énergétique près de chez vous :
-						</p>
+					<li className='mt-2'>
+						Découvrez les projets de transition énergétique près de chez vous :
 						<p className='text-green'>- Carte de l’énergie citoyenne</p>
 					</li>
 				</ul>

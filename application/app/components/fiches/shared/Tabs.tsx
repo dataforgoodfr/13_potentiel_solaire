@@ -10,7 +10,7 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 			{tabs.map((tab) => (
 				<div
 					key={tab.id}
-					className={`w-1/2 truncate rounded-md px-4 py-2 text-sm md:text-base ${activeTab === tab.id ? 'bg-gray-500 font-bold text-green' : 'bg-green text-gray-500'}`}
+					className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${activeTab === tab.id ? 'bg-select font-bold text-green' : 'bg-green text-grey'}`}
 					onClick={() => onTabChange(tab.id)}
 				>
 					{tab.label}

@@ -53,7 +53,7 @@ export default function Fiches({
 				{tabs.map((tab) => (
 					<button
 						key={tab.id}
-						className={`w-1/4 truncate rounded-md px-4 py-2 text-sm md:text-base ${activeTab === tab.id ? 'bg-gray-500 font-bold text-green' : 'bg-green text-gray-500'}`}
+						className={`w-1/4 truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-select font-bold text-green' : 'bg-green text-grey'}`}
 						onClick={() => setActiveTab(tab.id)}
 					>
 						{tab.label}
