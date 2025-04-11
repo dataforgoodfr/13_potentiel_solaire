@@ -45,7 +45,7 @@ export default function PotentielSolaireCard({
 	const isHigh = (potentiel_solaire ?? 0) > HIGH_SOLAR_THRESHOLD;
 
 	return (
-		<div className='mb-4 rounded-2xl border-4 border-solid bg-gray-100 p-2 outline-gray-300'>
+		<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-2 outline-select'>
 			{showInterpretation && (
 				<>
 					<div
@@ -91,7 +91,7 @@ export default function PotentielSolaireCard({
 
 			<div className='mt-5 flex gap-1 text-grey'>
 				<Zap />
-				<p className='text-sm font-bold'>Potentiel de production annuelle :</p>
+				<p className='text-sm font-bold'>Potentiel de production annuelle </p>
 			</div>
 			<p className='font-bold text-blue'>
 				🟡 &nbsp;

@@ -311,7 +311,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	}
 
 	return (
-		<div className='w-full h-[80vh] sm:h-[600px] md:h-[800px] lg:h-[1000px] relative'>
+		<div className='relative h-[80vh] w-full sm:h-[600px] md:h-[800px] lg:h-[1000px]'>
 			<MapFromReactMapLibre
 				ref={mapRef}
 				initialViewState={initialViewState}

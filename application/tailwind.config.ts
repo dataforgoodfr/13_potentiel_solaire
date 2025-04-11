@@ -52,6 +52,7 @@ export default {
 				orange: 'var(--color-orange)',
 				blue: 'var(--color-blue)',
 				darkgreen: 'var(--color-darkgreen)',
+				select: 'var(--color-select)',
 			},
 			fontFamily: {
 				sans: ['var(--font-sans)', 'sans-serif'],

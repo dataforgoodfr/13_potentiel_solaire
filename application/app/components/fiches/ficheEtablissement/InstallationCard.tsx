@@ -13,7 +13,7 @@ const InstallationCard = ({ surface_exploitable_max }: installationCardProps) =>
 		<div>
 			<div className='flex gap-1 text-sm text-grey'>
 				<Ruler />
-				<p className='font-bold'>Superficie exploitable maximale: </p>
+				<p className='font-bold'>Superficie exploitable maximale : </p>
 			</div>
 			<p className='text-center font-bold text-blue'>
 				<span className='text-xl'>
