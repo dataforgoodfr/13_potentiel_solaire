@@ -47,10 +47,12 @@ export default {
 					'5': 'hsl(var(--chart-5))',
 				},
 				green: 'var(--color-green)',
+				grey: 'var(--color-grey)',
 				yellow: 'var(--color-yellow)',
 				orange: 'var(--color-orange)',
 				blue: 'var(--color-blue)',
 				darkgreen: 'var(--color-darkgreen)',
+				select: 'var(--color-select)',
 			},
 			fontFamily: {
 				sans: ['var(--font-sans)', 'sans-serif'],

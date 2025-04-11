@@ -30,10 +30,12 @@
 		--chart-5: 27 87% 67%;
 		--radius: 0.5rem;
 		--color-green: #e7ffd3;
+		--color-grey: #5d5b65;
 		--color-darkgreen: #355917;
 		--color-yellow: #fff9c5;
 		--color-orange: #ffebd3;
 		--color-blue: #221c3e;
+		--color-select: #a29db9;
 		--font-sans: 'Verdana', sans-serif;
 		--font-serif: 'Times New Roman', serif;
 	}

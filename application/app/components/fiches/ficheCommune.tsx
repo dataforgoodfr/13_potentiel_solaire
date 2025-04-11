@@ -1,0 +1,70 @@
+import { useState } from 'react';
+
+import { CommuneProperties } from '@/app/models/communes';
+
+import AccordionCard from './shared/AccordionCard';
+import ActionButtons from './shared/ActionButtons';
+import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
+import PotentielSolaireCard from './shared/PotentielSolaireCard';
+import RepartitionPotentielSolaire from './shared/RepartitionPotentielSolaire';
+import ResponsabiliteMessage from './shared/ResponsabiliteMessage';
+import Tabs from './shared/Tabs';
+import TopCard from './shared/TopCard';
+
+interface FicheCommuneProps {
+	commune: CommuneProperties;
+}
+
+export default function FicheCommune({ commune }: FicheCommuneProps) {
+	const [activeTab, setActiveTab] = useState('all');
+
+	const handleTabChange = (tab: string) => {
+		setActiveTab(tab);
+	};
+
+	const tabs = [
+		{ id: 'all', label: 'Tous' },
+		{ id: 'managed', label: 'Écoles primaires' },
+	];
+
+	return (
+		<div>
+			<CollectiviteHeaderCard type='commune' nom={commune.nom_commune} />
+			<ActionButtons />
+			<hr className='my-4' />
+
+			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
+			<ResponsabiliteMessage niveau='commune' />
+			<br />
+			{activeTab === 'all' ? (
+				<PotentielSolaireCard
+					potentiel_solaire={commune.potentiel_solaire_total}
+					nb_etablissements={commune.nb_etablissements_total}
+					nb_eleves={commune.nb_eleves_total}
+					niveau="d'établissements"
+				/>
+			) : (
+				<PotentielSolaireCard
+					potentiel_solaire={commune.potentiel_solaire_primaires}
+					nb_etablissements={commune.nb_etablissements_primaires}
+					nb_eleves={commune.nb_eleves_primaires}
+					niveau="d'écoles primaires"
+				/>
+			)}
+
+			<hr className='my-4' />
+			<RepartitionPotentielSolaire
+				niveau='Écoles'
+				repartition={{
+					eleve: commune.nb_etablissements_potentiel_eleve_primaires,
+					bon: commune.nb_etablissements_potentiel_bon_primaires,
+					bas: commune.nb_etablissements_potentiel_bas_primaires,
+				}}
+			/>
+			<hr className='my-4' />
+			<TopCard topEtablissements={commune.top_etablissements_primaires} />
+			<br />
+			<AccordionCard />
+		</div>
+	);
+}
