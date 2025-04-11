@@ -406,7 +406,7 @@ export async function fetchCommunesGeoJSON(
 	}
 }
 
-export async function fetchCommuneGeoJSONById(id: string): Promise<CommuneFeature | null> {
+export async function fetchCommuneFeature(id: string): Promise<CommuneFeature | null> {
 	try {
 		const connection = await db.connect();
 		await connection.run('LOAD SPATIAL;');
@@ -510,7 +510,7 @@ export async function fetchDepartementsGeoJSON(
 	}
 }
 
-export async function fetchDepartementGeoJSONById(id: string): Promise<DepartementFeature | null> {
+export async function fetchDepartementFeature(id: string): Promise<DepartementFeature | null> {
 	try {
 		const connection = await db.connect();
 		await connection.run('LOAD SPATIAL;');
@@ -557,7 +557,7 @@ export async function fetchDepartementGeoJSONById(id: string): Promise<Departeme
 }
 
 // --- Regions ---
-export async function fetchRegionGeoJSONById(id: string): Promise<RegionFeature | null> {
+export async function fetchRegionFeature(id: string): Promise<RegionFeature | null> {
 	try {
 		const connection = await db.connect();
 		await connection.run('LOAD SPATIAL;');
