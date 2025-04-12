@@ -306,9 +306,13 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		resetLayer();
 	}
 	async function handleClickOnDroms(location: MenuDromLocation) {
-		easeTo(location.coordinates);
+		// Droms region is the entire island, so we can show communes directly
+		const layers: Layer[] = [
+			{ code: location.codeRegion, level: 'departements' },
+			{ code: location.codeDepartement, level: 'communes' },
+		];
 
-		addLayer({ code: location.code, level: 'departements' });
+		setLayers(layers);
 	}
 	async function handleClickOnRegion(feature: RegionFeature) {
 		addLayer({ code: feature.properties.code_region, level: 'departements' });
@@ -361,8 +365,6 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	}
 
 	function handleOnLocate(feature: CommuneFeature) {
-		if (!mapRef.current) return;
-
 		const layers: Layer[] = [
 			{ level: 'departements', code: feature.properties.code_region },
 			{ level: 'communes', code: feature.properties.code_departement },
@@ -501,9 +503,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			{level !== 'regions' && <BackButton onBack={goBackOneLevel} />}
 			<div className='absolute bottom-2 left-2 flex flex-col items-start md:flex-row md:gap-4'>
 				<Legend thresholds={COLOR_THRESHOLDS[level]} />
-				{isRegionsLayerVisible && (
-					<MenuDrom onClickDrom={handleClickOnDroms} onClickMetropole={handleResetMap} />
-				)}
+				<MenuDrom onClickDrom={handleClickOnDroms} onClickMetropole={handleResetMap} />
 			</div>
 			{isLoading && (
 				<div className='left-100 absolute top-10 bg-red-700 text-2xl'>

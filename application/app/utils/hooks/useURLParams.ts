@@ -41,7 +41,7 @@ export default function useURLParams(): ReturnType {
 
 	const setCodes: SetCodes = useCallback(
 		(codes) => {
-			const newParams = new URLSearchParams(searchParams);
+			const newParams = new URLSearchParams();
 
 			const keys = Object.keys(codes) as unknown as (keyof Codes)[];
 
@@ -57,7 +57,7 @@ export default function useURLParams(): ReturnType {
 
 			router.push(`${pathname}?${newParams.toString()}`);
 		},
-		[pathname, router, searchParams],
+		[pathname, router],
 	);
 
 	const reset = useCallback(() => {

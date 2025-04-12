@@ -3,52 +3,51 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { X } from 'lucide-react';
-import { CenterZoomBearing } from 'maplibre-gl';
 
-type Coordinates = Required<Pick<CenterZoomBearing, 'center' | 'zoom'>>;
+type Tab = (typeof LOCATIONS)[number]['codeRegion'];
 
 export type MenuDromLocation = {
 	name: string;
-	code: string;
-	coordinates: Coordinates;
+	codeRegion: string;
+	codeDepartement: string;
 	icon: string;
 };
 
 const LOCATIONS: MenuDromLocation[] = [
 	{
 		name: 'guadeloupe',
-		code: '01',
-		coordinates: { center: [-61.5833, 16.25], zoom: 8 },
+		codeRegion: '01',
+		codeDepartement: '971',
 		icon: './DROMs/guadeloupe.svg',
 	},
 	{
 		name: 'martinique',
-		code: '02',
-		coordinates: { center: [-61.0167, 14.6415], zoom: 8 },
+		codeRegion: '02',
+		codeDepartement: '972',
 		icon: './DROMs/martinique.svg',
 	},
 	{
 		name: 'guyane',
-		code: '03',
-		coordinates: { center: [-53.0333, 4.0], zoom: 6 },
+		codeRegion: '03',
+		codeDepartement: '973',
 		icon: './DROMs/guyane.svg',
 	},
 	{
 		name: 'reunion',
-		code: '04',
-		coordinates: { center: [45.1662, -12.8275], zoom: 9 },
+		codeRegion: '04',
+		codeDepartement: '974',
 		icon: './DROMs/reunion.svg',
 	},
 	{
 		name: 'mayotte',
-		code: '06',
-		coordinates: { center: [55.5364, -21.1151], zoom: 8 },
+		codeRegion: '06',
+		codeDepartement: '976',
 		icon: './DROMs/mayotte.svg',
 	},
 	{
 		name: 'hexagone',
-		code: 'hexagone',
-		coordinates: { center: [1.8883, 45.6033], zoom: 4.5 },
+		codeRegion: 'hexagone',
+		codeDepartement: 'hexagone',
 		icon: './DROMs/hexagone.svg',
 	},
 ];
@@ -64,13 +63,13 @@ interface MenuDromProps {
 }
 
 function MenuDrom({ onClickDrom, onClickMetropole }: MenuDromProps) {
-	const [activeTab, setActiveTab] = useState('hexagone');
+	const [activeTab, setActiveTab] = useState<Tab>('hexagone');
 	const [isOpen, setIsOpen] = useState(true);
 
 	function handleTabChange(location: MenuDromLocation) {
-		setActiveTab(location.code);
+		setActiveTab(location.codeRegion);
 
-		if (location.code === 'hexagone') {
+		if (location.codeRegion === 'hexagone') {
 			onClickMetropole();
 
 			return;
@@ -79,7 +78,7 @@ function MenuDrom({ onClickDrom, onClickMetropole }: MenuDromProps) {
 		onClickDrom(location);
 	}
 
-	const activeLocation = LOCATIONS.find((location) => location.code === activeTab);
+	const activeLocation = LOCATIONS.find((location) => location.codeRegion === activeTab);
 
 	if (!activeLocation) {
 		return null;
@@ -103,9 +102,9 @@ function MenuDrom({ onClickDrom, onClickMetropole }: MenuDromProps) {
 				<div className='flex gap-2'>
 					{LOCATIONS.map((location) => (
 						<button
-							key={location.code}
+							key={location.codeRegion}
 							onClick={() => handleTabChange(location)}
-							className={`${buttonStyle} ${activeTab === location.code ? buttonActiveStyle : buttonHoverStyle}`}
+							className={`${buttonStyle} ${activeTab === location.codeRegion ? buttonActiveStyle : buttonHoverStyle}`}
 							aria-label={`Go to ${location.name}`}
 						>
 							<Image src={location.icon} alt={location.name} width={24} height={24} />
