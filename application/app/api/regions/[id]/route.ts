@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { fetchRegionFeature } from '@/app/lib/data';
 
 /**
- * Get etablissement by id.
+ * Get region by id.
  * @param request
  * @returns
  */

@@ -3,11 +3,11 @@ import { NextRequest } from 'next/server';
 import { fetchCommuneFeature } from '@/app/lib/data';
 
 /**
- * Get etablissement by id.
+ * Get commune by id.
  * @param request
  * @returns
  */
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
 	try {
 		const data = await fetchCommuneFeature(id);
