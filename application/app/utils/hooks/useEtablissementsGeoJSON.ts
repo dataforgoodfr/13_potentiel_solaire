@@ -5,13 +5,14 @@ import { fetchEtablissementsGeoJSON } from '../fetchers/fetchEtablissementsGeoJS
 export default function useEtablissementsGeoJSON(codeCommune: string | null, enabled = true) {
 	const key = enabled ? ['etablissementsGeoJSON', codeCommune] : null;
 
-	const { data, error, isLoading } = useSWRImmutable(key, () =>
+	const { data, error, ...responseRest } = useSWRImmutable(key, () =>
 		fetchEtablissementsGeoJSON(codeCommune),
 	);
 
 	return {
 		etablissementsGeoJSON: data,
 		isError: error,
-		isLoading,
+		isFetching: responseRest.isLoading && responseRest.isValidating,
+		...responseRest,
 	};
 }

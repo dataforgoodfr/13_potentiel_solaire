@@ -34,7 +34,7 @@ function getRegionLabelPoints(data: FeatureCollection): FeatureCollection {
 }
 
 export default function useRegionsGeoJSON() {
-	const { data, error, isLoading } = useSWRImmutable('regionsGeoJSON', fetchRegionsGeoJSON);
+	const { data, error, ...responseRest } = useSWRImmutable('regionsGeoJSON', fetchRegionsGeoJSON);
 
 	const regionLabelPoints = data ? getRegionLabelPoints(data) : null;
 
@@ -42,6 +42,7 @@ export default function useRegionsGeoJSON() {
 		regionsGeoJSON: data,
 		regionLabelPoints,
 		isError: error,
-		isLoading,
+		isFetching: responseRest.isLoading && responseRest.isValidating,
+		...responseRest,
 	};
 }
