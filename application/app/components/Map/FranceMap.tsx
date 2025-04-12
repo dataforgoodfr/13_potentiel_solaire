@@ -506,7 +506,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				<MenuDrom onClickDrom={handleClickOnDroms} onClickMetropole={handleResetMap} />
 			</div>
 			{isLoading && (
-				<div className='left-100 absolute top-10 bg-red-700 text-2xl'>
+				<div className='absolute left-0 top-0 h-[100%] w-[100%] bg-slate-400 opacity-50'>
 					<Loading />
 				</div>
 			)}
