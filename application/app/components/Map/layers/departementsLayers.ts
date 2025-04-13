@@ -11,7 +11,7 @@ function getDepartementsLayer(isBackground = false) {
 		id: 'departements',
 		type: 'fill',
 		source: DEPARTEMENTS_SOURCE_ID,
-		paint: zonesLayerPaint(COLOR_THRESHOLDS.departements, isBackground),
+		paint: zonesLayerPaint(COLOR_THRESHOLDS.region, isBackground),
 		maxzoom: 11,
 	} satisfies LayerProps;
 }

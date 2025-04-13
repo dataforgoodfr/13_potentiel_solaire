@@ -4,23 +4,25 @@ import { Layer, Level } from '../interfaces';
 
 type URLValues = ReturnType<typeof useURLParams>['values'];
 
-const initialState: Layer[] = [{ level: 'regions', code: '' }];
+const initialState: Layer[] = [{ level: 'nation', code: '' }];
 
 function mapURLToLayers(values: URLValues): Layer[] {
 	const layers: Layer[] = [...initialState];
-	const { codeRegion, codeDepartement, codeCommune } = values;
+	const { codeRegion, codeDepartement, codeCommune, codeEtablissement } = values;
 
-	if (codeRegion) layers.push({ level: 'departements', code: codeRegion });
-	if (codeDepartement) layers.push({ level: 'communes', code: codeDepartement });
-	if (codeCommune) layers.push({ level: 'etablissements', code: codeCommune });
+	if (codeRegion) layers.push({ level: 'region', code: codeRegion });
+	if (codeDepartement) layers.push({ level: 'departement', code: codeDepartement });
+	if (codeCommune) layers.push({ level: 'commune', code: codeCommune });
+	if (codeEtablissement) layers.push({ level: 'etablissement', code: codeEtablissement });
 
 	return layers;
 }
 
 function mapLayerLevelToCodeLabel(level: Level): keyof URLValues {
-	if (level === 'departements') return 'codeRegion';
-	if (level === 'communes') return 'codeDepartement';
-	if (level === 'etablissements') return 'codeCommune';
+	if (level === 'region') return 'codeRegion';
+	if (level === 'departement') return 'codeDepartement';
+	if (level === 'commune') return 'codeCommune';
+	if (level === 'etablissement') return 'codeEtablissement';
 
 	throw new Error(`The level (${level}) does not exist`);
 }
@@ -46,7 +48,7 @@ export default function useLayers() {
 
 	function addLayer(layer: Layer) {
 		const { level, code } = layer;
-		if (level === 'regions') return;
+		if (level === 'nation') return;
 
 		const codeLabel = mapLayerLevelToCodeLabel(level);
 
@@ -55,7 +57,7 @@ export default function useLayers() {
 
 	function removeLayer() {
 		const { level } = lastLayer;
-		if (level === 'regions') return;
+		if (level === 'nation') return;
 
 		const codeLabel = mapLayerLevelToCodeLabel(level);
 
