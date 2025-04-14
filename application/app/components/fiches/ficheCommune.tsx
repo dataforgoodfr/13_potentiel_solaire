@@ -11,28 +11,29 @@ import ResponsabiliteMessage from './shared/ResponsabiliteMessage';
 import Tabs from './shared/Tabs';
 import TopCard from './shared/TopCard';
 
+const tabs = [
+	{ id: 'all', label: 'Tous' },
+	{ id: 'managed', label: 'Écoles primaires' },
+];
+
+type TabId = (typeof tabs)[number]['id'];
+
 interface FicheCommuneProps {
 	commune: CommuneProperties;
 }
 
 export default function FicheCommune({ commune }: FicheCommuneProps) {
-	const [activeTab, setActiveTab] = useState('all');
+	const [activeTab, setActiveTab] = useState<TabId>('all');
 
-	const handleTabChange = (tab: string) => {
+	const handleTabChange = (tab: TabId) => {
 		setActiveTab(tab);
 	};
-
-	const tabs = [
-		{ id: 'all', label: 'Tous' },
-		{ id: 'managed', label: 'Écoles primaires' },
-	];
 
 	return (
 		<div>
 			<CollectiviteHeaderCard type='commune' nom={commune.nom_commune} />
 			<ActionButtons />
 			<hr className='my-4' />
-
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='commune' />
 			<br />
@@ -41,17 +42,16 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 					potentiel_solaire={commune.potentiel_solaire_total}
 					nb_etablissements={commune.nb_etablissements_total}
 					nb_eleves={commune.nb_eleves_total}
-					niveau="d'établissements"
+					niveau='etablissements'
 				/>
 			) : (
 				<PotentielSolaireCard
 					potentiel_solaire={commune.potentiel_solaire_primaires}
 					nb_etablissements={commune.nb_etablissements_primaires}
 					nb_eleves={commune.nb_eleves_primaires}
-					niveau="d'écoles primaires"
+					niveau='primaire'
 				/>
 			)}
-
 			<hr className='my-4' />
 			<RepartitionPotentielSolaire
 				niveau='Écoles'

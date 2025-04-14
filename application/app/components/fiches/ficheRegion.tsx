@@ -11,21 +11,23 @@ import ResponsabiliteMessage from './shared/ResponsabiliteMessage';
 import Tabs from './shared/Tabs';
 import TopCard from './shared/TopCard';
 
+const tabs = [
+	{ id: 'all', label: 'Tous' },
+	{ id: 'managed', label: 'Lycées' },
+];
+
+type TabId = (typeof tabs)[number]['id'];
+
 interface FicheRegionProps {
 	region: RegionProperties;
 }
 
 export default function FicheRegion({ region }: FicheRegionProps) {
-	const [activeTab, setActiveTab] = useState('all');
+	const [activeTab, setActiveTab] = useState<TabId>('all');
 
-	const handleTabChange = (tab: string) => {
+	const handleTabChange = (tab: TabId) => {
 		setActiveTab(tab);
 	};
-
-	const tabs = [
-		{ id: 'all', label: 'Tous' },
-		{ id: 'managed', label: 'Lycées' },
-	];
 
 	return (
 		<div>
@@ -41,14 +43,14 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 					potentiel_solaire={region.potentiel_solaire_total}
 					nb_etablissements={region.nb_etablissements_total}
 					nb_eleves={region.nb_eleves_total}
-					niveau="d'établissements"
+					niveau='etablissements'
 				/>
 			) : (
 				<PotentielSolaireCard
 					potentiel_solaire={region.potentiel_solaire_lycees}
 					nb_etablissements={region.nb_etablissements_lycees}
 					nb_eleves={region.nb_eleves_lycees}
-					niveau="d'écoles primaires"
+					niveau='lycee'
 				/>
 			)}
 

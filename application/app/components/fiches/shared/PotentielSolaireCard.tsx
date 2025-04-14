@@ -15,10 +15,28 @@ const FOYER_CONSO_KWH = 2300;
 const PERSONNES_PAR_FOYER = 2;
 const HIGH_SOLAR_THRESHOLD = 500_000;
 
+type EtablissementNiveau = 'lycee' | 'college' | 'primaire' | 'etablissements';
+
+function getNiveauLabel(niveau?: EtablissementNiveau): string {
+	if (!niveau) return '-';
+	switch (niveau) {
+		case 'primaire':
+			return "d'écoles primaires";
+		case 'college':
+			return 'de collèges';
+		case 'lycee':
+			return 'de lycées';
+		case 'etablissements':
+			return "d'établissements";
+		default:
+			throw new Error(`Niveau inconnu : ${niveau}`);
+	}
+}
+
 interface PotentielSolaireCardProps {
 	potentiel_solaire?: number;
 	nb_etablissements?: number;
-	niveau?: string;
+	niveau?: EtablissementNiveau;
 	nb_eleves?: number;
 	showInterpretation?: boolean;
 	showNbEtablissements?: boolean;
@@ -61,7 +79,7 @@ export default function PotentielSolaireCard({
 				<>
 					<div className='flex gap-1 text-grey'>
 						<University />
-						<p className='text-sm font-bold'>Nombre total {niveau} :</p>
+						<p className='text-sm font-bold'>Nombre total {getNiveauLabel(niveau)} :</p>
 					</div>
 					<p className='font-bold text-grey'>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

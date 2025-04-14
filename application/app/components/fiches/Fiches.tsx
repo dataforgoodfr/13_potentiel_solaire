@@ -6,10 +6,10 @@ import { Etablissement } from '@/app/models/etablissements';
 import { RegionProperties } from '@/app/models/regions';
 import { X } from 'lucide-react';
 
-import FicheCommune from './ficheCommune';
-import FicheDepartement from './ficheDepartement';
-import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
-import FicheRegion from './ficheRegion';
+import FicheCommune from './FicheCommune';
+import FicheDepartement from './FicheDepartement';
+import FicheEtablissement from './ficheEtablissement/FicheEtablissement';
+import FicheRegion from './FicheRegion';
 
 type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
 type Tab = { id: TabId; label: string }[];

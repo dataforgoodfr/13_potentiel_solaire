@@ -11,21 +11,23 @@ import ResponsabiliteMessage from './shared/ResponsabiliteMessage';
 import Tabs from './shared/Tabs';
 import TopCard from './shared/TopCard';
 
+const tabs = [
+	{ id: 'all', label: 'Tous' },
+	{ id: 'managed', label: 'Collèges' },
+];
+
+type TabId = (typeof tabs)[number]['id'];
+
 interface FicheDepartementProps {
 	departement: DepartementProperties;
 }
 
 export default function FicheDepartement({ departement }: FicheDepartementProps) {
-	const [activeTab, setActiveTab] = useState('all');
+	const [activeTab, setActiveTab] = useState<TabId>('all');
 
-	const handleTabChange = (tab: string) => {
+	const handleTabChange = (tab: TabId) => {
 		setActiveTab(tab);
 	};
-
-	const tabs = [
-		{ id: 'all', label: 'Tous' },
-		{ id: 'managed', label: 'Collèges' },
-	];
 
 	return (
 		<div>
@@ -40,14 +42,14 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 					potentiel_solaire={departement.potentiel_solaire_total}
 					nb_etablissements={departement.nb_etablissements_total}
 					nb_eleves={departement.nb_eleves_total}
-					niveau="d'établissements"
+					niveau='etablissements'
 				/>
 			) : (
 				<PotentielSolaireCard
 					potentiel_solaire={departement.potentiel_solaire_colleges}
 					nb_etablissements={departement.nb_etablissements_colleges}
 					nb_eleves={departement.nb_eleves_colleges}
-					niveau='de collèges'
+					niveau='college'
 				/>
 			)}
 			<hr className='my-4' />
