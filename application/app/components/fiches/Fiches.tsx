@@ -6,10 +6,10 @@ import { Etablissement } from '@/app/models/etablissements';
 import { RegionProperties } from '@/app/models/regions';
 import { X } from 'lucide-react';
 
-import FicheCommune from './FicheCommune';
-import FicheDepartement from './FicheDepartement';
-import FicheEtablissement from './ficheEtablissement/FicheEtablissement';
-import FicheRegion from './FicheRegion';
+import FicheCommune from './ficheCommune';
+import FicheDepartement from './ficheDepartement';
+import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
+import FicheRegion from './ficheRegion';
 
 type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
 type Tab = { id: TabId; label: string }[];
@@ -44,7 +44,7 @@ export default function Fiches({
 		<div className='fixed right-0 top-0 z-50 h-full w-full max-w-sm overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:w-96'>
 			<button
 				onClick={onClose}
-				className='absolute left-1 top-4 text-xl text-gray-500 hover:text-black'
+				className='text-gray-500 absolute left-1 top-4 text-xl hover:text-black'
 			>
 				<X />
 			</button>
@@ -53,7 +53,7 @@ export default function Fiches({
 				{tabs.map((tab) => (
 					<button
 						key={tab.id}
-						className={`w-1/4 truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-select font-bold text-green' : 'bg-green text-grey'}`}
+						className={`w-1/4 truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
 						onClick={() => setActiveTab(tab.id)}
 					>
 						{tab.label}
