@@ -27,21 +27,12 @@ function mapLayerLevelToCodeLabel(level: Level): keyof URLValues {
 	throw new Error(`The level (${level}) does not exist`);
 }
 
-function mapLayersToCodes(layers: Layer[]) {
-	const codes = layers.reduce(
-		(obj, layer) => ({ ...obj, [mapLayerLevelToCodeLabel(layer.level)]: layer.code }),
-		{},
-	) as Parameters<ReturnType<typeof useURLParams>['setCodes']>[0];
-
-	return codes;
-}
-
 /**
  * Hook that handle the layers for the map depending on the search params
  * @returns
  */
 export default function useLayers() {
-	const { values, setCode, setCodes, reset } = useURLParams();
+	const { values, setCode } = useURLParams();
 
 	const layers = mapURLToLayers(values);
 	const lastLayer = layers.slice(-1)[0];
@@ -64,22 +55,10 @@ export default function useLayers() {
 		setCode(codeLabel, null);
 	}
 
-	function setLayers(layers: Layer[]) {
-		const codes = mapLayersToCodes(layers);
-
-		setCodes(codes);
-	}
-
-	function resetLayer() {
-		reset();
-	}
-
 	return {
 		layers,
 		lastLayer,
 		addLayer,
 		removeLayer,
-		setLayers,
-		resetLayer,
 	};
 }

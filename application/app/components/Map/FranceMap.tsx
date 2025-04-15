@@ -27,10 +27,10 @@ import { EtablissementFeature } from '../../models/etablissements';
 import Loading from '../Loading';
 import BackButton from './BackButton';
 import Legend from './Legend/Legend';
-import MenuDrom, { MenuDromLocation } from './MenuDrom';
+import MenuDrom from './MenuDrom';
 import { COLOR_THRESHOLDS } from './constants';
 import useLayers from './hooks/useLayers';
-import { ClusterFeature, Layer } from './interfaces';
+import { ClusterFeature } from './interfaces';
 import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
@@ -124,8 +124,6 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		lastLayer: { level },
 		addLayer,
 		removeLayer,
-		setLayers,
-		resetLayer,
 	} = useLayers();
 	const [isInteractive, setIsInteractive] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -200,6 +198,22 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		zoomOnFeature(activeEtablissement);
 	}, [codeEtablissement, etablissementsGeoJSON?.features]);
 
+	function easeTo(options: EaseToOptions) {
+		if (!mapRef.current) return;
+
+		mapRef.current.easeTo({
+			...options,
+			duration: ANIMATION_TIME_MS,
+		});
+	}
+
+	const easeToInitialView = useCallback(() => {
+		easeTo({
+			center: [initialViewState.longitude, initialViewState.latitude],
+			zoom: initialViewState.zoom,
+		});
+	}, []);
+
 	useEffect(() => {
 		if (isEtablissementLevel) {
 			toggleInteractions(true);
@@ -222,6 +236,8 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 
 			return;
 		}
+
+		easeToInitialView();
 	}, [
 		isDepartementLevel,
 		isRegionLevel,
@@ -232,23 +248,8 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		zoomOnActiveRegion,
 		isEtablissementLevel,
 		zoomOnActiveEtablissement,
+		easeToInitialView,
 	]);
-
-	function easeTo(options: EaseToOptions) {
-		if (!mapRef.current) return;
-
-		mapRef.current.easeTo({
-			...options,
-			duration: ANIMATION_TIME_MS,
-		});
-	}
-
-	function easeToInitialView() {
-		easeTo({
-			center: [initialViewState.longitude, initialViewState.latitude],
-			zoom: initialViewState.zoom,
-		});
-	}
 
 	async function zoomOnCluster(feature: ClusterEtablissementFeature) {
 		if (!mapRef.current) return;
@@ -296,36 +297,13 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 
 		const layerUp = layers.slice(-2)[0];
 
-		if (layerUp.level === 'nation') {
-			easeToInitialView();
-		}
-
-		if (layerUp.level === 'region') {
-			zoomOnActiveRegion();
-		}
-
 		if (layerUp.level === 'departement') {
-			zoomOnActiveDepartement();
-
 			toggleInteractions(false);
 		}
 
 		removeLayer();
 	}
 
-	async function handleResetMap() {
-		easeToInitialView();
-		resetLayer();
-	}
-	async function handleClickOnDroms(location: MenuDromLocation) {
-		// Droms region is the entire island, so we can show communes directly
-		const layers: Layer[] = [
-			{ code: location.codeRegion, level: 'region' },
-			{ code: location.codeDepartement, level: 'departement' },
-		];
-
-		setLayers(layers);
-	}
 	async function handleClickOnRegion(feature: RegionFeature) {
 		addLayer({ code: feature.properties.code_region, level: 'region' });
 	}
@@ -512,7 +490,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			{level !== 'nation' && <BackButton onBack={goBackOneLevel} />}
 			<div className='absolute bottom-2 left-2 flex flex-col items-start md:flex-row md:gap-4'>
 				<Legend thresholds={COLOR_THRESHOLDS[level]} />
-				<MenuDrom onClickDrom={handleClickOnDroms} onClickMetropole={handleResetMap} />
+				<MenuDrom />
 			</div>
 			{isLoading && (
 				<div className='absolute left-0 top-0 h-[100%] w-[100%] bg-slate-400 opacity-50'>
