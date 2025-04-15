@@ -100,7 +100,7 @@ export function Autocomplete({
 	}
 
 	return (
-		<div className='mg-x m-4 w-full max-w-screen-sm'>
+		<div className='mg-x m-4 w-full max-w-screen-sm text-white'>
 			<div className='relative w-full'>
 				<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
 				<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -139,7 +139,7 @@ export function Autocomplete({
 				{inputValue.length > 0 && (
 					<button
 						onClick={handleClear}
-						className='absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none'
+						className='text-gray-400 hover:text-gray-600 absolute right-2 top-1/2 -translate-y-1/2 focus:outline-none'
 						aria-label='Clear search'
 					>
 						<X size={16} />

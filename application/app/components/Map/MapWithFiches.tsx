@@ -13,7 +13,7 @@ export default function MapWithFiches() {
 	);
 
 	return (
-		<div className='relative h-full w-fit'>
+		<div>
 			<FranceMap onSelect={setSelectedEtablissement} />
 			{selectedEtablissement && (
 				<Fiches

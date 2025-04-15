@@ -24,7 +24,6 @@ import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementFeature } from '../../models/etablissements';
-import GeolocButton from '../GeolocButton';
 import Loading from '../Loading';
 import BackButton from './BackButton';
 import Legend from './Legend/Legend';
@@ -73,11 +72,6 @@ const initialViewState = {
 	latitude: 45.603354,
 	zoom: 4.5,
 } satisfies MapPropsReactMapLibre['initialViewState'];
-
-const style: React.CSSProperties = {
-	width: 1200,
-	height: 800,
-};
 
 const ANIMATION_TIME_MS = 800;
 
@@ -393,23 +387,13 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		}
 	}
 
-	function handleOnLocate(feature: CommuneFeature) {
-		const layers: Layer[] = [
-			{ level: 'region', code: feature.properties.code_region },
-			{ level: 'departement', code: feature.properties.code_departement },
-			{ level: 'commune', code: feature.properties.code_commune },
-		];
-
-		setLayers(layers);
-	}
-
 	const isLoading =
 		isRegionsGeoJSONLoading || isDepartementsGeoJSONFetching || isCommunesGeoJSONFetching;
 
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
 	return (
-		<div className='relative'>
+		<div className='relative h-[80vh] w-full sm:h-[600px] md:h-[800px] lg:h-[1000px]'>
 			<MapFromReactMapLibre
 				ref={mapRef}
 				initialViewState={initialViewState}
@@ -422,7 +406,6 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					clusterLayer.id,
 					unclusteredPointLayer.id,
 				]}
-				style={style}
 				onClick={onClick}
 				onLoad={() => {
 					setIsLoaded(true);
@@ -430,7 +413,6 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				}}
 				{...interact(isInteractive)}
 			>
-				<GeolocButton onLocate={handleOnLocate} />
 				{regionsGeoJSON && (
 					<Source
 						key={REGIONS_SOURCE_ID}

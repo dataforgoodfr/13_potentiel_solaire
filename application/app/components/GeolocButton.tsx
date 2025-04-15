@@ -5,27 +5,39 @@ import { useToast } from '@/hooks/use-toast';
 import { LocateFixed } from 'lucide-react';
 
 import { CommuneFeature } from '../models/communes';
-import { fetchCommuneGeoJSONWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
+import { fetchCommuneFeatureWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
 import { getUserLocation } from '../utils/geoloc';
 import { useDebouncedCallback } from '../utils/hooks/useDebouncedCallback';
-
-type GeolocButtonProps = {
-	onLocate: (geojson: CommuneFeature) => void;
-};
+import useLayers from './Map/hooks/useLayers';
+import { Layer } from './Map/interfaces';
 
 const DEBOUNCE_DELAY_MS = 500;
 
-const GeolocButton: React.FC<GeolocButtonProps> = ({ onLocate }) => {
+const GeolocButton: React.FC = () => {
 	const { toast } = useToast();
+	const { setLayers } = useLayers();
+
+	function setLayersToCommune(commune: CommuneFeature) {
+		const layers: Layer[] = [
+			{ level: 'region', code: commune.properties.code_region },
+			{ level: 'departement', code: commune.properties.code_departement },
+			{ level: 'commune', code: commune.properties.code_commune },
+		];
+
+		setLayers(layers);
+	}
 
 	async function handleClick() {
 		try {
 			const { latitude, longitude } = await getUserLocation();
-			const res = await fetchCommuneGeoJSONWithGeoloc({ lat: latitude, lng: longitude });
-			if (!res) {
+			const commune = await fetchCommuneFeatureWithGeoloc({
+				lat: latitude,
+				lng: longitude,
+			});
+			if (!commune) {
 				throw new Error('Commune not found with geoloc data');
 			}
-			onLocate(res);
+			setLayersToCommune(commune);
 		} catch {
 			toast({
 				title: 'Erreur lors de la géolocalisation',
@@ -43,7 +55,7 @@ const GeolocButton: React.FC<GeolocButtonProps> = ({ onLocate }) => {
 
 	return (
 		<button
-			className='absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-500 hover:bg-gray-600'
+			className='bg-gray-500 hover:bg-gray-600 flex h-12 w-12 items-center justify-center rounded-full text-green'
 			onClick={debouncedHandleClick}
 		>
 			<LocateFixed />
