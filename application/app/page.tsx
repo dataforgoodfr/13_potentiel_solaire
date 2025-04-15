@@ -1,9 +1,22 @@
-import FranceMap from './components/Map/FranceMap';
+'use client';
+
+import MapWithFiches from './components/Map/MapWithFiches';
+import SearchBar from './components/SearchBar/SearchBar';
+import { SearchResult } from './models/search';
 
 export default function Home() {
+	function handleSearchSelect(selection: SearchResult) {
+		alert(selection.libelle + ' - ' + selection.source);
+	}
+
 	return (
-		<div className='mx-auto flex max-w-screen-xl items-center justify-around'>
-			<FranceMap />
+		<div className='flex h-screen flex-col'>
+			<div className='p-4'>
+				<SearchBar onSelect={handleSearchSelect} />
+			</div>
+			<div className='flex-1'>
+				<MapWithFiches />
+			</div>
 		</div>
 	);
 }
