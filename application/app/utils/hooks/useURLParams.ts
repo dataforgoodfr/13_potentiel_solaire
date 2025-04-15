@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-type Codes = {
+export type Codes = {
 	codeRegion: string | null;
 	codeDepartement: string | null;
 	codeCommune: string | null;

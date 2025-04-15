@@ -8,23 +8,23 @@ import { CommuneFeature } from '../models/communes';
 import { fetchCommuneFeatureWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
 import { getUserLocation } from '../utils/geoloc';
 import { useDebouncedCallback } from '../utils/hooks/useDebouncedCallback';
-import useLayers from './Map/hooks/useLayers';
-import { Layer } from './Map/interfaces';
+import useURLParams, { Codes } from '../utils/hooks/useURLParams';
 
 const DEBOUNCE_DELAY_MS = 500;
 
 const GeolocButton: React.FC = () => {
 	const { toast } = useToast();
-	const { setLayers } = useLayers();
+	const { setCodes } = useURLParams();
 
-	function setLayersToCommune(commune: CommuneFeature) {
-		const layers: Layer[] = [
-			{ level: 'region', code: commune.properties.code_region },
-			{ level: 'departement', code: commune.properties.code_departement },
-			{ level: 'commune', code: commune.properties.code_commune },
-		];
+	function setCommuneInURL(commune: CommuneFeature) {
+		const codes: Codes = {
+			codeRegion: commune.properties.code_region,
+			codeDepartement: commune.properties.code_departement,
+			codeCommune: commune.properties.code_commune,
+			codeEtablissement: null,
+		};
 
-		setLayers(layers);
+		setCodes(codes);
 	}
 
 	async function handleClick() {
@@ -37,7 +37,7 @@ const GeolocButton: React.FC = () => {
 			if (!commune) {
 				throw new Error('Commune not found with geoloc data');
 			}
-			setLayersToCommune(commune);
+			setCommuneInURL(commune);
 		} catch {
 			toast({
 				title: 'Erreur lors de la géolocalisation',
