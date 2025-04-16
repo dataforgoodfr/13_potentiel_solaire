@@ -1,4 +1,4 @@
-import useURLParams from '@/app/utils/hooks/useURLParams';
+import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 
 import { Layer, Level } from '../interfaces';
 
@@ -27,12 +27,21 @@ function mapLayerLevelToCodeLabel(level: Level): keyof URLValues {
 	throw new Error(`The level (${level}) does not exist`);
 }
 
+function mapLayersToCodes(layers: Layer[]) {
+	const codes = layers.reduce(
+		(obj, layer) => ({ ...obj, [mapLayerLevelToCodeLabel(layer.level)]: layer.code }),
+		{},
+	) as Codes;
+
+	return codes;
+}
+
 /**
  * Hook that handle the layers for the map depending on the search params
  * @returns
  */
 export default function useLayers() {
-	const { values, setCode } = useURLParams();
+	const { values, setCode, setCodes, reset } = useURLParams();
 
 	const layers = mapURLToLayers(values);
 	const lastLayer = layers.slice(-1)[0];
@@ -55,10 +64,22 @@ export default function useLayers() {
 		setCode(codeLabel, null);
 	}
 
+	function setLayers(layers: Layer[]) {
+		const codes = mapLayersToCodes(layers);
+
+		setCodes(codes);
+	}
+
+	function resetLayer() {
+		reset();
+	}
+
 	return {
 		layers,
 		lastLayer,
 		addLayer,
 		removeLayer,
+		setLayers,
+		resetLayer,
 	};
 }

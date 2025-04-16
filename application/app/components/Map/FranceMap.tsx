@@ -30,7 +30,7 @@ import Legend from './Legend/Legend';
 import MenuDrom from './MenuDrom';
 import { COLOR_THRESHOLDS } from './constants';
 import useLayers from './hooks/useLayers';
-import { ClusterFeature } from './interfaces';
+import { ClusterFeature, Layer } from './interfaces';
 import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
@@ -124,6 +124,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		lastLayer: { level },
 		addLayer,
 		removeLayer,
+		setLayers,
 	} = useLayers();
 	const [isInteractive, setIsInteractive] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -306,13 +307,24 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	}
 
 	async function handleClickOnRegion(feature: RegionFeature) {
-		addLayer({ code: feature.properties.code_region, level: 'region' });
+		setLayers([{ code: feature.properties.code_region, level: 'region' }]);
 	}
 	async function handleClickOnDepartement(feature: DepartementFeature) {
-		addLayer({ code: feature.properties.code_departement, level: 'departement' });
+		const newLayers: Layer[] = [
+			{ code: feature.properties.code_region, level: 'region' },
+			{ code: feature.properties.code_departement, level: 'departement' },
+		];
+
+		setLayers(newLayers);
 	}
 	async function handleClickOnCommune(feature: CommuneFeature) {
-		addLayer({ code: feature.properties.code_commune, level: 'commune' });
+		const newLayers: Layer[] = [
+			{ code: feature.properties.code_region, level: 'region' },
+			{ code: feature.properties.code_departement, level: 'departement' },
+			{ code: feature.properties.code_commune, level: 'commune' },
+		];
+
+		setLayers(newLayers);
 
 		toggleInteractions(true);
 	}
