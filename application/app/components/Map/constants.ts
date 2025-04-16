@@ -39,6 +39,18 @@ const REGIONS_COLOR_THRESHOLDS: Thresholds = {
 	3400000000: SCALE_COLORS.high,
 };
 
+/**
+ * NIVEAU -> RESSOURCES
+ * Nation (aucun code) -> regions
+ * Region (codeRegion existe) -> departements
+ * Departement (codeDepartement existe) -> communes
+ * Commune (codeCommune existe) -> etablissements
+ * Etablissement (codeEtablissement existe) -> etablissements
+ *
+ * Explication :
+ * - Legende : au niveau commune -> COLOR_THRESHOLDS.commune (on reste au meme niveau)
+ * - Layer : quand on voit la layer etablissements on est en fait au niveau commune -> COLOR_THRESHOLDS.commune
+ */
 export const COLOR_THRESHOLDS: Record<Level, Thresholds> = {
 	etablissement: ETABLISSEMENTS_COLOR_THRESHOLDS,
 	commune: ETABLISSEMENTS_COLOR_THRESHOLDS,
