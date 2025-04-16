@@ -19,11 +19,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en' className='h-full'>
-			<body className='flex h-full flex-col'>
+			<body className='flex min-h-screen flex-col'>
 				<header className='sticky top-0 z-50'>
 					<NavBar />
 				</header>
-				<main className='h-full flex-1'>
+				<main className='flex flex-1 flex-col'>
 					<Providers>{children}</Providers>
 				</main>
 				<Toaster />

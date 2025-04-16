@@ -14,7 +14,8 @@ export type MenuDromLocation = {
 };
 
 const buttonStyle =
-	'flex h-12 w-12 items-center justify-center rounded-md bg-blue border border-white text-sm font-semibold shadow-md';
+	'flex items-center justify-center rounded-md bg-blue border border-white text-sm font-semibold shadow-md flex-shrink-0' +
+	' h-[clamp(2rem,10vw,3rem)] w-[clamp(2rem,10vw,3rem)]';
 const buttonActiveStyle = 'bg-slate-500';
 const buttonHoverStyle = 'hover:bg-white';
 
@@ -37,7 +38,7 @@ function MenuDrom() {
 	}
 
 	return (
-		<div className='mt-2 flex w-full max-w-sm flex-row justify-center gap-2 bg-transparent'>
+		<div className='mt-2 flex w-full max-w-sm flex-row justify-start gap-2 bg-transparent md:justify-center'>
 			<button onClick={() => setIsOpen(!isOpen)} className={buttonStyle}>
 				{isOpen ? (
 					<X color='white' />
