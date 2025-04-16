@@ -1,19 +1,21 @@
 'use client';
 
+import { useState } from 'react';
+
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/hooks/use-toast';
-import { LocateFixed } from 'lucide-react';
+import { Loader, LocateFixed } from 'lucide-react';
 
 import { CommuneFeature } from '../models/communes';
 import { UnsupportedFeatureError } from '../utils/errors';
 import { fetchCommuneFeatureWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
-import { GEOLOC_TIMEOUT, getUserLocation } from '../utils/geoloc';
-import { useDebouncedCallback } from '../utils/hooks/useDebouncedCallback';
+import { getUserLocation } from '../utils/geoloc';
 import useURLParams, { Codes } from '../utils/hooks/useURLParams';
 
 const GeolocButton: React.FC = () => {
 	const { toast } = useToast();
 	const { setCodes } = useURLParams();
+	const [loading, setLoading] = useState(false);
 
 	function setCommuneInURL(commune: CommuneFeature) {
 		const codes: Codes = {
@@ -27,7 +29,9 @@ const GeolocButton: React.FC = () => {
 	}
 
 	async function handleClick() {
+		if (loading) return;
 		try {
+			setLoading(true);
 			const { latitude, longitude } = await getUserLocation();
 			const commune = await fetchCommuneFeatureWithGeoloc({
 				lat: latitude,
@@ -54,19 +58,19 @@ const GeolocButton: React.FC = () => {
 					),
 				});
 			}
+		} finally {
+			setLoading(false);
 		}
 	}
-
-	const debouncedHandleClick = useDebouncedCallback(handleClick, GEOLOC_TIMEOUT);
 
 	return (
 		<button
 			type='button'
 			className='text-green hover:text-darkgreen'
 			aria-label='Utiliser la géolocalisation'
-			onClick={debouncedHandleClick}
+			onClick={handleClick}
 		>
-			<LocateFixed size={24} />
+			{loading ? <Loader className='animate-spin' size={24} /> : <LocateFixed size={24} />}
 		</button>
 	);
 };
