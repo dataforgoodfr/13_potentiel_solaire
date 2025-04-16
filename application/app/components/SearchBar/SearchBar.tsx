@@ -2,7 +2,6 @@
 
 import { ChangeEvent, useRef, useState } from 'react';
 
-import { CommuneFeature } from '@/app/models/communes';
 import { SearchResult } from '@/app/models/search';
 import useDebouncedSearch from '@/app/utils/hooks/useDebouncedSearch';
 import { Command, CommandEmpty, CommandGroup, CommandList } from '@/components/ui/command';
@@ -20,10 +19,9 @@ const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
 	onSelect: (selection: SearchResult) => void;
-	onLocate: (feature: CommuneFeature) => void;
 };
 
-export default function SearchBar({ onSelect, onLocate }: SearchBarProps) {
+export default function SearchBar({ onSelect }: SearchBarProps) {
 	const [query, setQuery] = useState('');
 	const { items, isLoading } = useDebouncedSearch(query);
 
@@ -44,7 +42,6 @@ export default function SearchBar({ onSelect, onLocate }: SearchBarProps) {
 			loading={isLoading}
 			onSelect={handleSelect}
 			onClear={clearSearch}
-			onLocate={onLocate}
 		/>
 	);
 }
@@ -60,7 +57,6 @@ type AutocompleteProps = {
 	loadingText?: string;
 	loading?: boolean;
 	openSuggestionsAtInputLength?: number;
-	onLocate: (feature: CommuneFeature) => void;
 };
 
 // Inspired from: https://github.com/shadcn-ui/ui/issues/1069
@@ -74,7 +70,6 @@ export function Autocomplete({
 	placeholder = DEFAULT_PLACEHOLDER,
 	noOptionsText = DEFAULT_EMPTY_RESULT_TEXT,
 	openSuggestionsAtInputLength = 1,
-	onLocate,
 }: AutocompleteProps) {
 	const cmdInputRef = useRef<HTMLInputElement>(null);
 
@@ -153,7 +148,7 @@ export function Autocomplete({
 					</button>
 				)}
 				<div className='absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2'>
-					<GeolocButton onLocate={onLocate} />
+					<GeolocButton />
 				</div>
 			</div>
 		</div>
