@@ -62,7 +62,7 @@ const GeolocButton: React.FC = () => {
 	return (
 		<button
 			type='button'
-			className='text-green'
+			className='text-green hover:text-darkgreen'
 			aria-label='Utiliser la géolocalisation'
 			onClick={debouncedHandleClick}
 		>
