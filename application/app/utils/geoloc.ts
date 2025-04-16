@@ -1,7 +1,10 @@
+import { UnsupportedFeatureError } from './errors';
+
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+export const GEOLOC_TIMEOUT = 5000;
 
 const options: PositionOptions = {
-	timeout: 5000,
+	timeout: GEOLOC_TIMEOUT,
 	maximumAge: ONE_DAY_MS,
 	enableHighAccuracy: false,
 };
@@ -17,7 +20,12 @@ const options: PositionOptions = {
 export function getUserLocation(): Promise<GeolocationCoordinates> {
 	return new Promise((resolve, reject) => {
 		if (!('geolocation' in navigator)) {
-			return reject(new Error('Geolocation is not supported by this browser.'));
+			return reject(
+				new UnsupportedFeatureError(
+					'Geolocation is not supported by this browser.',
+					'geoloc',
+				),
+			);
 		}
 
 		navigator.geolocation.getCurrentPosition(

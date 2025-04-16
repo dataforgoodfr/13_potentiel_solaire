@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useRef, useState } from 'react';
 
+import { CommuneFeature } from '@/app/models/communes';
 import { SearchResult } from '@/app/models/search';
 import useDebouncedSearch from '@/app/utils/hooks/useDebouncedSearch';
 import { Command, CommandEmpty, CommandGroup, CommandList } from '@/components/ui/command';
@@ -10,6 +11,7 @@ import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover'
 import { CommandInput, CommandLoading } from 'cmdk';
 import { Search, X } from 'lucide-react';
 
+import GeolocButton from '../GeolocButton';
 import Loading from '../Loading';
 import Suggestions from './Suggestions';
 
@@ -18,9 +20,10 @@ const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
 	onSelect: (selection: SearchResult) => void;
+	onLocate: (geojson: CommuneFeature) => void;
 };
 
-export default function SearchBar({ onSelect }: SearchBarProps) {
+export default function SearchBar({ onSelect, onLocate }: SearchBarProps) {
 	const [query, setQuery] = useState('');
 	const { items, isLoading } = useDebouncedSearch(query);
 
@@ -41,6 +44,7 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 			loading={isLoading}
 			onSelect={handleSelect}
 			onClear={clearSearch}
+			onLocate={onLocate}
 		/>
 	);
 }
@@ -56,6 +60,7 @@ type AutocompleteProps = {
 	loadingText?: string;
 	loading?: boolean;
 	openSuggestionsAtInputLength?: number;
+	onLocate: (geojson: CommuneFeature) => void;
 };
 
 // Inspired from: https://github.com/shadcn-ui/ui/issues/1069
@@ -69,6 +74,7 @@ export function Autocomplete({
 	placeholder = DEFAULT_PLACEHOLDER,
 	noOptionsText = DEFAULT_EMPTY_RESULT_TEXT,
 	openSuggestionsAtInputLength = 1,
+	onLocate,
 }: AutocompleteProps) {
 	const cmdInputRef = useRef<HTMLInputElement>(null);
 
@@ -111,7 +117,7 @@ export function Autocomplete({
 							onKeyDown={relayInputKeyDownToCommand}
 							onChange={onInputValueChange}
 							onClick={() => setIsPopoverOpen(true)}
-							className='pl-8 pr-8'
+							className='pl-8 pr-16'
 						/>
 					</PopoverAnchor>
 					<PopoverContent
@@ -138,13 +144,17 @@ export function Autocomplete({
 				</Popover>
 				{inputValue.length > 0 && (
 					<button
+						type='button'
 						onClick={handleClear}
-						className='text-gray-400 hover:text-gray-600 absolute right-2 top-1/2 -translate-y-1/2 focus:outline-none'
+						className='absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-gray-400 hover:text-gray-600'
 						aria-label='Clear search'
 					>
 						<X size={16} />
 					</button>
 				)}
+				<div className='absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2'>
+					<GeolocButton onLocate={onLocate} />
+				</div>
 			</div>
 		</div>
 	);
