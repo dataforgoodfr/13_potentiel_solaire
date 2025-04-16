@@ -160,10 +160,11 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		codeDepartement ?? null,
 		isLoaded && codeDepartement != null && departementsGeoJSON != null,
 	);
-	const { etablissementsGeoJSON } = useEtablissementsGeoJSON(
-		codeCommune ?? null,
-		isLoaded && codeCommune != null && communesGeoJSON != null,
-	);
+	const { etablissementsGeoJSON, isFetching: isEtablissementsGeoJSONFetching } =
+		useEtablissementsGeoJSON(
+			codeCommune ?? null,
+			isLoaded && codeCommune != null && communesGeoJSON != null,
+		);
 
 	const zoomOnActiveRegion = useCallback(() => {
 		const activeRegion = regionsGeoJSON?.features.find(
@@ -366,7 +367,10 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	}
 
 	const isLoading =
-		isRegionsGeoJSONLoading || isDepartementsGeoJSONFetching || isCommunesGeoJSONFetching;
+		isRegionsGeoJSONLoading ||
+		isDepartementsGeoJSONFetching ||
+		isCommunesGeoJSONFetching ||
+		isEtablissementsGeoJSONFetching;
 
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
