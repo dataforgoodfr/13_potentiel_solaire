@@ -20,7 +20,7 @@ const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
 	onSelect: (selection: SearchResult) => void;
-	onLocate: (geojson: CommuneFeature) => void;
+	onLocate: (feature: CommuneFeature) => void;
 };
 
 export default function SearchBar({ onSelect, onLocate }: SearchBarProps) {
@@ -60,7 +60,7 @@ type AutocompleteProps = {
 	loadingText?: string;
 	loading?: boolean;
 	openSuggestionsAtInputLength?: number;
-	onLocate: (geojson: CommuneFeature) => void;
+	onLocate: (feature: CommuneFeature) => void;
 };
 
 // Inspired from: https://github.com/shadcn-ui/ui/issues/1069

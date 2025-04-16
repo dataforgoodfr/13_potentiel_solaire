@@ -1,7 +1,7 @@
 /**
  * Feature type union.
  */
-export type FeatureType = 'geoloc';
+export type ErrorFeatureType = 'geoloc';
 
 /**
  * Error class to report unsupported features.
@@ -9,7 +9,7 @@ export type FeatureType = 'geoloc';
 export class UnsupportedFeatureError extends Error {
 	constructor(
 		message: string,
-		public type: FeatureType,
+		public type: ErrorFeatureType,
 	) {
 		super(message);
 	}

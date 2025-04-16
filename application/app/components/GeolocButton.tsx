@@ -48,8 +48,8 @@ const GeolocButton: React.FC = () => {
 					title: 'Erreur lors de la géolocalisation',
 					variant: 'destructive',
 					action: (
-						<ToastAction altText='Réssayer' onClick={() => handleClick()}>
-							Réssayer
+						<ToastAction altText='Réssayer' onClick={handleClick}>
+							Réessayer
 						</ToastAction>
 					),
 				});
