@@ -24,14 +24,8 @@ export default function MapWithFiches() {
 	return (
 		<div className='flex flex-1 flex-col'>
 			<div className='relative flex-1'>
-				{isInitialView && (
-					<HomeOverlay
-						onUseMap={() => {
-							closeInitialView();
-						}}
-					/>
-				)}
 				<Suspense>
+					{isInitialView && <HomeOverlay onUseMap={closeInitialView} />}
 					<FranceMap
 						onSelect={(f) =>
 							setSelectedEtablissementId(
