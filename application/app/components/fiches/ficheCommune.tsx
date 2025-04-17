@@ -55,7 +55,7 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			)}
 			<hr className='my-4' />
 			<RepartitionPotentielSolaire
-				niveau='Écoles'
+				niveau='ecoles'
 				repartition={{
 					eleve: commune.nb_etablissements_potentiel_eleve_primaires,
 					bon: commune.nb_etablissements_potentiel_bon_primaires,

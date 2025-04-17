@@ -57,7 +57,7 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 
 			<hr className='my-4' />
 			<RepartitionPotentielSolaire
-				niveau='Lycées'
+				niveau='lycees'
 				repartition={{
 					eleve: region.nb_etablissements_potentiel_eleve_lycees,
 					bon: region.nb_etablissements_potentiel_bon_lycees,

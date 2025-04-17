@@ -55,7 +55,7 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 			)}
 			<hr className='my-4' />
 			<RepartitionPotentielSolaire
-				niveau='Collèges'
+				niveau='colleges'
 				repartition={{
 					eleve: departement.nb_etablissements_potentiel_eleve_colleges,
 					bon: departement.nb_etablissements_potentiel_bon_colleges,
