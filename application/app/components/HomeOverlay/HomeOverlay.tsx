@@ -24,8 +24,8 @@ export const HomeOverlay: React.FC<HomeOverlayProps> = ({ onUseMap }: HomeOverla
 			<div className='border-light-green bg-blue/80 flex max-w-[434px] shrink-0 flex-col items-center justify-center rounded-[8px] border py-[30px] shadow-base'>
 				<div className='px-3'>
 					<h2 className='mb-4 text-base font-normal leading-6 text-white'>
-						Saisir une région, un département, une commune ou le nom d'un établissement
-						:
+						Saisir une région, un département, une commune ou le nom d&#39;un
+						établissement :
 					</h2>
 					<SearchBar onSelect={handleSearchSelect} />
 				</div>
