@@ -38,30 +38,35 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			<ResponsabiliteMessage niveau='commune' />
 			<br />
 			{activeTab === 'all' ? (
-				<PotentielSolaireCard
-					potentielSolaire={commune.potentiel_solaire_total}
-					nbEtablissements={commune.nb_etablissements_total}
-					nbEleves={commune.nb_eleves_total}
-					niveau='etablissements'
-				/>
+				<>
+					<PotentielSolaireCard
+						potentielSolaire={commune.potentiel_solaire_total}
+						nbEtablissements={commune.nb_etablissements_total}
+						nbEleves={commune.nb_eleves_total}
+						niveau='etablissements'
+					/>
+					<hr className='my-4' />
+					<RepartitionPotentielSolaire
+						niveau='Établissements'
+						repartition={commune.nb_etablissements_par_niveau_potentiel_total}
+					/>
+				</>
 			) : (
-				<PotentielSolaireCard
-					potentielSolaire={commune.potentiel_solaire_primaires}
-					nbEtablissements={commune.nb_etablissements_primaires}
-					nbEleves={commune.nb_eleves_primaires}
-					niveau='primaire'
-					level='communes'
-				/>
+				<>
+					<PotentielSolaireCard
+						potentielSolaire={commune.potentiel_solaire_primaires}
+						nbEtablissements={commune.nb_etablissements_primaires}
+						nbEleves={commune.nb_eleves_primaires}
+						niveau='primaire'
+						level='commune'
+					/>
+					<hr className='my-4' />
+					<RepartitionPotentielSolaire
+						niveau='Écoles'
+						repartition={commune.nb_etablissements_par_niveau_potentiel_primaires}
+					/>
+				</>
 			)}
-			<hr className='my-4' />
-			<RepartitionPotentielSolaire
-				niveau='ecoles'
-				repartition={{
-					eleve: commune.nb_etablissements_potentiel_eleve_primaires,
-					bon: commune.nb_etablissements_potentiel_bon_primaires,
-					bas: commune.nb_etablissements_potentiel_bas_primaires,
-				}}
-			/>
 			<hr className='my-4' />
 			<TopCard topEtablissements={commune.top_etablissements_primaires} />
 			<br />

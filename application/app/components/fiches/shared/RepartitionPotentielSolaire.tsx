@@ -1,4 +1,4 @@
-type ScolarLevel = 'ecoles' | 'colleges' | 'lycees';
+type ScolarLevel = 'Écoles' | 'Collèges' | 'Lycées' | 'Établissements';
 
 interface RepartitionPotentielSolaireProps {
 	niveau?: ScolarLevel;
@@ -11,7 +11,7 @@ interface RepartitionPotentielSolaireProps {
 
 export default function RepartitionPotentielSolaire({
 	niveau,
-	repartition,
+	repartition = {},
 }: RepartitionPotentielSolaireProps) {
 	const renderValeur = (valeur?: number) => (valeur !== undefined ? valeur : '—');
 

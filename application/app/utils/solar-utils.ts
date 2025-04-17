@@ -1,7 +1,7 @@
 import { COLOR_THRESHOLDS } from '../components/Map/constants';
 
 export type PotentielCategory = 'top' | 'ok' | 'ko';
-export type CarteLevel = 'etablissements' | 'communes' | 'departements' | 'regions';
+export type CarteLevel = 'etablissement' | 'commune' | 'departement' | 'region';
 
 export function getColorForPotentiel(level: CarteLevel, potentiel: number): string {
 	const thresholds = COLOR_THRESHOLDS[level];

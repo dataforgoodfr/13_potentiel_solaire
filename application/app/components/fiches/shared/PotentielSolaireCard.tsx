@@ -19,7 +19,7 @@ const SOLAR_TEXT = {
 };
 
 type EtablissementNiveau = 'lycee' | 'college' | 'primaire' | 'etablissements';
-type CarteLevel = 'etablissements' | 'communes' | 'departements' | 'regions';
+type CarteLevel = 'etablissement' | 'commune' | 'departement' | 'region';
 
 function getNiveauLabel(niveau?: EtablissementNiveau): string {
 	if (!niveau) return '-';

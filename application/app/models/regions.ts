@@ -10,9 +10,16 @@ export interface RegionProperties {
 	potentiel_solaire_lycees: number;
 	potentiel_nb_foyers_lycees: number;
 	top_etablissements_lycees: Array<TopEtablissement> | null;
-	nb_etablissements_potentiel_eleve_lycees: number;
-	nb_etablissements_potentiel_bon_lycees: number;
-	nb_etablissements_potentiel_bas_lycees: number;
+  nb_etablissements_par_niveau_potentiel_lycees: {
+    eleve: number;
+    bon: number;
+    bas: number;
+  };
+  nb_etablissements_par_niveau_potentiel_total: {
+    eleve: number;
+    bon: number;
+    bas: number;
+  };
 	nb_eleves_total: number;
 	nb_etablissements_total: number;
 	potentiel_nb_foyers_total: number;

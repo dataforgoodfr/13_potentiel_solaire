@@ -39,31 +39,35 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 			<ResponsabiliteMessage niveau='region' />
 			<br />
 			{activeTab === 'all' ? (
-				<PotentielSolaireCard
-					potentielSolaire={region.potentiel_solaire_total}
-					nbEtablissements={region.nb_etablissements_total}
-					nbEleves={region.nb_eleves_total}
-					niveau='etablissements'
-				/>
+				<>
+					<PotentielSolaireCard
+						potentielSolaire={region.potentiel_solaire_total}
+						nbEtablissements={region.nb_etablissements_total}
+						nbEleves={region.nb_eleves_total}
+						niveau='etablissements'
+					/>
+					<hr className='my-4' />
+					<RepartitionPotentielSolaire
+						niveau='Lycées'
+            repartition={region.nb_etablissements_par_niveau_potentiel_total}
+					/>
+				</>
 			) : (
-				<PotentielSolaireCard
-					potentielSolaire={region.potentiel_solaire_lycees}
-					nbEtablissements={region.nb_etablissements_lycees}
-					nbEleves={region.nb_eleves_lycees}
-					niveau='lycee'
-					level='regions'
-				/>
+				<>
+					<PotentielSolaireCard
+						potentielSolaire={region.potentiel_solaire_lycees}
+						nbEtablissements={region.nb_etablissements_lycees}
+						nbEleves={region.nb_eleves_lycees}
+						niveau='lycee'
+						level='region'
+					/>
+					<hr className='my-4' />
+					<RepartitionPotentielSolaire
+						niveau='Lycées'
+						repartition={region.nb_etablissements_par_niveau_potentiel_lycees}
+					/>
+				</>
 			)}
-
-			<hr className='my-4' />
-			<RepartitionPotentielSolaire
-				niveau='lycees'
-				repartition={{
-					eleve: region.nb_etablissements_potentiel_eleve_lycees,
-					bon: region.nb_etablissements_potentiel_bon_lycees,
-					bas: region.nb_etablissements_potentiel_bas_lycees,
-				}}
-			/>
 			<hr className='my-4' />
 			<TopCard topEtablissements={region.top_etablissements_lycees} />
 			<br />

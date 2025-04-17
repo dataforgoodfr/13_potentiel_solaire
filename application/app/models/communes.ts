@@ -18,9 +18,16 @@ export interface CommuneProperties {
 	potentiel_nb_foyers_primaires: number;
 	potentiel_nb_foyers_total: number;
 	top_etablissements_primaires: Array<TopEtablissement> | null;
-	nb_etablissements_potentiel_eleve_primaires: number;
-	nb_etablissements_potentiel_bon_primaires: number;
-	nb_etablissements_potentiel_bas_primaires: number;
+	nb_etablissements_par_niveau_potentiel_total: {
+    eleve: number;
+    bon: number;
+    bas: number;
+  };
+  nb_etablissements_par_niveau_potentiel_primaires: {
+    eleve: number;
+    bon: number;
+    bas: number;
+  }
 }
 export type CommuneFeature = CommunesGeoJSON['features'][number];
 

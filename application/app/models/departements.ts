@@ -12,9 +12,16 @@ export interface DepartementProperties {
 	potentiel_solaire_colleges: number;
 	potentiel_nb_foyers_colleges: number;
 	top_etablissements_colleges: Array<TopEtablissement> | null;
-	nb_etablissements_potentiel_eleve_colleges: number;
-	nb_etablissements_potentiel_bon_colleges: number;
-	nb_etablissements_potentiel_bas_colleges: number;
+  nb_etablissements_par_niveau_potentiel_colleges: {
+    eleve: number;
+    bon: number;
+    bas: number;
+  };
+  nb_etablissements_par_niveau_potentiel_total: {
+    eleve: number;
+    bon: number;
+    bas: number;
+  };
 	nb_eleves_total: number;
 	nb_etablissements_total: number;
 	potentiel_nb_foyers_total: number;
