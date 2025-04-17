@@ -66,16 +66,14 @@ export default function NavBar() {
 						<Image src={imgLogo} alt='logo' width={108} height={33} />
 					</Link>
 				</div>
-
-				{/* Bloc SearchBar + boutons */}
-				<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
+				{/* Bloc SearchBar + boutons */}(
+				<div className='m-4 flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
 					<Suspense>
 						<SearchBar onSelect={handleSearchSelect} />
 						<ListFilter className='shrink-0 cursor-pointer stroke-green' size={24} />
 					</Suspense>
 				</div>
-
-				{/* Menu desktop */}
+				){/* Menu desktop */}
 				<nav className='hidden shrink-0 xl:flex xl:gap-4' aria-label='Menu principal'>
 					{links.map((link) => (
 						<Link
