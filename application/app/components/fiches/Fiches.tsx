@@ -41,10 +41,12 @@ export default function Fiches({
 	];
 
 	return (
-		<div className='fixed right-0 top-0 z-50 h-full w-full max-w-sm overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:w-96'>
+		<div
+			className={`fixed right-0 top-0 z-50 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md`}
+		>
 			<button
 				onClick={onClose}
-				className='text-gray-500 absolute left-1 top-4 text-xl hover:text-black'
+				className='absolute left-1 top-2 text-xl text-grey hover:text-black'
 			>
 				<X />
 			</button>
