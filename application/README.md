@@ -117,13 +117,31 @@ Visual studio code est recommandé pour le développement de l'application.
 
 1. Avec docker (recommandé) :
 
-```sh
-cd database
-# build the docker image
-docker build -f Dockerfile -t 13_potentiel_solaire_mock_data .
-# création d'un volume docker qui contiendra les fichiers générés
-docker run --rm -v $(pwd)/output:/app/output 13_potentiel_solaire_mock_data #les fichiers seront disponibles dans database/output
-```
+    ```sh
+    cd database
+    # build the docker image
+    docker build -f Dockerfile -t 13_potentiel_solaire_mock_data .
+    ```
+
+    Copier les données aux emplacements attendus par l'application
+
+    ```sh
+    # lancer le docker avec un terminal interactif afin de garder le container ouvert
+    docker run --rm -it 13_potentiel_solaire_mock_data sh
+
+    # récupérer l'id du container (colonne NAMES)
+    docker ps
+    # ex de retour de la commande :
+    # CONTAINER ID   IMAGE                              COMMAND   CREATED          STATUS          PORTS     NAMES
+    # e280be0cc5a0   13_potentiel_solaire_mock_data   "sh"      32 seconds ago   Up 31 seconds             recursing_pike
+
+    # le contenu du dossier db - data.duckdb - doit être placé dans le répertoire {racine_du_projet}/application/database
+    docker cp <container_id>:/app/output/db/data.duckdb .
+    # ex : docker cp recursing_pike:/app/output/db/data.duckdb .
+
+    # le contenu de geojson - normalement 4 fichiers geojson - doit être placé dans le répertoire {racine_du_projet}/application/public/data
+    docker cp <container_id>:/app/output/geojson/* ../public/data
+    ```
 
 2. Manuellement :
 
@@ -145,7 +163,7 @@ docker run --rm -v $(pwd)/output:/app/output 13_potentiel_solaire_mock_data #les
 
     3. Lancer la commande de création de la base
 
-        `duckdb < prepare-JDD-test.sql data-test.duckdb` ou `duckdb -init prepare-JDD-test.sql -no-stdin data-test.duckdb`
+        `duckdb < prepare-JDD-test.sql data.duckdb` ou `duckdb -init prepare-JDD-test.sql -no-stdin data.duckdb`
 
     En utilisant un éditeur SQL, par exemple DBeaver : https://dbeaver.io/
 
@@ -180,7 +198,7 @@ La commande utilisée pour [Installer la base de test](#installer-la-base-de-tes
 
     3. Lancer la fichier sql sur la base de données précédemment créée
 
-        `duckdb data-test.duckdb < export-geojson.sql`
+        `duckdb data.duckdb < export-geojson.sql`
 
 ### Configurer les variables d'environnement
 
@@ -189,7 +207,7 @@ La commande utilisée pour [Installer la base de test](#installer-la-base-de-tes
 
 `DATABASE_PATH` => le chemin absolu vers la base de donnée duckdb
 
-Ex: `DATABASE_PATH=/path/to/data-test.duckdb`
+Ex: `DATABASE_PATH=/path/to/data.duckdb`
 
 `NEXT_PUBLIC_BASE_URL` => l'url de déploiement
 
