@@ -24,15 +24,15 @@ export default function FicheEtablissement({ feature }: FicheEtablissementProps)
 			<hr className='my-4' />
 			{feature.protection && <ProtectionCard />}
 			<PotentielSolaireCard
-				potentiel_solaire={feature.potentiel_solaire}
+				potentielSolaire={feature.potentiel_solaire}
 				showInterpretation
 				showNbEtablissements={false}
-				nb_eleves={feature.nb_eleves ?? undefined}
+				nbEleves={feature.nb_eleves ?? undefined}
 				level='etablissements'
 			/>
 			<hr className='my-4' />
 			<div className='ml-2'>
-				<InstallationCard surface_exploitable_max={feature.surface_exploitable_max} />
+				<InstallationCard surfaceExploitableMax={feature.surface_exploitable_max} />
 				<GraphiqueCard />
 			</div>
 			<hr className='my-4' />

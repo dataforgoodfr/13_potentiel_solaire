@@ -1,11 +1,15 @@
 import { CircleHelp, HousePlug, University, Users, Zap } from 'lucide-react';
 
+import {
+	getFormattedFoyersEquivalents,
+	getFormattedPotentielSolaire,
+} from '../../../utils/energy-utils';
 import { COLOR_THRESHOLDS } from '../../Map/constants';
 
 const UNKNOWN_TEXTS = {
-	potentiel_solaire: '—',
-	nb_etablissements: '—',
-	nb_eleves: "Nombre d'élèves concernés inconnu",
+	potentielSolaire: '—',
+	nbEtablissements: '—',
+	nbEleves: "Nombre d'élèves concernés inconnu",
 };
 
 const SOLAR_TEXT = {
@@ -13,8 +17,6 @@ const SOLAR_TEXT = {
 	low: 'Des optimisations sont à prévoir pour un bon potentiel solaire',
 };
 
-const FOYER_CONSO_KWH = 2300;
-const PERSONNES_PAR_FOYER = 2;
 const HIGH_SOLAR_THRESHOLD = 500_000;
 
 type EtablissementNiveau = 'lycee' | 'college' | 'primaire' | 'etablissements';
@@ -37,23 +39,13 @@ function getNiveauLabel(niveau?: EtablissementNiveau): string {
 }
 
 interface PotentielSolaireCardProps {
-	potentiel_solaire?: number;
-	nb_etablissements?: number;
+	potentielSolaire?: number;
+	nbEtablissements?: number;
 	niveau?: EtablissementNiveau;
-	nb_eleves?: number;
+	nbEleves?: number;
 	showInterpretation?: boolean;
 	showNbEtablissements?: boolean;
 	level?: CarteLevel;
-}
-
-function potentielSolaireEnFoyers(potentiel?: number): number | string {
-	if (potentiel === undefined) return UNKNOWN_TEXTS.potentiel_solaire;
-	return Math.round(potentiel / FOYER_CONSO_KWH / PERSONNES_PAR_FOYER);
-}
-
-function potentielSolaireEnMWh(potentiel?: number): number | string {
-	if (potentiel === undefined) return UNKNOWN_TEXTS.potentiel_solaire;
-	return Math.round(potentiel / 1000);
 }
 
 function getColorForPotentiel(level: keyof typeof COLOR_THRESHOLDS, potentiel: number): string {
@@ -76,15 +68,15 @@ function getColorForPotentiel(level: keyof typeof COLOR_THRESHOLDS, potentiel: n
 }
 
 export default function PotentielSolaireCard({
-	potentiel_solaire,
-	nb_etablissements,
+	potentielSolaire,
+	nbEtablissements,
 	niveau,
-	nb_eleves,
+	nbEleves,
 	showInterpretation = false,
 	showNbEtablissements = true,
 	level,
 }: PotentielSolaireCardProps) {
-	const isHigh = (potentiel_solaire ?? 0) > HIGH_SOLAR_THRESHOLD;
+	const isHigh = (potentielSolaire ?? 0) > HIGH_SOLAR_THRESHOLD;
 
 	return (
 		<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-2 outline-select'>
@@ -108,9 +100,9 @@ export default function PotentielSolaireCard({
 					<p className='font-bold text-grey'>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span className='text-3xl'>
-							{nb_etablissements !== undefined && nb_etablissements !== null
-								? nb_etablissements
-								: UNKNOWN_TEXTS.nb_etablissements}
+							{nbEtablissements !== undefined && nbEtablissements !== null
+								? nbEtablissements
+								: UNKNOWN_TEXTS.nbEtablissements}
 						</span>
 					</p>
 					<br />
@@ -119,15 +111,15 @@ export default function PotentielSolaireCard({
 
 			<div className='flex gap-1 text-grey'>
 				<Users />
-				{nb_eleves !== undefined ? (
+				{nbEleves !== undefined ? (
 					<>
 						<p className='font-bold'>
-							<span className='text-xl'>{nb_eleves.toLocaleString('fr-FR')}</span>{' '}
+							<span className='text-xl'>{nbEleves.toLocaleString('fr-FR')}</span>{' '}
 							élèves concernés
 						</p>
 					</>
 				) : (
-					<span className='text-gray-500 italic'>{UNKNOWN_TEXTS.nb_eleves}</span>
+					<span className='text-gray-500 italic'>{UNKNOWN_TEXTS.nbEleves}</span>
 				)}
 			</div>
 
@@ -136,15 +128,15 @@ export default function PotentielSolaireCard({
 				<p className='text-sm font-bold'>Potentiel de production annuelle </p>
 			</div>
 			<div className='flex items-center gap-2 font-bold text-blue'>
-				{potentiel_solaire !== undefined && level ? (
+				{potentielSolaire !== undefined && level ? (
 					<div
 						className='border-1 h-4 w-4 rounded-full border border-slate-400'
-						style={{ backgroundColor: getColorForPotentiel(level, potentiel_solaire) }}
+						style={{ backgroundColor: getColorForPotentiel(level, potentielSolaire) }}
 					/>
 				) : (
 					<div className='bg-yellow-300 border-1 h-4 w-4 rounded-full border border-slate-400' />
 				)}
-				<span className='text-3xl'>{potentielSolaireEnMWh(potentiel_solaire)}</span>
+				<span className='text-3xl'>{getFormattedPotentielSolaire(potentielSolaire)}</span>
 				<span className='text-base'>&nbsp;MWh/an</span>
 			</div>
 
@@ -159,7 +151,7 @@ export default function PotentielSolaireCard({
 			<div className='flex w-full items-center justify-between ps-7 text-darkgreen'>
 				<div className='flex items-center gap-2'>
 					<span className='text-3xl font-bold text-darkgreen'>
-						{potentielSolaireEnFoyers(potentiel_solaire)}
+						{getFormattedFoyersEquivalents(potentielSolaire)}
 					</span>
 					<div className='flex flex-col text-sm leading-tight'>
 						<span className='font-bold'>foyers de</span>

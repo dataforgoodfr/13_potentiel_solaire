@@ -39,16 +39,16 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			<br />
 			{activeTab === 'all' ? (
 				<PotentielSolaireCard
-					potentiel_solaire={commune.potentiel_solaire_total}
-					nb_etablissements={commune.nb_etablissements_total}
-					nb_eleves={commune.nb_eleves_total}
+					potentielSolaire={commune.potentiel_solaire_total}
+					nbEtablissements={commune.nb_etablissements_total}
+					nbEleves={commune.nb_eleves_total}
 					niveau='etablissements'
 				/>
 			) : (
 				<PotentielSolaireCard
-					potentiel_solaire={commune.potentiel_solaire_primaires}
-					nb_etablissements={commune.nb_etablissements_primaires}
-					nb_eleves={commune.nb_eleves_primaires}
+					potentielSolaire={commune.potentiel_solaire_primaires}
+					nbEtablissements={commune.nb_etablissements_primaires}
+					nbEleves={commune.nb_eleves_primaires}
 					niveau='primaire'
 					level='communes'
 				/>

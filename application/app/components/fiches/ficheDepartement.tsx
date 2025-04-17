@@ -39,16 +39,16 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 			<br />
 			{activeTab === 'all' ? (
 				<PotentielSolaireCard
-					potentiel_solaire={departement.potentiel_solaire_total}
-					nb_etablissements={departement.nb_etablissements_total}
-					nb_eleves={departement.nb_eleves_total}
+					potentielSolaire={departement.potentiel_solaire_total}
+					nbEtablissements={departement.nb_etablissements_total}
+					nbEleves={departement.nb_eleves_total}
 					niveau='etablissements'
 				/>
 			) : (
 				<PotentielSolaireCard
-					potentiel_solaire={departement.potentiel_solaire_colleges}
-					nb_etablissements={departement.nb_etablissements_colleges}
-					nb_eleves={departement.nb_eleves_colleges}
+					potentielSolaire={departement.potentiel_solaire_colleges}
+					nbEtablissements={departement.nb_etablissements_colleges}
+					nbEleves={departement.nb_eleves_colleges}
 					niveau='college'
 					level='departements'
 				/>

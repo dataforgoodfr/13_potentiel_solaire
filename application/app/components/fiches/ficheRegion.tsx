@@ -40,16 +40,16 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 			<br />
 			{activeTab === 'all' ? (
 				<PotentielSolaireCard
-					potentiel_solaire={region.potentiel_solaire_total}
-					nb_etablissements={region.nb_etablissements_total}
-					nb_eleves={region.nb_eleves_total}
+					potentielSolaire={region.potentiel_solaire_total}
+					nbEtablissements={region.nb_etablissements_total}
+					nbEleves={region.nb_eleves_total}
 					niveau='etablissements'
 				/>
 			) : (
 				<PotentielSolaireCard
-					potentiel_solaire={region.potentiel_solaire_lycees}
-					nb_etablissements={region.nb_etablissements_lycees}
-					nb_eleves={region.nb_eleves_lycees}
+					potentielSolaire={region.potentiel_solaire_lycees}
+					nbEtablissements={region.nb_etablissements_lycees}
+					nbEleves={region.nb_eleves_lycees}
 					niveau='lycee'
 					level='regions'
 				/>
