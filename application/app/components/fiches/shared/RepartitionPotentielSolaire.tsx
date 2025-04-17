@@ -15,20 +15,36 @@ export default function RepartitionPotentielSolaire({
 
 	return (
 		<div className='mb-4'>
-			<p className='text-sm font-bold text-grey'>🟠 {niveau} au potentiel solaire élevé :</p>
-			<p className='text-center text-xl font-bold text-blue'>
-				{renderValeur(repartition.eleve)}
-			</p>
+			<div>
+				<div className='flex items-center gap-2 text-sm font-bold text-grey'>
+					<div className='border-1 h-4 w-4 rounded-full border border-slate-400 bg-sol_top' />
+					<span>{niveau} au potentiel solaire élevé</span>
+				</div>
+				<p className='text-center text-xl font-bold text-blue'>
+					{renderValeur(repartition.eleve)}
+				</p>
+			</div>
 			<br />
-			<p className='text-sm font-bold text-grey'>🟡 {niveau} au potentiel solaire bon :</p>
-			<p className='text-center text-xl font-bold text-blue'>
-				{renderValeur(repartition.bon)}
-			</p>
+			<div>
+				<div className='flex items-center gap-2 text-sm font-bold text-grey'>
+					<div className='border-1 h-4 w-4 rounded-full border border-slate-400 bg-sol_ok' />
+					<span>{niveau} au potentiel solaire bon</span>
+				</div>
+				<p className='text-center text-xl font-bold text-blue'>
+					{renderValeur(repartition.bon)}
+				</p>
+			</div>
+
 			<br />
-			<p className='text-sm font-bold text-grey'>⚪️ {niveau} au potentiel solaire bas :</p>
-			<p className='text-center text-xl font-bold text-blue'>
-				{renderValeur(repartition.bas)}
-			</p>
+			<div>
+				<div className='flex items-center gap-2 text-sm font-bold text-grey'>
+					<div className='border-1 h-4 w-4 rounded-full border border-slate-400 bg-sol_ko' />
+					<span>{niveau} au potentiel solaire bas</span>
+				</div>
+				<p className='text-center text-xl font-bold text-blue'>
+					{renderValeur(repartition.bas)}
+				</p>
+			</div>
 		</div>
 	);
 }

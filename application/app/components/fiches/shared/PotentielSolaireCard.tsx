@@ -138,11 +138,11 @@ export default function PotentielSolaireCard({
 			<div className='flex items-center gap-2 font-bold text-blue'>
 				{potentiel_solaire !== undefined && level ? (
 					<div
-						className='h-4 w-4 rounded-full'
+						className='border-1 h-4 w-4 rounded-full border border-slate-400'
 						style={{ backgroundColor: getColorForPotentiel(level, potentiel_solaire) }}
 					/>
 				) : (
-					<div className='bg-gray-300 h-4 w-4 rounded-full' />
+					<div className='bg-yellow-300 border-1 h-4 w-4 rounded-full border border-slate-400' />
 				)}
 				<span className='text-3xl'>{potentielSolaireEnMWh(potentiel_solaire)}</span>
 				<span className='text-base'>&nbsp;MWh/an</span>
