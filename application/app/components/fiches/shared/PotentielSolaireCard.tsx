@@ -4,7 +4,7 @@ import {
 	getFormattedFoyersEquivalents,
 	getFormattedPotentielSolaire,
 } from '../../../utils/energy-utils';
-import { COLOR_THRESHOLDS } from '../../Map/constants';
+import { getColorForPotentiel, getPotentielCategory } from '../../../utils/solar-utils';
 
 const UNKNOWN_TEXTS = {
 	potentielSolaire: '—',
@@ -13,11 +13,10 @@ const UNKNOWN_TEXTS = {
 };
 
 const SOLAR_TEXT = {
-	high: 'Le potentiel solaire de cet établissement me paraît tout à fait rayonnant',
-	low: 'Des optimisations sont à prévoir pour un bon potentiel solaire',
+	top: 'Le potentiel solaire de cet établissement me paraît tout-à-fait rayonnant !',
+	ok: 'Le potentiel solaire de cet établissement me paraît plutôt satisfaisant !',
+	ko: 'Le potentiel solaire de cet établissement me paraît un peu limité, mais pas impossible pour autant !',
 };
-
-const HIGH_SOLAR_THRESHOLD = 500_000;
 
 type EtablissementNiveau = 'lycee' | 'college' | 'primaire' | 'etablissements';
 type CarteLevel = 'etablissements' | 'communes' | 'departements' | 'regions';
@@ -48,25 +47,6 @@ interface PotentielSolaireCardProps {
 	level?: CarteLevel;
 }
 
-function getColorForPotentiel(level: keyof typeof COLOR_THRESHOLDS, potentiel: number): string {
-	const thresholds = COLOR_THRESHOLDS[level];
-	const entries = Object.entries(thresholds)
-		.map(([threshold, color]) => [Number(threshold), color] as [number, string])
-		.sort((a, b) => a[0] - b[0]);
-
-	let lastColor = entries[0][1];
-
-	for (const [threshold, color] of entries) {
-		if (potentiel >= threshold) {
-			lastColor = color;
-		} else {
-			break;
-		}
-	}
-
-	return lastColor;
-}
-
 export default function PotentielSolaireCard({
 	potentielSolaire,
 	nbEtablissements,
@@ -76,17 +56,25 @@ export default function PotentielSolaireCard({
 	showNbEtablissements = true,
 	level,
 }: PotentielSolaireCardProps) {
-	const isHigh = (potentielSolaire ?? 0) > HIGH_SOLAR_THRESHOLD;
-
 	return (
 		<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-2 outline-select'>
-			{showInterpretation && (
+			{showInterpretation && potentielSolaire !== undefined && level && (
 				<>
-					<div
-						className={isHigh ? 'rounded-xl bg-green p-5' : 'rounded-xl bg-yellow p-5'}
-					>
-						<p className='font-normal'>{isHigh ? SOLAR_TEXT.high : SOLAR_TEXT.low}</p>
-					</div>
+					{(() => {
+						const category = getPotentielCategory(level, potentielSolaire);
+						const bgColor =
+							category === 'top'
+								? 'bg-sol_top'
+								: category === 'ok'
+									? 'bg-green'
+									: 'bg-sol_ko';
+
+						return (
+							<div className={`rounded-xl p-5 ${bgColor}`}>
+								<p className='font-normal'>{SOLAR_TEXT[category]}</p>
+							</div>
+						);
+					})()}
 					<br />
 				</>
 			)}
