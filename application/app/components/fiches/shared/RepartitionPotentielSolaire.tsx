@@ -1,5 +1,7 @@
+type ScolarLevel = 'ecoles' | 'colleges' | 'lycee';
+
 interface RepartitionPotentielSolaireProps {
-	niveau: 'Écoles' | 'Collèges' | 'Lycées';
+	niveau?: ScolarLevel;
 	repartition: {
 		eleve?: number;
 		bon?: number;
