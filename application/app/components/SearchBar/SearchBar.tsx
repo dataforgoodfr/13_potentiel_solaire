@@ -10,6 +10,7 @@ import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover'
 import { CommandInput, CommandLoading } from 'cmdk';
 import { Search, X } from 'lucide-react';
 
+import GeolocButton from '../GeolocButton';
 import Loading from '../Loading';
 import Suggestions from './Suggestions';
 
@@ -111,7 +112,7 @@ export function Autocomplete({
 							onKeyDown={relayInputKeyDownToCommand}
 							onChange={onInputValueChange}
 							onClick={() => setIsPopoverOpen(true)}
-							className='pl-8 pr-8'
+							className='pl-8 pr-16'
 						/>
 					</PopoverAnchor>
 					<PopoverContent
@@ -138,13 +139,17 @@ export function Autocomplete({
 				</Popover>
 				{inputValue.length > 0 && (
 					<button
+						type='button'
 						onClick={handleClear}
-						className='text-gray-400 hover:text-gray-600 absolute right-2 top-1/2 -translate-y-1/2 focus:outline-none'
+						className='absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-gray-400 hover:text-gray-600'
 						aria-label='Clear search'
 					>
 						<X size={16} />
 					</button>
 				)}
+				<div className='absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2'>
+					<GeolocButton />
+				</div>
 			</div>
 		</div>
 	);

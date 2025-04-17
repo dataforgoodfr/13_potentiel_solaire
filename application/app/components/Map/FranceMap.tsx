@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	LayerProps,
 	Layer as LayerReactMapLibre,
@@ -24,12 +24,13 @@ import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { EtablissementFeature } from '../../models/etablissements';
+import Loading from '../Loading';
 import BackButton from './BackButton';
 import Legend from './Legend/Legend';
-import MenuDrom, { MenuDromLocation } from './MenuDrom';
+import MenuDrom from './MenuDrom';
 import { COLOR_THRESHOLDS } from './constants';
 import useLayers from './hooks/useLayers';
-import { ClusterFeature } from './interfaces';
+import { ClusterFeature, Layer } from './interfaces';
 import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
@@ -120,31 +121,84 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 	const {
 		layers,
-		lastLayer: { code, level },
+		lastLayer: { level },
 		addLayer,
 		removeLayer,
-		resetLayer,
+		setLayers,
 	} = useLayers();
 	const [isInteractive, setIsInteractive] = useState(false);
+	const [isLoaded, setIsLoaded] = useState(false);
 
-	const isRegionsLayerVisible = level === 'regions';
-	const isDepartementsLayerVisible = level === 'departements';
-	const isCommunesLayerVisible = level === 'communes';
-	const isEtablissementsLayerVisible = level === 'etablissements';
+	const isNationLevel = level === 'nation';
+	const isRegionLevel = level === 'region';
+	const isDepartementLevel = level === 'departement';
+	const isCommuneLevel = level === 'commune';
+	const isEtablissementLevel = level === 'etablissement';
 
-	const { regionsGeoJSON, regionLabelPoints } = useRegionsGeoJSON();
-	const { departementsGeoJSON, departementLabelPoints } = useDepartementsGeoJSON(
-		code ?? null,
-		isDepartementsLayerVisible,
+	const codeRegion = layers.find((layer) => layer.level === 'region')?.code;
+	const codeDepartement = layers.find((layer) => layer.level === 'departement')?.code;
+	const codeCommune = layers.find((layer) => layer.level === 'commune')?.code;
+	const codeEtablissement = layers.find((layer) => layer.level === 'etablissement')?.code;
+
+	const {
+		regionsGeoJSON,
+		regionLabelPoints,
+		isFetching: isRegionsGeoJSONLoading,
+	} = useRegionsGeoJSON();
+	const {
+		departementsGeoJSON,
+		departementLabelPoints,
+		isFetching: isDepartementsGeoJSONFetching,
+	} = useDepartementsGeoJSON(
+		codeRegion ?? null,
+		isLoaded && codeRegion != null && regionsGeoJSON != null,
 	);
-	const { communesGeoJSON, communeLabelPoints } = useCommunesGeoJSON(
-		code ?? null,
-		isCommunesLayerVisible,
+	const {
+		communesGeoJSON,
+		communeLabelPoints,
+		isFetching: isCommunesGeoJSONFetching,
+	} = useCommunesGeoJSON(
+		codeDepartement ?? null,
+		isLoaded && codeDepartement != null && departementsGeoJSON != null,
 	);
-	const { etablissementsGeoJSON } = useEtablissementsGeoJSON(
-		code ?? null,
-		isEtablissementsLayerVisible,
-	);
+	const { etablissementsGeoJSON, isFetching: isEtablissementsGeoJSONFetching } =
+		useEtablissementsGeoJSON(
+			codeCommune ?? null,
+			isLoaded && codeCommune != null && communesGeoJSON != null,
+		);
+
+	const zoomOnActiveRegion = useCallback(() => {
+		const activeRegion = regionsGeoJSON?.features.find(
+			(feature) => feature.properties.code_region === codeRegion,
+		);
+		if (!activeRegion) return;
+
+		zoomOnFeature(activeRegion);
+	}, [codeRegion, regionsGeoJSON?.features]);
+	const zoomOnActiveDepartement = useCallback(() => {
+		const activeDepartement = departementsGeoJSON?.features.find(
+			(feature) => feature.properties.code_departement === codeDepartement,
+		);
+		if (!activeDepartement) return;
+
+		zoomOnFeature(activeDepartement);
+	}, [codeDepartement, departementsGeoJSON?.features]);
+	const zoomOnActiveCommune = useCallback(() => {
+		const activeCommune = communesGeoJSON?.features.find(
+			(feature) => feature.properties.code_commune === codeCommune,
+		);
+		if (!activeCommune) return;
+
+		zoomOnFeature(activeCommune);
+	}, [codeCommune, communesGeoJSON?.features]);
+	const zoomOnActiveEtablissement = useCallback(() => {
+		const activeEtablissement = etablissementsGeoJSON?.features.find(
+			(feature) => feature.properties.identifiant_de_l_etablissement === codeEtablissement,
+		);
+		if (!activeEtablissement) return;
+
+		zoomOnFeature(activeEtablissement);
+	}, [codeEtablissement, etablissementsGeoJSON?.features]);
 
 	function easeTo(options: EaseToOptions) {
 		if (!mapRef.current) return;
@@ -155,12 +209,49 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		});
 	}
 
-	function easeToInitialView() {
+	const easeToInitialView = useCallback(() => {
 		easeTo({
 			center: [initialViewState.longitude, initialViewState.latitude],
 			zoom: initialViewState.zoom,
 		});
-	}
+	}, []);
+
+	useEffect(() => {
+		if (isEtablissementLevel) {
+			toggleInteractions(true);
+			zoomOnActiveEtablissement();
+
+			return;
+		}
+		if (isCommuneLevel) {
+			zoomOnActiveCommune();
+
+			return;
+		}
+		if (isDepartementLevel) {
+			zoomOnActiveDepartement();
+
+			return;
+		}
+		if (isRegionLevel) {
+			zoomOnActiveRegion();
+
+			return;
+		}
+
+		easeToInitialView();
+	}, [
+		isDepartementLevel,
+		isRegionLevel,
+		isNationLevel,
+		isCommuneLevel,
+		zoomOnActiveCommune,
+		zoomOnActiveDepartement,
+		zoomOnActiveRegion,
+		isEtablissementLevel,
+		zoomOnActiveEtablissement,
+		easeToInitialView,
+	]);
 
 	async function zoomOnCluster(feature: ClusterEtablissementFeature) {
 		if (!mapRef.current) return;
@@ -183,7 +274,9 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		});
 	}
 
-	function zoomOnFeature(feature: CommuneFeature | DepartementFeature | RegionFeature) {
+	function zoomOnFeature(
+		feature: EtablissementFeature | CommuneFeature | DepartementFeature | RegionFeature,
+	) {
 		if (!mapRef.current) return;
 
 		const [minLng, minLat, maxLng, maxLat] = bbox(feature);
@@ -206,60 +299,42 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 
 		const layerUp = layers.slice(-2)[0];
 
-		if (layerUp.level === 'regions' && mapRef.current) {
-			easeToInitialView();
-		}
-
-		if (layerUp.level === 'departements') {
-			const layerUpFeature = regionsGeoJSON?.features.find(
-				(f) => f.properties.code_region === layerUp.code,
-			);
-			if (!layerUpFeature) {
-				throw new Error('Failed to get level up region');
-			}
-
-			zoomOnFeature(layerUpFeature);
-		}
-
-		if (layerUp.level === 'communes') {
-			const layerUpFeature = departementsGeoJSON?.features.find(
-				(f) => f.properties.code_departement === layerUp.code,
-			);
-			if (!layerUpFeature) {
-				throw new Error('Failed to get level up departement');
-			}
-
-			zoomOnFeature(layerUpFeature);
-
+		if (layerUp.level === 'departement') {
 			toggleInteractions(false);
 		}
 
 		removeLayer();
 	}
 
-	async function handleResetMap() {
-		easeToInitialView();
-		resetLayer();
-	}
-	async function handleClickOnDroms(location: MenuDromLocation) {
-		easeTo(location.coordinates);
-
-		addLayer({ code: location.code, level: 'departements' });
-	}
 	async function handleClickOnRegion(feature: RegionFeature) {
-		zoomOnFeature(feature);
-
-		addLayer({ code: feature.properties.code_region, level: 'departements' });
+		setLayers([{ code: feature.properties.code_region, level: 'region' }]);
 	}
 	async function handleClickOnDepartement(feature: DepartementFeature) {
-		zoomOnFeature(feature);
+		const newLayers: Layer[] = [
+			{ code: feature.properties.code_region, level: 'region' },
+			{ code: feature.properties.code_departement, level: 'departement' },
+		];
 
-		addLayer({ code: feature.properties.code_departement, level: 'communes' });
+		setLayers(newLayers);
 	}
-	async function handleClickOnCommunes(feature: CommuneFeature) {
-		zoomOnFeature(feature);
+	async function handleClickOnCommune(feature: CommuneFeature) {
+		const newLayers: Layer[] = [
+			{ code: feature.properties.code_region, level: 'region' },
+			{ code: feature.properties.code_departement, level: 'departement' },
+			{ code: feature.properties.code_commune, level: 'commune' },
+		];
 
-		addLayer({ code: feature.properties.code_commune, level: 'etablissements' });
+		setLayers(newLayers);
+
+		toggleInteractions(true);
+	}
+	async function handleClickOnEtablissement(feature: EtablissementFeature) {
+		onSelect(feature);
+
+		addLayer({
+			code: feature.properties.identifiant_de_l_etablissement,
+			level: 'etablissement',
+		});
 
 		toggleInteractions(true);
 	}
@@ -285,7 +360,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			isFeatureFrom<EventCommuneFeature>(feature, communesLayer) ||
 			isFeatureFrom<EventCommuneFeature>(feature, communesTransparentLayer)
 		) {
-			handleClickOnCommunes(feature);
+			handleClickOnCommune(feature);
 
 			return;
 		}
@@ -297,21 +372,22 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		}
 
 		if (isFeatureFrom<EventEtablissementFeature>(feature, unclusteredPointLayer)) {
-			onSelect(feature);
+			handleClickOnEtablissement(feature);
+
 			return;
 		}
 	}
 
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		function handleOnLocate(feature: CommuneFeature) {
-		if (!mapRef.current) return;
+	const isLoading =
+		isRegionsGeoJSONLoading ||
+		isDepartementsGeoJSONFetching ||
+		isCommunesGeoJSONFetching ||
+		isEtablissementsGeoJSONFetching;
 
-		handleClickOnCommunes(feature);
-		//TODO: load higher levels (departement, region)
-	}
+	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
 	return (
-		<div className='relative h-[80vh] w-full sm:h-[600px] md:h-[800px] lg:h-[1000px]'>
+		<div className='relative h-full w-full'>
 			<MapFromReactMapLibre
 				ref={mapRef}
 				initialViewState={initialViewState}
@@ -325,7 +401,10 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					unclusteredPointLayer.id,
 				]}
 				onClick={onClick}
-				onLoad={() => toggleInteractions(false)}
+				onLoad={() => {
+					setIsLoaded(true);
+					toggleInteractions(false);
+				}}
 				{...interact(isInteractive)}
 			>
 				{regionsGeoJSON && (
@@ -335,7 +414,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						type='geojson'
 						data={regionsGeoJSON}
 					>
-						{isRegionsLayerVisible ? (
+						{isNationLevel ? (
 							<LayerReactMapLibre {...regionsLayer} />
 						) : (
 							<LayerReactMapLibre {...regionsBackgroundLayer} />
@@ -349,7 +428,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						type='geojson'
 						data={regionLabelPoints}
 					>
-						{isRegionsLayerVisible && <LayerReactMapLibre {...regionsLabelsLayer} />}
+						{isNationLevel && <LayerReactMapLibre {...regionsLabelsLayer} />}
 					</Source>
 				)}
 				{departementsGeoJSON && (
@@ -359,10 +438,8 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						type='geojson'
 						data={departementsGeoJSON}
 					>
-						{isDepartementsLayerVisible && (
-							<LayerReactMapLibre {...departementsLayer} />
-						)}
-						{isCommunesLayerVisible && (
+						{isRegionLevel && <LayerReactMapLibre {...departementsLayer} />}
+						{isDepartementLevel && (
 							<LayerReactMapLibre {...departementsBackgroundLayer} />
 						)}
 					</Source>
@@ -374,9 +451,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						type='geojson'
 						data={departementLabelPoints}
 					>
-						{isDepartementsLayerVisible && (
-							<LayerReactMapLibre {...departementsLabelsLayer} />
-						)}
+						{isRegionLevel && <LayerReactMapLibre {...departementsLabelsLayer} />}
 					</Source>
 				)}
 				{communesGeoJSON && (
@@ -392,7 +467,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						{isEtablissementsLayerVisible && (
 							<LayerReactMapLibre {...communesLineLayer} />
 						)}
-						{isCommunesLayerVisible && <LayerReactMapLibre {...communesLayer} />}
+						{isDepartementLevel && <LayerReactMapLibre {...communesLayer} />}
 					</Source>
 				)}
 				{communeLabelPoints && (
@@ -402,7 +477,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						type='geojson'
 						data={communeLabelPoints}
 					>
-						{isCommunesLayerVisible && <LayerReactMapLibre {...communesLabelsLayer} />}
+						{isDepartementLevel && <LayerReactMapLibre {...communesLabelsLayer} />}
 					</Source>
 				)}
 				{etablissementsGeoJSON && (
@@ -428,13 +503,16 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					</Source>
 				)}
 			</MapFromReactMapLibre>
-			{level !== 'regions' && <BackButton onBack={goBackOneLevel} />}
-			<div className='absolute bottom-2 left-2 flex flex-col items-start md:flex-row md:gap-4'>
+			{level !== 'nation' && <BackButton onBack={goBackOneLevel} />}
+			<div className='absolute bottom-2 left-2 z-50 flex flex-col items-start md:bottom-4 md:left-1/2 md:-translate-x-1/2 md:flex-row md:items-center md:gap-4'>
 				<Legend thresholds={COLOR_THRESHOLDS[level]} />
-				{isRegionsLayerVisible && (
-					<MenuDrom onClickDrom={handleClickOnDroms} onClickMetropole={handleResetMap} />
-				)}
+				<MenuDrom />
 			</div>
+			{isLoading && (
+				<div className='absolute left-0 top-0 h-[100%] w-[100%] bg-slate-400 opacity-50'>
+					<Loading />
+				</div>
+			)}
 		</div>
 	);
 }

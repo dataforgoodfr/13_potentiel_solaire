@@ -25,7 +25,7 @@ export default function Legend({ thresholds }: Legend) {
 	const lastThresholdUnit = getClosestEnergyUnit(lastThreshold);
 
 	return (
-		<div className='pointer-events-none flex flex-grow-0 flex-col items-center rounded-md bg-background p-1 text-sm text-foreground'>
+		<div className='pointer-events-none flex flex-grow-0 flex-col items-center rounded-md bg-blue p-2 text-sm text-white'>
 			{getLabel(lastThresholdUnit)}
 			<LegendColorScale thresholds={thresholds} unit={lastThresholdUnit} />
 		</div>
@@ -74,13 +74,13 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 					fillOpacity={OPACITY}
 					rx={BORDER_RADIUS}
 				/>
-				{thresholdValues.slice(1).map(([thresholdValue], i) => (
+				{thresholdValues.map(([thresholdValue], i) => (
 					<text
 						key={thresholdValue}
-						x={sliceWidth * (i + 1) + BORDER_RADIUS}
+						x={sliceWidth * i + BORDER_RADIUS}
 						y={sliceHeight + 15}
 						textAnchor='middle'
-						className='fill-foreground font-normal opacity-80'
+						className='fill-white font-normal opacity-80'
 					>
 						{Math.round(convertKWhTo(Number(thresholdValue), unit))}
 					</text>

@@ -5,7 +5,7 @@ import getBaseURL from './getBaseURL';
 
 const API_ROUTE = '/api/geolocate';
 
-export async function fetchCommuneGeoJSONWithGeoloc({ lat, lng }: SimpleLngLat) {
+export async function fetchCommuneFeatureWithGeoloc({ lat, lng }: SimpleLngLat) {
 	try {
 		const url = new URL(API_ROUTE, getBaseURL());
 

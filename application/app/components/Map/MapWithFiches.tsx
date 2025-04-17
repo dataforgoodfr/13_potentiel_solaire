@@ -13,8 +13,10 @@ export default function MapWithFiches() {
 	);
 
 	return (
-		<div>
-			<FranceMap onSelect={setSelectedEtablissement} />
+		<div className='flex flex-1 flex-col'>
+			<div className='flex-1'>
+				<FranceMap onSelect={setSelectedEtablissement} />
+			</div>
 			{selectedEtablissement && (
 				<Fiches
 					etablissement={{

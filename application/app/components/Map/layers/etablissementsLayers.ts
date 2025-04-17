@@ -36,7 +36,7 @@ export const unclusteredPointLayer = {
 		'circle-color': [
 			'step',
 			['get', 'potentiel_solaire'],
-			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.etablissements),
+			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
 		],
 		'circle-radius': 15,
 	},

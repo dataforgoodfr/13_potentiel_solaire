@@ -1,52 +1,76 @@
 'use client';
 
+import { useState } from 'react';
+
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/hooks/use-toast';
-import { LocateFixed } from 'lucide-react';
+import { Loader, LocateFixed } from 'lucide-react';
 
 import { CommuneFeature } from '../models/communes';
-import { fetchCommuneGeoJSONWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
+import { UnsupportedFeatureError } from '../utils/errors';
+import { fetchCommuneFeatureWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
 import { getUserLocation } from '../utils/geoloc';
-import { useDebouncedCallback } from '../utils/hooks/useDebouncedCallback';
+import useURLParams, { Codes } from '../utils/hooks/useURLParams';
 
-type GeolocButtonProps = {
-	onLocate: (geojson: CommuneFeature) => void;
-};
-
-const DEBOUNCE_DELAY_MS = 500;
-
-const GeolocButton: React.FC<GeolocButtonProps> = ({ onLocate }) => {
+const GeolocButton: React.FC = () => {
 	const { toast } = useToast();
+	const { setCodes } = useURLParams();
+	const [loading, setLoading] = useState(false);
+
+	function setCommuneInURL(commune: CommuneFeature) {
+		const codes: Codes = {
+			codeRegion: commune.properties.code_region,
+			codeDepartement: commune.properties.code_departement,
+			codeCommune: commune.properties.code_commune,
+			codeEtablissement: null,
+		};
+
+		setCodes(codes);
+	}
 
 	async function handleClick() {
+		if (loading) return;
 		try {
+			setLoading(true);
 			const { latitude, longitude } = await getUserLocation();
-			const res = await fetchCommuneGeoJSONWithGeoloc({ lat: latitude, lng: longitude });
-			if (!res) {
+			const commune = await fetchCommuneFeatureWithGeoloc({
+				lat: latitude,
+				lng: longitude,
+			});
+			if (!commune) {
 				throw new Error('Commune not found with geoloc data');
 			}
-			onLocate(res);
-		} catch {
-			toast({
-				title: 'Erreur lors de la géolocalisation',
-				variant: 'destructive',
-				action: (
-					<ToastAction altText='Réssayer' onClick={() => handleClick()}>
-						Réssayer
-					</ToastAction>
-				),
-			});
+			setCommuneInURL(commune);
+		} catch (error) {
+			if (error instanceof UnsupportedFeatureError && error.type === 'geoloc') {
+				toast({
+					title: "La géolocalisation n'est pas prise en charge par votre navigateur",
+					variant: 'destructive',
+				});
+			} else {
+				toast({
+					title: 'Erreur lors de la géolocalisation',
+					variant: 'destructive',
+					action: (
+						<ToastAction altText='Réssayer' onClick={handleClick}>
+							Réessayer
+						</ToastAction>
+					),
+				});
+			}
+		} finally {
+			setLoading(false);
 		}
 	}
 
-	const debouncedHandleClick = useDebouncedCallback(handleClick, DEBOUNCE_DELAY_MS);
-
 	return (
 		<button
-			className='bg-gray-500 hover:bg-gray-600 flex h-12 w-12 items-center justify-center rounded-full text-green'
-			onClick={debouncedHandleClick}
+			type='button'
+			className='text-green hover:text-darkgreen'
+			aria-label='Utiliser la géolocalisation'
+			onClick={handleClick}
 		>
-			<LocateFixed />
+			{loading ? <Loader className='animate-spin' size={24} /> : <LocateFixed size={24} />}
 		</button>
 	);
 };

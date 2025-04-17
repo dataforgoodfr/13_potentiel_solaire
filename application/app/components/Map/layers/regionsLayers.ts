@@ -11,7 +11,7 @@ function getRegionsLayer(isBackground = false) {
 		id: 'regions',
 		type: 'fill',
 		source: REGIONS_SOURCE_ID,
-		paint: zonesLayerPaint(COLOR_THRESHOLDS.regions, isBackground),
+		paint: zonesLayerPaint(COLOR_THRESHOLDS.nation, isBackground),
 		maxzoom: 10,
 	} satisfies LayerProps;
 }

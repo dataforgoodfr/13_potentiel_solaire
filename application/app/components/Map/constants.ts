@@ -26,22 +26,35 @@ const COMMUNES_COLOR_THRESHOLDS: Thresholds = {
 };
 
 /** In kWh */
-const DEPARTEMENTS_COLOR__THRESHOLDS: Thresholds = {
+const DEPARTEMENTS_COLOR_THRESHOLDS: Thresholds = {
 	0: SCALE_COLORS.low,
 	430000000: SCALE_COLORS.middle,
 	860000000: SCALE_COLORS.high,
 };
 
 /** In kWh */
-const REGIONS_COLOR__THRESHOLDS: Thresholds = {
+const REGIONS_COLOR_THRESHOLDS: Thresholds = {
 	0: SCALE_COLORS.low,
 	1700000000: SCALE_COLORS.middle,
 	3400000000: SCALE_COLORS.high,
 };
 
+/**
+ * NIVEAU -> RESSOURCES
+ * Nation (aucun code) -> regions
+ * Region (codeRegion existe) -> departements
+ * Departement (codeDepartement existe) -> communes
+ * Commune (codeCommune existe) -> etablissements
+ * Etablissement (codeEtablissement existe) -> etablissements
+ *
+ * Explication :
+ * - Legende : au niveau commune -> COLOR_THRESHOLDS.commune (on reste au meme niveau)
+ * - Layer : quand on voit la layer etablissements on est en fait au niveau commune -> COLOR_THRESHOLDS.commune
+ */
 export const COLOR_THRESHOLDS: Record<Level, Thresholds> = {
-	etablissements: ETABLISSEMENTS_COLOR_THRESHOLDS,
-	communes: COMMUNES_COLOR_THRESHOLDS,
-	departements: DEPARTEMENTS_COLOR__THRESHOLDS,
-	regions: REGIONS_COLOR__THRESHOLDS,
+	etablissement: ETABLISSEMENTS_COLOR_THRESHOLDS,
+	commune: ETABLISSEMENTS_COLOR_THRESHOLDS,
+	departement: COMMUNES_COLOR_THRESHOLDS,
+	region: DEPARTEMENTS_COLOR_THRESHOLDS,
+	nation: REGIONS_COLOR_THRESHOLDS,
 };

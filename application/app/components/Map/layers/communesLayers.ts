@@ -10,7 +10,7 @@ export const communesLayer = {
 	id: 'communes',
 	type: 'fill',
 	source: COMMUNES_SOURCE_ID,
-	paint: zonesLayerPaint(COLOR_THRESHOLDS.communes, false),
+	paint: zonesLayerPaint(COLOR_THRESHOLDS.departement, false),
 	maxzoom: 11,
 } satisfies LayerProps;
 

@@ -1,6 +1,6 @@
 import centroid from '@turf/centroid';
 import { Feature, FeatureCollection } from 'geojson';
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 
 import { fetchDepartementsGeoJSON } from '../fetchers/fetchDepartementsGeoJSON';
 
@@ -37,10 +37,8 @@ function getDepartementsLabelPoints(data: FeatureCollection): FeatureCollection 
 export default function useDepartementsGeoJSON(codeRegion: string | null, enabled = true) {
 	const key = enabled ? ['departementsGeoJSON', codeRegion] : null;
 
-	const { data, error, isLoading } = useSWRImmutable(
-		key,
-		() => fetchDepartementsGeoJSON(codeRegion),
-		{ keepPreviousData: true },
+	const { data, error, ...responseRest } = useSWR(key, () =>
+		fetchDepartementsGeoJSON(codeRegion),
 	);
 
 	const departementLabelPoints = data ? getDepartementsLabelPoints(data) : null;
@@ -49,6 +47,7 @@ export default function useDepartementsGeoJSON(codeRegion: string | null, enable
 		departementsGeoJSON: data,
 		departementLabelPoints,
 		isError: error,
-		isLoading,
+		isFetching: responseRest.isLoading && responseRest.isValidating,
+		...responseRest,
 	};
 }

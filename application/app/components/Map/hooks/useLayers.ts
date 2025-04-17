@@ -1,37 +1,85 @@
-import { useState } from 'react';
+import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 
-import { Layer } from '../interfaces';
+import { Layer, Level } from '../interfaces';
 
-const initialState: Layer[] = [{ level: 'regions', code: '' }];
+type URLValues = ReturnType<typeof useURLParams>['values'];
+
+const initialState: Layer[] = [{ level: 'nation', code: '' }];
+
+function mapURLToLayers(values: URLValues): Layer[] {
+	const layers: Layer[] = [...initialState];
+	const { codeRegion, codeDepartement, codeCommune, codeEtablissement } = values;
+
+	if (codeRegion) layers.push({ level: 'region', code: codeRegion });
+	if (codeDepartement) layers.push({ level: 'departement', code: codeDepartement });
+	if (codeCommune) layers.push({ level: 'commune', code: codeCommune });
+	if (codeEtablissement) layers.push({ level: 'etablissement', code: codeEtablissement });
+
+	return layers;
+}
+
+function mapLayerLevelToCodeLabel(level: Level): keyof URLValues {
+	if (level === 'region') return 'codeRegion';
+	if (level === 'departement') return 'codeDepartement';
+	if (level === 'commune') return 'codeCommune';
+	if (level === 'etablissement') return 'codeEtablissement';
+
+	throw new Error(`The level (${level}) does not exist`);
+}
+
+function mapLayersToCodes(layers: Layer[]) {
+	const codes = layers.reduce(
+		(obj, layer) => ({ ...obj, [mapLayerLevelToCodeLabel(layer.level)]: layer.code }),
+		{},
+	) as Codes;
+
+	return codes;
+}
 
 /**
- * Hook that handle the layers for the map
+ * Hook that handle the layers for the map depending on the search params
  * @returns
  */
 export default function useLayers() {
-	const [layers, setLayers] = useState<Layer[]>(initialState);
+	const { values, setCode, setCodes, reset } = useURLParams();
+
+	const layers = mapURLToLayers(values);
+	const lastLayer = layers.slice(-1)[0];
 
 	function addLayer(layer: Layer) {
-		setLayers((prev) => {
-			// Add layer if a layer with the same level doesnt exist, otherwise it replaces it
-			const isAlreadyLayerWithSameLevel = prev.findIndex((l) => l.level === layer.level) > -1;
-			return isAlreadyLayerWithSameLevel ? [...prev.slice(0, -1), layer] : [...prev, layer];
-		});
+		const { level, code } = layer;
+		if (level === 'nation') return;
+
+		const codeLabel = mapLayerLevelToCodeLabel(level);
+
+		setCode(codeLabel, code);
 	}
 
 	function removeLayer() {
-		setLayers((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
+		const { level } = lastLayer;
+		if (level === 'nation') return;
+
+		const codeLabel = mapLayerLevelToCodeLabel(level);
+
+		setCode(codeLabel, null);
+	}
+
+	function setLayers(layers: Layer[]) {
+		const codes = mapLayersToCodes(layers);
+
+		setCodes(codes);
 	}
 
 	function resetLayer() {
-		setLayers(initialState);
+		reset();
 	}
 
 	return {
 		layers,
-		lastLayer: layers.slice(-1)[0],
+		lastLayer,
 		addLayer,
 		removeLayer,
+		setLayers,
 		resetLayer,
 	};
 }

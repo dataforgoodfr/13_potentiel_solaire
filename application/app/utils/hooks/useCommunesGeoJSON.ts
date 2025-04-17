@@ -35,14 +35,10 @@ function getCommunesLabelPoints(data: FeatureCollection): FeatureCollection {
 }
 
 export default function useCommunesGeoJSON(codeDepartement: string | null, enabled = true) {
-	const key = enabled ? ['communesGeoJSON', codeDepartement] : null;
+	const key = codeDepartement && enabled ? ['communesGeoJSON', codeDepartement] : null;
 
-	const { data, error, isLoading } = useSWRImmutable(
-		key,
-		() => fetchCommunesGeoJSON(codeDepartement),
-		{
-			keepPreviousData: true,
-		},
+	const { data, error, ...responseRest } = useSWRImmutable(key, () =>
+		fetchCommunesGeoJSON(codeDepartement),
 	);
 
 	const communeLabelPoints = data ? getCommunesLabelPoints(data) : null;
@@ -51,6 +47,7 @@ export default function useCommunesGeoJSON(codeDepartement: string | null, enabl
 		communesGeoJSON: data,
 		communeLabelPoints,
 		isError: error,
-		isLoading,
+		isFetching: responseRest.isLoading && responseRest.isValidating,
+		...responseRest,
 	};
 }
