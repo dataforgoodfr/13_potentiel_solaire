@@ -50,6 +50,7 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 					nb_etablissements={commune.nb_etablissements_primaires}
 					nb_eleves={commune.nb_eleves_primaires}
 					niveau='primaire'
+					level='communes'
 				/>
 			)}
 			<hr className='my-4' />

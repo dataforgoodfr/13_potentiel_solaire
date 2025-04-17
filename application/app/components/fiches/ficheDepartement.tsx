@@ -50,6 +50,7 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 					nb_etablissements={departement.nb_etablissements_colleges}
 					nb_eleves={departement.nb_eleves_colleges}
 					niveau='college'
+					level='departements'
 				/>
 			)}
 			<hr className='my-4' />

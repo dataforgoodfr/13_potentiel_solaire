@@ -51,6 +51,7 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 					nb_etablissements={region.nb_etablissements_lycees}
 					nb_eleves={region.nb_eleves_lycees}
 					niveau='lycee'
+					level='regions'
 				/>
 			)}
 

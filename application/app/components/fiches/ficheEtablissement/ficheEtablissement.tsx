@@ -28,6 +28,7 @@ export default function FicheEtablissement({ feature }: FicheEtablissementProps)
 				showInterpretation
 				showNbEtablissements={false}
 				nb_eleves={feature.nb_eleves ?? undefined}
+				level='etablissements'
 			/>
 			<hr className='my-4' />
 			<div className='ml-2'>

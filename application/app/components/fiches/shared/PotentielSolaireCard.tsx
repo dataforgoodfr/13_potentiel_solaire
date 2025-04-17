@@ -1,5 +1,7 @@
 import { CircleHelp, HousePlug, University, Users, Zap } from 'lucide-react';
 
+import { COLOR_THRESHOLDS } from '../../Map/constants';
+
 const UNKNOWN_TEXTS = {
 	potentiel_solaire: '—',
 	nb_etablissements: '—',
@@ -16,6 +18,7 @@ const PERSONNES_PAR_FOYER = 2;
 const HIGH_SOLAR_THRESHOLD = 500_000;
 
 type EtablissementNiveau = 'lycee' | 'college' | 'primaire' | 'etablissements';
+type CarteLevel = 'etablissements' | 'communes' | 'departements' | 'regions';
 
 function getNiveauLabel(niveau?: EtablissementNiveau): string {
 	if (!niveau) return '-';
@@ -40,6 +43,7 @@ interface PotentielSolaireCardProps {
 	nb_eleves?: number;
 	showInterpretation?: boolean;
 	showNbEtablissements?: boolean;
+	level?: CarteLevel;
 }
 
 function potentielSolaireEnFoyers(potentiel?: number): number | string {
@@ -52,6 +56,25 @@ function potentielSolaireEnMWh(potentiel?: number): number | string {
 	return Math.round(potentiel / 1000);
 }
 
+function getColorForPotentiel(level: keyof typeof COLOR_THRESHOLDS, potentiel: number): string {
+	const thresholds = COLOR_THRESHOLDS[level];
+	const entries = Object.entries(thresholds)
+		.map(([threshold, color]) => [Number(threshold), color] as [number, string])
+		.sort((a, b) => a[0] - b[0]);
+
+	let lastColor = entries[0][1];
+
+	for (const [threshold, color] of entries) {
+		if (potentiel >= threshold) {
+			lastColor = color;
+		} else {
+			break;
+		}
+	}
+
+	return lastColor;
+}
+
 export default function PotentielSolaireCard({
 	potentiel_solaire,
 	nb_etablissements,
@@ -59,6 +82,7 @@ export default function PotentielSolaireCard({
 	nb_eleves,
 	showInterpretation = false,
 	showNbEtablissements = true,
+	level,
 }: PotentielSolaireCardProps) {
 	const isHigh = (potentiel_solaire ?? 0) > HIGH_SOLAR_THRESHOLD;
 
@@ -103,7 +127,7 @@ export default function PotentielSolaireCard({
 						</p>
 					</>
 				) : (
-					<span className='italic text-gray-500'>{UNKNOWN_TEXTS.nb_eleves}</span>
+					<span className='text-gray-500 italic'>{UNKNOWN_TEXTS.nb_eleves}</span>
 				)}
 			</div>
 
@@ -111,11 +135,19 @@ export default function PotentielSolaireCard({
 				<Zap />
 				<p className='text-sm font-bold'>Potentiel de production annuelle </p>
 			</div>
-			<p className='font-bold text-blue'>
-				🟡 &nbsp;
+			<div className='flex items-center gap-2 font-bold text-blue'>
+				{potentiel_solaire !== undefined && level ? (
+					<div
+						className='h-4 w-4 rounded-full'
+						style={{ backgroundColor: getColorForPotentiel(level, potentiel_solaire) }}
+					/>
+				) : (
+					<div className='bg-gray-300 h-4 w-4 rounded-full' />
+				)}
 				<span className='text-3xl'>{potentielSolaireEnMWh(potentiel_solaire)}</span>
-				&nbsp;MWh/an
-			</p>
+				<span className='text-base'>&nbsp;MWh/an</span>
+			</div>
+
 			<br />
 
 			<div className='flex gap-1 text-grey'>
