@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { DepartementProperties } from '@/app/models/departements';
+import { Departement } from '@/app/models/departements';
 
 import AccordionCard from './shared/AccordionCard';
 import ActionButtons from './shared/ActionButtons';
@@ -19,7 +19,7 @@ const tabs = [
 type TabId = (typeof tabs)[number]['id'];
 
 interface FicheDepartementProps {
-	departement: DepartementProperties;
+	departement: Departement;
 }
 
 export default function FicheDepartement({ departement }: FicheDepartementProps) {
