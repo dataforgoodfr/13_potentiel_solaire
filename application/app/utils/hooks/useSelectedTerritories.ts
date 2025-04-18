@@ -2,18 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
-import { CommuneProperties } from '@/app/models/communes';
-import { DepartementProperties } from '@/app/models/departements';
-import { EtablissementFeature } from '@/app/models/etablissements';
-import { RegionProperties } from '@/app/models/regions';
-import { fetchCommunesGeoJSON } from '@/app/utils/fetchers/fetchCommunesGeoJSON';
-import { fetchDepartementsGeoJSON } from '@/app/utils/fetchers/fetchDepartementsGeoJSON';
-import { fetchRegionsGeoJSON } from '@/app/utils/fetchers/fetchRegionsGeoJSON';
+import { fetchCommuneById, fetchDepartementById, fetchRegionById } from '@/app/lib/data';
+import { Commune } from '@/app/models/communes';
+import { Departement } from '@/app/models/departements';
+import { Etablissement } from '@/app/models/etablissements';
+import { Region } from '@/app/models/regions';
 
-export default function useSelectedTerritoires(selectedEtablissement: EtablissementFeature | null) {
-	const [commune, setCommune] = useState<CommuneProperties | null>(null);
-	const [departement, setDepartement] = useState<DepartementProperties | null>(null);
-	const [region, setRegion] = useState<RegionProperties | null>(null);
+export default function useSelectedTerritoires(selectedEtablissement: Etablissement | null) {
+	const [commune, setCommune] = useState<Commune | null>(null);
+	const [departement, setDepartement] = useState<Departement | null>(null);
+	const [region, setRegion] = useState<Region | null>(null);
 
 	useEffect(() => {
 		const loadTerritoires = async () => {
@@ -24,30 +22,17 @@ export default function useSelectedTerritoires(selectedEtablissement: Etablissem
 				return;
 			}
 
-			const { code_commune, code_departement, code_region } =
-				selectedEtablissement.properties;
+			const { code_commune, code_departement, code_region } = selectedEtablissement;
 
 			try {
-				// Commune
-				const communesData = await fetchCommunesGeoJSON(code_departement);
-				const foundCommune = communesData.features.find(
-					(f) => f.properties.code_commune === code_commune,
-				);
-				setCommune(foundCommune?.properties ?? null);
+				const communeData = await fetchCommuneById(code_commune);
+				setCommune(communeData ?? null);
 
-				// Département
-				const departementsData = await fetchDepartementsGeoJSON(code_region);
-				const foundDepartement = departementsData.features.find(
-					(f) => f.properties.code_departement === code_departement,
-				);
-				setDepartement(foundDepartement?.properties ?? null);
+				const departementData = await fetchDepartementById(code_departement);
+				setDepartement(departementData ?? null);
 
-				// Région
-				const regionsData = await fetchRegionsGeoJSON();
-				const foundRegion = regionsData.features.find(
-					(f) => f.properties.code_region === code_region,
-				);
-				setRegion(foundRegion?.properties ?? null);
+				const regionData = await fetchRegionById(code_region);
+				setRegion(regionData ?? null);
 			} catch (error) {
 				console.error('Erreur lors du chargement des territoires :', error);
 				setCommune(null);
