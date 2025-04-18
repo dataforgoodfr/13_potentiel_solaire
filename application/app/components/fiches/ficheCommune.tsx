@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { CommuneProperties } from '@/app/models/communes';
+import { Commune } from '@/app/models/communes';
 
 import AccordionCard from './shared/AccordionCard';
 import ActionButtons from './shared/ActionButtons';
@@ -19,7 +19,7 @@ const tabs = [
 type TabId = (typeof tabs)[number]['id'];
 
 interface FicheCommuneProps {
-	commune: CommuneProperties;
+	commune: Commune;
 }
 
 export default function FicheCommune({ commune }: FicheCommuneProps) {

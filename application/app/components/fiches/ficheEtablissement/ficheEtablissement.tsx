@@ -9,30 +9,30 @@ import InstallationCard from './InstallationCard';
 import ProtectionCard from './ProtectionCard';
 
 interface FicheEtablissementProps {
-	feature: Etablissement;
+	etablissement: Etablissement;
 	onClose: () => void;
 }
 
-export default function FicheEtablissement({ feature }: FicheEtablissementProps) {
-	if (!feature) return null;
+export default function FicheEtablissement({ etablissement }: FicheEtablissementProps) {
+	if (!etablissement) return null;
 
 	return (
 		<div>
-			<EtablissementCard {...feature} />
+			<EtablissementCard {...etablissement} />
 			<br />
 			<ActionButtons />
 			<hr className='my-4' />
-			{feature.protection && <ProtectionCard />}
+			{etablissement.protection && <ProtectionCard />}
 			<PotentielSolaireCard
-				potentielSolaire={feature.potentiel_solaire}
+				potentielSolaire={etablissement.potentiel_solaire}
 				showInterpretation
 				showNbEtablissements={false}
-				nbEleves={feature.nb_eleves ?? undefined}
+				nbEleves={etablissement.nb_eleves ?? undefined}
 				level='etablissement'
 			/>
 			<hr className='my-4' />
 			<div className='ml-2'>
-				<InstallationCard surfaceExploitableMax={feature.surface_exploitable_max} />
+				<InstallationCard surfaceExploitableMax={etablissement.surface_exploitable_max} />
 				<GraphiqueCard />
 			</div>
 			<hr className='my-4' />
