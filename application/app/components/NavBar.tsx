@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyboardEvent, Suspense, useContext, useState } from 'react';
+import { KeyboardEvent, Suspense, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ import { ListFilter, Menu, X } from 'lucide-react';
 
 import imgLogo from '../../public/images/logo.svg';
 import { SearchResult } from '../models/search';
-import { InitialViewContext, InitialViewContextType } from '../utils/providers/initialViewProvider';
+import { useInitialView } from '../utils/providers/initialViewProvider';
 import SearchBar from './SearchBar/SearchBar';
 
 const links = [
@@ -20,7 +20,7 @@ const links = [
 ];
 
 export default function NavBar() {
-	const { isInitialView } = useContext(InitialViewContext) as InitialViewContextType;
+	const { isInitialView } = useInitialView();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleSearchSelect = (selection: SearchResult) => {

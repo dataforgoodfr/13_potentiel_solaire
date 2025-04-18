@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/hooks/use-toast';
@@ -11,15 +11,13 @@ import { UnsupportedFeatureError } from '../utils/errors';
 import { fetchCommuneFeatureWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
 import { getUserLocation } from '../utils/geoloc';
 import useURLParams, { Codes } from '../utils/hooks/useURLParams';
-import { InitialViewContext, InitialViewContextType } from '../utils/providers/initialViewProvider';
+import { useInitialView } from '../utils/providers/initialViewProvider';
 
 const GeolocButton: React.FC = () => {
 	const { toast } = useToast();
 	const { setCodes } = useURLParams();
 	const [loading, setLoading] = useState(false);
-	const { isInitialView, closeInitialView } = useContext(
-		InitialViewContext,
-	) as InitialViewContextType;
+	const { isInitialView, closeInitialView } = useInitialView();
 
 	function setCommuneInURL(commune: CommuneFeature) {
 		const codes: Codes = {

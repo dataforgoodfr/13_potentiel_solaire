@@ -1,13 +1,13 @@
 'use client';
 
-import { ReactNode, createContext, useCallback, useState } from 'react';
+import { ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
 export interface InitialViewContextType {
 	isInitialView: boolean;
 	closeInitialView: () => void;
 }
 
-export const InitialViewContext = createContext<InitialViewContextType | null>(null);
+export const InitialViewContext = createContext<InitialViewContextType | undefined>(undefined);
 
 //TODO: if useURLParams has values then don't show initial view
 export const InitialViewProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -23,3 +23,11 @@ export const InitialViewProvider: React.FC<{ children: ReactNode }> = ({ childre
 		</InitialViewContext.Provider>
 	);
 };
+
+export function useInitialView() {
+	const context = useContext(InitialViewContext);
+	if (context === undefined) {
+		throw new Error('useInitialView must be used with a InitialViewProvider');
+	}
+	return context;
+}
