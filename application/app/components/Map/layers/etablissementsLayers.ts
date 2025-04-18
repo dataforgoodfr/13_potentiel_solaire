@@ -56,6 +56,7 @@ export const unclusteredPointProtegeLayer = {
 		],
 		'circle-radius': 15,
 		'circle-stroke-width': 2,
+		'circle-stroke-color': '#221c3e',
 	},
 } satisfies LayerProps;
 
@@ -65,7 +66,10 @@ export const unclusteredPointProtegeIconLayer = {
 	source: ETABLISSEMENTS_SOURCE_ID,
 	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], true]],
 	layout: {
-		'text-field': ' i ',
+		'text-field': 'i',
 		'text-size': 20,
+	},
+	paint: {
+		'text-color': '#221c3e',
 	},
 } satisfies LayerProps;
