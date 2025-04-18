@@ -1,5 +1,7 @@
 import { LayerProps } from 'react-map-gl/maplibre';
 
+import { CommuneFeaturePropertiesKeys } from '@/app/models/communes';
+
 import { COLOR_THRESHOLDS } from '../constants';
 import { zonesLayerPaint } from './zonesLayersPaint';
 
@@ -34,7 +36,7 @@ export const communesLabelsLayer = {
 	type: 'symbol',
 	source: COMMUNES_LABELS_SOURCE_ID,
 	layout: {
-		'text-field': ['get', 'nom_commune'],
+		'text-field': ['get', CommuneFeaturePropertiesKeys.Nom],
 		'text-size': 10,
 		'text-anchor': 'center',
 	},

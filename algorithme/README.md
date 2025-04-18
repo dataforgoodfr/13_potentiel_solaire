@@ -1,13 +1,19 @@
 # Glossaire
 - [Installation](#installation)
-- [Mettre à jour ou modifier son environnement](#mettre-à-jour-ou-modifier-son-environnement)
-- [Recuperer les données](data/README.md)
+    - [Installer Poetry](#11-installer-poetry)
+    - [Installer les dépendances et la database](#12-installer-les-dépendances-et-la-database)
+- [Calculs de potentiel solaire](#2-calculs-de-potentiel-solaire)
+    - [Executer les calculs](#21-executer-les-calculs)
+    - [Récupérer les resultats](#22-récupérer-les-resultats)
 - [Tester & verifier son code](#tester--verifier-son-code)
+    - [Analyser les resultats sur un departement](#31-analyser-les-resultats-sur-un-departement)
+    - [Lancer les precommit-hook localement](#32-lancer-les-precommit-hook-localement)
+    - [Lancer les tests unitaires](#33-lancer-les-tests-unitaires)
 
 
-# Installation
+# 1. Installation
 
-## 1. Installer Poetry
+## 1.1 Installer Poetry
 
 Plusieurs [méthodes d'installation](https://python-poetry.org/docs/#installation) sont décrites dans la documentation de poetry dont:
 
@@ -20,7 +26,7 @@ L'avantage de pipx est que l'installation de pipx est documentée pour linux, wi
 
 Cependant, libre à toi d'utiliser la méthode qui te convient le mieux ! Quelque soit la méthode choisie, il est important de ne pas installer poetry dans l'environnement virtuel qui sera créé un peu plus tard dans ce README pour les dépendances de la base de code de ce repo git.
 
-### 1.1 Installation de Poetry avec pipx
+### Installation de Poetry avec pipx
 
 Suivre les instructions pour [installer pipx](https://pipx.pypa.io/stable/#install-pipx) selon ta plateforme (linux, windows, etc...)
 
@@ -32,76 +38,65 @@ Par exemple pour Ubuntu 23.04+:
 
 [Installer Poetry avec pipx](https://python-poetry.org/docs/#installing-with-pipx):
 
-    pipx install poetry==1.7
+    pipx install poetry
 
-### 1.2 Installation de Poetry avec l'installateur officiel
+### Installation de Poetry avec l'installateur officiel
 
 L'installation avec l'installateur officiel nécessitant quelques étapes supplémentaires,
 se référer à la [documentation officielle](https://python-poetry.org/docs/#installing-with-the-official-installer).
 
-### 1.3 Configurer poetry pour créer les environnements virtuels au sein du projet
+### Configurer poetry pour créer les environnements virtuels au sein du projet
 
     poetry config virtualenvs.in-project true
 
-## 2. Installer les dépendances et le package potentiel_solaire
+## 1.2 Installer les dépendances et la database
 
-### 2.1 Naviguer dans le dossier algorithme
+### Naviguer dans le dossier algorithme
 
     cd algorithme
 
-### 2.2 Installer les dépendances
+### Installer les dépendances
 
     poetry install --with dev
 
-### 2.3 Verifier le venv ainsi créé
+### Verifier le venv ainsi créé
 
     poetry env info
 
-### 2.4 Activer l'environnement
-
-    poetry shell
-
-
-# Modifier les dépendances
-
-### Ajouter une dépendance
-
-    poetry add pandas
-
-### Mettre à jour les dépendances
-
-    poetry update
-
-# Initialiser la base de données duckdb
+### Initialiser la database duckdb
 
     alembic upgrade head
 
-# Executer les calculs de potentiel solaire
+# 2. Calculs de potentiel solaire
 
-* Sur un departement: `run-pipeline-algorithme -d 093`
+## 2.1 Executer les calculs
 
-* Sur une region: `run-pipeline-algorithme -r 11`
+* Sur un departement: `poetry run run-pipeline-algorithme -d 093`
 
-* Sur toute la France: `run-pipeline-algorithme --all`
+* Sur une region: `poetry run run-pipeline-algorithme -r 11`
 
+* Sur toute la France: `poetry run run-pipeline-algorithme --all`
+
+* Mettre à jour les indicateurs dans la database duckdb: `poetry run update-database-indicators`
+ 
 Note : pour executer la pipeline sur toute la France, il faut avoir à minima 180 Go d'espace disponible et compter minimum 4H de temps d'execution.
 
-## Resultats
+## 2.2 Récupérer les resultats
 * un fichier .gpkg dans le dossier [results](data/results) pour les resultats pour chaque departement (ex: [D093_pipeline_results.gpkg](data/results/D093_pipeline_results.gpkg))
-* dans la [database duckdb](database/potentiel_solaire.duckdb)
 * un notebook resultats est aussi genere pour chaque departement dans le dossier [exports](notebooks/exports) (ex: [D093_pipeline_algorithme.ipynb](notebooks/exports/D093_pipeline_algorithme.ipynb))
+* dans la [database duckdb](database/potentiel_solaire.duckdb)
 
-# Tester & verifier son code
+# 3. Tester & verifier son code
 
-## Analyser les resultats sur un departement
+## 3.1 Analyser les resultats sur un departement
 Le notebook [analyse_qualite_resultats_pipeline.ipynb](notebooks/analyse_qualite_resultats_pipeline.ipynb) permet d'analyser les resulats sur le departement de son choix.
 
-## Lancer les precommit-hook localement
+## 3.2 Lancer les precommit-hook localement
 
 [Installer les precommit](https://pre-commit.com/)
     
-    pre-commit run --all-files
+    poetry run pre-commit run --all-files
 
-## Utiliser Tox pour tester votre code
+## 3.3 Lancer les tests unitaires
 
-    tox -vv
+    poetry run tox -vv

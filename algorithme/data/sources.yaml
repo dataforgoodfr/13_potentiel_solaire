@@ -22,3 +22,8 @@ regions:
   url: "https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4"
   filename: "regions.json"
   description: "Geometries des regions francaises"
+
+codes_postaux:
+  url: "https://object.files.data.gouv.fr/hydra-parquet/hydra-parquet/54535896c301b2b3928f8db6305309ad.parquet"
+  filename: "codes_postaux.parquet"
+  description: "base officielle des codes postaux"

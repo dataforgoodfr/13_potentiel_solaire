@@ -1,7 +1,8 @@
 # syntax=docker.io/docker/dockerfile:1
 
 # Generate database and export geojson
-FROM 13_potentiel_solaire_mock_data AS generator
+# FROM 13_potentiel_solaire_mock_data AS generator
+FROM ghcr.io/dataforgoodfr/13_potentiel_solaire_db:0.1.20250417 AS generator
 
 # TODO: use lighter image
 # FROM node:18-alpine AS base

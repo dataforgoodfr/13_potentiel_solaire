@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { fetchEtablissementGeoJSONById } from '@/app/lib/data';
+import { fetchEtablissementById } from '@/app/lib/data';
 
 /**
  * Get etablissement by id.
@@ -10,7 +10,7 @@ import { fetchEtablissementGeoJSONById } from '@/app/lib/data';
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
 	try {
-		const data = await fetchEtablissementGeoJSONById(id);
+		const data = await fetchEtablissementById(id);
 		if (!data) {
 			return Response.json({ message: 'Etablissement not found' }, { status: 404 });
 		}

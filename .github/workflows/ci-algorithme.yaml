@@ -10,25 +10,36 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./algorithme
+    
     steps:
     - uses: actions/checkout@v4
+    
     - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
+    
     - name: Install dependencies
       working-directory: ${{env.working-directory}}
       run: |
-        python -m venv .venv
-        source .venv/bin/activate
         python -m pip install "poetry>=1.8.5,<2"
         poetry install --with dev
-    - name: Run pre-commit
-      working-directory: ${{env.working-directory}}
-      run: |
-        source .venv/bin/activate
-        pre-commit run --show-diff-on-failure --color=always --all-files
+    
     - name: Run unit tests
       working-directory: ${{env.working-directory}}
       run: |
-        source .venv/bin/activate
-        tox -vv
+        poetry run tox -vv
+    
+    - name: set PY
+      run: echo "PY=$(python -c 'import hashlib, sys;print(hashlib.sha256(sys.version.encode()+sys.executable.encode()).hexdigest())')" >> $GITHUB_ENV
+
+    - name: Set up caching for pre-commit hooks
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pre-commit/
+        key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+    
+    - name: Run pre-commit
+      working-directory: ${{env.working-directory}}
+      run: |
+        poetry run pre-commit run --all-files --show-diff-on-failure --color=always 
+    

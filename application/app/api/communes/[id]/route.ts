@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { fetchCommuneFeature } from '@/app/lib/data';
+import { fetchCommuneById } from '@/app/lib/data';
 
 /**
  * Get commune by id.
@@ -10,7 +10,7 @@ import { fetchCommuneFeature } from '@/app/lib/data';
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
 	try {
-		const data = await fetchCommuneFeature(id);
+		const data = await fetchCommuneById(id);
 		if (!data) {
 			return Response.json({ message: 'Commune not found' }, { status: 404 });
 		}

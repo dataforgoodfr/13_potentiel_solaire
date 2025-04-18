@@ -5,10 +5,14 @@ import papermill as pm
 from papermill.exceptions import PapermillExecutionError
 
 from potentiel_solaire.constants import ALGORITHME_FOLDER, RESULTS_FOLDER
-from potentiel_solaire.duckdb_manager import (
-    get_departements, get_regions,
+from potentiel_solaire.database.queries import (
+    get_departements, 
+    get_regions,
     get_departements_for_region,
-    save_solar_potential_by_region,
+    update_indicators_for_communes,
+    update_indicators_for_departements,
+    update_indicators_for_regions, 
+    update_indicators_for_schools,
 )
 from potentiel_solaire.logger import get_logger
 
@@ -88,17 +92,10 @@ def run_pipeline_algorithme():
             with open(error_file_path, "w") as error_file:
                 error_file.write(traceback.format_exc())
 
-    # aggregation des resultats pour les regions
-    agg_on_regions = []
-    if run_on_france:
-        agg_on_regions = codes_regions
-    elif code_region:
-        agg_on_regions.append(code_region)
 
-    for region in agg_on_regions:
-        logger.info("Aggregation on region %s", region)
-        save_solar_potential_by_region(code_region=region)
-
-
-if __name__ == "__main__":
-    run_pipeline_algorithme()
+def update_database_indicators():
+    """Update indicators in database used by application"""
+    update_indicators_for_schools()
+    update_indicators_for_communes()
+    update_indicators_for_departements()
+    update_indicators_for_regions()

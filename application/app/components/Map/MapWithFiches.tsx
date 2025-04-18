@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
-import { EtablissementFeature } from '@/app/models/etablissements';
+import { EtablissementFeaturePropertiesKeys } from '@/app/models/etablissements';
+import useEtablissement from '@/app/utils/hooks/useEtablissement';
 
 import useSelectedTerritoires from '../../utils/hooks/useSelectedTerritories';
 import Fiches from '../fiches/Fiches';
@@ -13,13 +14,25 @@ export default function MapWithFiches() {
 		null,
 	);
 	const { commune, departement, region } = useSelectedTerritoires(selectedEtablissement);
+	// Temporary fix
+	const [selectedEtablissementId, setSelectedEtablissementId] = useState<string | null>(null);
+	const { etablissement, isFetching } = useEtablissement(selectedEtablissementId);
 
 	return (
 		<div className='flex flex-1 flex-col'>
 			<div className='flex-1'>
-				<FranceMap onSelect={setSelectedEtablissement} />
+				<Suspense>
+					<FranceMap
+						onSelect={(f) =>
+							setSelectedEtablissementId(
+								f.properties[EtablissementFeaturePropertiesKeys.Id],
+							)
+						}
+					/>
+				</Suspense>
 			</div>
-			{selectedEtablissement && (
+			{/* TODO: improve loading */}
+			{selectedEtablissementId && etablissement && !isFetching && (
 				<Fiches
 					etablissement={{
 						...selectedEtablissement.properties,
@@ -30,6 +43,8 @@ export default function MapWithFiches() {
 					departement={departement ?? undefined}
 					region={region ?? undefined}
 					onClose={() => setSelectedEtablissement(null)}
+					etablissement={etablissement}
+					onClose={() => setSelectedEtablissementId(null)}
 				/>
 			)}
 		</div>

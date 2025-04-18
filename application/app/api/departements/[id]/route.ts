@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { fetchDepartementFeature } from '@/app/lib/data';
+import { fetchDepartementById } from '@/app/lib/data';
 
 /**
  * Get departement by id.
@@ -10,7 +10,7 @@ import { fetchDepartementFeature } from '@/app/lib/data';
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
 	try {
-		const data = await fetchDepartementFeature(id);
+		const data = await fetchDepartementById(id);
 		if (!data) {
 			return Response.json({ message: 'Departement not found' }, { status: 404 });
 		}
