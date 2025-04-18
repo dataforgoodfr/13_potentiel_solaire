@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { RegionProperties } from '@/app/models/regions';
+import { Region } from '@/app/models/regions';
 
 import AccordionCard from './shared/AccordionCard';
 import ActionButtons from './shared/ActionButtons';
@@ -19,7 +19,7 @@ const tabs = [
 type TabId = (typeof tabs)[number]['id'];
 
 interface FicheRegionProps {
-	region: RegionProperties;
+	region: Region;
 }
 
 export default function FicheRegion({ region }: FicheRegionProps) {

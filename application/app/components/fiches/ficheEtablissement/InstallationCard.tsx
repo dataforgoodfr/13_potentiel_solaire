@@ -9,6 +9,8 @@ interface installationCardProps {
 }
 
 const InstallationCard = ({ surfaceExploitableMax }: installationCardProps) => {
+	const hasSurface = typeof surfaceExploitableMax === 'number';
+
 	return (
 		<div>
 			<div className='flex gap-1 text-sm text-grey'>
@@ -17,9 +19,9 @@ const InstallationCard = ({ surfaceExploitableMax }: installationCardProps) => {
 			</div>
 			<p className='text-center font-bold text-blue'>
 				<span className='text-xl'>
-					≈{surfaceExploitableMax || UNKNOWN_TEXTS.surfaceExploitableMax}
+					{hasSurface ? `≈${surfaceExploitableMax}` : UNKNOWN_TEXTS.surfaceExploitableMax}
 				</span>{' '}
-				M²
+				{hasSurface && 'M²'}
 			</p>
 			<br />
 			<div className='flex gap-1 text-sm text-grey'>
