@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 import { EtablissementFeaturePropertiesKeys } from '@/app/models/etablissements';
 import useEtablissement from '@/app/utils/hooks/useEtablissement';
@@ -16,13 +16,15 @@ export default function MapWithFiches() {
 	return (
 		<div className='flex flex-1 flex-col'>
 			<div className='flex-1'>
-				<FranceMap
-					onSelect={(f) =>
-						setSelectedEtablissementId(
-							f.properties[EtablissementFeaturePropertiesKeys.Id],
-						)
-					}
-				/>
+				<Suspense>
+					<FranceMap
+						onSelect={(f) =>
+							setSelectedEtablissementId(
+								f.properties[EtablissementFeaturePropertiesKeys.Id],
+							)
+						}
+					/>
+				</Suspense>
 			</div>
 			{/* TODO: improve loading */}
 			{selectedEtablissementId && etablissement && !isFetching && (
