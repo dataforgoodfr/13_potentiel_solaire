@@ -5,7 +5,7 @@ import {
 
 export const ETABLISSEMENTS_TABLE = 'etablissements';
 
-export const EtablissementsColumns = {
+export const ETABLISSEMENTS_COLUMNS = {
 	Id: 'identifiant_de_l_etablissement',
 	Nom: 'nom_etablissement',
 	Type: 'type_etablissement',
@@ -30,35 +30,35 @@ export const EtablissementsColumns = {
 } as const;
 
 export const ETABLISSEMENTS_MAPPING = {
-	[EtablissementsColumns.Id]: EtablissementPropertiesKeys.Id,
-	[EtablissementsColumns.Nom]: EtablissementPropertiesKeys.Nom,
-	[EtablissementsColumns.Type]: EtablissementPropertiesKeys.Type,
-	[EtablissementsColumns.LibelleNature]: EtablissementPropertiesKeys.LibelleNature,
-	[EtablissementsColumns.CodeCommune]: EtablissementPropertiesKeys.CodeCommune,
-	[EtablissementsColumns.NomCommune]: EtablissementPropertiesKeys.NomCommune,
-	[EtablissementsColumns.CodeDepartement]: EtablissementPropertiesKeys.CodeDepartement,
-	[EtablissementsColumns.LibelleDepartement]: EtablissementPropertiesKeys.LibelleDepartement,
-	[EtablissementsColumns.CodeRegion]: EtablissementPropertiesKeys.CodeRegion,
-	[EtablissementsColumns.LibelleRegion]: EtablissementPropertiesKeys.LibelleRegion,
-	[EtablissementsColumns.SurfaceExploitableMax]:
+	[ETABLISSEMENTS_COLUMNS.Id]: EtablissementPropertiesKeys.Id,
+	[ETABLISSEMENTS_COLUMNS.Nom]: EtablissementPropertiesKeys.Nom,
+	[ETABLISSEMENTS_COLUMNS.Type]: EtablissementPropertiesKeys.Type,
+	[ETABLISSEMENTS_COLUMNS.LibelleNature]: EtablissementPropertiesKeys.LibelleNature,
+	[ETABLISSEMENTS_COLUMNS.CodeCommune]: EtablissementPropertiesKeys.CodeCommune,
+	[ETABLISSEMENTS_COLUMNS.NomCommune]: EtablissementPropertiesKeys.NomCommune,
+	[ETABLISSEMENTS_COLUMNS.CodeDepartement]: EtablissementPropertiesKeys.CodeDepartement,
+	[ETABLISSEMENTS_COLUMNS.LibelleDepartement]: EtablissementPropertiesKeys.LibelleDepartement,
+	[ETABLISSEMENTS_COLUMNS.CodeRegion]: EtablissementPropertiesKeys.CodeRegion,
+	[ETABLISSEMENTS_COLUMNS.LibelleRegion]: EtablissementPropertiesKeys.LibelleRegion,
+	[ETABLISSEMENTS_COLUMNS.SurfaceExploitableMax]:
 		EtablissementPropertiesKeys.SurfaceExploitableMax,
-	[EtablissementsColumns.PotentielSolaire]: EtablissementPropertiesKeys.PotentielSolaire,
-	[EtablissementsColumns.PotentielNbFoyers]: EtablissementPropertiesKeys.PotentielNbFoyers,
-	[EtablissementsColumns.Protection]: EtablissementPropertiesKeys.Protection,
-	[EtablissementsColumns.NbEleves]: EtablissementPropertiesKeys.NbEleves,
-	[EtablissementsColumns.Adresse1]: EtablissementPropertiesKeys.Adresse1,
-	[EtablissementsColumns.Adresse2]: EtablissementPropertiesKeys.Adresse2,
-	[EtablissementsColumns.Adresse3]: EtablissementPropertiesKeys.Adresse3,
-	[EtablissementsColumns.CodePostal]: EtablissementPropertiesKeys.CodePostal,
-	[EtablissementsColumns.NiveauPotentiel]: EtablissementPropertiesKeys.NiveauPotentiel,
+	[ETABLISSEMENTS_COLUMNS.PotentielSolaire]: EtablissementPropertiesKeys.PotentielSolaire,
+	[ETABLISSEMENTS_COLUMNS.PotentielNbFoyers]: EtablissementPropertiesKeys.PotentielNbFoyers,
+	[ETABLISSEMENTS_COLUMNS.Protection]: EtablissementPropertiesKeys.Protection,
+	[ETABLISSEMENTS_COLUMNS.NbEleves]: EtablissementPropertiesKeys.NbEleves,
+	[ETABLISSEMENTS_COLUMNS.Adresse1]: EtablissementPropertiesKeys.Adresse1,
+	[ETABLISSEMENTS_COLUMNS.Adresse2]: EtablissementPropertiesKeys.Adresse2,
+	[ETABLISSEMENTS_COLUMNS.Adresse3]: EtablissementPropertiesKeys.Adresse3,
+	[ETABLISSEMENTS_COLUMNS.CodePostal]: EtablissementPropertiesKeys.CodePostal,
+	[ETABLISSEMENTS_COLUMNS.NiveauPotentiel]: EtablissementPropertiesKeys.NiveauPotentiel,
 } as const;
 
 export const ETABLISSEMENTS_GEOJSON_MAPPING = {
-	[EtablissementsColumns.Id]: EtablissementFeaturePropertiesKeys.Id,
-	[EtablissementsColumns.Nom]: EtablissementFeaturePropertiesKeys.Nom,
-	[EtablissementsColumns.CodeCommune]: EtablissementFeaturePropertiesKeys.CodeCommune,
-	[EtablissementsColumns.CodeDepartement]: EtablissementFeaturePropertiesKeys.CodeDepartement,
-	[EtablissementsColumns.CodeRegion]: EtablissementFeaturePropertiesKeys.CodeRegion,
-	[EtablissementsColumns.PotentielSolaire]: EtablissementFeaturePropertiesKeys.PotentielSolaire,
-	[EtablissementsColumns.Protection]: EtablissementFeaturePropertiesKeys.Protection,
+	[ETABLISSEMENTS_COLUMNS.Id]: EtablissementFeaturePropertiesKeys.Id,
+	[ETABLISSEMENTS_COLUMNS.Nom]: EtablissementFeaturePropertiesKeys.Nom,
+	[ETABLISSEMENTS_COLUMNS.CodeCommune]: EtablissementFeaturePropertiesKeys.CodeCommune,
+	[ETABLISSEMENTS_COLUMNS.CodeDepartement]: EtablissementFeaturePropertiesKeys.CodeDepartement,
+	[ETABLISSEMENTS_COLUMNS.CodeRegion]: EtablissementFeaturePropertiesKeys.CodeRegion,
+	[ETABLISSEMENTS_COLUMNS.PotentielSolaire]: EtablissementFeaturePropertiesKeys.PotentielSolaire,
+	[ETABLISSEMENTS_COLUMNS.Protection]: EtablissementFeaturePropertiesKeys.Protection,
 } as const;

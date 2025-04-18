@@ -1,7 +1,7 @@
 import { CommuneFeaturePropertiesKeys, CommunePropertiesKeys } from '../../models/communes';
 
 export const COMMUNES_TABLE = 'communes';
-export const CommunesColumns = {
+export const COMMUNES_COLUMNS = {
 	Id: 'code_commune',
 	Nom: 'nom_commune',
 	CodeDepartement: 'code_departement',
@@ -30,44 +30,44 @@ export const CommunesColumns = {
 } as const;
 
 export const COMMUNES_MAPPING = {
-	[CommunesColumns.Id]: CommunePropertiesKeys.Id,
-	[CommunesColumns.Nom]: CommunePropertiesKeys.Nom,
-	[CommunesColumns.CodeDepartement]: CommunePropertiesKeys.CodeDepartement,
-	[CommunesColumns.LibelleDepartement]: CommunePropertiesKeys.LibelleDepartement,
-	[CommunesColumns.CodeRegion]: CommunePropertiesKeys.CodeRegion,
-	[CommunesColumns.LibelleRegion]: CommunePropertiesKeys.LibelleRegion,
-	[CommunesColumns.NbElevesTotal]: CommunePropertiesKeys.NbElevesTotal,
-	[CommunesColumns.NbElevesPrimaires]: CommunePropertiesKeys.NbElevesPrimaires,
-	[CommunesColumns.NbEtablissementsTotal]: CommunePropertiesKeys.NbEtablissementsTotal,
-	[CommunesColumns.NbEtablissementsPrimaires]: CommunePropertiesKeys.NbEtablissementsPrimaires,
-	[CommunesColumns.NbEtablissementsProtegesTotal]:
+	[COMMUNES_COLUMNS.Id]: CommunePropertiesKeys.Id,
+	[COMMUNES_COLUMNS.Nom]: CommunePropertiesKeys.Nom,
+	[COMMUNES_COLUMNS.CodeDepartement]: CommunePropertiesKeys.CodeDepartement,
+	[COMMUNES_COLUMNS.LibelleDepartement]: CommunePropertiesKeys.LibelleDepartement,
+	[COMMUNES_COLUMNS.CodeRegion]: CommunePropertiesKeys.CodeRegion,
+	[COMMUNES_COLUMNS.LibelleRegion]: CommunePropertiesKeys.LibelleRegion,
+	[COMMUNES_COLUMNS.NbElevesTotal]: CommunePropertiesKeys.NbElevesTotal,
+	[COMMUNES_COLUMNS.NbElevesPrimaires]: CommunePropertiesKeys.NbElevesPrimaires,
+	[COMMUNES_COLUMNS.NbEtablissementsTotal]: CommunePropertiesKeys.NbEtablissementsTotal,
+	[COMMUNES_COLUMNS.NbEtablissementsPrimaires]: CommunePropertiesKeys.NbEtablissementsPrimaires,
+	[COMMUNES_COLUMNS.NbEtablissementsProtegesTotal]:
 		CommunePropertiesKeys.NbEtablissementsProtegesTotal,
-	[CommunesColumns.NbEtablissementsProtegesPrimaires]:
+	[COMMUNES_COLUMNS.NbEtablissementsProtegesPrimaires]:
 		CommunePropertiesKeys.NbEtablissementsProtegesPrimaires,
-	[CommunesColumns.SurfaceExploitableMaxTotal]: CommunePropertiesKeys.SurfaceExploitableMaxTotal,
-	[CommunesColumns.SurfaceExploitableMaxPrimaires]:
+	[COMMUNES_COLUMNS.SurfaceExploitableMaxTotal]: CommunePropertiesKeys.SurfaceExploitableMaxTotal,
+	[COMMUNES_COLUMNS.SurfaceExploitableMaxPrimaires]:
 		CommunePropertiesKeys.SurfaceExploitableMaxPrimaires,
-	[CommunesColumns.PotentielSolaireTotal]: CommunePropertiesKeys.PotentielSolaireTotal,
-	[CommunesColumns.PotentielSolairePrimaires]: CommunePropertiesKeys.PotentielSolairePrimaires,
-	[CommunesColumns.PotentielNbFoyersTotal]: CommunePropertiesKeys.PotentielNbFoyersTotal,
-	[CommunesColumns.PotentielNbFoyersPrimaires]: CommunePropertiesKeys.PotentielNbFoyersPrimaires,
-	[CommunesColumns.TopEtablissementsTotal]: CommunePropertiesKeys.TopEtablissementsTotal,
-	[CommunesColumns.TopEtablissementsPrimaires]: CommunePropertiesKeys.TopEtablissementsPrimaires,
-	[CommunesColumns.NbEtablissementsParNiveauPotentielTotal]:
+	[COMMUNES_COLUMNS.PotentielSolaireTotal]: CommunePropertiesKeys.PotentielSolaireTotal,
+	[COMMUNES_COLUMNS.PotentielSolairePrimaires]: CommunePropertiesKeys.PotentielSolairePrimaires,
+	[COMMUNES_COLUMNS.PotentielNbFoyersTotal]: CommunePropertiesKeys.PotentielNbFoyersTotal,
+	[COMMUNES_COLUMNS.PotentielNbFoyersPrimaires]: CommunePropertiesKeys.PotentielNbFoyersPrimaires,
+	[COMMUNES_COLUMNS.TopEtablissementsTotal]: CommunePropertiesKeys.TopEtablissementsTotal,
+	[COMMUNES_COLUMNS.TopEtablissementsPrimaires]: CommunePropertiesKeys.TopEtablissementsPrimaires,
+	[COMMUNES_COLUMNS.NbEtablissementsParNiveauPotentielTotal]:
 		CommunePropertiesKeys.NbEtablissementsParNiveauPotentielTotal,
-	[CommunesColumns.NbEtablissementsParNiveauPotentielPrimaires]:
+	[COMMUNES_COLUMNS.NbEtablissementsParNiveauPotentielPrimaires]:
 		CommunePropertiesKeys.NbEtablissementsParNiveauPotentielPrimaires,
 } as const;
 
 export const COMMUNES_GEOJSON_MAPPING = {
-	[CommunesColumns.Id]: CommuneFeaturePropertiesKeys.Id,
-	[CommunesColumns.Nom]: CommuneFeaturePropertiesKeys.Nom,
-	[CommunesColumns.CodeDepartement]: CommuneFeaturePropertiesKeys.CodeDepartement,
-	[CommunesColumns.CodeRegion]: CommuneFeaturePropertiesKeys.CodeRegion,
-	[CommunesColumns.PotentielSolaireTotal]: CommuneFeaturePropertiesKeys.PotentielSolaireTotal,
-	[CommunesColumns.PotentielSolaireLycees]: CommuneFeaturePropertiesKeys.PotentielSolaireLycees,
-	[CommunesColumns.PotentielSolaireColleges]:
+	[COMMUNES_COLUMNS.Id]: CommuneFeaturePropertiesKeys.Id,
+	[COMMUNES_COLUMNS.Nom]: CommuneFeaturePropertiesKeys.Nom,
+	[COMMUNES_COLUMNS.CodeDepartement]: CommuneFeaturePropertiesKeys.CodeDepartement,
+	[COMMUNES_COLUMNS.CodeRegion]: CommuneFeaturePropertiesKeys.CodeRegion,
+	[COMMUNES_COLUMNS.PotentielSolaireTotal]: CommuneFeaturePropertiesKeys.PotentielSolaireTotal,
+	[COMMUNES_COLUMNS.PotentielSolaireLycees]: CommuneFeaturePropertiesKeys.PotentielSolaireLycees,
+	[COMMUNES_COLUMNS.PotentielSolaireColleges]:
 		CommuneFeaturePropertiesKeys.PotentielSolaireColleges,
-	[CommunesColumns.PotentielSolairePrimaires]:
+	[COMMUNES_COLUMNS.PotentielSolairePrimaires]:
 		CommuneFeaturePropertiesKeys.PotentielSolairePrimaires,
 } as const;
