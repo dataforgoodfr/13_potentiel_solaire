@@ -9,6 +9,9 @@ export const SEARCH_VIEW_COLUMNS = {
 	ExtraData: 'extra_data',
 	ExtraDataNomCommune: 'nom_commune',
 	ExtraDataCodePostal: 'code_postal',
+	ExtraDataCodeRegion: 'code_region',
+	ExtraDataCodeDepartement: 'code_departement',
+	ExtraDataCodeCommune: 'code_commune',
 } as const;
 
 export const SEARCH_VIEW_MAPPING = {
@@ -18,6 +21,9 @@ export const SEARCH_VIEW_MAPPING = {
 	[SEARCH_VIEW_COLUMNS.ExtraData]: SearchPropertiesKeys.ExtraData,
 	[SEARCH_VIEW_COLUMNS.ExtraDataNomCommune]: SearchPropertiesKeys.ExtraDataNomCommune,
 	[SEARCH_VIEW_COLUMNS.ExtraDataCodePostal]: SearchPropertiesKeys.ExtraDataCodePostal,
+	[SEARCH_VIEW_COLUMNS.ExtraDataCodeRegion]: SearchPropertiesKeys.ExtraDataCodeRegion,
+	[SEARCH_VIEW_COLUMNS.ExtraDataCodeDepartement]: SearchPropertiesKeys.ExtraDataCodeDepartement,
+	[SEARCH_VIEW_COLUMNS.ExtraDataCodeCommune]: SearchPropertiesKeys.ExtraDataCodeCommune,
 } as const;
 export const SEARCH_VIEW_SANITIZED_LIBELLE_COLUMN = 'sanitized_libelle';
 

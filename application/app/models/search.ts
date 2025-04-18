@@ -5,6 +5,9 @@ export const SearchPropertiesKeys = {
 	ExtraData: 'extra_data',
 	ExtraDataNomCommune: 'nom_commune',
 	ExtraDataCodePostal: 'code_postal',
+	ExtraDataCodeRegion: 'code_region',
+	ExtraDataCodeDepartement: 'code_departement',
+	ExtraDataCodeCommune: 'code_commune',
 } as const;
 
 export type BaseResult = {
@@ -17,15 +20,25 @@ export type EtablissementResult = BaseResult & {
 	[SearchPropertiesKeys.ExtraData]: {
 		[SearchPropertiesKeys.ExtraDataNomCommune]: string;
 		[SearchPropertiesKeys.ExtraDataCodePostal]: string;
+		[SearchPropertiesKeys.ExtraDataCodeRegion]: string;
+		[SearchPropertiesKeys.ExtraDataCodeDepartement]: string;
+		[SearchPropertiesKeys.ExtraDataCodeCommune]: string;
 	};
 };
 
 export type CommuneResult = BaseResult & {
 	[SearchPropertiesKeys.Source]: 'communes';
+	[SearchPropertiesKeys.ExtraData]: {
+		[SearchPropertiesKeys.ExtraDataCodeRegion]: string;
+		[SearchPropertiesKeys.ExtraDataCodeDepartement]: string;
+	};
 };
 
 export type DepartementResult = BaseResult & {
 	[SearchPropertiesKeys.Source]: 'departements';
+	[SearchPropertiesKeys.ExtraData]: {
+		[SearchPropertiesKeys.ExtraDataCodeRegion]: string;
+	};
 };
 
 export type RegionResult = BaseResult & {
