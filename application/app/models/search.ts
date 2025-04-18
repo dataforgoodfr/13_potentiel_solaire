@@ -1,13 +1,15 @@
+import { SEARCH_VIEW_MAPPING } from '../lib/db-mapping';
+
 export type BaseResult = {
-	id: string;
-	libelle: string;
+	[SEARCH_VIEW_MAPPING.id]: string;
+	[SEARCH_VIEW_MAPPING.libelle]: string;
 };
 
 export type EtablissementResult = BaseResult & {
 	source: 'etablissements';
-	extra_data: {
-		nom_commune: string;
-		code_postal: string;
+	[SEARCH_VIEW_MAPPING.extra_data]: {
+		[SEARCH_VIEW_MAPPING.extra_data_nom_commune]: string;
+		[SEARCH_VIEW_MAPPING.extra_data_code_postal]: string;
 	};
 };
 

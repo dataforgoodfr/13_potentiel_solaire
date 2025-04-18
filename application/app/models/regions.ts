@@ -1,10 +1,16 @@
+import { REGIONS_MAPPING } from '../lib/db-mapping';
+import { TopEtablissement } from './etablissements';
+
 export interface RegionProperties {
-	code_region: string;
-	libelle_region: string;
-	surface_utile: number;
-	potentiel_solaire: number;
-	count_etablissements: number;
-	count_etablissements_proteges: number;
+	[REGIONS_MAPPING.code_region]: string;
+	[REGIONS_MAPPING.libelle_region]: string;
+	[REGIONS_MAPPING.surface_exploitable_max_lycees]: number;
+	[REGIONS_MAPPING.nb_eleves_lycees]: number;
+	[REGIONS_MAPPING.nb_etablissements_lycees]: number;
+	[REGIONS_MAPPING.nb_etablissements_proteges_lycees]: number;
+	[REGIONS_MAPPING.potentiel_solaire_lycees]: number;
+	[REGIONS_MAPPING.potentiel_nb_foyers_lycees]: number;
+	[REGIONS_MAPPING.top_etablissements_lycees]: Array<TopEtablissement> | null;
 }
 export type RegionFeature = RegionsGeoJSON['features'][number];
 

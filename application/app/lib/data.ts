@@ -10,6 +10,20 @@ import {
 import { RegionFeature } from '../models/regions';
 import { SearchResult } from '../models/search';
 import { isCodePostal, sanitizeString } from '../utils/string-utils';
+import {
+	COMMUNES_MAPPING,
+	COMMUNES_TABLE,
+	DEPARTEMENTS_MAPPING,
+	DEPARTEMENTS_TABLE,
+	ETABLISSEMENTS_MAPPING,
+	ETABLISSEMENTS_TABLE,
+	REF_CODE_POSTAL_MAPPING,
+	REF_CODE_POSTAL_TABLE,
+	REGIONS_MAPPING,
+	REGIONS_TABLE,
+	SEARCH_VIEW_MAPPING,
+	SEARCH_VIEW_TABLE,
+} from './db-mapping';
 import db from './duckdb';
 
 /**
@@ -38,17 +52,17 @@ export async function fetchEtablissements(codeCommune: string | null): Promise<E
 		if (codeCommune) {
 			prepared = await connection.prepare(
 				`
-        SELECT etab.* EXCLUDE (geom), ST_X(etab.geom) as longitude, ST_Y(etab.geom) as latitude
-        FROM main.etablissements etab
-        WHERE etab.code_commune = $1;
+        SELECT etab.* EXCLUDE (${ETABLISSEMENTS_MAPPING.geom}), ST_X(etab.${ETABLISSEMENTS_MAPPING.geom}) as longitude, ST_Y(etab.${ETABLISSEMENTS_MAPPING.geom}) as latitude
+        FROM main.${ETABLISSEMENTS_TABLE} etab
+        WHERE etab.${ETABLISSEMENTS_MAPPING.code_commune} = $1;
         `,
 			);
 			prepared.bindVarchar(1, codeCommune);
 		} else {
 			prepared = await connection.prepare(
 				`
-        SELECT etab.* EXCLUDE (geom), ST_X(etab.geom) as longitude, ST_Y(etab.geom) as latitude
-        FROM main.etablissements etab;
+        SELECT etab.* EXCLUDE (${ETABLISSEMENTS_MAPPING.geom}), ST_X(etab.${ETABLISSEMENTS_MAPPING.geom}) as longitude, ST_Y(etab.${ETABLISSEMENTS_MAPPING.geom}) as latitude
+        FROM main.${ETABLISSEMENTS_TABLE} etab;
         `,
 			);
 		}
@@ -71,10 +85,10 @@ export async function fetchEtablissementsFromBoundingBox({
 
 		const prepared = await connection.prepare(
 			`
-        SELECT etab.* EXCLUDE (geom), ST_X(etab.geom) as longitude, ST_Y(etab.geom) as latitude
-        FROM main.communes com
-        INNER JOIN main.etablissements etab ON etab.code_commune = com.code_commune
-        WHERE ST_Intersects(ST_MakeEnvelope($1, $2, $3, $4), com.geom);
+        SELECT etab.* EXCLUDE (${ETABLISSEMENTS_MAPPING.geom}), ST_X(etab.${ETABLISSEMENTS_MAPPING.geom}) as longitude, ST_Y(etab.${ETABLISSEMENTS_MAPPING.geom}) as latitude
+        FROM main.${COMMUNES_TABLE} com
+        INNER JOIN main.${ETABLISSEMENTS_TABLE} etab ON etab.${ETABLISSEMENTS_MAPPING.code_commune} = com.${COMMUNES_MAPPING.code_commune}
+        WHERE ST_Intersects(ST_MakeEnvelope($1, $2, $3, $4), com.${COMMUNES_MAPPING.geom});
 		`,
 		);
 		prepared.bindDouble(1, southWest.lng);
@@ -107,48 +121,48 @@ export async function fetchEtablissementsGeoJSON(
 					'type','Feature',
 					'properties',
 					json_object(
-						'identifiant_de_l_etablissement',
-						e.identifiant_de_l_etablissement,
-						'nom_etablissement',
-						e.nom_etablissement,
-						'type_etablissement',
-						e.type_etablissement,
-						'libelle_nature',
-						e.libelle_nature,
-						'adresse_1',
-						e.adresse_1,
-						'adresse_2',
-						e.adresse_2,
-						'adresse_3',
-						e.adresse_3,
-						'code_postal',
-						e.code_postal,
-						'nb_eleves',
-						e.nb_eleves,
-						'code_commune',
-						e.code_commune,
-						'nom_commune',
-						e.nom_commune,
-						'code_departement',
-						e.code_departement,
-						'libelle_departement',
-						e.libelle_departement,
-						'code_region',
-						e.code_region,
-						'libelle_region',
-						e.libelle_region,
-						'surface_utile',
-						e.surface_utile,
-						'potentiel_solaire',
-						e.potentiel_solaire,
-						'protection',
-						e.protection
+						'${ETABLISSEMENTS_MAPPING.identifiant_de_l_etablissement}',
+						e.${ETABLISSEMENTS_MAPPING.identifiant_de_l_etablissement},
+						'${ETABLISSEMENTS_MAPPING.nom_etablissement}',
+						e.${ETABLISSEMENTS_MAPPING.nom_etablissement},
+						'${ETABLISSEMENTS_MAPPING.type_etablissement}',
+						e.${ETABLISSEMENTS_MAPPING.type_etablissement},
+						'${ETABLISSEMENTS_MAPPING.libelle_nature}',
+						e.${ETABLISSEMENTS_MAPPING.libelle_nature},
+						'${ETABLISSEMENTS_MAPPING.adresse_1}',
+						e.${ETABLISSEMENTS_MAPPING.adresse_1},
+						'${ETABLISSEMENTS_MAPPING.adresse_2}',
+						e.${ETABLISSEMENTS_MAPPING.adresse_2},
+						'${ETABLISSEMENTS_MAPPING.adresse_3}',
+						e.${ETABLISSEMENTS_MAPPING.adresse_3},
+						'${ETABLISSEMENTS_MAPPING.code_postal}',
+						e.${ETABLISSEMENTS_MAPPING.code_postal},
+						'${ETABLISSEMENTS_MAPPING.nb_eleves}',
+						e.${ETABLISSEMENTS_MAPPING.nb_eleves},
+						'${ETABLISSEMENTS_MAPPING.code_commune}',
+						e.${ETABLISSEMENTS_MAPPING.code_commune},
+						'${ETABLISSEMENTS_MAPPING.nom_commune}',
+						e.${ETABLISSEMENTS_MAPPING.nom_commune},
+						'${ETABLISSEMENTS_MAPPING.code_departement}',
+						e.${ETABLISSEMENTS_MAPPING.code_departement},
+						'${ETABLISSEMENTS_MAPPING.libelle_departement}',
+						e.${ETABLISSEMENTS_MAPPING.libelle_departement},
+						'${ETABLISSEMENTS_MAPPING.code_region}',
+						e.${ETABLISSEMENTS_MAPPING.code_region},
+						'${ETABLISSEMENTS_MAPPING.libelle_region}',
+						e.${ETABLISSEMENTS_MAPPING.libelle_region},
+						'${ETABLISSEMENTS_MAPPING.surface_exploitable_max}',
+						e.${ETABLISSEMENTS_MAPPING.surface_exploitable_max},
+						'${ETABLISSEMENTS_MAPPING.potentiel_solaire}',
+						e.${ETABLISSEMENTS_MAPPING.potentiel_solaire},
+						'${ETABLISSEMENTS_MAPPING.protection}',
+						e.${ETABLISSEMENTS_MAPPING.protection}
 					),
-					'geometry', ST_AsGeoJSON(e.geom)::JSON
+					'geometry', ST_AsGeoJSON(e.${ETABLISSEMENTS_MAPPING.geom})::JSON
 					)
 				), [])
-			) as geojson FROM main.etablissements e
-		` + (codeCommune ? 'WHERE e.code_commune = $1' : ''),
+			) as geojson FROM main.${ETABLISSEMENTS_TABLE} e
+		` + (codeCommune ? `WHERE e.${ETABLISSEMENTS_MAPPING.code_commune} = $1` : ''),
 		);
 		if (codeCommune) {
 			prepared.bindVarchar(1, codeCommune);
@@ -176,47 +190,47 @@ export async function fetchEtablissementGeoJSONById(
 				'type','Feature',
 				'properties',
 				json_object(
-					'identifiant_de_l_etablissement',
-					e.identifiant_de_l_etablissement,
-					'nom_etablissement',
-					e.nom_etablissement,
-					'type_etablissement',
-					e.type_etablissement,
-					'libelle_nature',
-					e.libelle_nature,
-					'adresse_1',
-					e.adresse_1,
-					'adresse_2',
-					e.adresse_2,
-					'adresse_3',
-					e.adresse_3,
-					'code_postal',
-					e.code_postal,
-					'nb_eleves',
-					e.nb_eleves,
-					'code_commune',
-					e.code_commune,
-					'nom_commune',
-					e.nom_commune,
-					'code_departement',
-					e.code_departement,
-					'libelle_departement',
-					e.libelle_departement,
-					'code_region',
-					e.code_region,
-					'libelle_region',
-					e.libelle_region,
-					'surface_utile',
-					e.surface_utile,
-					'potentiel_solaire',
-					e.potentiel_solaire,
-					'protection',
-					e.protection
+					'${ETABLISSEMENTS_MAPPING.identifiant_de_l_etablissement}',
+					e.${ETABLISSEMENTS_MAPPING.identifiant_de_l_etablissement},
+					'${ETABLISSEMENTS_MAPPING.nom_etablissement}',
+					e.${ETABLISSEMENTS_MAPPING.nom_etablissement},
+					'${ETABLISSEMENTS_MAPPING.type_etablissement}',
+					e.${ETABLISSEMENTS_MAPPING.type_etablissement},
+					'${ETABLISSEMENTS_MAPPING.libelle_nature}',
+					e.${ETABLISSEMENTS_MAPPING.libelle_nature},
+					'${ETABLISSEMENTS_MAPPING.adresse_1}',
+					e.${ETABLISSEMENTS_MAPPING.adresse_1},
+					'${ETABLISSEMENTS_MAPPING.adresse_2}',
+					e.${ETABLISSEMENTS_MAPPING.adresse_2},
+					'${ETABLISSEMENTS_MAPPING.adresse_3}',
+					e.${ETABLISSEMENTS_MAPPING.adresse_3},
+					'${ETABLISSEMENTS_MAPPING.code_postal}',
+					e.${ETABLISSEMENTS_MAPPING.code_postal},
+					'${ETABLISSEMENTS_MAPPING.nb_eleves}',
+					e.${ETABLISSEMENTS_MAPPING.nb_eleves},
+					'${ETABLISSEMENTS_MAPPING.code_commune}',
+					e.${ETABLISSEMENTS_MAPPING.code_commune},
+					'${ETABLISSEMENTS_MAPPING.nom_commune}',
+					e.${ETABLISSEMENTS_MAPPING.nom_commune},
+					'${ETABLISSEMENTS_MAPPING.code_departement}',
+					e.${ETABLISSEMENTS_MAPPING.code_departement},
+					'${ETABLISSEMENTS_MAPPING.libelle_departement}',
+					e.${ETABLISSEMENTS_MAPPING.libelle_departement},
+					'${ETABLISSEMENTS_MAPPING.code_region}',
+					e.${ETABLISSEMENTS_MAPPING.code_region},
+					'${ETABLISSEMENTS_MAPPING.libelle_region}',
+					e.${ETABLISSEMENTS_MAPPING.libelle_region},
+					'${ETABLISSEMENTS_MAPPING.surface_exploitable_max}',
+					e.${ETABLISSEMENTS_MAPPING.surface_exploitable_max},
+					'${ETABLISSEMENTS_MAPPING.potentiel_solaire}',
+					e.${ETABLISSEMENTS_MAPPING.potentiel_solaire},
+					'${ETABLISSEMENTS_MAPPING.protection}',
+					e.${ETABLISSEMENTS_MAPPING.protection}
 				),
-				'geometry', ST_AsGeoJSON(e.geom)::JSON
+				'geometry', ST_AsGeoJSON(e.${ETABLISSEMENTS_MAPPING.geom})::JSON
 			) as geojson
-			FROM main.etablissements e
-			WHERE e.identifiant_de_l_etablissement = $1
+			FROM main.${ETABLISSEMENTS_TABLE} e
+			WHERE e.${ETABLISSEMENTS_MAPPING.identifiant_de_l_etablissement} = $1
 		`,
 		);
 		prepared.bindVarchar(1, id);
@@ -250,33 +264,39 @@ export async function fetchCommunesFromBoundingBox({
 				'type','Feature',
 				'properties',
 				json_object(
-				'code_commune',
-				c.code_commune,
-				'nom_commune',
-				c.nom_commune,
-				'code_departement',
-				c.code_departement,
-				'libelle_departement',
-				c.libelle_departement,
-				'code_region',
-				c.code_region,
-				'libelle_region',
-				c.libelle_region,
-				'surface_utile',
-				c.surface_utile,
-				'potentiel_solaire',
-				c.potentiel_solaire,
-				'count_etablissements',
-				c.count_etablissements,
-				'count_etablissements_proteges',
-				c.count_etablissements_proteges
+				'${COMMUNES_MAPPING.code_commune}',
+				c.${COMMUNES_MAPPING.code_commune},
+				'${COMMUNES_MAPPING.nom_commune}',
+				c.${COMMUNES_MAPPING.nom_commune},
+				'${COMMUNES_MAPPING.code_departement}',
+				c.${COMMUNES_MAPPING.code_departement},
+				'${COMMUNES_MAPPING.libelle_departement}',
+				c.${COMMUNES_MAPPING.libelle_departement},
+				'${COMMUNES_MAPPING.code_region}',
+				c.${COMMUNES_MAPPING.code_region},
+				'${COMMUNES_MAPPING.libelle_region}',
+				c.${COMMUNES_MAPPING.libelle_region},
+				'${COMMUNES_MAPPING.surface_exploitable_max_primaires}',
+				c.${COMMUNES_MAPPING.surface_exploitable_max_primaires},
+				'${COMMUNES_MAPPING.potentiel_solaire_primaires}',
+				c.${COMMUNES_MAPPING.potentiel_solaire_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_proteges_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_proteges_primaires},
+				'${COMMUNES_MAPPING.nb_eleves_primaires}',
+				c.${COMMUNES_MAPPING.nb_eleves_primaires},
+				'${COMMUNES_MAPPING.potentiel_nb_foyers_primaires}',
+				c.${COMMUNES_MAPPING.potentiel_nb_foyers_primaires},
+				'${COMMUNES_MAPPING.top_etablissements_primaires}',
+				c.${COMMUNES_MAPPING.top_etablissements_primaires}
 				),
-				'geometry', ST_AsGeoJSON(c.geom)::JSON
+				'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 				)
 			), [])
-		) as geojson FROM main.departements dept
-		INNER JOIN main.communes c ON c.code_departement = dept.code_departement
-		WHERE ST_Intersects(ST_MakeEnvelope($1, $2, $3, $4), dept.geom);
+		) as geojson FROM main.${DEPARTEMENTS_TABLE} dept
+		INNER JOIN main.${COMMUNES_TABLE} c ON c.${COMMUNES_MAPPING.code_departement} = dept.${DEPARTEMENTS_MAPPING.code_departement}
+		WHERE ST_Intersects(ST_MakeEnvelope($1, $2, $3, $4), dept.${DEPARTEMENTS_MAPPING.geom});
 		`,
 		);
 		prepared.bindDouble(1, southWest.lng);
@@ -311,31 +331,37 @@ export async function fetchCommuneContainsLatLng({
 			'type','Feature',
 			'properties',
 			json_object(
-			'code_commune',
-			c.code_commune,
-			'nom_commune',
-			c.nom_commune,
-			'code_departement',
-			c.code_departement,
-			'libelle_departement',
-			c.libelle_departement,
-			'code_region',
-			c.code_region,
-			'libelle_region',
-			c.libelle_region,
-			'surface_utile',
-			c.surface_utile,
-			'potentiel_solaire',
-			c.potentiel_solaire,
-			'count_etablissements',
-			c.count_etablissements,
-			'count_etablissements_proteges',
-			c.count_etablissements_proteges
+			'${COMMUNES_MAPPING.code_commune}',
+			c.${COMMUNES_MAPPING.code_commune},
+			'${COMMUNES_MAPPING.nom_commune}',
+			c.${COMMUNES_MAPPING.nom_commune},
+			'${COMMUNES_MAPPING.code_departement}',
+			c.${COMMUNES_MAPPING.code_departement},
+			'${COMMUNES_MAPPING.libelle_departement}',
+			c.${COMMUNES_MAPPING.libelle_departement},
+			'${COMMUNES_MAPPING.code_region}',
+			c.${COMMUNES_MAPPING.code_region},
+			'${COMMUNES_MAPPING.libelle_region}',
+			c.${COMMUNES_MAPPING.libelle_region},
+			'${COMMUNES_MAPPING.surface_exploitable_max_primaires}',
+			c.${COMMUNES_MAPPING.surface_exploitable_max_primaires},
+			'${COMMUNES_MAPPING.potentiel_solaire_primaires}',
+			c.${COMMUNES_MAPPING.potentiel_solaire_primaires},
+			'${COMMUNES_MAPPING.nb_etablissements_primaires}',
+			c.${COMMUNES_MAPPING.nb_etablissements_primaires},
+			'${COMMUNES_MAPPING.nb_etablissements_proteges_primaires}',
+			c.${COMMUNES_MAPPING.nb_etablissements_proteges_primaires},
+			'${COMMUNES_MAPPING.nb_eleves_primaires}',
+			c.${COMMUNES_MAPPING.nb_eleves_primaires},
+			'${COMMUNES_MAPPING.potentiel_nb_foyers_primaires}',
+			c.${COMMUNES_MAPPING.potentiel_nb_foyers_primaires},
+			'${COMMUNES_MAPPING.top_etablissements_primaires}',
+			c.${COMMUNES_MAPPING.top_etablissements_primaires}
 			),
-			'geometry', ST_AsGeoJSON(c.geom)::JSON
+			'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 		) as geojson
-		FROM main.communes c
-		WHERE ST_CONTAINS(c.geom, ST_POINT($1, $2))`,
+		FROM main.${COMMUNES_TABLE} c
+		WHERE ST_CONTAINS(c.${COMMUNES_MAPPING.geom}, ST_POINT($1, $2))`,
 		);
 		prepared.bindFloat(1, lng);
 		prepared.bindFloat(2, lat);
@@ -367,32 +393,38 @@ export async function fetchCommunesGeoJSON(
 				'type','Feature',
 				'properties',
 				json_object(
-				'code_commune',
-				c.code_commune,
-				'nom_commune',
-				c.nom_commune,
-				'code_departement',
-				c.code_departement,
-				'libelle_departement',
-				c.libelle_departement,
-				'code_region',
-				c.code_region,
-				'libelle_region',
-				c.libelle_region,
-				'surface_utile',
-				c.surface_utile,
-				'potentiel_solaire',
-				c.potentiel_solaire,
-				'count_etablissements',
-				c.count_etablissements,
-				'count_etablissements_proteges',
-				c.count_etablissements_proteges
+				'${COMMUNES_MAPPING.code_commune}',
+				c.${COMMUNES_MAPPING.code_commune},
+				'${COMMUNES_MAPPING.nom_commune}',
+				c.${COMMUNES_MAPPING.nom_commune},
+				'${COMMUNES_MAPPING.code_departement}',
+				c.${COMMUNES_MAPPING.code_departement},
+				'${COMMUNES_MAPPING.libelle_departement}',
+				c.${COMMUNES_MAPPING.libelle_departement},
+				'${COMMUNES_MAPPING.code_region}',
+				c.${COMMUNES_MAPPING.code_region},
+				'${COMMUNES_MAPPING.libelle_region}',
+				c.${COMMUNES_MAPPING.libelle_region},
+				'${COMMUNES_MAPPING.surface_exploitable_max_primaires}',
+				c.${COMMUNES_MAPPING.surface_exploitable_max_primaires},
+				'${COMMUNES_MAPPING.potentiel_solaire_primaires}',
+				c.${COMMUNES_MAPPING.potentiel_solaire_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_proteges_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_proteges_primaires},
+				'${COMMUNES_MAPPING.nb_eleves_primaires}',
+				c.${COMMUNES_MAPPING.nb_eleves_primaires},
+				'${COMMUNES_MAPPING.potentiel_nb_foyers_primaires}',
+				c.${COMMUNES_MAPPING.potentiel_nb_foyers_primaires},
+				'${COMMUNES_MAPPING.top_etablissements_primaires}',
+				c.${COMMUNES_MAPPING.top_etablissements_primaires}
 				),
-				'geometry', ST_AsGeoJSON(c.geom)::JSON
+				'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 				)
 			), [])
-		) as geojson FROM main.communes c
-		` + (codeDepartement ? 'WHERE c.code_departement = $1' : ''),
+		) as geojson FROM main.${COMMUNES_TABLE} c
+		` + (codeDepartement ? `WHERE c.${COMMUNES_MAPPING.code_departement} = $1` : ''),
 		);
 		if (codeDepartement) {
 			prepared.bindVarchar(1, codeDepartement);
@@ -418,31 +450,37 @@ export async function fetchCommuneFeature(id: string): Promise<CommuneFeature | 
 				'type','Feature',
 				'properties',
 				json_object(
-				'code_commune',
-				c.code_commune,
-				'nom_commune',
-				c.nom_commune,
-				'code_departement',
-				c.code_departement,
-				'libelle_departement',
-				c.libelle_departement,
-				'code_region',
-				c.code_region,
-				'libelle_region',
-				c.libelle_region,
-				'surface_utile',
-				c.surface_utile,
-				'potentiel_solaire',
-				c.potentiel_solaire,
-				'count_etablissements',
-				c.count_etablissements,
-				'count_etablissements_proteges',
-				c.count_etablissements_proteges
+				'${COMMUNES_MAPPING.code_commune}',
+				c.${COMMUNES_MAPPING.code_commune},
+				'${COMMUNES_MAPPING.nom_commune}',
+				c.${COMMUNES_MAPPING.nom_commune},
+				'${COMMUNES_MAPPING.code_departement}',
+				c.${COMMUNES_MAPPING.code_departement},
+				'${COMMUNES_MAPPING.libelle_departement}',
+				c.${COMMUNES_MAPPING.libelle_departement},
+				'${COMMUNES_MAPPING.code_region}',
+				c.${COMMUNES_MAPPING.code_region},
+				'${COMMUNES_MAPPING.libelle_region}',
+				c.${COMMUNES_MAPPING.libelle_region},
+				'${COMMUNES_MAPPING.surface_exploitable_max_primaires}',
+				c.${COMMUNES_MAPPING.surface_exploitable_max_primaires},
+				'${COMMUNES_MAPPING.potentiel_solaire_primaires}',
+				c.${COMMUNES_MAPPING.potentiel_solaire_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_proteges_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_proteges_primaires},
+				'${COMMUNES_MAPPING.nb_eleves_primaires}',
+				c.${COMMUNES_MAPPING.nb_eleves_primaires},
+				'${COMMUNES_MAPPING.potentiel_nb_foyers_primaires}',
+				c.${COMMUNES_MAPPING.potentiel_nb_foyers_primaires},
+				'${COMMUNES_MAPPING.top_etablissements_primaires}',
+				c.${COMMUNES_MAPPING.top_etablissements_primaires}
 				),
-				'geometry', ST_AsGeoJSON(c.geom)::JSON
+				'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 			) as geojson
-			FROM main.communes c
-			WHERE c.code_commune = $1
+			FROM main.${COMMUNES_TABLE} c
+			WHERE c.${COMMUNES_MAPPING.code_commune} = $1
 		`,
 		);
 		prepared.bindVarchar(1, id);
@@ -475,28 +513,34 @@ export async function fetchDepartementsGeoJSON(
 				'type','Feature',
 				'properties',
 				json_object(
-				'code_departement',
-				d.code_departement,
-				'libelle_departement',
-				d.libelle_departement,
-				'code_region',
-				d.code_region,
-				'libelle_region',
-				d.libelle_region,
-				'surface_utile',
-				d.surface_utile,
-				'potentiel_solaire',
-				d.potentiel_solaire,
-				'count_etablissements',
-				d.count_etablissements,
-				'count_etablissements_proteges',
-				d.count_etablissements_proteges
+				'${DEPARTEMENTS_MAPPING.code_departement}',
+				d.${DEPARTEMENTS_MAPPING.code_departement},
+				'${DEPARTEMENTS_MAPPING.libelle_departement}',
+				d.${DEPARTEMENTS_MAPPING.libelle_departement},
+				'${DEPARTEMENTS_MAPPING.code_region}',
+				d.${DEPARTEMENTS_MAPPING.code_region},
+				'${DEPARTEMENTS_MAPPING.libelle_region}',
+				d.${DEPARTEMENTS_MAPPING.libelle_region},
+				'${DEPARTEMENTS_MAPPING.surface_exploitable_max_colleges}',
+				d.${DEPARTEMENTS_MAPPING.surface_exploitable_max_colleges},
+				'${DEPARTEMENTS_MAPPING.potentiel_solaire_colleges}',
+				d.${DEPARTEMENTS_MAPPING.potentiel_solaire_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_proteges_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_proteges_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_eleves_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_eleves_colleges},
+				'${DEPARTEMENTS_MAPPING.potentiel_nb_foyers_colleges}',
+				d.${DEPARTEMENTS_MAPPING.potentiel_nb_foyers_colleges},
+				'${DEPARTEMENTS_MAPPING.top_etablissements_colleges}',
+				d.${DEPARTEMENTS_MAPPING.top_etablissements_colleges}
 				),
-				'geometry', ST_AsGeoJSON(d.geom)::JSON
+				'geometry', ST_AsGeoJSON(d.${DEPARTEMENTS_MAPPING.geom})::JSON
 				)
 			), [])
-		) as geojson FROM main.departements d
-		` + (codeRegion ? 'WHERE d.code_region = $1' : ''),
+		) as geojson FROM main.${DEPARTEMENTS_TABLE} d
+		` + (codeRegion ? `WHERE d.${DEPARTEMENTS_MAPPING.code_region} = $1` : ''),
 		);
 		if (codeRegion) {
 			prepared.bindVarchar(1, codeRegion);
@@ -522,27 +566,33 @@ export async function fetchDepartementFeature(id: string): Promise<DepartementFe
 				'type','Feature',
 				'properties',
 				json_object(
-				'code_departement',
-				d.code_departement,
-				'libelle_departement',
-				d.libelle_departement,
-				'code_region',
-				d.code_region,
-				'libelle_region',
-				d.libelle_region,
-				'surface_utile',
-				d.surface_utile,
-				'potentiel_solaire',
-				d.potentiel_solaire,
-				'count_etablissements',
-				d.count_etablissements,
-				'count_etablissements_proteges',
-				d.count_etablissements_proteges
+				'${DEPARTEMENTS_MAPPING.code_departement}',
+				d.${DEPARTEMENTS_MAPPING.code_departement},
+				'${DEPARTEMENTS_MAPPING.libelle_departement}',
+				d.${DEPARTEMENTS_MAPPING.libelle_departement},
+				'${DEPARTEMENTS_MAPPING.code_region}',
+				d.${DEPARTEMENTS_MAPPING.code_region},
+				'${DEPARTEMENTS_MAPPING.libelle_region}',
+				d.${DEPARTEMENTS_MAPPING.libelle_region},
+				'${DEPARTEMENTS_MAPPING.surface_exploitable_max_colleges}',
+				d.${DEPARTEMENTS_MAPPING.surface_exploitable_max_colleges},
+				'${DEPARTEMENTS_MAPPING.potentiel_solaire_colleges}',
+				d.${DEPARTEMENTS_MAPPING.potentiel_solaire_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_proteges_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_proteges_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_eleves_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_eleves_colleges},
+				'${DEPARTEMENTS_MAPPING.potentiel_nb_foyers_colleges}',
+				d.${DEPARTEMENTS_MAPPING.potentiel_nb_foyers_colleges},
+				'${DEPARTEMENTS_MAPPING.top_etablissements_colleges}',
+				d.${DEPARTEMENTS_MAPPING.top_etablissements_colleges}
 				),
-				'geometry', ST_AsGeoJSON(d.geom)::JSON
+				'geometry', ST_AsGeoJSON(d.${DEPARTEMENTS_MAPPING.geom})::JSON
 			) as geojson
-			FROM main.departements d
-			WHERE d.code_departement = $1
+			FROM main.${DEPARTEMENTS_TABLE} d
+			WHERE d.${DEPARTEMENTS_MAPPING.code_departement} = $1
 		`,
 		);
 		prepared.bindVarchar(1, id);
@@ -569,23 +619,29 @@ export async function fetchRegionFeature(id: string): Promise<RegionFeature | nu
 				'type','Feature',
 				'properties',
 				json_object(
-				'code_region',
-				r.code_region,
-				'libelle_region',
-				r.libelle_region,
-				'surface_utile',
-				r.surface_utile,
-				'potentiel_solaire',
-				r.potentiel_solaire,
-				'count_etablissements',
-				r.count_etablissements,
-				'count_etablissements_proteges',
-				r.count_etablissements_proteges
+				'${REGIONS_MAPPING.code_region}',
+				r.${REGIONS_MAPPING.code_region},
+				'${REGIONS_MAPPING.libelle_region}',
+				r.${REGIONS_MAPPING.libelle_region},
+				'${REGIONS_MAPPING.surface_exploitable_max_lycees}',
+				r.${REGIONS_MAPPING.surface_exploitable_max_lycees},
+				'${REGIONS_MAPPING.potentiel_solaire_lycees}',
+				r.${REGIONS_MAPPING.potentiel_solaire_lycees},
+				'${REGIONS_MAPPING.nb_etablissements_lycees}',
+				r.${REGIONS_MAPPING.nb_etablissements_lycees},
+				'${REGIONS_MAPPING.nb_etablissements_proteges_lycees}',
+				r.${REGIONS_MAPPING.nb_etablissements_proteges_lycees},
+				'${REGIONS_MAPPING.nb_eleves_lycees}',
+				r.${REGIONS_MAPPING.nb_eleves_lycees},
+				'${REGIONS_MAPPING.potentiel_nb_foyers_lycees}',
+				r.${REGIONS_MAPPING.potentiel_nb_foyers_lycees},
+				'${REGIONS_MAPPING.top_etablissements_lycees}',
+				r.${REGIONS_MAPPING.top_etablissements_lycees}
 				),
-				'geometry', ST_AsGeoJSON(r.geom)::JSON
+				'geometry', ST_AsGeoJSON(r.${REGIONS_MAPPING.geom})::JSON
 			) as geojson
-			FROM main.regions r
-			WHERE r.code_region = $1
+			FROM main.${REGIONS_TABLE} r
+			WHERE r.${REGIONS_MAPPING.code_region} = $1
 		`,
 		);
 		prepared.bindVarchar(1, id);
@@ -621,11 +677,15 @@ export async function fetchSearchResults(
 		if (isCodePostal(query)) {
 			prepared = await connection.prepare(
 				`
-			SELECT sv.source_table as source, sv.id, sv.libelle, sv.extra_data
-			FROM ref_code_postal refCp
-			INNER JOIN search_view sv ON sv.source_table = 'communes' AND sv.id = refCp.code_insee
-			WHERE refCp.code_postal like $1
-			ORDER BY sv.libelle
+			SELECT
+			sv.${SEARCH_VIEW_MAPPING.source_table} as source, 
+			sv.${SEARCH_VIEW_MAPPING.id}, 
+			sv.${SEARCH_VIEW_MAPPING.libelle}, 
+			sv.${SEARCH_VIEW_MAPPING.extra_data}
+			FROM ${REF_CODE_POSTAL_TABLE} refCp
+			INNER JOIN ${SEARCH_VIEW_TABLE} sv ON sv.${SEARCH_VIEW_MAPPING.source_table} = 'communes' AND sv.${SEARCH_VIEW_MAPPING.id} = refCp.${REF_CODE_POSTAL_MAPPING.code_insee}
+			WHERE refCp.${REF_CODE_POSTAL_MAPPING.code_postal} like $1
+			ORDER BY sv.${SEARCH_VIEW_MAPPING.libelle}
 			LIMIT $2;
 			`,
 			);
@@ -633,10 +693,14 @@ export async function fetchSearchResults(
 		} else {
 			prepared = await connection.prepare(
 				`
-			SELECT source_table as source, id, libelle, extra_data
-			FROM main.search_view sv
-			WHERE sv.sanitized_libelle like $1
-			ORDER BY sv.libelle
+			SELECT
+			sv.${SEARCH_VIEW_MAPPING.source_table} as source, 
+			sv.${SEARCH_VIEW_MAPPING.id}, 
+			sv.${SEARCH_VIEW_MAPPING.libelle}, 
+			sv.${SEARCH_VIEW_MAPPING.extra_data}
+			FROM main.${SEARCH_VIEW_TABLE} sv
+			WHERE sv.${SEARCH_VIEW_MAPPING.sanitized_libelle} like $1
+			ORDER BY sv.${SEARCH_VIEW_MAPPING.libelle}
 			LIMIT $2;
 			`,
 			);

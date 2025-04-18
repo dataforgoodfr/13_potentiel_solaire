@@ -1,22 +1,24 @@
+import { ETABLISSEMENTS_MAPPING } from '../lib/db-mapping';
+
 export interface EtablissementProperties {
-	identifiant_de_l_etablissement: string;
-	nom_etablissement: string;
-	type_etablissement: string;
-	libelle_nature: string;
-	adresse_1: string | null;
-	adresse_2: string | null;
-	adresse_3: string | null;
-	code_postal: string;
-	nb_eleves: number | null;
-	code_commune: string;
-	nom_commune: string;
-	code_departement: string;
-	libelle_departement: string;
-	code_region: string;
-	libelle_region: string;
-	surface_utile: number;
-	potentiel_solaire: number;
-	protection: boolean;
+	[ETABLISSEMENTS_MAPPING.identifiant_de_l_etablissement]: string;
+	[ETABLISSEMENTS_MAPPING.nom_etablissement]: string;
+	[ETABLISSEMENTS_MAPPING.type_etablissement]: string;
+	[ETABLISSEMENTS_MAPPING.libelle_nature]: string;
+	[ETABLISSEMENTS_MAPPING.adresse_1]: string | null;
+	[ETABLISSEMENTS_MAPPING.adresse_2]: string | null;
+	[ETABLISSEMENTS_MAPPING.adresse_3]: string | null;
+	[ETABLISSEMENTS_MAPPING.code_postal]: string;
+	[ETABLISSEMENTS_MAPPING.nb_eleves]: number | null;
+	[ETABLISSEMENTS_MAPPING.code_commune]: string;
+	[ETABLISSEMENTS_MAPPING.nom_commune]: string;
+	[ETABLISSEMENTS_MAPPING.code_departement]: string;
+	[ETABLISSEMENTS_MAPPING.libelle_departement]: string;
+	[ETABLISSEMENTS_MAPPING.code_region]: string;
+	[ETABLISSEMENTS_MAPPING.libelle_region]: string;
+	[ETABLISSEMENTS_MAPPING.surface_exploitable_max]: number;
+	[ETABLISSEMENTS_MAPPING.potentiel_solaire]: number;
+	[ETABLISSEMENTS_MAPPING.protection]: boolean;
 }
 
 export type Etablissement = EtablissementProperties & {
@@ -30,3 +32,9 @@ export type EtablissementsGeoJSON = GeoJSON.FeatureCollection<
 >;
 
 export type EtablissementFeature = EtablissementsGeoJSON['features'][number];
+
+export interface TopEtablissement {
+	id: string;
+	libelle: string;
+	potentiel_solaire: number;
+}
