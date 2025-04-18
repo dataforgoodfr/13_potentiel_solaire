@@ -1,5 +1,7 @@
 import { LayerProps } from 'react-map-gl/maplibre';
 
+import { RegionFeaturePropertiesKeys } from '@/app/models/regions';
+
 import { COLOR_THRESHOLDS } from '../constants';
 import { zonesLayerPaint } from './zonesLayersPaint';
 
@@ -24,7 +26,7 @@ export const regionsLabelsLayer = {
 	type: 'symbol',
 	source: REGIONS_LABELS_SOURCE_ID,
 	layout: {
-		'text-field': ['get', 'libelle_region'],
+		'text-field': ['get', RegionFeaturePropertiesKeys.Nom],
 		'text-size': 14,
 		'text-anchor': 'center',
 	},

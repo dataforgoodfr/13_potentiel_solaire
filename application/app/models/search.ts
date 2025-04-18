@@ -1,28 +1,35 @@
-import { SEARCH_VIEW_MAPPING } from '../lib/db-mapping';
+export const SearchPropertiesKeys = {
+	Id: 'id',
+	Libelle: 'libelle',
+	Source: 'source',
+	ExtraData: 'extra_data',
+	ExtraDataNomCommune: 'nom_commune',
+	ExtraDataCodePostal: 'code_postal',
+} as const;
 
 export type BaseResult = {
-	[SEARCH_VIEW_MAPPING.id]: string;
-	[SEARCH_VIEW_MAPPING.libelle]: string;
+	[SearchPropertiesKeys.Id]: string;
+	[SearchPropertiesKeys.Libelle]: string;
 };
 
 export type EtablissementResult = BaseResult & {
-	source: 'etablissements';
-	[SEARCH_VIEW_MAPPING.extra_data]: {
-		[SEARCH_VIEW_MAPPING.extra_data_nom_commune]: string;
-		[SEARCH_VIEW_MAPPING.extra_data_code_postal]: string;
+	[SearchPropertiesKeys.Source]: 'etablissements';
+	[SearchPropertiesKeys.ExtraData]: {
+		[SearchPropertiesKeys.ExtraDataNomCommune]: string;
+		[SearchPropertiesKeys.ExtraDataCodePostal]: string;
 	};
 };
 
 export type CommuneResult = BaseResult & {
-	source: 'communes';
+	[SearchPropertiesKeys.Source]: 'communes';
 };
 
 export type DepartementResult = BaseResult & {
-	source: 'departements';
+	[SearchPropertiesKeys.Source]: 'departements';
 };
 
 export type RegionResult = BaseResult & {
-	source: 'regions';
+	[SearchPropertiesKeys.Source]: 'regions';
 };
 
 export type SearchResult = EtablissementResult | CommuneResult | DepartementResult | RegionResult;
