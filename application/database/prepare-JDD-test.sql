@@ -35,12 +35,14 @@ CREATE OR REPLACE TABLE regions AS
 	0 AS surface_exploitable_max_lycees,
 	0::BIGINT AS potentiel_solaire_total,
 	0::BIGINT AS potentiel_solaire_lycees,
+	0::BIGINT AS potentiel_solaire_colleges,
+	0::BIGINT AS potentiel_solaire_primaires,
 	0::BIGINT AS potentiel_nb_foyers_total,
 	0::BIGINT AS potentiel_nb_foyers_lycees,
 	NULL::JSON AS top_etablissements_total,
 	NULL::JSON AS top_etablissements_lycees,
-	[]::JSON AS nb_etablissements_par_niveau_potentiel_total,
-	[]::JSON AS nb_etablissements_par_niveau_potentiel_lycees,
+	NULL::JSON AS nb_etablissements_par_niveau_potentiel_total,
+	NULL::JSON AS nb_etablissements_par_niveau_potentiel_lycees,
 	geom
 	FROM ST_Read(getvariable('path_to_folder') || 'a-reg2021.json') reg;
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4') reg;  --16s
@@ -59,13 +61,15 @@ CREATE OR REPLACE TABLE departements AS
 	0 AS surface_exploitable_max_total,
 	0 AS surface_exploitable_max_colleges,
 	0::BIGINT AS potentiel_solaire_total,
+	0::BIGINT AS potentiel_solaire_lycees,
 	0::BIGINT AS potentiel_solaire_colleges,
+	0::BIGINT AS potentiel_solaire_primaires,
 	0::BIGINT AS potentiel_nb_foyers_total,
 	0::BIGINT AS potentiel_nb_foyers_colleges,
 	NULL::JSON AS top_etablissements_total,
 	NULL::JSON AS top_etablissements_colleges,
-	[]::JSON AS nb_etablissements_par_niveau_potentiel_total,
-	[]::JSON AS nb_etablissements_par_niveau_potentiel_colleges,
+	NULL::JSON AS nb_etablissements_par_niveau_potentiel_total,
+	NULL::JSON AS nb_etablissements_par_niveau_potentiel_colleges,
     geom
 	FROM ST_Read(getvariable('path_to_folder') || 'a-dep2021.json') dept;
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/92f37c92-3aae-452c-8af1-c77e6dd590e5') dept;   --40s
@@ -87,13 +91,15 @@ CREATE OR REPLACE TABLE communes AS
 	0 AS surface_exploitable_max_total,
 	0 AS surface_exploitable_max_primaires,
 	0::BIGINT AS potentiel_solaire_total,
+	0::BIGINT AS potentiel_solaire_lycees,
+	0::BIGINT AS potentiel_solaire_colleges,
 	0::BIGINT AS potentiel_solaire_primaires,
 	0::BIGINT AS potentiel_nb_foyers_total,
 	0::BIGINT AS potentiel_nb_foyers_primaires,
 	NULL::JSON AS top_etablissements_total,
 	NULL::JSON AS top_etablissements_primaires,
-	[]::JSON AS nb_etablissements_par_niveau_potentiel_total,
-	[]::JSON AS nb_etablissements_par_niveau_potentiel_primaires,
+	NULL::JSON AS nb_etablissements_par_niveau_potentiel_total,
+	NULL::JSON AS nb_etablissements_par_niveau_potentiel_primaires,
 	geom
 	FROM ST_Read(getvariable('path_to_folder') || 'a-com2022.json') com;
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581') com; -- ~15 min
@@ -120,10 +126,7 @@ CREATE OR REPLACE TABLE etablissements AS
 	FLOOR(RANDOM() * (getvariable('surface_exploitable_max') - getvariable('surface_exploitable_min') + 1)) + getvariable('surface_exploitable_min') AS surface_exploitable_max,
 	FLOOR(RANDOM() * (getvariable('potentiel_solaire_max') - getvariable('potentiel_solaire_min') + 1)) + getvariable('potentiel_solaire_min') AS potentiel_solaire,
 	0 AS potentiel_nb_foyers,
-	CASE
-    WHEN potentiel_solaire >= 250000 THEN '1_HIGH'
-    WHEN potentiel_solaire >= 100000 THEN '2_GOOD'
-    ELSE '3_LIMITED' AS niveau_potentiel,
+	NULL::VARCHAR AS niveau_potentiel,
 	(RANDOM() < 0.5) AS protection,
 	geom
 	FROM ST_Read(getvariable('path_to_folder') || 'fr-en-annuaire-education.geojson') etab;
@@ -137,10 +140,13 @@ CREATE OR REPLACE TABLE etablissements AS
 
 --maj etablissements
 UPDATE etablissements e
-SET potentiel_nb_foyers = FLOOR(e.potentiel_solaire / 5000);
+SET potentiel_nb_foyers = FLOOR(e.potentiel_solaire / 5000),
+niveau_potentiel = CASE
+					WHEN e.potentiel_solaire >= 250000 THEN '1_HIGH'
+					WHEN e.potentiel_solaire >= 100000 THEN '2_GOOD'
+					ELSE '3_LIMITED' END;
 
 -- maj regions
--- TODO: add nb_etablissements_par_niveau_potentiel_total and nb_etablissements_par_niveau_potentiel_lycees
 UPDATE regions r
 SET nb_eleves_total = regionEtablissements.nb_eleves_total,
 nb_eleves_lycees = regionEtablissements.nb_eleves_lycees,
@@ -152,6 +158,8 @@ surface_exploitable_max_total = regionEtablissements.surface_exploitable_max_tot
 surface_exploitable_max_lycees = regionEtablissements.surface_exploitable_max_lycees,
 potentiel_solaire_total = regionEtablissements.potentiel_solaire_total,
 potentiel_solaire_lycees = regionEtablissements.potentiel_solaire_lycees,
+potentiel_solaire_colleges = regionEtablissements.potentiel_solaire_colleges,
+potentiel_solaire_primaires = regionEtablissements.potentiel_solaire_primaires,
 potentiel_nb_foyers_total = regionEtablissements.potentiel_nb_foyers_total,
 potentiel_nb_foyers_lycees = regionEtablissements.potentiel_nb_foyers_lycees
 FROM (
@@ -167,7 +175,36 @@ FROM (
 	SUM(e.potentiel_solaire) AS potentiel_solaire_total,
 	SUM(CASE WHEN e.type_etablissement = 'Lycée' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_lycees,
 	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
+	SUM(CASE WHEN e.type_etablissement = 'Collège' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_colleges,
+	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
+	SUM(CASE WHEN e.type_etablissement = 'Ecole' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_primaires,
+	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
 	SUM(CASE WHEN e.type_etablissement = 'Lycée' THEN e.potentiel_nb_foyers ELSE 0 END) AS potentiel_nb_foyers_lycees
+    FROM etablissements e
+    GROUP BY e.code_region
+) AS regionEtablissements
+WHERE r.code_region = regionEtablissements.code_region;
+
+UPDATE regions r
+SET 
+  nb_etablissements_par_niveau_potentiel_total = json_object(
+    '1_HIGH', nb_high_total,
+    '2_MEDIUM', nb_medium_total,
+    '3_LOW', nb_low_total
+  ),
+  nb_etablissements_par_niveau_potentiel_lycees = json_object(
+    '1_HIGH', nb_high_lycees,
+    '2_MEDIUM', nb_medium_lycees,
+    '3_LOW', nb_low_lycees
+  )
+FROM (
+    SELECT e.code_region,
+	SUM(CASE WHEN e.type_etablissement = 'Lycée' AND e.niveau_potentiel = '1_HIGH' THEN 1 ELSE 0 END) AS nb_high_lycees,
+	SUM(CASE WHEN e.type_etablissement = 'Lycée' AND e.niveau_potentiel = '2_MEDIUM' THEN 1 ELSE 0 END) AS nb_medium_lycees,
+	SUM(CASE WHEN e.type_etablissement = 'Lycée' AND e.niveau_potentiel = '3_LOW' THEN 1 ELSE 0 END) AS nb_low_lycees,
+	SUM(CASE WHEN e.niveau_potentiel = '1_HIGH' THEN 1 ELSE 0 END) AS nb_high_total,
+	SUM(CASE WHEN e.niveau_potentiel = '2_MEDIUM' THEN 1 ELSE 0 END) AS nb_medium_total,
+	SUM(CASE WHEN e.niveau_potentiel = '3_LOW' THEN 1 ELSE 0 END) AS nb_low_total
     FROM etablissements e
     GROUP BY e.code_region
 ) AS regionEtablissements
@@ -250,7 +287,6 @@ FROM region_jsons rj
 WHERE r.code_region = rj.code_region;
 
 -- maj departements
--- TODO: add nb_etablissements_par_niveau_potentiel_total and nb_etablissements_par_niveau_potentiel_colleges
 UPDATE departements d
 SET nb_eleves_total = departementEtablissements.nb_eleves_total,
 nb_eleves_colleges = departementEtablissements.nb_eleves_colleges,
@@ -261,7 +297,9 @@ nb_etablissements_proteges_colleges = departementEtablissements.nb_etablissement
 surface_exploitable_max_total = departementEtablissements.surface_exploitable_max_total,
 surface_exploitable_max_colleges = departementEtablissements.surface_exploitable_max_colleges,
 potentiel_solaire_total = departementEtablissements.potentiel_solaire_total,
+potentiel_solaire_lycees = departementEtablissements.potentiel_solaire_lycees,
 potentiel_solaire_colleges = departementEtablissements.potentiel_solaire_colleges,
+potentiel_solaire_primaires = departementEtablissements.potentiel_solaire_primaires,
 potentiel_nb_foyers_total = departementEtablissements.potentiel_nb_foyers_total,
 potentiel_nb_foyers_colleges = departementEtablissements.potentiel_nb_foyers_colleges
 FROM (
@@ -275,9 +313,38 @@ FROM (
 	SUM(e.surface_exploitable_max) AS surface_exploitable_max_total,
 	SUM(CASE WHEN e.type_etablissement = 'Collège' THEN e.surface_exploitable_max ELSE 0 END) AS surface_exploitable_max_colleges,
 	SUM(e.potentiel_solaire) AS potentiel_solaire_total,
+	SUM(CASE WHEN e.type_etablissement = 'Lycée' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_lycees,
+	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
 	SUM(CASE WHEN e.type_etablissement = 'Collège' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_colleges,
 	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
+	SUM(CASE WHEN e.type_etablissement = 'Ecole' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_primaires,
+	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
 	SUM(CASE WHEN e.type_etablissement = 'Collège' THEN e.potentiel_nb_foyers ELSE 0 END) AS potentiel_nb_foyers_colleges
+	FROM etablissements e
+	GROUP BY e.code_departement
+) AS departementEtablissements
+WHERE d.code_departement = departementEtablissements.code_departement;
+
+UPDATE departements d
+SET 
+  nb_etablissements_par_niveau_potentiel_total = json_object(
+    '1_HIGH', nb_high_total,
+    '2_MEDIUM', nb_medium_total,
+    '3_LOW', nb_low_total
+  ),
+  nb_etablissements_par_niveau_potentiel_colleges = json_object(
+    '1_HIGH', nb_high_colleges,
+    '2_MEDIUM', nb_medium_colleges,
+    '3_LOW', nb_low_colleges
+  )
+FROM (
+	SELECT e.code_departement,
+	SUM(CASE WHEN e.type_etablissement = 'Collège' AND e.niveau_potentiel = '1_HIGH' THEN 1 ELSE 0 END) AS nb_high_colleges,
+	SUM(CASE WHEN e.type_etablissement = 'Collège' AND e.niveau_potentiel = '2_MEDIUM' THEN 1 ELSE 0 END) AS nb_medium_colleges,
+	SUM(CASE WHEN e.type_etablissement = 'Collège' AND e.niveau_potentiel = '3_LOW' THEN 1 ELSE 0 END) AS nb_low_colleges,
+	SUM(CASE WHEN e.niveau_potentiel = '1_HIGH' THEN 1 ELSE 0 END) AS nb_high_total,
+	SUM(CASE WHEN e.niveau_potentiel = '2_MEDIUM' THEN 1 ELSE 0 END) AS nb_medium_total,
+	SUM(CASE WHEN e.niveau_potentiel = '3_LOW' THEN 1 ELSE 0 END) AS nb_low_total
 	FROM etablissements e
 	GROUP BY e.code_departement
 ) AS departementEtablissements
@@ -360,7 +427,6 @@ FROM departement_jsons dj
 WHERE d.code_departement = dj.code_departement;
 
 -- maj communes
--- TODO: add nb_etablissements_par_niveau_potentiel_total and nb_etablissements_par_niveau_potentiel_primaires
 UPDATE communes c
 SET nb_eleves_total = communeEtablissements.nb_eleves_total,
 nb_eleves_primaires = communeEtablissements.nb_eleves_primaires,
@@ -371,6 +437,8 @@ nb_etablissements_proteges_primaires = communeEtablissements.nb_etablissements_p
 surface_exploitable_max_total = communeEtablissements.surface_exploitable_max_total,
 surface_exploitable_max_primaires = communeEtablissements.surface_exploitable_max_primaires,
 potentiel_solaire_total = communeEtablissements.potentiel_solaire_total,
+potentiel_solaire_lycees = communeEtablissements.potentiel_solaire_lycees,
+potentiel_solaire_colleges = communeEtablissements.potentiel_solaire_colleges,
 potentiel_solaire_primaires = communeEtablissements.potentiel_solaire_primaires,
 potentiel_nb_foyers_total = communeEtablissements.potentiel_nb_foyers_total,
 potentiel_nb_foyers_primaires = communeEtablissements.potentiel_nb_foyers_primaires
@@ -385,9 +453,38 @@ FROM (
 	SUM(e.surface_exploitable_max) AS surface_exploitable_max_total,
 	SUM(CASE WHEN e.type_etablissement = 'Ecole' THEN e.surface_exploitable_max ELSE 0 END) AS surface_exploitable_max_primaires,
 	SUM(e.potentiel_solaire) AS potentiel_solaire_total,
+	SUM(CASE WHEN e.type_etablissement = 'Lycée' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_lycees,
+	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
+	SUM(CASE WHEN e.type_etablissement = 'Collège' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_colleges,
+	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
 	SUM(CASE WHEN e.type_etablissement = 'Ecole' THEN e.potentiel_solaire ELSE 0 END) AS potentiel_solaire_primaires,
 	SUM(e.potentiel_nb_foyers) AS potentiel_nb_foyers_total,
 	SUM(CASE WHEN e.type_etablissement = 'Ecole' THEN e.potentiel_nb_foyers ELSE 0 END) AS potentiel_nb_foyers_primaires
+	FROM etablissements e
+	GROUP BY e.code_commune
+) AS communeEtablissements
+WHERE c.code_commune = communeEtablissements.code_commune;
+
+UPDATE communes c
+SET 
+  nb_etablissements_par_niveau_potentiel_total = json_object(
+    '1_HIGH', nb_high_total,
+    '2_MEDIUM', nb_medium_total,
+    '3_LOW', nb_low_total
+  ),
+  nb_etablissements_par_niveau_potentiel_primaires = json_object(
+    '1_HIGH', nb_high_primaires,
+    '2_MEDIUM', nb_medium_primaires,
+    '3_LOW', nb_low_primaires
+  )
+FROM (
+	SELECT e.code_commune,
+	SUM(CASE WHEN e.type_etablissement = 'Ecole' AND e.niveau_potentiel = '1_HIGH' THEN 1 ELSE 0 END) AS nb_high_primaires,
+	SUM(CASE WHEN e.type_etablissement = 'Ecole' AND e.niveau_potentiel = '2_MEDIUM' THEN 1 ELSE 0 END) AS nb_medium_primaires,
+	SUM(CASE WHEN e.type_etablissement = 'Ecole' AND e.niveau_potentiel = '3_LOW' THEN 1 ELSE 0 END) AS nb_low_primaires,
+	SUM(CASE WHEN e.niveau_potentiel = '1_HIGH' THEN 1 ELSE 0 END) AS nb_high_total,
+	SUM(CASE WHEN e.niveau_potentiel = '2_MEDIUM' THEN 1 ELSE 0 END) AS nb_medium_total,
+	SUM(CASE WHEN e.niveau_potentiel = '3_LOW' THEN 1 ELSE 0 END) AS nb_low_total
 	FROM etablissements e
 	GROUP BY e.code_commune
 ) AS communeEtablissements
