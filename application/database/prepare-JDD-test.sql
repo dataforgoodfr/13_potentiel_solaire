@@ -39,6 +39,8 @@ CREATE OR REPLACE TABLE regions AS
 	0::BIGINT AS potentiel_nb_foyers_lycees,
 	NULL::JSON AS top_etablissements_total,
 	NULL::JSON AS top_etablissements_lycees,
+	[]::JSON AS nb_etablissements_par_niveau_potentiel_total,
+	[]::JSON AS nb_etablissements_par_niveau_potentiel_lycees,
 	geom
 	FROM ST_Read(getvariable('path_to_folder') || 'a-reg2021.json') reg;
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4') reg;  --16s
@@ -62,6 +64,8 @@ CREATE OR REPLACE TABLE departements AS
 	0::BIGINT AS potentiel_nb_foyers_colleges,
 	NULL::JSON AS top_etablissements_total,
 	NULL::JSON AS top_etablissements_colleges,
+	[]::JSON AS nb_etablissements_par_niveau_potentiel_total,
+	[]::JSON AS nb_etablissements_par_niveau_potentiel_colleges,
     geom
 	FROM ST_Read(getvariable('path_to_folder') || 'a-dep2021.json') dept;
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/92f37c92-3aae-452c-8af1-c77e6dd590e5') dept;   --40s
@@ -88,6 +92,8 @@ CREATE OR REPLACE TABLE communes AS
 	0::BIGINT AS potentiel_nb_foyers_primaires,
 	NULL::JSON AS top_etablissements_total,
 	NULL::JSON AS top_etablissements_primaires,
+	[]::JSON AS nb_etablissements_par_niveau_potentiel_total,
+	[]::JSON AS nb_etablissements_par_niveau_potentiel_primaires,
 	geom
 	FROM ST_Read(getvariable('path_to_folder') || 'a-com2022.json') com;
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581') com; -- ~15 min
@@ -114,6 +120,10 @@ CREATE OR REPLACE TABLE etablissements AS
 	FLOOR(RANDOM() * (getvariable('surface_exploitable_max') - getvariable('surface_exploitable_min') + 1)) + getvariable('surface_exploitable_min') AS surface_exploitable_max,
 	FLOOR(RANDOM() * (getvariable('potentiel_solaire_max') - getvariable('potentiel_solaire_min') + 1)) + getvariable('potentiel_solaire_min') AS potentiel_solaire,
 	0 AS potentiel_nb_foyers,
+	CASE
+    WHEN potentiel_solaire >= 250000 THEN '1_HIGH'
+    WHEN potentiel_solaire >= 100000 THEN '2_GOOD'
+    ELSE '3_LIMITED' AS niveau_potentiel,
 	(RANDOM() < 0.5) AS protection,
 	geom
 	FROM ST_Read(getvariable('path_to_folder') || 'fr-en-annuaire-education.geojson') etab;
@@ -130,6 +140,7 @@ UPDATE etablissements e
 SET potentiel_nb_foyers = FLOOR(e.potentiel_solaire / 5000);
 
 -- maj regions
+-- TODO: add nb_etablissements_par_niveau_potentiel_total and nb_etablissements_par_niveau_potentiel_lycees
 UPDATE regions r
 SET nb_eleves_total = regionEtablissements.nb_eleves_total,
 nb_eleves_lycees = regionEtablissements.nb_eleves_lycees,
@@ -239,6 +250,7 @@ FROM region_jsons rj
 WHERE r.code_region = rj.code_region;
 
 -- maj departements
+-- TODO: add nb_etablissements_par_niveau_potentiel_total and nb_etablissements_par_niveau_potentiel_colleges
 UPDATE departements d
 SET nb_eleves_total = departementEtablissements.nb_eleves_total,
 nb_eleves_colleges = departementEtablissements.nb_eleves_colleges,
@@ -348,6 +360,7 @@ FROM departement_jsons dj
 WHERE d.code_departement = dj.code_departement;
 
 -- maj communes
+-- TODO: add nb_etablissements_par_niveau_potentiel_total and nb_etablissements_par_niveau_potentiel_primaires
 UPDATE communes c
 SET nb_eleves_total = communeEtablissements.nb_eleves_total,
 nb_eleves_primaires = communeEtablissements.nb_eleves_primaires,

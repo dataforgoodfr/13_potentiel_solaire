@@ -157,6 +157,8 @@ export async function fetchEtablissementsGeoJSON(
 						e.${ETABLISSEMENTS_MAPPING.potentiel_solaire},
 						'${ETABLISSEMENTS_MAPPING.potentiel_nb_foyers}',
 						e.${ETABLISSEMENTS_MAPPING.potentiel_nb_foyers},
+						'${ETABLISSEMENTS_MAPPING.niveau_potentiel}',
+						e.${ETABLISSEMENTS_MAPPING.niveau_potentiel},
 						'${ETABLISSEMENTS_MAPPING.protection}',
 						e.${ETABLISSEMENTS_MAPPING.protection}
 					),
@@ -228,6 +230,8 @@ export async function fetchEtablissementGeoJSONById(
 					e.${ETABLISSEMENTS_MAPPING.potentiel_solaire},
 					'${ETABLISSEMENTS_MAPPING.potentiel_nb_foyers}',
 					e.${ETABLISSEMENTS_MAPPING.potentiel_nb_foyers},
+					'${ETABLISSEMENTS_MAPPING.niveau_potentiel}',
+					e.${ETABLISSEMENTS_MAPPING.niveau_potentiel},
 					'${ETABLISSEMENTS_MAPPING.protection}',
 					e.${ETABLISSEMENTS_MAPPING.protection}
 				),
@@ -307,7 +311,11 @@ export async function fetchCommunesFromBoundingBox({
 				'${COMMUNES_MAPPING.top_etablissements_total}',
 				c.${COMMUNES_MAPPING.top_etablissements_total},
 				'${COMMUNES_MAPPING.top_etablissements_primaires}',
-				c.${COMMUNES_MAPPING.top_etablissements_primaires}
+				c.${COMMUNES_MAPPING.top_etablissements_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total}',
+				c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total},
+				'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}
 				),
 				'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 				)
@@ -388,7 +396,11 @@ export async function fetchCommuneContainsLatLng({
 			'${COMMUNES_MAPPING.top_etablissements_total}',
 			c.${COMMUNES_MAPPING.top_etablissements_total},
 			'${COMMUNES_MAPPING.top_etablissements_primaires}',
-			c.${COMMUNES_MAPPING.top_etablissements_primaires}
+			c.${COMMUNES_MAPPING.top_etablissements_primaires},
+			'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total}',
+			c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total},
+			'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}',
+			c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}
 			),
 			'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 		) as geojson
@@ -464,7 +476,11 @@ export async function fetchCommunesGeoJSON(
 				'${COMMUNES_MAPPING.top_etablissements_total}',
 				c.${COMMUNES_MAPPING.top_etablissements_total},
 				'${COMMUNES_MAPPING.top_etablissements_primaires}',
-				c.${COMMUNES_MAPPING.top_etablissements_primaires}
+				c.${COMMUNES_MAPPING.top_etablissements_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total}',
+				c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total},
+				'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}
 				),
 				'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 				)
@@ -535,7 +551,11 @@ export async function fetchCommuneFeature(id: string): Promise<CommuneFeature | 
 				'${COMMUNES_MAPPING.top_etablissements_total}',
 				c.${COMMUNES_MAPPING.top_etablissements_total},
 				'${COMMUNES_MAPPING.top_etablissements_primaires}',
-				c.${COMMUNES_MAPPING.top_etablissements_primaires}
+				c.${COMMUNES_MAPPING.top_etablissements_primaires},
+				'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total}',
+				c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total},
+				'${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}',
+				c.${COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires}
 				),
 				'geometry', ST_AsGeoJSON(c.${COMMUNES_MAPPING.geom})::JSON
 			) as geojson
@@ -608,7 +628,11 @@ export async function fetchDepartementsGeoJSON(
 				'${DEPARTEMENTS_MAPPING.top_etablissements_total}',
 				d.${DEPARTEMENTS_MAPPING.top_etablissements_total},
 				'${DEPARTEMENTS_MAPPING.top_etablissements_colleges}',
-				d.${DEPARTEMENTS_MAPPING.top_etablissements_colleges}
+				d.${DEPARTEMENTS_MAPPING.top_etablissements_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_total}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_total},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_colleges}
 				),
 				'geometry', ST_AsGeoJSON(d.${DEPARTEMENTS_MAPPING.geom})::JSON
 				)
@@ -675,7 +699,11 @@ export async function fetchDepartementFeature(id: string): Promise<DepartementFe
 				'${DEPARTEMENTS_MAPPING.top_etablissements_total}',
 				d.${DEPARTEMENTS_MAPPING.top_etablissements_total},
 				'${DEPARTEMENTS_MAPPING.top_etablissements_colleges}',
-				d.${DEPARTEMENTS_MAPPING.top_etablissements_colleges}
+				d.${DEPARTEMENTS_MAPPING.top_etablissements_colleges},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_total}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_total},
+				'${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_colleges}',
+				d.${DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_colleges}
 				),
 				'geometry', ST_AsGeoJSON(d.${DEPARTEMENTS_MAPPING.geom})::JSON
 			) as geojson
@@ -738,7 +766,11 @@ export async function fetchRegionFeature(id: string): Promise<RegionFeature | nu
 				'${REGIONS_MAPPING.top_etablissements_total}',
 				r.${REGIONS_MAPPING.top_etablissements_total},
 				'${REGIONS_MAPPING.top_etablissements_lycees}',
-				r.${REGIONS_MAPPING.top_etablissements_lycees}
+				r.${REGIONS_MAPPING.top_etablissements_lycees},
+				'${REGIONS_MAPPING.nb_etablissements_par_niveau_potentiel_total}',
+				r.${REGIONS_MAPPING.nb_etablissements_par_niveau_potentiel_total},
+				'${REGIONS_MAPPING.nb_etablissements_par_niveau_potentiel_lycees}',
+				r.${REGIONS_MAPPING.nb_etablissements_par_niveau_potentiel_lycees}
 				),
 				'geometry', ST_AsGeoJSON(r.${REGIONS_MAPPING.geom})::JSON
 			) as geojson

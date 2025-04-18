@@ -1,4 +1,5 @@
 import { COMMUNES_MAPPING } from '../lib/db-mapping';
+import { NbEtablissementsByNiveauPotentiel } from './common';
 import { TopEtablissement } from './etablissements';
 
 export interface CommuneProperties {
@@ -20,8 +21,10 @@ export interface CommuneProperties {
 	[COMMUNES_MAPPING.potentiel_solaire_primaires]: number;
 	[COMMUNES_MAPPING.potentiel_nb_foyers_total]: number;
 	[COMMUNES_MAPPING.potentiel_nb_foyers_primaires]: number;
-	[COMMUNES_MAPPING.top_etablissements_total]: Array<TopEtablissement> | null;
-	[COMMUNES_MAPPING.top_etablissements_primaires]: Array<TopEtablissement> | null;
+	[COMMUNES_MAPPING.top_etablissements_total]: Array<TopEtablissement>;
+	[COMMUNES_MAPPING.top_etablissements_primaires]: Array<TopEtablissement>;
+	[COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_total]: NbEtablissementsByNiveauPotentiel;
+	[COMMUNES_MAPPING.nb_etablissements_par_niveau_potentiel_primaires]: NbEtablissementsByNiveauPotentiel;
 }
 export type CommuneFeature = CommunesGeoJSON['features'][number];
 

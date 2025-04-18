@@ -20,6 +20,7 @@ export const ETABLISSEMENTS_MAPPING = {
 	adresse_2: 'adresse_2',
 	adresse_3: 'adresse_3',
 	code_postal: 'code_postal',
+	niveau_potentiel: 'niveau_potentiel',
 } as const;
 
 export const COMMUNES_TABLE = 'communes';
@@ -45,6 +46,9 @@ export const COMMUNES_MAPPING = {
 	potentiel_nb_foyers_primaires: 'potentiel_nb_foyers_primaires',
 	top_etablissements_total: 'top_etablissements_total',
 	top_etablissements_primaires: 'top_etablissements_primaires',
+	nb_etablissements_par_niveau_potentiel_total: 'nb_etablissements_par_niveau_potentiel_total',
+	nb_etablissements_par_niveau_potentiel_primaires:
+		'nb_etablissements_par_niveau_potentiel_primaires',
 } as const;
 
 export const DEPARTEMENTS_TABLE = 'departements';
@@ -68,6 +72,9 @@ export const DEPARTEMENTS_MAPPING = {
 	potentiel_nb_foyers_colleges: 'potentiel_nb_foyers_colleges',
 	top_etablissements_total: 'top_etablissements_total',
 	top_etablissements_colleges: 'top_etablissements_colleges',
+	nb_etablissements_par_niveau_potentiel_total: 'nb_etablissements_par_niveau_potentiel_total',
+	nb_etablissements_par_niveau_potentiel_colleges:
+		'nb_etablissements_par_niveau_potentiel_colleges',
 } as const;
 
 export const REGIONS_TABLE = 'regions';
@@ -89,6 +96,8 @@ export const REGIONS_MAPPING = {
 	potentiel_nb_foyers_lycees: 'potentiel_nb_foyers_lycees',
 	top_etablissements_total: 'top_etablissements_total',
 	top_etablissements_lycees: 'top_etablissements_lycees',
+	nb_etablissements_par_niveau_potentiel_total: 'nb_etablissements_par_niveau_potentiel_total',
+	nb_etablissements_par_niveau_potentiel_lycees: 'nb_etablissements_par_niveau_potentiel_lycees',
 } as const;
 
 export const SEARCH_VIEW_TABLE = 'search_view';

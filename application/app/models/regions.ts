@@ -1,4 +1,5 @@
 import { REGIONS_MAPPING } from '../lib/db-mapping';
+import { NbEtablissementsByNiveauPotentiel } from './common';
 import { TopEtablissement } from './etablissements';
 
 export interface RegionProperties {
@@ -15,8 +16,10 @@ export interface RegionProperties {
 	[REGIONS_MAPPING.potentiel_solaire_lycees]: number;
 	[REGIONS_MAPPING.potentiel_nb_foyers_total]: number;
 	[REGIONS_MAPPING.potentiel_nb_foyers_lycees]: number;
-	[REGIONS_MAPPING.top_etablissements_total]: Array<TopEtablissement> | null;
-	[REGIONS_MAPPING.top_etablissements_lycees]: Array<TopEtablissement> | null;
+	[REGIONS_MAPPING.top_etablissements_total]: Array<TopEtablissement>;
+	[REGIONS_MAPPING.top_etablissements_lycees]: Array<TopEtablissement>;
+	[REGIONS_MAPPING.nb_etablissements_par_niveau_potentiel_total]: NbEtablissementsByNiveauPotentiel;
+	[REGIONS_MAPPING.nb_etablissements_par_niveau_potentiel_lycees]: NbEtablissementsByNiveauPotentiel;
 }
 export type RegionFeature = RegionsGeoJSON['features'][number];
 

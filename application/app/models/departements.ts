@@ -1,4 +1,5 @@
 import { DEPARTEMENTS_MAPPING } from '../lib/db-mapping';
+import { NbEtablissementsByNiveauPotentiel } from './common';
 import { TopEtablissement } from './etablissements';
 
 export interface DepartementProperties {
@@ -18,8 +19,10 @@ export interface DepartementProperties {
 	[DEPARTEMENTS_MAPPING.potentiel_solaire_colleges]: number;
 	[DEPARTEMENTS_MAPPING.potentiel_nb_foyers_total]: number;
 	[DEPARTEMENTS_MAPPING.potentiel_nb_foyers_colleges]: number;
-	[DEPARTEMENTS_MAPPING.top_etablissements_total]: Array<TopEtablissement> | null;
-	[DEPARTEMENTS_MAPPING.top_etablissements_colleges]: Array<TopEtablissement> | null;
+	[DEPARTEMENTS_MAPPING.top_etablissements_total]: Array<TopEtablissement>;
+	[DEPARTEMENTS_MAPPING.top_etablissements_colleges]: Array<TopEtablissement>;
+	[DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_total]: NbEtablissementsByNiveauPotentiel;
+	[DEPARTEMENTS_MAPPING.nb_etablissements_par_niveau_potentiel_colleges]: NbEtablissementsByNiveauPotentiel;
 }
 export type DepartementFeature = DepartementsGeoJSON['features'][number];
 

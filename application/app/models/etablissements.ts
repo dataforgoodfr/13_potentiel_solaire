@@ -1,4 +1,5 @@
 import { ETABLISSEMENTS_MAPPING } from '../lib/db-mapping';
+import { NiveauPotentiel } from './common';
 
 export interface EtablissementProperties {
 	[ETABLISSEMENTS_MAPPING.identifiant_de_l_etablissement]: string;
@@ -20,6 +21,7 @@ export interface EtablissementProperties {
 	[ETABLISSEMENTS_MAPPING.potentiel_solaire]: number;
 	[ETABLISSEMENTS_MAPPING.potentiel_nb_foyers]: number;
 	[ETABLISSEMENTS_MAPPING.protection]: boolean;
+	[ETABLISSEMENTS_MAPPING.niveau_potentiel]: NiveauPotentiel;
 }
 
 export type Etablissement = EtablissementProperties & {
