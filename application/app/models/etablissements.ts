@@ -18,6 +18,7 @@ export interface EtablissementProperties {
 	[ETABLISSEMENTS_MAPPING.libelle_region]: string;
 	[ETABLISSEMENTS_MAPPING.surface_exploitable_max]: number;
 	[ETABLISSEMENTS_MAPPING.potentiel_solaire]: number;
+	[ETABLISSEMENTS_MAPPING.potentiel_nb_foyers]: number;
 	[ETABLISSEMENTS_MAPPING.protection]: boolean;
 }
 
@@ -37,4 +38,5 @@ export interface TopEtablissement {
 	id: string;
 	libelle: string;
 	potentiel_solaire: number;
+	type_etablissement?: string;
 }

@@ -8,12 +8,19 @@ export interface CommuneProperties {
 	[COMMUNES_MAPPING.libelle_departement]: string;
 	[COMMUNES_MAPPING.code_region]: string;
 	[COMMUNES_MAPPING.libelle_region]: string;
+	[COMMUNES_MAPPING.nb_eleves_total]: number;
 	[COMMUNES_MAPPING.nb_eleves_primaires]: number;
+	[COMMUNES_MAPPING.nb_etablissements_total]: number;
 	[COMMUNES_MAPPING.nb_etablissements_primaires]: number;
+	[COMMUNES_MAPPING.nb_etablissements_proteges_total]: number;
 	[COMMUNES_MAPPING.nb_etablissements_proteges_primaires]: number;
+	[COMMUNES_MAPPING.surface_exploitable_max_total]: number;
 	[COMMUNES_MAPPING.surface_exploitable_max_primaires]: number;
+	[COMMUNES_MAPPING.potentiel_solaire_total]: number;
 	[COMMUNES_MAPPING.potentiel_solaire_primaires]: number;
+	[COMMUNES_MAPPING.potentiel_nb_foyers_total]: number;
 	[COMMUNES_MAPPING.potentiel_nb_foyers_primaires]: number;
+	[COMMUNES_MAPPING.top_etablissements_total]: Array<TopEtablissement> | null;
 	[COMMUNES_MAPPING.top_etablissements_primaires]: Array<TopEtablissement> | null;
 }
 export type CommuneFeature = CommunesGeoJSON['features'][number];
