@@ -43,6 +43,7 @@ tox = "^4.4.8"
 
 [tool.poetry.scripts]
 run-pipeline-algorithme = "potentiel_solaire.main:run_pipeline_algorithme"
+update-database-indicators = "potentiel_solaire.main:update_database_indicators"
 
 [tool.ruff]
 # Same as Black.

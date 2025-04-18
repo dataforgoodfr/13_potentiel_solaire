@@ -1,3 +1,4 @@
+import { EtablissementFeaturePropertiesKeys } from '@/app/models/etablissements';
 import type { LayerProps } from '@vis.gl/react-maplibre';
 
 import { COLOR_THRESHOLDS } from '../constants';
@@ -35,7 +36,7 @@ export const unclusteredPointLayer = {
 	paint: {
 		'circle-color': [
 			'step',
-			['get', 'potentiel_solaire'],
+			['get', EtablissementFeaturePropertiesKeys.PotentielSolaire],
 			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
 		],
 		'circle-radius': 15,

@@ -179,3 +179,4 @@ ENR*
 *.duckdb.wal
 *.json
 *.err
+*.parquet

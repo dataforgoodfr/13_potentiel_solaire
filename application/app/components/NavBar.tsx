@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, Suspense, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -69,8 +69,10 @@ export default function NavBar() {
 
 				{/* Bloc SearchBar + boutons */}
 				<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
-					<SearchBar onSelect={handleSearchSelect} />
-					<ListFilter className='shrink-0 cursor-pointer stroke-green' size={24} />
+					<Suspense>
+						<SearchBar onSelect={handleSearchSelect} />
+						<ListFilter className='shrink-0 cursor-pointer stroke-green' size={24} />
+					</Suspense>
 				</div>
 
 				{/* Menu desktop */}

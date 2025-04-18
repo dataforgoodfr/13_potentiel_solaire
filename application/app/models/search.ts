@@ -1,26 +1,35 @@
+export const SearchPropertiesKeys = {
+	Id: 'id',
+	Libelle: 'libelle',
+	Source: 'source',
+	ExtraData: 'extra_data',
+	ExtraDataNomCommune: 'nom_commune',
+	ExtraDataCodePostal: 'code_postal',
+} as const;
+
 export type BaseResult = {
-	id: string;
-	libelle: string;
+	[SearchPropertiesKeys.Id]: string;
+	[SearchPropertiesKeys.Libelle]: string;
 };
 
 export type EtablissementResult = BaseResult & {
-	source: 'etablissements';
-	extra_data: {
-		nom_commune: string;
-		code_postal: string;
+	[SearchPropertiesKeys.Source]: 'etablissements';
+	[SearchPropertiesKeys.ExtraData]: {
+		[SearchPropertiesKeys.ExtraDataNomCommune]: string;
+		[SearchPropertiesKeys.ExtraDataCodePostal]: string;
 	};
 };
 
 export type CommuneResult = BaseResult & {
-	source: 'communes';
+	[SearchPropertiesKeys.Source]: 'communes';
 };
 
 export type DepartementResult = BaseResult & {
-	source: 'departements';
+	[SearchPropertiesKeys.Source]: 'departements';
 };
 
 export type RegionResult = BaseResult & {
-	source: 'regions';
+	[SearchPropertiesKeys.Source]: 'regions';
 };
 
 export type SearchResult = EtablissementResult | CommuneResult | DepartementResult | RegionResult;

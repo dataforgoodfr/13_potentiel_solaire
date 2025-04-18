@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { fetchRegionFeature } from '@/app/lib/data';
+import { fetchRegionById } from '@/app/lib/data';
 
 /**
  * Get region by id.
@@ -10,7 +10,7 @@ import { fetchRegionFeature } from '@/app/lib/data';
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
 	try {
-		const data = await fetchRegionFeature(id);
+		const data = await fetchRegionById(id);
 		if (!data) {
 			return Response.json({ message: 'Région not found' }, { status: 404 });
 		}

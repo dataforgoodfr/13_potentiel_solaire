@@ -23,7 +23,10 @@ import { bbox } from '@turf/turf';
 import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-import { EtablissementFeature } from '../../models/etablissements';
+import {
+	EtablissementFeature,
+	EtablissementFeaturePropertiesKeys,
+} from '../../models/etablissements';
 import Loading from '../Loading';
 import BackButton from './BackButton';
 import Legend from './Legend/Legend';
@@ -490,7 +493,10 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						clusterMaxZoom={14}
 						clusterRadius={50}
 						clusterProperties={{
-							potentiel_solaire: ['number', ['get', 'potentiel_solaire']],
+							potentiel_solaire: [
+								'number',
+								['get', EtablissementFeaturePropertiesKeys.PotentielSolaire],
+							],
 						}}
 					>
 						{isEtablissementsLayerVisible && <LayerReactMapLibre {...clusterLayer} />}
