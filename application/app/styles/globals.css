@@ -38,6 +38,7 @@ body {
 		--radius: 0.5rem;
 		--color-green: #e7ffd3;
 		--color-darkgreen: #355917;
+		--color-light-green: 110 100% 90%;
 		--color-yellow: #fff9c5;
 		--color-orange: #ffebd3;
 		--color-sol_ok: #faea5e;
@@ -45,7 +46,7 @@ body {
 		--color-sol_ko: #fffbd6;
 		--color-grey: #5d5b65;
 		--color-gray: #fafafa;
-		--color-blue: #221c3e;
+		--color-blue: 258 33% 17%;
 		--color-select: #a29db9;
 		--font-sans: 'Verdana', sans-serif;
 		--font-serif: 'Times New Roman', serif;

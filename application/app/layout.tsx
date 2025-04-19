@@ -6,6 +6,7 @@ import Providers from './Providers';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 import './styles/globals.css';
+import { InitialViewProvider } from './utils/providers/initialViewProvider';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -20,12 +21,14 @@ export default function RootLayout({
 	return (
 		<html lang='en' className='h-full'>
 			<body className='flex min-h-screen flex-col'>
-				<header className='sticky top-0 z-50'>
-					<NavBar />
-				</header>
-				<main className='flex flex-1 flex-col bg-blue'>
-					<Providers>{children}</Providers>
-				</main>
+				<InitialViewProvider>
+					<header className='sticky top-0 z-50'>
+						<NavBar />
+					</header>
+					<main className='flex flex-1 flex-col bg-blue'>
+						<Providers>{children}</Providers>
+					</main>
+				</InitialViewProvider>
 				<Toaster />
 				<Footer />
 			</body>
