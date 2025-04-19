@@ -1,5 +1,5 @@
 import { NbEtablissementsByNiveauPotentiel, ZONE_FEATURE_POTENTIEL_SOLAIRE_KEY } from './common';
-import { TopEtablissement } from './etablissements';
+import { TopEtablissement, TypeEtablissement } from './etablissements';
 
 /**
  * List of the Region type properties.
@@ -70,3 +70,12 @@ export interface RegionFeatureProperties {
 export type RegionFeature = RegionsGeoJSON['features'][number];
 
 export type RegionsGeoJSON = GeoJSON.FeatureCollection<GeoJSON.Polygon, RegionFeatureProperties>;
+
+export const POTENTIEL_KEY_BY_LEVEL_MAPPING: Record<
+	TypeEtablissement,
+	keyof RegionFeatureProperties
+> = {
+	Lycée: 'potentiel_solaire_lycees',
+	Collège: 'potentiel_solaire_colleges',
+	Ecole: 'potentiel_solaire_primaires',
+};

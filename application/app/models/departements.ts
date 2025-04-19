@@ -1,5 +1,5 @@
 import { NbEtablissementsByNiveauPotentiel, ZONE_FEATURE_POTENTIEL_SOLAIRE_KEY } from './common';
-import { TopEtablissement } from './etablissements';
+import { TopEtablissement, TypeEtablissement } from './etablissements';
 
 /**
  * List of the Departement type properties.
@@ -80,3 +80,12 @@ export type DepartementsGeoJSON = GeoJSON.FeatureCollection<
 	GeoJSON.Polygon | GeoJSON.MultiPolygon,
 	DepartementFeatureProperties
 >;
+
+export const POTENTIEL_KEY_BY_LEVEL_MAPPING: Record<
+	TypeEtablissement,
+	keyof DepartementFeatureProperties
+> = {
+	Lycée: 'potentiel_solaire_lycees',
+	Collège: 'potentiel_solaire_colleges',
+	Ecole: 'potentiel_solaire_primaires',
+};

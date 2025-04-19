@@ -5,11 +5,12 @@ import { KeyboardEvent, Suspense, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { ListFilter, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 import imgLogo from '../../public/images/logo.svg';
 import { SearchResult } from '../models/search';
 import { useInitialView } from '../utils/providers/initialViewProvider';
+import Filters from './Map/Filters/Filters';
 import SearchBar from './SearchBar/SearchBar';
 
 const links = [
@@ -75,11 +76,8 @@ export default function NavBar() {
 					<div className='m-4 flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
 						<Suspense>
 							<SearchBar onSelect={handleSearchSelect} />
-							<ListFilter
-								className='shrink-0 cursor-pointer stroke-green'
-								size={24}
-							/>
 						</Suspense>
+						<Filters />
 					</div>
 				)}
 

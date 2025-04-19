@@ -31,7 +31,7 @@ export const EtablissementPropertiesKeys = {
 export type Etablissement = {
 	[EtablissementPropertiesKeys.Id]: string;
 	[EtablissementPropertiesKeys.Nom]: string;
-	[EtablissementPropertiesKeys.Type]: string;
+	[EtablissementPropertiesKeys.Type]: TypeEtablissement;
 	[EtablissementPropertiesKeys.LibelleNature]: string;
 	[EtablissementPropertiesKeys.Adresse1]: string | null;
 	[EtablissementPropertiesKeys.Adresse2]: string | null;
@@ -50,6 +50,12 @@ export type Etablissement = {
 	[EtablissementPropertiesKeys.Protection]: boolean;
 	[EtablissementPropertiesKeys.NiveauPotentiel]: NiveauPotentiel;
 };
+
+/**
+ * Type string for the type of an Etablissement.
+ */
+//TODO: type search view extra data type etablissement with this type
+export type TypeEtablissement = 'Lycée' | 'Collège' | 'Ecole';
 
 //TODO: remove later
 export type EtablissementWithLatLng = Etablissement & {

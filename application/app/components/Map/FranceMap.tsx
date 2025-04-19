@@ -19,6 +19,7 @@ import useCommunesGeoJSON from '@/app/utils/hooks/useCommunesGeoJSON';
 import useDepartementsGeoJSON from '@/app/utils/hooks/useDepartementsGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
+import { FilterState } from '@/app/utils/providers/mapFilterProvider';
 import { bbox } from '@turf/turf';
 import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -90,6 +91,7 @@ type EventEtablissementFeature = EventFeature<EtablissementFeature>;
 type ClusterEtablissementFeature = EventFeature<ClusterFeature<EtablissementFeature['geometry']>>;
 
 interface FranceMapProps {
+	filters: FilterState;
 	onSelect: (feature: EtablissementFeature) => void;
 }
 
@@ -120,7 +122,7 @@ function interact(enabled: boolean) {
 	};
 }
 
-export default function FranceMap({ onSelect }: FranceMapProps) {
+export default function FranceMap({ filters, onSelect }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 	const {
 		layers,
@@ -418,9 +420,9 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						data={regionsGeoJSON}
 					>
 						{isNationLevel ? (
-							<LayerReactMapLibre {...regionsLayer} />
+							<LayerReactMapLibre {...regionsLayer(filters)} />
 						) : (
-							<LayerReactMapLibre {...regionsBackgroundLayer} />
+							<LayerReactMapLibre {...regionsBackgroundLayer(filters)} />
 						)}
 					</Source>
 				)}

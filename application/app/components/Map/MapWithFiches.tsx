@@ -5,6 +5,7 @@ import { Suspense, useState } from 'react';
 import { EtablissementFeaturePropertiesKeys } from '@/app/models/etablissements';
 import useEtablissement from '@/app/utils/hooks/useEtablissement';
 import { useInitialView } from '@/app/utils/providers/initialViewProvider';
+import { useMapFilter } from '@/app/utils/providers/mapFilterProvider';
 
 import HomeOverlay from '../HomeOverlay/HomeOverlay';
 import Fiches from '../fiches/Fiches';
@@ -12,6 +13,7 @@ import FranceMap from './FranceMap';
 
 export default function MapWithFiches() {
 	const { isInitialView, closeInitialView } = useInitialView();
+	const { filterState } = useMapFilter();
 	// Temporary fix
 	const [selectedEtablissementId, setSelectedEtablissementId] = useState<string | null>(null);
 	const { etablissement, isFetching } = useEtablissement(selectedEtablissementId);
@@ -22,6 +24,7 @@ export default function MapWithFiches() {
 				<Suspense>
 					{isInitialView && <HomeOverlay onUseMap={closeInitialView} />}
 					<FranceMap
+						filters={filterState}
 						onSelect={(f) =>
 							setSelectedEtablissementId(
 								f.properties[EtablissementFeaturePropertiesKeys.Id],
