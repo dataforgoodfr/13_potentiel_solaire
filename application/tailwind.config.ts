@@ -6,15 +6,6 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				'sol-ok': "var(--sol-ok)",
-				'sol-top': "var(--sol-top)",
-				'sol-ko': "var(--sol-ko)",
-				'BG-darkmode':"var(--BG-darkmode)",
-				'light-green': "var(--light-green)",
-				'gray': "var(--gray)",
-				'dark-green': "var(--dark-green)",
-				'gray-light-bg': "var(--gray-light-bg)",
-				'select': "var(--select)",
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
@@ -109,4 +100,3 @@ export default {
 	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	plugins: [require('tailwindcss-animate')],
 } satisfies Config;
-
