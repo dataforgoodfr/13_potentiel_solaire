@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import { CircleHelp, HousePlug, Zap } from 'lucide-react';
 
 const UNKNOWN_TEXTS = {
@@ -17,6 +19,9 @@ const HIGH_SOLAR_THRESHOLD = 500_000;
 interface potentielSolaireCardProps {
 	potentiel_solaire?: number;
 }
+// Le potentiel solaire de cet établissement me paraît tout-à-fait rayonnant !  #FFC141
+// Le potentiel solaire de cet établissement me paraît plutôt satisfaisant !  #E7FFD3  = light green
+// Le potentiel solaire de cet établissement me paraît un peu limité, mais pas impossible pour autant ! #FFFBD6 = sol-ko
 
 function potentielSolaireEnFoyers(potentielSolaire?: number): number | string {
 	if (potentielSolaire === undefined) return UNKNOWN_TEXTS.potentiel_solaire;
@@ -32,9 +37,23 @@ const PotentielSolaireCard = ({ potentiel_solaire }: potentielSolaireCardProps) 
 			: UNKNOWN_TEXTS.potentiel_solaire;
 
 	return (
-		<div className='mb-4 rounded-2xl bg-gray-100 p-2'>
-			<div className={isHigh ? 'rounded-xl bg-green p-5' : 'rounded-xl bg-yellow p-5'}>
-				<p className='font-normal'>{isHigh ? SOLAR_TEXT.high : SOLAR_TEXT.low}</p>
+		<div className='bg-gray-100 mb-4 rounded-2xl p-2'>
+			<div
+				className={
+					isHigh
+						? 'relative flex h-[120px] items-center overflow-hidden rounded-xl bg-green p-5'
+						: 'relative flex h-[120px] items-center overflow-hidden rounded-xl bg-yellow p-5'
+				}
+			>
+				{/* -9.1 for sad tournesol */}
+				<Image
+					src={`/images/tournesols/${isHigh ? '1_HIGH' : '3_LIMITED'}.svg`}
+					alt='Logo'
+					width={100}
+					height={100}
+					className='absolute bottom-[-10px] left-[-30px] rotate-[-6deg]'
+				/>
+				<p className='ms-[60px] font-normal'>{isHigh ? SOLAR_TEXT.high : SOLAR_TEXT.low}</p>
 			</div>
 			<br />
 
