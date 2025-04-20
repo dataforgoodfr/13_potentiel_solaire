@@ -26,13 +26,12 @@ export default function Footer() {
 	}, [isOpen]); */
 
 	return (
-		<footer className='fixed bottom-0 z-40 w-full bg-blue text-white'>
+		<footer className='fixed bottom-0 z-40 w-full bg-blue text-white' id='footer'>
 			<div className='flex w-full items-center justify-center border-t border-green bg-blue py-2'>
 				<button
 					onClick={() => setIsOpen(!isOpen)}
 					aria-expanded={isOpen}
 					aria-controls='footer'
-					id='footer'
 					className='flex cursor-pointer items-center gap-2'
 				>
 					<ArrowUpCircle
