@@ -28,7 +28,6 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 	const { setCodes } = useURLParams();
 
 	function openFiche(selection: SearchResult) {
-		console.log(selection);
 		const newCodes = mapSearchResultToCodes(selection);
 
 		setCodes(newCodes, true);
