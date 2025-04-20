@@ -2,8 +2,9 @@
 
 import { ChangeEvent, useRef, useState } from 'react';
 
-import { SearchResult } from '@/app/models/search';
+import { SearchPropertiesKeys, SearchResult } from '@/app/models/search';
 import useDebouncedSearch from '@/app/utils/hooks/useDebouncedSearch';
+import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { Command, CommandEmpty, CommandGroup, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
@@ -18,16 +19,26 @@ const DEFAULT_PLACEHOLDER = 'Entrez une ville, un établissement...';
 const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
-	onSelect: (selection: SearchResult) => void;
+	onSelect?: (selection: SearchResult) => void;
 };
 
 export default function SearchBar({ onSelect }: SearchBarProps) {
 	const [query, setQuery] = useState('');
 	const { items, isLoading } = useDebouncedSearch(query);
+	const { setCodes } = useURLParams();
+
+	function openFiche(selection: SearchResult) {
+		console.log(selection);
+		const newCodes = mapSearchResultToCodes(selection);
+
+		setCodes(newCodes, true);
+	}
 
 	function handleSelect(selection: SearchResult) {
 		setQuery(selection.libelle);
-		onSelect(selection);
+
+		openFiche(selection);
+		onSelect?.(selection);
 	}
 
 	function clearSearch() {
@@ -44,6 +55,47 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 			onClear={clearSearch}
 		/>
 	);
+}
+
+function mapSearchResultToCodes(searchResult: SearchResult): Codes {
+	// TODO - find a way to use SearchPropertiesKeys.Source instead of 'source' directly, this creates TS error
+	if (searchResult.source === 'regions') {
+		return {
+			codeRegion: searchResult[SearchPropertiesKeys.Id],
+			codeDepartement: null,
+			codeCommune: null,
+			codeEtablissement: null,
+		};
+	}
+	if (searchResult.source === 'departements') {
+		const extraData = searchResult[SearchPropertiesKeys.ExtraData];
+		return {
+			codeRegion: extraData[SearchPropertiesKeys.ExtraDataCodeRegion],
+			codeDepartement: searchResult[SearchPropertiesKeys.Id],
+			codeCommune: null,
+			codeEtablissement: null,
+		};
+	}
+	if (searchResult.source === 'communes') {
+		const extraData = searchResult[SearchPropertiesKeys.ExtraData];
+		return {
+			codeRegion: extraData[SearchPropertiesKeys.ExtraDataCodeRegion],
+			codeDepartement: extraData[SearchPropertiesKeys.ExtraDataCodeDepartement],
+			codeCommune: searchResult[SearchPropertiesKeys.Id],
+			codeEtablissement: null,
+		};
+	}
+	if (searchResult.source === 'etablissements') {
+		const extraData = searchResult[SearchPropertiesKeys.ExtraData];
+		return {
+			codeRegion: extraData[SearchPropertiesKeys.ExtraDataCodeRegion],
+			codeDepartement: extraData[SearchPropertiesKeys.ExtraDataCodeDepartement],
+			codeCommune: extraData[SearchPropertiesKeys.ExtraDataCodeCommune],
+			codeEtablissement: searchResult[SearchPropertiesKeys.Id],
+		};
+	}
+
+	throw new Error(`Search result source of ${searchResult} is not supported.`);
 }
 
 type AutocompleteProps = {
@@ -141,7 +193,7 @@ export function Autocomplete({
 					<button
 						type='button'
 						onClick={handleClear}
-						className='absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-gray-400 hover:text-gray-600'
+						className='text-gray-400 hover:text-gray-600 absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center'
 						aria-label='Clear search'
 					>
 						<X size={16} />

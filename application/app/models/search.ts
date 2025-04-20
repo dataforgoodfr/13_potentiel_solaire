@@ -1,7 +1,7 @@
 export const SearchPropertiesKeys = {
 	Id: 'id',
 	Libelle: 'libelle',
-	Source: 'source',
+	Source: 'source' as const,
 	ExtraData: 'extra_data',
 	ExtraDataNomCommune: 'nom_commune',
 	ExtraDataCodePostal: 'code_postal',

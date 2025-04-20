@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import { IS_FICHE_OPEN_KEY } from './useIsFicheOpen';
+
 export type Codes = {
 	codeRegion: string | null;
 	codeDepartement: string | null;
@@ -9,8 +11,8 @@ export type Codes = {
 	codeEtablissement: string | null;
 };
 
-type SetCode = (key: keyof Codes, code: string | null) => void;
-type SetCodes = (codes: Codes) => void;
+type SetCode = (key: keyof Codes, code: string | null, isFicheOpen?: boolean) => void;
+type SetCodes = (codes: Codes, isFicheOpen?: boolean) => void;
 
 type ReturnType = {
 	values: Codes;
@@ -25,7 +27,7 @@ export default function useURLParams(): ReturnType {
 	const pathname = usePathname();
 
 	const setCode: SetCode = useCallback(
-		(key, code) => {
+		(key, code, isFicheOpen) => {
 			const newParams = new URLSearchParams(searchParams);
 
 			if (code === null) {
@@ -34,13 +36,20 @@ export default function useURLParams(): ReturnType {
 				newParams.set(key, code.toString());
 			}
 
+			if (isFicheOpen === false) {
+				newParams.delete(IS_FICHE_OPEN_KEY);
+			}
+			if (isFicheOpen === true) {
+				newParams.set(IS_FICHE_OPEN_KEY, isFicheOpen.toString());
+			}
+
 			router.push(`${pathname}?${newParams.toString()}`);
 		},
 		[pathname, router, searchParams],
 	);
 
 	const setCodes: SetCodes = useCallback(
-		(codes) => {
+		(codes, isFicheOpen) => {
 			const newParams = new URLSearchParams();
 
 			const keys = Object.keys(codes) as unknown as (keyof Codes)[];
@@ -54,6 +63,13 @@ export default function useURLParams(): ReturnType {
 				}
 				newParams.set(key, code.toString());
 			});
+
+			if (isFicheOpen === false) {
+				newParams.delete(IS_FICHE_OPEN_KEY);
+			}
+			if (isFicheOpen === true) {
+				newParams.set(IS_FICHE_OPEN_KEY, isFicheOpen.toString());
+			}
 
 			router.push(`${pathname}?${newParams.toString()}`);
 		},

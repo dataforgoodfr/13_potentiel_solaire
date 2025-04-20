@@ -10,7 +10,7 @@ function toBoolean(value: string | null) {
 	return value === 'true';
 }
 
-const KEY = 'isFicheOpen';
+export const IS_FICHE_OPEN_KEY = 'isFicheOpen';
 
 export default function useIsFicheOpen(): ReturnType {
 	const searchParams = useSearchParams();
@@ -22,9 +22,9 @@ export default function useIsFicheOpen(): ReturnType {
 			const newParams = new URLSearchParams(searchParams);
 
 			if (value) {
-				newParams.set(KEY, value.toString());
+				newParams.set(IS_FICHE_OPEN_KEY, value.toString());
 			} else {
-				newParams.delete(KEY);
+				newParams.delete(IS_FICHE_OPEN_KEY);
 			}
 
 			router.push(`${pathname}?${newParams.toString()}`);
@@ -32,7 +32,7 @@ export default function useIsFicheOpen(): ReturnType {
 		[pathname, router, searchParams],
 	);
 
-	const isOpen = toBoolean(searchParams.get(KEY));
+	const isOpen = toBoolean(searchParams.get(IS_FICHE_OPEN_KEY));
 
 	return [isOpen, setIsOpen];
 }
