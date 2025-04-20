@@ -2,7 +2,7 @@
 
 # Generate database and export geojson
 # FROM 13_potentiel_solaire_mock_data AS generator
-FROM ghcr.io/dataforgoodfr/13_potentiel_solaire_db:0.1.20250417 AS generator
+FROM ghcr.io/dataforgoodfr/13_potentiel_solaire_db:0.1.0.20250420 AS generator
 
 # TODO: use lighter image
 # FROM node:18-alpine AS base
