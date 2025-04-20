@@ -1,24 +1,24 @@
 import { useState } from 'react';
 
-import { CommuneProperties } from '@/app/models/communes';
-import { DepartementProperties } from '@/app/models/departements';
+import { Commune } from '@/app/models/communes';
+import { Departement } from '@/app/models/departements';
 import { Etablissement } from '@/app/models/etablissements';
-import { RegionProperties } from '@/app/models/regions';
+import { Region } from '@/app/models/regions';
 import { X } from 'lucide-react';
 
-import FicheCommune from './FicheCommune';
-import FicheDepartement from './FicheDepartement';
-import FicheEtablissement from './ficheEtablissement/FicheEtablissement';
-import FicheRegion from './FicheRegion';
+import FicheCommune from './ficheCommune';
+import FicheDepartement from './ficheDepartement';
+import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
+import FicheRegion from './ficheRegion';
 
 type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
 type Tab = { id: TabId; label: string }[];
 
 interface FichesProps {
 	etablissement?: Etablissement;
-	commune?: CommuneProperties;
-	departement?: DepartementProperties;
-	region?: RegionProperties;
+	commune?: Commune;
+	departement?: Departement;
+	region?: Region;
 	onClose: () => void;
 }
 
@@ -70,7 +70,7 @@ export default function Fiches({
 				)}
 				{activeTab === 'commune' && commune && <FicheCommune commune={commune} />}
 				{activeTab === 'etablissement' && (
-					<FicheEtablissement feature={etablissement} onClose={onClose} />
+					<FicheEtablissement etablissement={etablissement} onClose={onClose} />
 				)}
 			</div>
 		</div>
