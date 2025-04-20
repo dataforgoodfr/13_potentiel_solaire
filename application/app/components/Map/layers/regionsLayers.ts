@@ -27,8 +27,10 @@ export const regionsLabelsLayer = {
 	source: REGIONS_LABELS_SOURCE_ID,
 	layout: {
 		'text-field': ['get', RegionFeaturePropertiesKeys.Nom],
-		'text-size': 14,
+		'text-size': 12,
 		'text-anchor': 'center',
+		'text-max-width': 5,
+		'text-allow-overlap': true,
 	},
 	paint: {
 		'text-color': '#000000',
