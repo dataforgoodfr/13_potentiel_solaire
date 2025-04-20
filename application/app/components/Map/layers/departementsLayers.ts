@@ -29,6 +29,8 @@ export const departementsLabelsLayer = {
 		'text-field': ['get', DepartementFeaturePropertiesKeys.Nom],
 		'text-size': 12,
 		'text-anchor': 'center',
+		'text-max-width': 5,
+		'text-allow-overlap': true,
 	},
 	paint: {
 		'text-color': '#333333',
