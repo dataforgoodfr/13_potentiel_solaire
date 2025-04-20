@@ -12,7 +12,7 @@ export const HomeOverlay: React.FC<HomeOverlayProps> = ({ onUseMap }: HomeOverla
 	};
 
 	return (
-		<div className='bg-blue/80 absolute inset-0 z-20 flex h-full w-full flex-col items-center justify-start p-4'>
+		<div className='bg-blue/80 absolute inset-0 z-40 flex h-full w-full flex-col items-center justify-start p-4'>
 			{/* TODO: text color should be Gray-6 */}
 			<h1 className='mb-24 inline-block font-verdana text-[28px] font-normal leading-normal tracking-sm text-slate-100 lg:ms-24 lg:self-start'>
 				Découvrez le
