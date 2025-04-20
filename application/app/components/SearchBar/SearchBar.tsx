@@ -153,7 +153,7 @@ export function Autocomplete({
 	}
 
 	return (
-		<div className='mg-x m-4 w-full max-w-screen-sm text-white'>
+		<div className='w-full max-w-screen-sm text-white'>
 			<div className='relative w-full'>
 				<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
 				<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -164,7 +164,7 @@ export function Autocomplete({
 							onKeyDown={relayInputKeyDownToCommand}
 							onChange={onInputValueChange}
 							onClick={() => setIsPopoverOpen(true)}
-							className='pl-8 pr-16'
+							className='pl-8 pr-16 placeholder:truncate'
 						/>
 					</PopoverAnchor>
 					<PopoverContent

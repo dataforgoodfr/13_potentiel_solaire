@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { ListFilter, Menu, X } from 'lucide-react';
 
 import imgLogo from '../../public/images/logo.svg';
+import { useInitialView } from '../utils/providers/initialViewProvider';
 import SearchBar from './SearchBar/SearchBar';
 
 const links = [
@@ -18,6 +19,7 @@ const links = [
 ];
 
 export default function NavBar() {
+	const { isInitialView } = useInitialView();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleToggle = () => setIsOpen(!isOpen);
@@ -63,12 +65,18 @@ export default function NavBar() {
 				</div>
 
 				{/* Bloc SearchBar + boutons */}
-				<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
-					<Suspense>
-						<SearchBar />
-						<ListFilter className='shrink-0 cursor-pointer stroke-green' size={24} />
-					</Suspense>
-				</div>
+				{/* //TODO: navbar should not be visible in other page than home */}
+				{!isInitialView && (
+					<div className='m-4 flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
+						<Suspense>
+							<SearchBar />
+							<ListFilter
+								className='shrink-0 cursor-pointer stroke-green'
+								size={24}
+							/>
+						</Suspense>
+					</div>
+				)}
 
 				{/* Menu desktop */}
 				<nav className='hidden shrink-0 xl:flex xl:gap-4' aria-label='Menu principal'>

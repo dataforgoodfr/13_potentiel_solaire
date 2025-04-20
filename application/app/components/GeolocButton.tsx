@@ -11,11 +11,13 @@ import { UnsupportedFeatureError } from '../utils/errors';
 import { fetchCommuneFeatureWithGeoloc } from '../utils/fetchers/getCommuneGeolocGeoJSON';
 import { getUserLocation } from '../utils/geoloc';
 import useURLParams, { Codes } from '../utils/hooks/useURLParams';
+import { useInitialView } from '../utils/providers/initialViewProvider';
 
 const GeolocButton: React.FC = () => {
 	const { toast } = useToast();
 	const { setCodes } = useURLParams();
 	const [loading, setLoading] = useState(false);
+	const { isInitialView, closeInitialView } = useInitialView();
 
 	function setCommuneInURL(commune: CommuneFeature) {
 		const codes: Codes = {
@@ -26,6 +28,7 @@ const GeolocButton: React.FC = () => {
 		};
 
 		setCodes(codes);
+		if (isInitialView) closeInitialView();
 	}
 
 	async function handleClick() {
