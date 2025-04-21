@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import { NiveauPotentiel } from '@/app/models/common';
 
 const SOLAR_TEXT: Record<NiveauPotentiel, string> = {
@@ -19,8 +21,17 @@ interface InterpretationMessageProps {
 
 const InterpretationMessage = ({ niveau_potentiel }: InterpretationMessageProps) => {
 	return (
-		<div className={`rounded-xl p-5 ${SOLAR_INTERPRETATION_CSS_CLASS[niveau_potentiel]}`}>
-			<p className='font-normal'>{SOLAR_TEXT[niveau_potentiel]}</p>
+		<div
+			className={`relative overflow-hidden rounded-xl p-5 ${SOLAR_INTERPRETATION_CSS_CLASS[niveau_potentiel]}`}
+		>
+			<Image
+				src={`/images/tournesols/${niveau_potentiel}.svg`}
+				alt='Logo'
+				width={132}
+				height={119}
+				className='absolute bottom-[-10px] left-[-60px] rotate-[6deg]'
+			/>
+			<p className='ms-[60px] font-normal'>{SOLAR_TEXT[niveau_potentiel]}</p>
 		</div>
 	);
 };
