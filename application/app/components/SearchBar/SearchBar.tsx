@@ -118,6 +118,7 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				true,
 			);
+			onChange?.();
 		}
 		if (etablissement != null) {
 			setCodes(
