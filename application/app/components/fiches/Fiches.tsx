@@ -60,12 +60,12 @@ export default function Fiches({ etablissement, commune, departement, region }: 
 			>
 				<X />
 			</button>
-			<div className='flex border-b pl-2'>
+			<div className='flex gap-1 pl-2'>
 				{filteredTabs.map((tab) => (
 					<button
 						key={tab.id}
 						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
-						style={{ flexBasis: `${(filteredTabs.length / 4) * 100}%` }}
+						style={{ flexBasis: `${(1 / filteredTabs.length) * 100}%` }}
 						onClick={() => setActiveTab(tab.id)}
 					>
 						{tab.label}
