@@ -55,6 +55,7 @@ export const unclusteredPointProtegeLayer = {
 			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
 		],
 		'circle-radius': 15,
+		'circle-stroke-width': 2,
 	},
 } satisfies LayerProps;
 
@@ -64,8 +65,7 @@ export const unclusteredPointProtegeIconLayer = {
 	source: ETABLISSEMENTS_SOURCE_ID,
 	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], true]],
 	layout: {
-		'text-field': ' ⓘ ',
+		'text-field': ' i ',
 		'text-size': 20,
-		'text-offset': [0, -0.1], // offset to center the icon as the character is slightly shifted towards bottom
 	},
 } satisfies LayerProps;
