@@ -1,3 +1,5 @@
+import { formatNumber } from './number-utils';
+
 export type EnergyUnit = 'kWh' | 'MWh' | 'GWh';
 
 export function getClosestEnergyUnit(value: number): EnergyUnit {
@@ -15,6 +17,6 @@ export function convertKWhTo(valueInKWh: number, newUnit: EnergyUnit) {
 }
 
 export function getFormattedPotentielSolaire(potentiel: number, unit: EnergyUnit): string {
-	const mwh = convertKWhTo(potentiel, unit);
-	return Math.round(mwh).toLocaleString('fr-FR');
+	const value = convertKWhTo(potentiel, unit);
+	return formatNumber(Math.round(value));
 }

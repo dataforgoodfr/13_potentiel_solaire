@@ -145,20 +145,6 @@ const ACTIONS = [
 	},
 ];
 
-{
-	/* <Link
-	key={link.href}
-	href={link.href}
-	onClick={() => setIsOpen(false)}
-	className='group flex items-center justify-between pb-2'
->
-	<span className='underline decoration-dotted decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid'>
-		{link.title}
-	</span>
-	<span className='text-2xl'>→</span>
-</Link>; */
-}
-
 const AccordionCard = () => {
 	return (
 		<div>
