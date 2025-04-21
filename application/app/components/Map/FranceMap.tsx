@@ -91,10 +91,6 @@ type EventCommuneFeature = EventFeature<CommuneFeature>;
 type EventEtablissementFeature = EventFeature<EtablissementFeature>;
 type ClusterEtablissementFeature = EventFeature<ClusterFeature<EtablissementFeature['geometry']>>;
 
-interface FranceMapProps {
-	onSelect: (feature: EtablissementFeature) => void;
-}
-
 /**
  * Type guard function that checks if the feature is from a layer
  * @param feature to check
@@ -122,12 +118,11 @@ function interact(enabled: boolean) {
 	};
 }
 
-export default function FranceMap({ onSelect }: FranceMapProps) {
+export default function FranceMap() {
 	const mapRef = useRef<MapRef>(null);
 	const {
 		layers,
 		lastLayer: { level },
-		addLayer,
 		removeLayer,
 		setLayers,
 	} = useLayers();
@@ -334,12 +329,14 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 		toggleInteractions(true);
 	}
 	async function handleClickOnEtablissement(feature: EtablissementFeature) {
-		onSelect(feature);
+		const newLayers: Layer[] = [
+			{ code: feature.properties.code_region, level: 'region' },
+			{ code: feature.properties.code_departement, level: 'departement' },
+			{ code: feature.properties.code_commune, level: 'commune' },
+			{ code: feature.properties.identifiant_de_l_etablissement, level: 'etablissement' },
+		];
 
-		addLayer({
-			code: feature.properties.identifiant_de_l_etablissement,
-			level: 'etablissement',
-		});
+		setLayers(newLayers, true);
 
 		toggleInteractions(true);
 	}

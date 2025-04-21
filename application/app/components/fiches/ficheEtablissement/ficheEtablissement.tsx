@@ -11,12 +11,9 @@ import ProtectionCard from './ProtectionCard';
 
 interface FicheEtablissementProps {
 	etablissement: Etablissement;
-	onClose: () => void;
 }
 
 export default function FicheEtablissement({ etablissement }: FicheEtablissementProps) {
-	if (!etablissement) return null;
-
 	return (
 		<div>
 			<EtablissementCard {...etablissement} />

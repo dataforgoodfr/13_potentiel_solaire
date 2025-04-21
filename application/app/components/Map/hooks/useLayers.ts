@@ -64,10 +64,10 @@ export default function useLayers() {
 		setCode(codeLabel, null);
 	}
 
-	function setLayers(layers: Layer[]) {
+	function setLayers(layers: Layer[], isFicheOpen = false) {
 		const codes = mapLayersToCodes(layers);
 
-		setCodes(codes);
+		setCodes(codes, isFicheOpen);
 	}
 
 	function resetLayer() {
