@@ -14,8 +14,8 @@ export const SCALE_COLORS = {
 /** In kWh */
 const ETABLISSEMENTS_COLOR_THRESHOLDS: Thresholds = {
 	0: SCALE_COLORS.low,
-	330000: SCALE_COLORS.middle,
-	660000: SCALE_COLORS.high,
+	100000: SCALE_COLORS.middle,
+	250000: SCALE_COLORS.high,
 };
 
 /** In kWh */
