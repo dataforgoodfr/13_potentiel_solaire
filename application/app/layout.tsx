@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import type { Metadata } from 'next';
 
 import { Toaster } from '@/components/ui/toaster';
@@ -21,14 +23,16 @@ export default function RootLayout({
 	return (
 		<html lang='en' className='h-full'>
 			<body className='flex min-h-screen flex-col'>
-				<InitialViewProvider>
-					<header className='sticky top-0 z-50'>
-						<NavBar />
-					</header>
-					<main className='flex flex-1 flex-col bg-blue'>
-						<Providers>{children}</Providers>
-					</main>
-				</InitialViewProvider>
+				<Suspense>
+					<InitialViewProvider>
+						<header className='sticky top-0 z-50'>
+							<NavBar />
+						</header>
+						<main className='flex flex-1 flex-col bg-blue'>
+							<Providers>{children}</Providers>
+						</main>
+					</InitialViewProvider>
+				</Suspense>
 				<Toaster />
 				<Footer />
 			</body>
