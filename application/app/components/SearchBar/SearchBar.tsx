@@ -33,7 +33,6 @@ type SearchBarProps = {
 export default function SearchBar({ onSelect }: SearchBarProps) {
 	const [query, setQuery] = useState('');
 	const { items, isLoading } = useDebouncedSearch(query);
-	const { reset } = useURLParams();
 
 	const [selection, setSelection] = useState<SearchResult | null>(null);
 
@@ -47,7 +46,6 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 	function clearSearch() {
 		setQuery('');
 		setSelection(null);
-		reset();
 	}
 
 	return (
