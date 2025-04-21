@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Departement } from '@/app/models/departements';
 
+import NbEtablissements from './NbEtablissements';
 import AccordionCard from './shared/AccordionCard';
 import ActionButtons from './shared/ActionButtons';
 import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
@@ -41,9 +42,13 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={departement.potentiel_solaire_total}
-						nbEtablissements={departement.nb_etablissements_total}
 						nbEleves={departement.nb_eleves_total}
-						niveau='etablissements'
+						header={
+							<NbEtablissements
+								nbEtablissements={departement.nb_etablissements_total}
+								niveau='etablissements'
+							/>
+						}
 					/>
 					<hr className='my-4' />
 					<RepartitionPotentielSolaire
@@ -55,10 +60,14 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={departement.potentiel_solaire_colleges}
-						nbEtablissements={departement.nb_etablissements_colleges}
 						nbEleves={departement.nb_eleves_colleges}
-						niveau='college'
 						level='departement'
+						header={
+							<NbEtablissements
+								nbEtablissements={departement.nb_etablissements_colleges}
+								niveau='college'
+							/>
+						}
 					/>
 					<hr className='my-4' />
 					<RepartitionPotentielSolaire

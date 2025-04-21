@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Region } from '@/app/models/regions';
 
+import NbEtablissements from './NbEtablissements';
 import AccordionCard from './shared/AccordionCard';
 import ActionButtons from './shared/ActionButtons';
 import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
@@ -42,24 +43,31 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={region.potentiel_solaire_total}
-						nbEtablissements={region.nb_etablissements_total}
 						nbEleves={region.nb_eleves_total}
-						niveau='etablissements'
+						header={
+							<NbEtablissements
+								nbEtablissements={region.nb_etablissements_total}
+								niveau='etablissements'
+							/>
+						}
 					/>
 					<hr className='my-4' />
 					<RepartitionPotentielSolaire
 						niveau='Lycées'
-            repartition={region.nb_etablissements_par_niveau_potentiel_total}
+						repartition={region.nb_etablissements_par_niveau_potentiel_total}
 					/>
 				</>
 			) : (
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={region.potentiel_solaire_lycees}
-						nbEtablissements={region.nb_etablissements_lycees}
 						nbEleves={region.nb_eleves_lycees}
-						niveau='lycee'
-						level='region'
+						header={
+							<NbEtablissements
+								nbEtablissements={region.nb_etablissements_lycees}
+								niveau='lycee'
+							/>
+						}
 					/>
 					<hr className='my-4' />
 					<RepartitionPotentielSolaire

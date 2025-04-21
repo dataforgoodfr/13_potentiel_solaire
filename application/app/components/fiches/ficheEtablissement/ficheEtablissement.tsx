@@ -6,6 +6,7 @@ import PotentielSolaireCard from '../shared/PotentielSolaireCard';
 import EtablissementCard from './EtablissementCard';
 import GraphiqueCard from './GraphiqueCard';
 import InstallationCard from './InstallationCard';
+import InterpretationMessage from './IntepretationMessage';
 import ProtectionCard from './ProtectionCard';
 
 interface FicheEtablissementProps {
@@ -25,10 +26,9 @@ export default function FicheEtablissement({ etablissement }: FicheEtablissement
 			{etablissement.protection && <ProtectionCard />}
 			<PotentielSolaireCard
 				potentielSolaire={etablissement.potentiel_solaire}
-				showInterpretation
-				showNbEtablissements={false}
 				nbEleves={etablissement.nb_eleves ?? undefined}
 				level='etablissement'
+				header={<InterpretationMessage niveau_potentiel={etablissement.niveau_potentiel} />}
 			/>
 			<hr className='my-4' />
 			<div className='ml-2'>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Commune } from '@/app/models/communes';
 
+import NbEtablissements from './NbEtablissements';
 import AccordionCard from './shared/AccordionCard';
 import ActionButtons from './shared/ActionButtons';
 import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
@@ -41,9 +42,13 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={commune.potentiel_solaire_total}
-						nbEtablissements={commune.nb_etablissements_total}
 						nbEleves={commune.nb_eleves_total}
-						niveau='etablissements'
+						header={
+							<NbEtablissements
+								nbEtablissements={commune.nb_etablissements_total}
+								niveau='etablissements'
+							/>
+						}
 					/>
 					<hr className='my-4' />
 					<RepartitionPotentielSolaire
@@ -55,10 +60,14 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={commune.potentiel_solaire_primaires}
-						nbEtablissements={commune.nb_etablissements_primaires}
 						nbEleves={commune.nb_eleves_primaires}
-						niveau='primaire'
 						level='commune'
+						header={
+							<NbEtablissements
+								nbEtablissements={commune.nb_etablissements_primaires}
+								niveau='primaire'
+							/>
+						}
 					/>
 					<hr className='my-4' />
 					<RepartitionPotentielSolaire

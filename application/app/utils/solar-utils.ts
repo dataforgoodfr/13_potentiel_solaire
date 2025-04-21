@@ -1,6 +1,5 @@
 import { COLOR_THRESHOLDS } from '../components/Map/constants';
 
-export type PotentielCategory = 'top' | 'ok' | 'ko';
 export type CarteLevel = 'etablissement' | 'commune' | 'departement' | 'region';
 
 export function getColorForPotentiel(level: CarteLevel, potentiel: number): string {
@@ -20,15 +19,4 @@ export function getColorForPotentiel(level: CarteLevel, potentiel: number): stri
 	}
 
 	return lastColor;
-}
-
-export function getPotentielCategory(level: CarteLevel, potentiel: number): PotentielCategory {
-	const thresholds = COLOR_THRESHOLDS[level];
-	const numericThresholds = Object.keys(thresholds)
-		.map(Number)
-		.sort((a, b) => a - b);
-
-	if (potentiel < numericThresholds[0]) return 'ko';
-	if (potentiel < numericThresholds[1]) return 'ok';
-	return 'top';
 }
