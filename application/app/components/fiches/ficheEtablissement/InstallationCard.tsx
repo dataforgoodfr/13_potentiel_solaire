@@ -9,7 +9,7 @@ interface installationCardProps {
 }
 
 const InstallationCard = ({ surfaceExploitableMax }: installationCardProps) => {
-	const hasSurface = typeof surfaceExploitableMax === 'number';
+	const hasSurface = surfaceExploitableMax !== undefined;
 
 	return (
 		<div>
