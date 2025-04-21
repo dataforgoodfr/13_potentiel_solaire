@@ -1,10 +1,18 @@
 'use client';
 
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
+import { CommunePropertiesKeys } from '@/app/models/communes';
+import { DepartementPropertiesKeys } from '@/app/models/departements';
+import { EtablissementPropertiesKeys } from '@/app/models/etablissements';
+import { RegionPropertiesKeys } from '@/app/models/regions';
 import { SearchPropertiesKeys, SearchResult } from '@/app/models/search';
+import useCommune from '@/app/utils/hooks/useCommune';
 import useDebouncedSearch from '@/app/utils/hooks/useDebouncedSearch';
-import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
+import useDepartement from '@/app/utils/hooks/useDepartement';
+import useEtablissement from '@/app/utils/hooks/useEtablissement';
+import useRegion from '@/app/utils/hooks/useRegion';
+import useURLParams from '@/app/utils/hooks/useURLParams';
 import { Command, CommandEmpty, CommandGroup, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
@@ -19,29 +27,27 @@ const DEFAULT_PLACEHOLDER = 'Entrez une ville, un établissement...';
 const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
-	onSelect?: (selection: SearchResult) => void;
+	onSelect?: () => void;
 };
 
 export default function SearchBar({ onSelect }: SearchBarProps) {
 	const [query, setQuery] = useState('');
 	const { items, isLoading } = useDebouncedSearch(query);
-	const { setCodes } = useURLParams();
+	const { reset } = useURLParams();
 
-	function openFiche(selection: SearchResult) {
-		const newCodes = mapSearchResultToCodes(selection);
+	const [selection, setSelection] = useState<SearchResult | null>(null);
 
-		setCodes(newCodes, true);
-	}
+	useChangeCodesOnSelection(selection, onSelect);
 
-	function handleSelect(selection: SearchResult) {
+	async function handleSelect(selection: SearchResult) {
 		setQuery(selection.libelle);
-
-		openFiche(selection);
-		onSelect?.(selection);
+		setSelection(selection);
 	}
 
 	function clearSearch() {
 		setQuery('');
+		setSelection(null);
+		reset();
 	}
 
 	return (
@@ -56,45 +62,78 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 	);
 }
 
-function mapSearchResultToCodes(searchResult: SearchResult): Codes {
-	// TODO - find a way to use SearchPropertiesKeys.Source instead of 'source' directly, this creates TS error
-	if (searchResult.source === 'regions') {
-		return {
-			codeRegion: searchResult[SearchPropertiesKeys.Id],
-			codeDepartement: null,
-			codeCommune: null,
-			codeEtablissement: null,
-		};
-	}
-	if (searchResult.source === 'departements') {
-		const extraData = searchResult[SearchPropertiesKeys.ExtraData];
-		return {
-			codeRegion: extraData[SearchPropertiesKeys.ExtraDataCodeRegion],
-			codeDepartement: searchResult[SearchPropertiesKeys.Id],
-			codeCommune: null,
-			codeEtablissement: null,
-		};
-	}
-	if (searchResult.source === 'communes') {
-		const extraData = searchResult[SearchPropertiesKeys.ExtraData];
-		return {
-			codeRegion: extraData[SearchPropertiesKeys.ExtraDataCodeRegion],
-			codeDepartement: extraData[SearchPropertiesKeys.ExtraDataCodeDepartement],
-			codeCommune: searchResult[SearchPropertiesKeys.Id],
-			codeEtablissement: null,
-		};
-	}
-	if (searchResult.source === 'etablissements') {
-		const extraData = searchResult[SearchPropertiesKeys.ExtraData];
-		return {
-			codeRegion: extraData[SearchPropertiesKeys.ExtraDataCodeRegion],
-			codeDepartement: extraData[SearchPropertiesKeys.ExtraDataCodeDepartement],
-			codeCommune: extraData[SearchPropertiesKeys.ExtraDataCodeCommune],
-			codeEtablissement: searchResult[SearchPropertiesKeys.Id],
-		};
-	}
+function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: () => void) {
+	const { setCodes } = useURLParams();
+	const { region } = useRegion(
+		selection?.[SearchPropertiesKeys.Source] === 'regions'
+			? selection?.[SearchPropertiesKeys.Id]
+			: null,
+	);
+	const { departement } = useDepartement(
+		selection?.[SearchPropertiesKeys.Source] === 'departements'
+			? selection?.[SearchPropertiesKeys.Id]
+			: null,
+	);
+	const { commune } = useCommune(
+		selection?.[SearchPropertiesKeys.Source] === 'communes'
+			? selection?.[SearchPropertiesKeys.Id]
+			: null,
+	);
+	const { etablissement } = useEtablissement(
+		selection?.[SearchPropertiesKeys.Source] === 'etablissements'
+			? selection?.[SearchPropertiesKeys.Id]
+			: null,
+	);
 
-	throw new Error(`Search result source of ${searchResult} is not supported.`);
+	useEffect(() => {
+		if (region != null) {
+			setCodes(
+				{
+					codeRegion: region[RegionPropertiesKeys.Id],
+					codeDepartement: null,
+					codeCommune: null,
+					codeEtablissement: null,
+				},
+				true,
+			);
+			onChange?.();
+		}
+		if (departement != null) {
+			setCodes(
+				{
+					codeRegion: departement[DepartementPropertiesKeys.CodeRegion],
+					codeDepartement: departement[DepartementPropertiesKeys.Id],
+					codeCommune: null,
+					codeEtablissement: null,
+				},
+				true,
+			);
+			onChange?.();
+		}
+		if (commune != null) {
+			setCodes(
+				{
+					codeRegion: commune[CommunePropertiesKeys.CodeRegion],
+					codeDepartement: commune[CommunePropertiesKeys.CodeDepartement],
+					codeCommune: commune[CommunePropertiesKeys.Id],
+					codeEtablissement: null,
+				},
+				true,
+			);
+		}
+		if (etablissement != null) {
+			setCodes(
+				{
+					codeRegion: etablissement[EtablissementPropertiesKeys.CodeRegion],
+					codeDepartement: etablissement[EtablissementPropertiesKeys.CodeDepartement],
+					codeCommune: etablissement[EtablissementPropertiesKeys.CodeCommune],
+					codeEtablissement: etablissement[EtablissementPropertiesKeys.Id],
+				},
+				true,
+			);
+			onChange?.();
+		}
+	}, [commune, departement, etablissement, onChange, region, setCodes]);
 }
 
 type AutocompleteProps = {

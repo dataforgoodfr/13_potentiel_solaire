@@ -652,14 +652,9 @@ export async function fetchSearchResults(
 			sv.${SEARCH_VIEW_COLUMNS.Source} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Source]}, 
 			sv.${SEARCH_VIEW_COLUMNS.Id} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Id]}, 
 			sv.${SEARCH_VIEW_COLUMNS.Libelle} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Libelle]}, 
-			to_json(struct_pack(
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeDepartement]} := c.${COMMUNES_COLUMNS.CodeDepartement},
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeRegion]} := c.${COMMUNES_COLUMNS.CodeRegion}
-			)) as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]}
+			sv.${SEARCH_VIEW_COLUMNS.ExtraData} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]}
 			FROM ${REF_CODE_POSTAL_TABLE} refCp
 			INNER JOIN ${SEARCH_VIEW_TABLE} sv ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'communes' AND sv.${SEARCH_VIEW_COLUMNS.Id} = refCp.${REF_CODE_POSTAL_COLUMNS.CodeInsee}
-			INNER JOIN ${COMMUNES_TABLE} c 
-				ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'communes' AND c.${COMMUNES_COLUMNS.Id} = sv.${SEARCH_VIEW_COLUMNS.Id}
 			WHERE refCp.${REF_CODE_POSTAL_COLUMNS.CodePostal} like $1
 			ORDER BY sv.${SearchPropertiesKeys.Libelle}
 			LIMIT $2;
@@ -673,31 +668,8 @@ export async function fetchSearchResults(
 			sv.${SEARCH_VIEW_COLUMNS.Source} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Source]}, 
 			sv.${SEARCH_VIEW_COLUMNS.Id} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Id]}, 
 			sv.${SEARCH_VIEW_COLUMNS.Libelle} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Libelle]}, 
-			CASE 
-			WHEN sv.${SEARCH_VIEW_COLUMNS.Source} = 'etablissements' THEN to_json(struct_pack(
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeRegion]} := e.${ETABLISSEMENTS_COLUMNS.CodeRegion},
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeDepartement]} := e.${ETABLISSEMENTS_COLUMNS.CodeDepartement}, 
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeCommune]} := e.${ETABLISSEMENTS_COLUMNS.CodeCommune}, 
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataNomCommune]} := e.${ETABLISSEMENTS_COLUMNS.NomCommune}, 
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodePostal]} := e.${ETABLISSEMENTS_COLUMNS.CodePostal}
-			))
-			WHEN sv.${SEARCH_VIEW_COLUMNS.Source} = 'communes' THEN to_json(struct_pack(
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeDepartement]} := c.${COMMUNES_COLUMNS.CodeDepartement},
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeRegion]} := c.${COMMUNES_COLUMNS.CodeRegion}
-			))
-			WHEN sv.${SEARCH_VIEW_COLUMNS.Source} = 'departements' THEN to_json(struct_pack(
-				${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodeRegion]} := d.${DEPARTEMENTS_COLUMNS.CodeRegion}
-			))
-			ELSE NULL::JSON END AS ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]},
+			sv.${SEARCH_VIEW_COLUMNS.ExtraData} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]}
 			FROM main.${SEARCH_VIEW_TABLE} sv
-			LEFT JOIN ${ETABLISSEMENTS_TABLE} e 
-				ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'etablissements' AND e.${ETABLISSEMENTS_COLUMNS.Id} = sv.${SEARCH_VIEW_COLUMNS.Id}
-			LEFT JOIN ${COMMUNES_TABLE} c 
-				ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'communes' AND c.${COMMUNES_COLUMNS.Id} = sv.${SEARCH_VIEW_COLUMNS.Id}
-			LEFT JOIN ${DEPARTEMENTS_TABLE} d 
-				ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'departements' AND d.${DEPARTEMENTS_COLUMNS.Id} = sv.${SEARCH_VIEW_COLUMNS.Id}
-			LEFT JOIN ${REGIONS_TABLE} r 
-				ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'regions' AND r.${REGIONS_COLUMNS.Id} = sv.${SEARCH_VIEW_COLUMNS.Id}
 			WHERE sv.${SEARCH_VIEW_COLUMNS.SanitizedLibelle} like $1
 			ORDER BY sv.${SEARCH_VIEW_COLUMNS.Libelle}
 			LIMIT $2;
