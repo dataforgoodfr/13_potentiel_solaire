@@ -31,6 +31,7 @@ export const communesLineLayer = {
 	paint: { 'line-color': 'grey', 'line-width': 1 },
 } satisfies LayerProps;
 
+//FIXME: every labels are not showed without zoom
 export const communesLabelsLayer = {
 	id: 'communes-labels',
 	type: 'symbol',

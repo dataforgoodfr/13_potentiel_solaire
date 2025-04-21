@@ -73,7 +73,7 @@ const MAP_STYLE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/map-styles/map-style.
 const initialViewState = {
 	longitude: 1.888334,
 	latitude: 45.603354,
-	zoom: 4.5,
+	zoom: 4,
 } satisfies MapPropsReactMapLibre['initialViewState'];
 
 const ANIMATION_TIME_MS = 800;
@@ -390,7 +390,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
 	return (
-		<div className='relative h-full w-full'>
+		<div className='relative flex h-full w-full flex-col'>
 			<MapFromReactMapLibre
 				ref={mapRef}
 				initialViewState={initialViewState}
@@ -510,7 +510,8 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 				)}
 			</MapFromReactMapLibre>
 			{level !== 'nation' && <BackButton onBack={goBackOneLevel} />}
-			<div className='absolute bottom-2 left-2 z-10 flex flex-col items-start md:bottom-4 md:left-1/2 md:-translate-x-1/2 md:flex-row md:items-center md:gap-4'>
+			<div className='z-30 !mb-24 flex flex-col items-start justify-center gap-4 px-4 md:mb-6 md:flex-row md:items-center md:justify-center'>
+
 				<Legend thresholds={COLOR_THRESHOLDS[level]} />
 				<MenuDrom />
 			</div>
