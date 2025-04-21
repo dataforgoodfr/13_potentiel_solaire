@@ -14,8 +14,7 @@ export function convertKWhTo(valueInKWh: number, newUnit: EnergyUnit) {
 	return valueInKWh;
 }
 
-export function getFormattedPotentielSolaire(potentiel?: number): string {
-	if (potentiel === undefined) return '—';
-	const mwh = convertKWhTo(potentiel, 'MWh');
+export function getFormattedPotentielSolaire(potentiel: number, unit: EnergyUnit): string {
+	const mwh = convertKWhTo(potentiel, unit);
 	return Math.round(mwh).toLocaleString('fr-FR');
 }

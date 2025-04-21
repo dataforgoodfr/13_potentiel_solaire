@@ -1,7 +1,9 @@
+import { JSX } from 'react';
+
 import { getColorForPotentiel } from '@/app/utils/solar-utils';
 import { CircleHelp, HousePlug, Users, Zap } from 'lucide-react';
 
-import { getFormattedPotentielSolaire } from '../../../utils/energy-utils';
+import { getClosestEnergyUnit, getFormattedPotentielSolaire } from '../../../utils/energy-utils';
 
 const UNKNOWN_TEXTS = {
 	potentielSolaire: '—',
@@ -17,6 +19,17 @@ interface PotentielSolaireCardProps {
 	level?: CarteLevel;
 	header?: React.ReactNode;
 }
+
+const getPotentielSolaireElement = (potentiel?: number): JSX.Element => {
+	if (!potentiel) return <span className='text-3xl'>—</span>;
+	const unit = getClosestEnergyUnit(potentiel);
+	return (
+		<>
+			<span className='text-3xl'>{getFormattedPotentielSolaire(potentiel, unit)}</span>
+			<span className='text-base'>&nbsp;{unit}</span>
+		</>
+	);
+};
 
 export default function PotentielSolaireCard({
 	potentielSolaire,
@@ -56,8 +69,7 @@ export default function PotentielSolaireCard({
 				) : (
 					<div className='bg-yellow-300 border-1 h-4 w-4 rounded-full border border-slate-400' />
 				)}
-				<span className='text-3xl'>{getFormattedPotentielSolaire(potentielSolaire)}</span>
-				<span className='text-base'>&nbsp;MWh/an</span>
+				{getPotentielSolaireElement(potentielSolaire)}
 			</div>
 
 			<br />
