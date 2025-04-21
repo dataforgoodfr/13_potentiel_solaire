@@ -12,7 +12,7 @@ export const HomeOverlay: React.FC<HomeOverlayProps> = ({ onUseMap }: HomeOverla
 	};
 
 	return (
-		<div className='bg-blue/80 absolute inset-0 z-40 flex h-full w-full flex-col items-center justify-start p-4'>
+		<div className='absolute inset-0 z-40 flex h-full w-full flex-col items-center justify-start bg-blue/80 p-4'>
 			{/* TODO: text color should be Gray-6 */}
 			<h1 className='mb-24 inline-block font-verdana text-[28px] font-normal leading-normal tracking-sm text-slate-100 lg:ms-24 lg:self-start'>
 				Découvrez le
@@ -21,7 +21,7 @@ export const HomeOverlay: React.FC<HomeOverlayProps> = ({ onUseMap }: HomeOverla
 				<br />
 				de votre <strong>école</strong> 🏫
 			</h1>
-			<div className='border-light-green bg-blue/80 flex max-w-[434px] shrink-0 flex-col items-center justify-center rounded-[8px] border py-[30px] shadow-base'>
+			<div className='flex max-w-[434px] shrink-0 flex-col items-center justify-center rounded-[8px] border border-light-green bg-blue/80 py-[30px] shadow-base'>
 				<div className='px-3'>
 					<h2 className='mb-4 text-base font-normal leading-6 text-white'>
 						Saisir une région, un département, une commune ou le nom d&#39;un
@@ -29,10 +29,10 @@ export const HomeOverlay: React.FC<HomeOverlayProps> = ({ onUseMap }: HomeOverla
 					</h2>
 					<SearchBar onSelect={handleSearchSelect} />
 				</div>
-				<hr className='border-light-green my-5 h-[1px] w-full' />
+				<hr className='my-5 h-[1px] w-full border-light-green' />
 				<div className='flex items-center justify-center'>
 					<button
-						className='bg-light-green rounded-md px-4 py-2 text-sm font-bold leading-6 text-darkgreen'
+						className='rounded-md bg-light-green px-4 py-2 text-sm font-bold leading-6 text-darkgreen'
 						onClick={onUseMap}
 					>
 						Je préfère utiliser la carte

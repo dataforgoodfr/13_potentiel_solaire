@@ -511,7 +511,6 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			</MapFromReactMapLibre>
 			{level !== 'nation' && <BackButton onBack={goBackOneLevel} />}
 			<div className='z-30 !mb-24 flex flex-col items-start justify-center gap-4 px-4 md:mb-6 md:flex-row md:items-center md:justify-center'>
-
 				<Legend thresholds={COLOR_THRESHOLDS[level]} />
 				<MenuDrom />
 			</div>

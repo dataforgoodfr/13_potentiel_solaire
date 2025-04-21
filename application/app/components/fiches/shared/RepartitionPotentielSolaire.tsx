@@ -1,19 +1,19 @@
-import { NbEtablissementsByNiveauPotentiel } from "@/app/models/common";
+import { NbEtablissementsByNiveauPotentiel } from '@/app/models/common';
 
 type ScolarLevel = 'Écoles' | 'Collèges' | 'Lycées' | 'Établissements';
 
 interface RepartitionPotentielSolaireProps {
 	niveau?: ScolarLevel;
-	repartition: NbEtablissementsByNiveauPotentiel
+	repartition: NbEtablissementsByNiveauPotentiel;
 }
 
 export default function RepartitionPotentielSolaire({
 	niveau,
 	repartition = {
-    "1_HIGH": 0,
-    "2_GOOD": 0,
-    "3_LIMITED": 0
-  },
+		'1_HIGH': 0,
+		'2_GOOD': 0,
+		'3_LIMITED': 0,
+	},
 }: RepartitionPotentielSolaireProps) {
 	const renderValeur = (valeur?: number) => (valeur !== undefined ? valeur : '—');
 
@@ -25,7 +25,7 @@ export default function RepartitionPotentielSolaire({
 					<span>{niveau} au potentiel solaire élevé</span>
 				</div>
 				<p className='text-center text-xl font-bold text-blue'>
-        {renderValeur(repartition["1_HIGH"])}
+					{renderValeur(repartition['1_HIGH'])}
 				</p>
 			</div>
 			<br />
@@ -35,7 +35,7 @@ export default function RepartitionPotentielSolaire({
 					<span>{niveau} au potentiel solaire bon</span>
 				</div>
 				<p className='text-center text-xl font-bold text-blue'>
-        {renderValeur(repartition["2_GOOD"])}
+					{renderValeur(repartition['2_GOOD'])}
 				</p>
 			</div>
 
@@ -46,7 +46,7 @@ export default function RepartitionPotentielSolaire({
 					<span>{niveau} au potentiel solaire bas</span>
 				</div>
 				<p className='text-center text-xl font-bold text-blue'>
-        {renderValeur(repartition["3_LIMITED"])}
+					{renderValeur(repartition['3_LIMITED'])}
 				</p>
 			</div>
 		</div>
