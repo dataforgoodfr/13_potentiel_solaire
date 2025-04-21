@@ -58,6 +58,8 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 						niveau='Établissements'
 						repartition={commune.nb_etablissements_par_niveau_potentiel_total}
 					/>
+					<hr className='my-4' />
+					<TopCard topEtablissements={commune.top_etablissements_total} />
 				</>
 			) : (
 				<>
@@ -77,10 +79,10 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 						niveau='Écoles'
 						repartition={commune.nb_etablissements_par_niveau_potentiel_primaires}
 					/>
+					<hr className='my-4' />
+					<TopCard topEtablissements={commune.top_etablissements_primaires} />
 				</>
 			)}
-			<hr className='my-4' />
-			<TopCard topEtablissements={commune.top_etablissements_primaires} />
 			<br />
 			<AccordionCard />
 		</div>

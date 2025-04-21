@@ -59,6 +59,8 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 						niveau='Lycées'
 						repartition={region.nb_etablissements_par_niveau_potentiel_total}
 					/>
+					<hr className='my-4' />
+					<TopCard topEtablissements={region.top_etablissements_total} />
 				</>
 			) : (
 				<>
@@ -78,10 +80,10 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 						niveau='Lycées'
 						repartition={region.nb_etablissements_par_niveau_potentiel_lycees}
 					/>
+					<hr className='my-4' />
+					<TopCard topEtablissements={region.top_etablissements_lycees} />
 				</>
 			)}
-			<hr className='my-4' />
-			<TopCard topEtablissements={region.top_etablissements_lycees} />
 			<br />
 			<AccordionCard />
 		</div>

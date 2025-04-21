@@ -58,6 +58,8 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 						niveau='Établissements'
 						repartition={departement.nb_etablissements_par_niveau_potentiel_total}
 					/>
+					<hr className='my-4' />
+					<TopCard topEtablissements={departement.top_etablissements_total} />
 				</>
 			) : (
 				<>
@@ -77,10 +79,10 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 						niveau='Collèges'
 						repartition={departement.nb_etablissements_par_niveau_potentiel_colleges}
 					/>
+					<hr className='my-4' />
+					<TopCard topEtablissements={departement.top_etablissements_colleges} />
 				</>
 			)}
-			<hr className='my-4' />
-			<TopCard topEtablissements={departement.top_etablissements_colleges} />
 			<br />
 			<AccordionCard />
 		</div>
