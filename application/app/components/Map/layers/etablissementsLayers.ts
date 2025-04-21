@@ -32,7 +32,7 @@ export const unclusteredPointLayer = {
 	id: 'unclustered-point',
 	type: 'circle',
 	source: ETABLISSEMENTS_SOURCE_ID,
-	filter: ['!', ['has', 'point_count']],
+	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], false]],
 	paint: {
 		'circle-color': [
 			'step',
@@ -40,5 +40,32 @@ export const unclusteredPointLayer = {
 			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
 		],
 		'circle-radius': 15,
+	},
+} satisfies LayerProps;
+
+export const unclusteredPointProtegeLayer = {
+	id: 'unclustered-point-protege',
+	type: 'circle',
+	source: ETABLISSEMENTS_SOURCE_ID,
+	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], true]],
+	paint: {
+		'circle-color': [
+			'step',
+			['get', 'potentiel_solaire'],
+			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
+		],
+		'circle-radius': 15,
+	},
+} satisfies LayerProps;
+
+export const unclusteredPointProtegeIconLayer = {
+	id: 'unclustered-point-protege-icon',
+	type: 'symbol',
+	source: ETABLISSEMENTS_SOURCE_ID,
+	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], true]],
+	layout: {
+		'text-field': ' ⓘ ',
+		'text-size': 20,
+		'text-offset': [0, -0.1], // offset to center the icon as the character is slightly shifted towards bottom
 	},
 } satisfies LayerProps;
