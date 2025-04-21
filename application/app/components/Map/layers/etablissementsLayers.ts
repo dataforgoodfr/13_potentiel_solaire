@@ -32,7 +32,11 @@ export const unclusteredPointLayer = {
 	id: 'unclustered-point',
 	type: 'circle',
 	source: ETABLISSEMENTS_SOURCE_ID,
-	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], false]],
+	filter: [
+		'all',
+		['!', ['has', 'point_count']],
+		['==', ['get', EtablissementFeaturePropertiesKeys.Protection], false],
+	],
 	paint: {
 		'circle-color': [
 			'step',
@@ -47,11 +51,15 @@ export const unclusteredPointProtegeLayer = {
 	id: 'unclustered-point-protege',
 	type: 'circle',
 	source: ETABLISSEMENTS_SOURCE_ID,
-	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], true]],
+	filter: [
+		'all',
+		['!', ['has', 'point_count']],
+		['==', ['get', EtablissementFeaturePropertiesKeys.Protection], true],
+	],
 	paint: {
 		'circle-color': [
 			'step',
-			['get', 'potentiel_solaire'],
+			['get', EtablissementFeaturePropertiesKeys.PotentielSolaire],
 			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
 		],
 		'circle-radius': 15,
@@ -64,7 +72,11 @@ export const unclusteredPointProtegeIconLayer = {
 	id: 'unclustered-point-protege-icon',
 	type: 'symbol',
 	source: ETABLISSEMENTS_SOURCE_ID,
-	filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'protection'], true]],
+	filter: [
+		'all',
+		['!', ['has', 'point_count']],
+		['==', ['get', EtablissementFeaturePropertiesKeys.Protection], true],
+	],
 	layout: {
 		'text-field': 'i',
 		'text-size': 20,
