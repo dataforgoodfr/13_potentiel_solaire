@@ -2,7 +2,7 @@ import { Info } from 'lucide-react';
 
 type Niveau = 'commune' | 'departement' | 'region';
 
-const responsabilites = {
+const RESPONSABILITIES_TEXTS = {
 	commune: {
 		principal:
 			'La commune est responsable des bâtiments des écoles primaires. Cliquez sur Tous pour voir tous les établissements scolaires confondus.',
@@ -21,10 +21,10 @@ const responsabilites = {
 };
 
 export default function ResponsabiliteMessage({ niveau }: { niveau: Niveau }) {
-	const contenu = responsabilites[niveau];
+	const contenu = RESPONSABILITIES_TEXTS[niveau];
 
 	return (
-		<div className='mb-4 flex gap-4 rounded-lg bg-gray-50 p-2 text-grey'>
+		<div className='bg-gray-50 mb-4 flex gap-4 rounded-lg p-2 text-grey'>
 			<Info size={72} />
 			<div>
 				<p className='text-sm'>{contenu.principal}</p>
