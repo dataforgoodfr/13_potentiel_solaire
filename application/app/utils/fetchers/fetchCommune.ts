@@ -11,7 +11,7 @@ export async function fetchCommune(id: string) {
 		const res = await fetch(url.toString());
 		if (!res.ok) throw new Error('Failed to load commune from API');
 
-		const data = (await res.json()) as Commune | null;
+		const data = (await res.json()) as Commune | undefined;
 
 		return data;
 	} catch (error) {

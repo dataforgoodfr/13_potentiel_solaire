@@ -11,7 +11,7 @@ export async function fetchRegion(id: string) {
 		const res = await fetch(url.toString());
 		if (!res.ok) throw new Error('Failed to load region from API');
 
-		const data = (await res.json()) as Region | null;
+		const data = (await res.json()) as Region | undefined;
 
 		return data;
 	} catch (error) {

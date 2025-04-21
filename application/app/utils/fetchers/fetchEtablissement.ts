@@ -11,7 +11,7 @@ export async function fetchEtablissement(id: string) {
 		const res = await fetch(url.toString());
 		if (!res.ok) throw new Error('Failed to load etablissement from API');
 
-		const data = (await res.json()) as Etablissement | null;
+		const data = (await res.json()) as Etablissement | undefined;
 
 		return data;
 	} catch (error) {

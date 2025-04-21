@@ -11,7 +11,7 @@ export async function fetchDepartement(id: string) {
 		const res = await fetch(url.toString());
 		if (!res.ok) throw new Error('Failed to load departement from API');
 
-		const data = (await res.json()) as Departement | null;
+		const data = (await res.json()) as Departement | undefined;
 
 		return data;
 	} catch (error) {
