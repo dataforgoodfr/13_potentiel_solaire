@@ -3,7 +3,8 @@ const ACTIONS = [
 		title: 'Je suis un élu et je veux agir',
 		content: (
 			<>
-				<p>Merci pour votre intérêt pour la transition énergétique de votre territoire !</p>
+				{/* TODO: use in page action instead */}
+				{/* <p>Merci pour votre intérêt pour la transition énergétique de votre territoire !</p>
 				<p>
 					Les toitures des bâtiments scolaires offrent une importante opportunité, avec un
 					impact environnemental minime, pour développer les énergies renouvelables sur
@@ -23,10 +24,10 @@ const ACTIONS = [
 					est indispensable de les rénover de façon performante avant d’y installer des
 					panneaux solaires.
 				</p>
-				<br />
+				<br /> */}
 
 				<ul className='list-inside list-disc'>
-					<li className='mt-2'>
+					<li className='mb-8 mt-2'>
 						De nombreuses communes nous ont fait remonter leurs difficultés à financer
 						ces projets, de rénovation comme de panneaux photovoltaïques, par manque de
 						moyens financiers mis par l’État.
@@ -38,7 +39,6 @@ const ACTIONS = [
 							Nous contacter
 						</button>
 					</li>
-					<br />
 					<li>
 						De multiplies démarches sont nécessaires pour monter un tel projet :
 						conformité avec le PLU(i) et si dans zone protégée avis des ABF, étude de
@@ -52,19 +52,21 @@ const ACTIONS = [
 						<br />
 						<p className='mt-3'>
 							- Le site
-							<span className='text-green'>&nbsp;photovoltaïque.info&nbsp;</span>
+							<span className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
+								&nbsp;photovoltaïque.info&nbsp;
+							</span>
 							de l’association Hespul, avec les étapes pour réaliser un projet
 						</p>
 						<p>
 							- Le guide
-							<span className='text-green'>
+							<span className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
 								&nbsp;L&apos;ÉLU et le photovoltaïque&nbsp;
 							</span>
 							du réseau AMORCE
 						</p>
 						<p>
 							- Le guide à l&apos;usage des collectivités locales
-							<span className='text-green'>
+							<span className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
 								&nbsp;Mieux maîtriser le développement des EnR sur son
 								territoire&nbsp;
 							</span>
@@ -80,7 +82,8 @@ const ACTIONS = [
 		title: 'Je suis un particulier et je veux agir',
 		content: (
 			<>
-				<p>Merci pour votre intérêt pour la transition énergétique de votre territoire !</p>
+				{/* TODO: use in page action instead */}
+				{/* <p>Merci pour votre intérêt pour la transition énergétique de votre territoire !</p>
 				<p>
 					L’école est l’un des bâtiments essentiels de notre territoire : elle forme les
 					générations futures, est un lieu de rencontres, d’égalité et de mixité sociale. 
@@ -97,14 +100,14 @@ const ACTIONS = [
 					panneaux solaires sur les toitures, végétalisation des cours, sensibilisation à
 					la transition écologique, …
 				</p>
-				<br />
+				<br /> */}
 				<p className='font-bold'>
 					Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur
 					vos territoires :
 				</p>
-
+				<br />
 				<ul className='list-inside list-disc'>
-					<li className='mb-2 mt-2'>
+					<li className='mb-8 mt-2'>
 						Signer notre pétition nationale demandant des moyens et des actions
 						d’urgence pour
 						<span className='font-bold'>
@@ -114,8 +117,7 @@ const ACTIONS = [
 							Signez la pétition nationale
 						</button>
 					</li>
-					<br />
-					<li className='mb-2'>
+					<li className='mb-8'>
 						Informer
 						<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
 						sur le potentiel solaire des écoles de la commune et interroger pour savoir
@@ -124,16 +126,38 @@ const ACTIONS = [
 							Contacter par mail mon élu
 						</button>
 					</li>
-					<br />
-					<li className='mt-2'>
+					<li className='mb-8'>
 						Découvrez les projets de transition énergétique près de chez vous :
-						<p className='text-green'>- Carte de l’énergie citoyenne</p>
+						<p className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
+							— Carte de l’énergie citoyenne
+						</p>
+					</li>
+					<li>
+						Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” de notre
+						site :
+						<p className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
+							— Comment agir ?
+						</p>
 					</li>
 				</ul>
 			</>
 		),
 	},
 ];
+
+{
+	/* <Link
+	key={link.href}
+	href={link.href}
+	onClick={() => setIsOpen(false)}
+	className='group flex items-center justify-between pb-2'
+>
+	<span className='underline decoration-dotted decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid'>
+		{link.title}
+	</span>
+	<span className='text-2xl'>→</span>
+</Link>; */
+}
 
 const AccordionCard = () => {
 	return (
