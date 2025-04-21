@@ -36,7 +36,7 @@ const TopCard = ({ topEtablissements }: Props) => {
 						<Link
 							// the href might need to be corrected
 							href={`/etablissement/${etab.id}`}
-							className='underline transition hover:text-primary'
+							className='underline decoration-dotted decoration-2 underline-offset-4 transition hover:text-primary'
 						>
 							{etab.libelle}
 						</Link>
