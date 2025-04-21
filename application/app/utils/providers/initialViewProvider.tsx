@@ -2,6 +2,8 @@
 
 import { ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
+import useURLParams from '../hooks/useURLParams';
+
 export interface InitialViewContextType {
 	isInitialView: boolean;
 	closeInitialView: () => void;
@@ -11,7 +13,9 @@ export const InitialViewContext = createContext<InitialViewContextType | undefin
 
 //TODO: if useURLParams has values then don't show initial view
 export const InitialViewProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-	const [isInitialView, setIsInitialView] = useState(true);
+	const { values } = useURLParams();
+	const isAtLeastOnePlaceSelected = Object.values(values).some((code) => code !== null);
+	const [isInitialView, setIsInitialView] = useState(!isAtLeastOnePlaceSelected);
 
 	const closeInitialView = useCallback(() => {
 		setIsInitialView(false);
@@ -24,10 +28,12 @@ export const InitialViewProvider: React.FC<{ children: ReactNode }> = ({ childre
 	);
 };
 
-export function useInitialView() {
+export function useInitialView(): InitialViewContextType {
 	const context = useContext(InitialViewContext);
+
 	if (context === undefined) {
 		throw new Error('useInitialView must be used with a InitialViewProvider');
 	}
+
 	return context;
 }

@@ -1,14 +1,10 @@
 import SearchBar from '@/app/components/SearchBar/SearchBar';
-import useURLParams from '@/app/utils/hooks/useURLParams';
 import { useInitialView } from '@/app/utils/providers/initialViewProvider';
 
 export default function HomeOverlay() {
 	const { isInitialView, closeInitialView } = useInitialView();
-	const { values } = useURLParams();
 
-	const isAtLeastOnePlaceSelected = Object.values(values).some((d) => d !== null);
-
-	if (!isInitialView || isAtLeastOnePlaceSelected) return null;
+	if (!isInitialView) return null;
 
 	return (
 		<div className='absolute inset-0 z-40 flex h-full w-full flex-col items-center justify-start bg-blue/80 p-4'>
