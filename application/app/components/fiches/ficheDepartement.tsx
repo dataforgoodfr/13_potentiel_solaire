@@ -38,11 +38,14 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='departement' />
 			<br />
+			{/* TODO: Les seuils des colleges ne sont pas encore établis */}
 			{activeTab === 'all' ? (
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={departement.potentiel_solaire_total}
+						potentielNbFoyers={departement.potentiel_nb_foyers_total}
 						nbEleves={departement.nb_eleves_total}
+						level='departement'
 						header={
 							<NbEtablissements
 								nbEtablissements={departement.nb_etablissements_total}
@@ -60,8 +63,8 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={departement.potentiel_solaire_colleges}
+						potentielNbFoyers={departement.potentiel_nb_foyers_colleges}
 						nbEleves={departement.nb_eleves_colleges}
-						level='departement'
 						header={
 							<NbEtablissements
 								nbEtablissements={departement.nb_etablissements_colleges}

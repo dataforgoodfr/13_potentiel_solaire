@@ -39,11 +39,14 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='region' />
 			<br />
+			{/* TODO: Les seuils des lycée ne sont pas encore établis */}
 			{activeTab === 'all' ? (
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={region.potentiel_solaire_total}
+						potentielNbFoyers={region.potentiel_nb_foyers_total}
 						nbEleves={region.nb_eleves_total}
+						level='region'
 						header={
 							<NbEtablissements
 								nbEtablissements={region.nb_etablissements_total}
@@ -61,6 +64,7 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={region.potentiel_solaire_lycees}
+						potentielNbFoyers={region.potentiel_nb_foyers_lycees}
 						nbEleves={region.nb_eleves_lycees}
 						header={
 							<NbEtablissements

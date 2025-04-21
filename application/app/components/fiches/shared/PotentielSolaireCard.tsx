@@ -1,10 +1,7 @@
+import { getColorForPotentiel } from '@/app/utils/solar-utils';
 import { CircleHelp, HousePlug, Users, Zap } from 'lucide-react';
 
-import {
-	getFormattedFoyersEquivalents,
-	getFormattedPotentielSolaire,
-} from '../../../utils/energy-utils';
-import { getColorForPotentiel } from '../../../utils/solar-utils';
+import { getFormattedPotentielSolaire } from '../../../utils/energy-utils';
 
 const UNKNOWN_TEXTS = {
 	potentielSolaire: '—',
@@ -15,6 +12,7 @@ type CarteLevel = 'etablissement' | 'commune' | 'departement' | 'region';
 
 interface PotentielSolaireCardProps {
 	potentielSolaire?: number;
+	potentielNbFoyers?: number;
 	nbEleves?: number;
 	level?: CarteLevel;
 	header?: React.ReactNode;
@@ -22,6 +20,7 @@ interface PotentielSolaireCardProps {
 
 export default function PotentielSolaireCard({
 	potentielSolaire,
+	potentielNbFoyers,
 	nbEleves,
 	level,
 	header,
@@ -71,9 +70,7 @@ export default function PotentielSolaireCard({
 			</div>
 			<div className='flex w-full items-center justify-between ps-7 text-darkgreen'>
 				<div className='flex items-center gap-2'>
-					<span className='text-3xl font-bold text-darkgreen'>
-						{getFormattedFoyersEquivalents(potentielSolaire)}
-					</span>
+					<span className='text-3xl font-bold text-darkgreen'>{potentielNbFoyers}</span>
 					<div className='flex flex-col text-sm leading-tight'>
 						<span className='font-bold'>foyers de</span>
 						<span className='font-bold'>2 personnes</span>

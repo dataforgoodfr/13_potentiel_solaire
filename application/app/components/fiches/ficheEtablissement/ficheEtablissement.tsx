@@ -26,6 +26,7 @@ export default function FicheEtablissement({ etablissement }: FicheEtablissement
 			{etablissement.protection && <ProtectionCard />}
 			<PotentielSolaireCard
 				potentielSolaire={etablissement.potentiel_solaire}
+				potentielNbFoyers={etablissement.potentiel_nb_foyers}
 				nbEleves={etablissement.nb_eleves ?? undefined}
 				level='etablissement'
 				header={<InterpretationMessage niveau_potentiel={etablissement.niveau_potentiel} />}

@@ -38,11 +38,14 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='commune' />
 			<br />
+			{/* TODO: Les seuils des primaires ne sont pas encore établis */}
 			{activeTab === 'all' ? (
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={commune.potentiel_solaire_total}
+						potentielNbFoyers={commune.potentiel_nb_foyers_total}
 						nbEleves={commune.nb_eleves_total}
+						level='commune'
 						header={
 							<NbEtablissements
 								nbEtablissements={commune.nb_etablissements_total}
@@ -60,8 +63,8 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 				<>
 					<PotentielSolaireCard
 						potentielSolaire={commune.potentiel_solaire_primaires}
+						potentielNbFoyers={commune.potentiel_nb_foyers_primaires}
 						nbEleves={commune.nb_eleves_primaires}
-						level='commune'
 						header={
 							<NbEtablissements
 								nbEtablissements={commune.nb_etablissements_primaires}
