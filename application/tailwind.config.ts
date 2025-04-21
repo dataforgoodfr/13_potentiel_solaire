@@ -47,6 +47,7 @@ export default {
 					'5': 'hsl(var(--chart-5))',
 				},
 				green: 'var(--color-green)',
+				grey: 'var(--color-grey)',
 				yellow: 'var(--color-yellow)',
 				orange: 'var(--color-orange)',
 				blue: 'hsl(var(--color-blue) / <alpha-value>)',
@@ -56,7 +57,6 @@ export default {
 				sol_top: 'var(--color-sol_top)',
 				sol_ko: 'var(--color-sol_ko)',
 				select: 'var(--color-select)',
-				grey: 'var(--color-grey)',
 				gray: 'var(--color-gray)',
 			},
 			fontFamily: {
@@ -95,6 +95,20 @@ export default {
 			},
 			boxShadow: {
 				base: 'var(--boxShadow-base)',
+			},
+			keyframes: {
+				'slide-in-right': {
+					'0%': { transform: 'translateX(100%)', opacity: '0' },
+					'100%': { transform: 'translateX(0)', opacity: '1' },
+				},
+				'slide-in-bottom': {
+					'0%': { transform: 'translateY(100%)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' },
+				},
+			},
+			animation: {
+				'slide-in-right': 'slide-in-right 0.4s ease-out',
+				'slide-in-bottom': 'slide-in-bottom 0.4s ease-out',
 			},
 		},
 	},
