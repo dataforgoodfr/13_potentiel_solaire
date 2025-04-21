@@ -54,6 +54,8 @@ import {
 	clusterCountLayer,
 	clusterLayer,
 	unclusteredPointLayer,
+	unclusteredPointProtegeIconLayer,
+	unclusteredPointProtegeLayer,
 } from './layers/etablissementsLayers';
 import {
 	REGIONS_LABELS_SOURCE_ID,
@@ -374,7 +376,10 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 			return;
 		}
 
-		if (isFeatureFrom<EventEtablissementFeature>(feature, unclusteredPointLayer)) {
+		if (
+			isFeatureFrom<EventEtablissementFeature>(feature, unclusteredPointLayer) ||
+			isFeatureFrom<EventEtablissementFeature>(feature, unclusteredPointProtegeLayer)
+		) {
 			handleClickOnEtablissement(feature);
 
 			return;
@@ -402,6 +407,7 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 					communesTransparentLayer.id,
 					clusterLayer.id,
 					unclusteredPointLayer.id,
+					unclusteredPointProtegeLayer.id,
 				]}
 				onClick={onClick}
 				onLoad={() => {
@@ -505,6 +511,12 @@ export default function FranceMap({ onSelect }: FranceMapProps) {
 						)}
 						{isEtablissementsLayerVisible && (
 							<LayerReactMapLibre {...unclusteredPointLayer} />
+						)}
+						{isEtablissementsLayerVisible && (
+							<LayerReactMapLibre {...unclusteredPointProtegeLayer} />
+						)}
+						{isEtablissementsLayerVisible && (
+							<LayerReactMapLibre {...unclusteredPointProtegeIconLayer} />
 						)}
 					</Source>
 				)}
