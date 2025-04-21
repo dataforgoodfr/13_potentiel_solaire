@@ -50,11 +50,11 @@ const ActionButtons = () => {
 			<button
 				onClick={handleShare}
 				title='Partager'
-				className='rounded p-2 text-darkgreen transition hover:bg-gray-100'
+				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
 			>
 				<Share2 className='h-5 w-5' />
 			</button>
-			<button className='rounded p-2 text-darkgreen transition hover:bg-gray-100'>
+			<button className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'>
 				<Download />
 			</button>
 		</div>
