@@ -1,11 +1,13 @@
-import argparse
 import traceback
 
 import papermill as pm
+import click
+
 from papermill.exceptions import PapermillExecutionError
 
 from potentiel_solaire.constants import ALGORITHME_FOLDER, RESULTS_FOLDER
 from potentiel_solaire.database.queries import (
+    check_if_results_for_schools_are_exhaustive,
     get_departements, 
     get_regions,
     get_departements_for_region,
@@ -19,46 +21,29 @@ from potentiel_solaire.logger import get_logger
 logger = get_logger()
 
 
-def run_pipeline_algorithme():
+@click.group()
+def cli():
+    """Main entry point for CLI."""
+    pass
+
+
+@cli.command()
+@click.option("--code_departement", "-d", default=None, help="Code departement", type=click.Choice(get_departements()))
+@click.option("--code_region", "-r", default=None, help="Code region", type=click.Choice(get_regions()))
+@click.option("--all_departements", "-a", is_flag=True, help="Run pipeline on all departements")
+def calculate_for_schools(
+    code_departement: str = None,
+    code_region: str = None,
+    all_departements: bool = False,
+):
     """Script principal pour realiser les calculs de potentiel solaire"""
-    codes_departements = get_departements()
-    codes_regions = get_regions()
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "-d",
-        "--code_departement",
-        required=False,
-        choices=codes_departements
-    )
-
-    parser.add_argument(
-        "-r",
-        "--code_region",
-        required=False,
-        choices=codes_regions
-    )
-
-    parser.add_argument(
-        "--all",
-        action="store_true",
-        help="run pipeline on all departements",
-    )
-
     notebooks_folder = ALGORITHME_FOLDER / "notebooks"
     exports_folder = notebooks_folder / "exports"
     exports_folder.mkdir(exist_ok=True)
 
-    # parse arguments
-    args = parser.parse_args()
-    code_departement = args.code_departement
-    code_region = args.code_region
-    run_on_france = args.all
-
     # selection des departements sur lesquels les calculs vont se faire
-    if run_on_france:
-        run_on_departements = codes_departements
+    if all_departements:
+        run_on_departements = get_departements()
     elif code_departement:
         run_on_departements = [code_departement]
     elif code_region:
@@ -93,9 +78,16 @@ def run_pipeline_algorithme():
                 error_file.write(traceback.format_exc())
 
 
+@cli.command()
 def update_database_indicators():
-    """Update indicators in database used by application"""
+    """Met à jour les indicateurs dans la base de donnees utilisee par l application"""
+    check_if_results_for_schools_are_exhaustive()
+
     update_indicators_for_schools()
     update_indicators_for_communes()
     update_indicators_for_departements()
     update_indicators_for_regions()
+
+
+if __name__ == "__main__":
+    cli()

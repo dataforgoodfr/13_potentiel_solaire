@@ -1,0 +1,5 @@
+**/*.pyc
+./database/*.duckdb
+./database/Dockerfile
+./database/script.py.mako
+Dockerfile

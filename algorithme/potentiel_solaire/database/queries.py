@@ -92,6 +92,39 @@ def update_results_for_schools(
         conn.execute(update_query)
 
 
+def check_if_results_for_schools_are_exhaustive():
+    """Verifier si les resultats pour les ecoles sont exhaustifs et faits avec la meme version"""
+    with get_connection() as conn:
+        # Verifier si tous les etablissements ont ete traites avec la meme version
+        code_version = version('potentiel_solaire')
+
+        query = f"""
+            SELECT code_departement, COUNT(*) AS nb_etablissements
+            FROM {etablissements_table.name}
+            WHERE date_calcul IS NULL 
+                  OR version IS NULL 
+                  OR version != '{code_version}'
+            GROUP BY code_departement
+        """
+
+        result = conn.query(query).df()
+
+        nb_missing_schools = result["nb_etablissements"].sum()
+        departements_missing = result["code_departement"].unique()
+
+        if  nb_missing_schools > 0:
+            message = (
+                f"Le potentiel n a pas ete calcule pour {nb_missing_schools} etablissements "
+                f"sur la version attendue de l algorithme : {code_version}. "
+                f"Merci de lancer les calculs de potentiel solaire. "
+                f"{len(departements_missing)} departements manquants : {departements_missing}."
+            )
+            logger.error(message)
+            raise ValueError(message)
+
+        return True
+
+
 def update_indicators_for_table(
     table: Table,
     suffix: Literal["_primaires", "_colleges", "_lycees", "_total"] = "_total",

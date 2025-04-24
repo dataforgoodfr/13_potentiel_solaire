@@ -7,7 +7,7 @@ import geopandas as gpd
 
 from potentiel_solaire.constants import BD_TOPO_DATE, BD_TOPO_PAGE, DATA_FOLDER, DEFAULT_CRS
 from potentiel_solaire.sources.utils import download_file, extract_7z, find_matching_files
-from potentiel_solaire.duckdb_manager import get_departements
+from potentiel_solaire.database.queries import get_departements
 from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
