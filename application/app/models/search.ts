@@ -29,6 +29,7 @@ export type EtablissementResult = BaseResult & {
 export type CommuneResult = BaseResult & {
 	[SearchPropertiesKeys.Source]: 'communes';
 	[SearchPropertiesKeys.ExtraData]: {
+		[SearchPropertiesKeys.ExtraDataCodePostal]: string;
 		[SearchPropertiesKeys.ExtraDataCodeRegion]: string;
 		[SearchPropertiesKeys.ExtraDataCodeDepartement]: string;
 	};
