@@ -97,9 +97,3 @@ export type EtablissementsGeoJSON = GeoJSON.FeatureCollection<
 >;
 
 export type EtablissementFeature = EtablissementsGeoJSON['features'][number];
-
-export interface TopEtablissement {
-	id: string;
-	libelle: string;
-	potentiel_solaire: number;
-}
