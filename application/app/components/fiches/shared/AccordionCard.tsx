@@ -1,3 +1,5 @@
+import { ACTION_LINKS } from '../../content/actions';
+
 const ACTIONS = [
 	{
 		title: 'Je suis un élu et je veux agir',
@@ -35,9 +37,12 @@ const ACTIONS = [
 							&nbsp;Si cela est votre cas, nous vous invitons à nous contacter à
 							l’adresse suivante
 						</span>
-						<button className='mt-3 w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
-							Nous contacter
-						</button>
+						<a
+							href={ACTION_LINKS.contact.url}
+							className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen hover:underline'
+						>
+							{ACTION_LINKS.contact.label}
+						</a>
 					</li>
 					<li>
 						De multiplies démarches sont nécessaires pour monter un tel projet :
@@ -51,26 +56,38 @@ const ACTIONS = [
 						</span>
 						<br />
 						<p className='mt-3'>
-							- Le site
-							<span className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
-								&nbsp;photovoltaïque.info&nbsp;
-							</span>
-							de l’association Hespul, avec les étapes pour réaliser un projet
+							– Le site{' '}
+							<a
+								href='https://www.photovoltaique.info'
+								target='_blank'
+								rel='noopener noreferrer'
+								className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+							>
+								photovoltaïque.info
+							</a>{' '}
+							de l’association Hespul
 						</p>
 						<p>
-							- Le guide
-							<span className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
-								&nbsp;L&apos;ÉLU et le photovoltaïque&nbsp;
-							</span>
-							du réseau AMORCE
+							– Le guide{' '}
+							<a
+								href='https://www.amorce.asso.fr/publications/elu-et-photovoltaique'
+								target='_blank'
+								rel='noopener noreferrer'
+								className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+							>
+								L’ÉLU et le photovoltaïque
+							</a>
 						</p>
 						<p>
-							- Le guide à l&apos;usage des collectivités locales
-							<span className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
-								&nbsp;Mieux maîtriser le développement des EnR sur son
-								territoire&nbsp;
-							</span>
-							de la banques des territoires
+							– Le guide{' '}
+							<a
+								href='https://www.banquedesterritoires.fr/energies-renouvelables-guide-collectivites'
+								target='_blank'
+								rel='noopener noreferrer'
+								className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+							>
+								Mieux maîtriser le développement des EnR sur son territoire
+							</a>
 						</p>
 					</li>
 				</ul>
@@ -113,9 +130,14 @@ const ACTIONS = [
 						<span className='font-bold'>
 							&nbsp;la rénovation énergétique des établissements scolaires :
 						</span>
-						<button className='mt-3 w-full rounded-md bg-green px-4 py-2 font-bold text-darkgreen'>
-							Signez la pétition nationale
-						</button>
+						<a
+							href={ACTION_LINKS.petition.url}
+							target='_blank'
+							rel='noopener noreferrer'
+							className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
+						>
+							{ACTION_LINKS.petition.label}
+						</a>
 					</li>
 					<li className='mb-8'>
 						Informer
@@ -128,15 +150,27 @@ const ACTIONS = [
 					</li>
 					<li className='mb-8'>
 						Découvrez les projets de transition énergétique près de chez vous :
-						<p className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
-							— Carte de l’énergie citoyenne
+						<p>
+							<a
+								href='https://energie-partagee.org/projets/'
+								target='_blank'
+								rel='noopener noreferrer'
+								className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+							>
+								— Carte de l’énergie citoyenne
+							</a>
 						</p>
 					</li>
 					<li>
 						Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” de notre
 						site :
-						<p className='text-green underline decoration-dotted decoration-2 underline-offset-4'>
-							— Comment agir ?
+						<p>
+							<a
+								href={ACTION_LINKS.commentAgir.url}
+								className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+							>
+								— {ACTION_LINKS.commentAgir.label}
+							</a>
 						</p>
 					</li>
 				</ul>
