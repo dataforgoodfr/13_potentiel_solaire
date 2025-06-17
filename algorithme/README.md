@@ -82,6 +82,8 @@ se référer à la [documentation officielle](https://python-poetry.org/docs/#in
 * Sur toute la France: `poetry run algorithme calculate-for-schools --all_departements`
 
 * Mettre à jour les indicateurs dans la database duckdb: `poetry run algorithme update-database-indicators`
+
+* Obtenir les etablissements prioritaires selon les criteres de Greenpeace : `poetry run algorithme save-high-priority-schools`
  
 Note : pour executer la pipeline sur toute la France, il faut avoir à minima 180 Go d'espace disponible et compter minimum 10H de temps d'execution.
 
@@ -89,6 +91,7 @@ Note : pour executer la pipeline sur toute la France, il faut avoir à minima 18
 * un fichier .gpkg dans le dossier [results](data/results) pour les resultats pour chaque departement (ex: [D093_pipeline_results.gpkg](data/results/D093_pipeline_results.gpkg))
 * un notebook resultats est aussi genere pour chaque departement dans le dossier [exports](notebooks/exports) (ex: [D093_pipeline_algorithme.ipynb](notebooks/exports/D093_pipeline_algorithme.ipynb))
 * dans la [database duckdb](database/potentiel_solaire.duckdb)
+* un fichier .csv dans le dossier [results](data/results) avec les etablissements prioritaires selon les criteres de Greenpeace
 
 # 3. Tester & verifier son code
 

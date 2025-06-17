@@ -15,6 +15,7 @@ from potentiel_solaire.database.queries import (
     update_indicators_for_departements,
     update_indicators_for_regions, 
     update_indicators_for_schools,
+    get_high_priority_schools,
 )
 from potentiel_solaire.logger import get_logger
 
@@ -90,6 +91,14 @@ def update_database_indicators():
     update_indicators_for_communes()
     update_indicators_for_departements()
     update_indicators_for_regions()
+
+
+@cli.command()
+def save_high_priority_schools():
+    """Recupere les ecoles a fort potentiel solaire et les sauvegarde dans un fichier."""
+    high_priority_schools = get_high_priority_schools()
+    high_priority_schools.to_csv(RESULTS_FOLDER / "high_priority_schools.csv", index=False)
+    logger.info("High priority schools saved to %s", RESULTS_FOLDER / "high_priority_schools.csv")
 
 
 if __name__ == "__main__":
