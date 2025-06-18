@@ -1,4 +1,7 @@
-import { EtablissementFeaturePropertiesKeys } from '@/app/models/etablissements';
+import {
+	ETABLISSEMENT_GEOJSON_KEY_POTENTIEL_SOLAIRE,
+	ETABLISSEMENT_GEOJSON_KEY_PROTECTION,
+} from '@/app/models/etablissements';
 import type { LayerProps } from '@vis.gl/react-maplibre';
 
 import { COLOR_THRESHOLDS } from '../constants';
@@ -35,12 +38,12 @@ export const unclusteredPointLayer = {
 	filter: [
 		'all',
 		['!', ['has', 'point_count']],
-		['==', ['get', EtablissementFeaturePropertiesKeys.Protection], false],
+		['==', ['get', ETABLISSEMENT_GEOJSON_KEY_PROTECTION], false],
 	],
 	paint: {
 		'circle-color': [
 			'step',
-			['get', EtablissementFeaturePropertiesKeys.PotentielSolaire],
+			['get', ETABLISSEMENT_GEOJSON_KEY_POTENTIEL_SOLAIRE],
 			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
 		],
 		'circle-radius': 15,
@@ -54,12 +57,12 @@ export const unclusteredPointProtegeLayer = {
 	filter: [
 		'all',
 		['!', ['has', 'point_count']],
-		['==', ['get', EtablissementFeaturePropertiesKeys.Protection], true],
+		['==', ['get', ETABLISSEMENT_GEOJSON_KEY_PROTECTION], true],
 	],
 	paint: {
 		'circle-color': [
 			'step',
-			['get', EtablissementFeaturePropertiesKeys.PotentielSolaire],
+			['get', ETABLISSEMENT_GEOJSON_KEY_POTENTIEL_SOLAIRE],
 			...thresholdsToStepColorsParams(COLOR_THRESHOLDS.commune),
 		],
 		'circle-radius': 15,
@@ -75,7 +78,7 @@ export const unclusteredPointProtegeIconLayer = {
 	filter: [
 		'all',
 		['!', ['has', 'point_count']],
-		['==', ['get', EtablissementFeaturePropertiesKeys.Protection], true],
+		['==', ['get', ETABLISSEMENT_GEOJSON_KEY_PROTECTION], true],
 	],
 	layout: {
 		'text-field': 'i',

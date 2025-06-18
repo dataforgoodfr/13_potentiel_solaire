@@ -1,6 +1,9 @@
-import { RegionFeaturePropertiesKeys, RegionPropertiesKeys } from '../../models/regions';
+import { Region, RegionFeatureProperties } from '../../models/regions';
 
 export const REGIONS_TABLE = 'regions';
+/**
+ * DB column names for the regions table.
+ */
 export const REGIONS_COLUMNS = {
 	Id: 'code_region',
 	Nom: 'libelle_region',
@@ -24,38 +27,44 @@ export const REGIONS_COLUMNS = {
 	NbEtablissementsParNiveauPotentielLycees: 'nb_etablissements_par_niveau_potentiel_lycees',
 	Geometry: 'geom',
 } as const;
-export const REGIONS_MAPPING = {
-	[REGIONS_COLUMNS.Id]: RegionPropertiesKeys.Id,
-	[REGIONS_COLUMNS.Nom]: RegionPropertiesKeys.Nom,
-	[REGIONS_COLUMNS.NbElevesTotal]: RegionPropertiesKeys.NbElevesTotal,
-	[REGIONS_COLUMNS.NbElevesLycees]: RegionPropertiesKeys.NbElevesLycees,
-	[REGIONS_COLUMNS.NbEtablissementsTotal]: RegionPropertiesKeys.NbEtablissementsTotal,
-	[REGIONS_COLUMNS.NbEtablissementsLycees]: RegionPropertiesKeys.NbEtablissementsLycees,
-	[REGIONS_COLUMNS.NbEtablissementsProtegesTotal]:
-		RegionPropertiesKeys.NbEtablissementsProtegesTotal,
-	[REGIONS_COLUMNS.NbEtablissementsProtegesLycees]:
-		RegionPropertiesKeys.NbEtablissementsProtegesLycees,
-	[REGIONS_COLUMNS.SurfaceExploitableMaxTotal]: RegionPropertiesKeys.SurfaceExploitableMaxTotal,
-	[REGIONS_COLUMNS.SurfaceExploitableMaxLycees]: RegionPropertiesKeys.SurfaceExploitableMaxLycees,
-	[REGIONS_COLUMNS.PotentielSolaireTotal]: RegionPropertiesKeys.PotentielSolaireTotal,
-	[REGIONS_COLUMNS.PotentielSolaireLycees]: RegionPropertiesKeys.PotentielSolaireLycees,
-	[REGIONS_COLUMNS.PotentielNbFoyersTotal]: RegionPropertiesKeys.PotentielNbFoyersTotal,
-	[REGIONS_COLUMNS.PotentielNbFoyersLycees]: RegionPropertiesKeys.PotentielNbFoyersLycees,
-	[REGIONS_COLUMNS.TopEtablissementsTotal]: RegionPropertiesKeys.TopEtablissementsTotal,
-	[REGIONS_COLUMNS.TopEtablissementsLycees]: RegionPropertiesKeys.TopEtablissementsLycees,
-	[REGIONS_COLUMNS.NbEtablissementsParNiveauPotentielTotal]:
-		RegionPropertiesKeys.NbEtablissementsParNiveauPotentielTotal,
-	[REGIONS_COLUMNS.NbEtablissementsParNiveauPotentielLycees]:
-		RegionPropertiesKeys.NbEtablissementsParNiveauPotentielLycees,
-} as const;
 
+type RegionColumnValues = (typeof REGIONS_COLUMNS)[keyof typeof REGIONS_COLUMNS];
+
+export const REGIONS_MAPPING = {
+	[REGIONS_COLUMNS.Id]: 'code_region',
+	[REGIONS_COLUMNS.Nom]: 'libelle_region',
+	[REGIONS_COLUMNS.NbElevesTotal]: 'nb_eleves_total',
+	[REGIONS_COLUMNS.NbElevesLycees]: 'nb_eleves_lycees',
+	[REGIONS_COLUMNS.NbEtablissementsTotal]: 'nb_etablissements_total',
+	[REGIONS_COLUMNS.NbEtablissementsLycees]: 'nb_etablissements_lycees',
+	[REGIONS_COLUMNS.NbEtablissementsProtegesTotal]: 'nb_etablissements_proteges_total',
+	[REGIONS_COLUMNS.NbEtablissementsProtegesLycees]: 'nb_etablissements_proteges_lycees',
+	[REGIONS_COLUMNS.SurfaceExploitableMaxTotal]: 'surface_exploitable_max_total',
+	[REGIONS_COLUMNS.SurfaceExploitableMaxLycees]: 'surface_exploitable_max_lycees',
+	[REGIONS_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
+	[REGIONS_COLUMNS.PotentielSolaireLycees]: 'potentiel_solaire_lycees',
+	[REGIONS_COLUMNS.PotentielNbFoyersTotal]: 'potentiel_nb_foyers_total',
+	[REGIONS_COLUMNS.PotentielNbFoyersLycees]: 'potentiel_nb_foyers_lycees',
+	[REGIONS_COLUMNS.TopEtablissementsTotal]: 'top_etablissements_total',
+	[REGIONS_COLUMNS.TopEtablissementsLycees]: 'top_etablissements_lycees',
+	[REGIONS_COLUMNS.NbEtablissementsParNiveauPotentielTotal]:
+		'nb_etablissements_par_niveau_potentiel_total',
+	[REGIONS_COLUMNS.NbEtablissementsParNiveauPotentielLycees]:
+		'nb_etablissements_par_niveau_potentiel_lycees',
+} as const satisfies Partial<{
+	[K in RegionColumnValues]: keyof Region;
+}>;
+
+/**
+ * Mapping of regions columns to RegionFeatureProperties properties for GeoJSON.
+ */
 export const REGIONS_GEOJSON_MAPPING = {
-	[REGIONS_COLUMNS.Id]: RegionFeaturePropertiesKeys.Id,
-	[REGIONS_COLUMNS.Nom]: RegionFeaturePropertiesKeys.Nom,
-	[REGIONS_COLUMNS.PotentielSolaireTotal]: RegionFeaturePropertiesKeys.PotentielSolaireTotal,
-	[REGIONS_COLUMNS.PotentielSolaireLycees]: RegionFeaturePropertiesKeys.PotentielSolaireLycees,
-	[REGIONS_COLUMNS.PotentielSolaireColleges]:
-		RegionFeaturePropertiesKeys.PotentielSolaireColleges,
-	[REGIONS_COLUMNS.PotentielSolairePrimaires]:
-		RegionFeaturePropertiesKeys.PotentielSolairePrimaires,
-} as const;
+	[REGIONS_COLUMNS.Id]: 'code_region',
+	[REGIONS_COLUMNS.Nom]: 'libelle_region',
+	[REGIONS_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
+	[REGIONS_COLUMNS.PotentielSolaireLycees]: 'potentiel_solaire_lycees',
+	[REGIONS_COLUMNS.PotentielSolaireColleges]: 'potentiel_solaire_colleges',
+	[REGIONS_COLUMNS.PotentielSolairePrimaires]: 'potentiel_solaire_primaires',
+} as const satisfies Partial<{
+	[K in RegionColumnValues]: keyof RegionFeatureProperties;
+}>;

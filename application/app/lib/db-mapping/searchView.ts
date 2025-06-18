@@ -1,6 +1,9 @@
-import { SearchPropertiesKeys } from '../../models/search';
+import { SearchResult } from '../../models/search';
 
 export const SEARCH_VIEW_TABLE = 'search_view';
+/**
+ * DB column names for the search view.
+ */
 export const SEARCH_VIEW_COLUMNS = {
 	Source: 'source_table',
 	Id: 'id',
@@ -14,20 +17,24 @@ export const SEARCH_VIEW_COLUMNS = {
 	ExtraDataCodeCommune: 'code_commune',
 } as const;
 
+type SearchColumnValues = (typeof SEARCH_VIEW_COLUMNS)[keyof typeof SEARCH_VIEW_COLUMNS];
+
+/**
+ * Mapping of search view columns to SearchResult properties.
+ */
 export const SEARCH_VIEW_MAPPING = {
-	[SEARCH_VIEW_COLUMNS.Source]: SearchPropertiesKeys.Source,
-	[SEARCH_VIEW_COLUMNS.Id]: SearchPropertiesKeys.Id,
-	[SEARCH_VIEW_COLUMNS.Libelle]: SearchPropertiesKeys.Libelle,
-	[SEARCH_VIEW_COLUMNS.ExtraData]: SearchPropertiesKeys.ExtraData,
-	[SEARCH_VIEW_COLUMNS.ExtraDataNomCommune]: SearchPropertiesKeys.ExtraDataNomCommune,
-	[SEARCH_VIEW_COLUMNS.ExtraDataCodePostal]: SearchPropertiesKeys.ExtraDataCodePostal,
-	[SEARCH_VIEW_COLUMNS.ExtraDataCodeRegion]: SearchPropertiesKeys.ExtraDataCodeRegion,
-	[SEARCH_VIEW_COLUMNS.ExtraDataCodeDepartement]: SearchPropertiesKeys.ExtraDataCodeDepartement,
-	[SEARCH_VIEW_COLUMNS.ExtraDataCodeCommune]: SearchPropertiesKeys.ExtraDataCodeCommune,
-} as const;
-export const SEARCH_VIEW_SANITIZED_LIBELLE_COLUMN = 'sanitized_libelle';
+	[SEARCH_VIEW_COLUMNS.Source]: 'source',
+	[SEARCH_VIEW_COLUMNS.Id]: 'id',
+	[SEARCH_VIEW_COLUMNS.Libelle]: 'libelle',
+	[SEARCH_VIEW_COLUMNS.ExtraData]: 'extra_data',
+} as const satisfies Partial<{
+	[K in SearchColumnValues]: keyof SearchResult;
+}>;
 
 export const REF_CODE_POSTAL_TABLE = 'ref_code_postal';
+/**
+ * DB column names for the ref_code_postal table.
+ */
 export const REF_CODE_POSTAL_COLUMNS = {
 	CodeInsee: 'code_insee',
 	CodePostal: 'code_postal',

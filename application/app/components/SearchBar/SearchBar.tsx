@@ -2,11 +2,7 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
-import { CommunePropertiesKeys } from '@/app/models/communes';
-import { DepartementPropertiesKeys } from '@/app/models/departements';
-import { EtablissementPropertiesKeys } from '@/app/models/etablissements';
-import { RegionPropertiesKeys } from '@/app/models/regions';
-import { SearchPropertiesKeys, SearchResult } from '@/app/models/search';
+import { SearchResult } from '@/app/models/search';
 import useCommune from '@/app/utils/hooks/useCommune';
 import useDebouncedSearch from '@/app/utils/hooks/useDebouncedSearch';
 import useDepartement from '@/app/utils/hooks/useDepartement';
@@ -62,32 +58,20 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 
 function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: () => void) {
 	const { setCodes } = useURLParams();
-	const { region } = useRegion(
-		selection?.[SearchPropertiesKeys.Source] === 'regions'
-			? selection?.[SearchPropertiesKeys.Id]
-			: null,
-	);
+	const { region } = useRegion(selection?.source === 'regions' ? selection?.id : null);
 	const { departement } = useDepartement(
-		selection?.[SearchPropertiesKeys.Source] === 'departements'
-			? selection?.[SearchPropertiesKeys.Id]
-			: null,
+		selection?.source === 'departements' ? selection?.id : null,
 	);
-	const { commune } = useCommune(
-		selection?.[SearchPropertiesKeys.Source] === 'communes'
-			? selection?.[SearchPropertiesKeys.Id]
-			: null,
-	);
+	const { commune } = useCommune(selection?.source === 'communes' ? selection?.id : null);
 	const { etablissement } = useEtablissement(
-		selection?.[SearchPropertiesKeys.Source] === 'etablissements'
-			? selection?.[SearchPropertiesKeys.Id]
-			: null,
+		selection?.source === 'etablissements' ? selection?.id : null,
 	);
 
 	useEffect(() => {
 		if (region != null) {
 			setCodes(
 				{
-					codeRegion: region[RegionPropertiesKeys.Id],
+					codeRegion: region.code_region,
 					codeDepartement: null,
 					codeCommune: null,
 					codeEtablissement: null,
@@ -99,8 +83,8 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 		if (departement != null) {
 			setCodes(
 				{
-					codeRegion: departement[DepartementPropertiesKeys.CodeRegion],
-					codeDepartement: departement[DepartementPropertiesKeys.Id],
+					codeRegion: departement.code_region,
+					codeDepartement: departement.code_departement,
 					codeCommune: null,
 					codeEtablissement: null,
 				},
@@ -111,9 +95,9 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 		if (commune != null) {
 			setCodes(
 				{
-					codeRegion: commune[CommunePropertiesKeys.CodeRegion],
-					codeDepartement: commune[CommunePropertiesKeys.CodeDepartement],
-					codeCommune: commune[CommunePropertiesKeys.Id],
+					codeRegion: commune.code_region,
+					codeDepartement: commune.code_departement,
+					codeCommune: commune.code_commune,
 					codeEtablissement: null,
 				},
 				true,
@@ -123,10 +107,10 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 		if (etablissement != null) {
 			setCodes(
 				{
-					codeRegion: etablissement[EtablissementPropertiesKeys.CodeRegion],
-					codeDepartement: etablissement[EtablissementPropertiesKeys.CodeDepartement],
-					codeCommune: etablissement[EtablissementPropertiesKeys.CodeCommune],
-					codeEtablissement: etablissement[EtablissementPropertiesKeys.Id],
+					codeRegion: etablissement.code_region,
+					codeDepartement: etablissement.code_departement,
+					codeCommune: etablissement.code_commune,
+					codeEtablissement: etablissement.identifiant_de_l_etablissement,
 				},
 				true,
 			);

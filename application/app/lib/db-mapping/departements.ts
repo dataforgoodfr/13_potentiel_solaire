@@ -1,9 +1,9 @@
-import {
-	DepartementFeaturePropertiesKeys,
-	DepartementPropertiesKeys,
-} from '../../models/departements';
+import { Departement, DepartementFeatureProperties } from '@/app/models/departements';
 
 export const DEPARTEMENTS_TABLE = 'departements';
+/**
+ * DB column names for the departements table.
+ */
 export const DEPARTEMENTS_COLUMNS = {
 	Id: 'code_departement',
 	Nom: 'libelle_departement',
@@ -30,49 +30,49 @@ export const DEPARTEMENTS_COLUMNS = {
 	Geometry: 'geom',
 } as const;
 
-export const DEPARTEMENTS_MAPPING = {
-	[DEPARTEMENTS_COLUMNS.Id]: DepartementPropertiesKeys.Id,
-	[DEPARTEMENTS_COLUMNS.Nom]: DepartementPropertiesKeys.Nom,
-	[DEPARTEMENTS_COLUMNS.CodeRegion]: DepartementPropertiesKeys.CodeRegion,
-	[DEPARTEMENTS_COLUMNS.LibelleRegion]: DepartementPropertiesKeys.LibelleRegion,
-	[DEPARTEMENTS_COLUMNS.NbElevesTotal]: DepartementPropertiesKeys.NbElevesTotal,
-	[DEPARTEMENTS_COLUMNS.NbElevesColleges]: DepartementPropertiesKeys.NbElevesColleges,
-	[DEPARTEMENTS_COLUMNS.NbEtablissementsTotal]: DepartementPropertiesKeys.NbEtablissementsTotal,
-	[DEPARTEMENTS_COLUMNS.NbEtablissementsColleges]:
-		DepartementPropertiesKeys.NbEtablissementsColleges,
-	[DEPARTEMENTS_COLUMNS.NbEtablissementsProtegesTotal]:
-		DepartementPropertiesKeys.NbEtablissementsProtegesTotal,
-	[DEPARTEMENTS_COLUMNS.NbEtablissementsProtegesColleges]:
-		DepartementPropertiesKeys.NbEtablissementsProtegesColleges,
-	[DEPARTEMENTS_COLUMNS.SurfaceExploitableMaxTotal]:
-		DepartementPropertiesKeys.SurfaceExploitableMaxTotal,
-	[DEPARTEMENTS_COLUMNS.SurfaceExploitableMaxColleges]:
-		DepartementPropertiesKeys.SurfaceExploitableMaxColleges,
-	[DEPARTEMENTS_COLUMNS.PotentielSolaireTotal]: DepartementPropertiesKeys.PotentielSolaireTotal,
-	[DEPARTEMENTS_COLUMNS.PotentielSolaireColleges]:
-		DepartementPropertiesKeys.PotentielSolaireColleges,
-	[DEPARTEMENTS_COLUMNS.PotentielNbFoyersTotal]: DepartementPropertiesKeys.PotentielNbFoyersTotal,
-	[DEPARTEMENTS_COLUMNS.PotentielNbFoyersColleges]:
-		DepartementPropertiesKeys.PotentielNbFoyersColleges,
-	[DEPARTEMENTS_COLUMNS.TopEtablissementsTotal]: DepartementPropertiesKeys.TopEtablissementsTotal,
-	[DEPARTEMENTS_COLUMNS.TopEtablissementsColleges]:
-		DepartementPropertiesKeys.TopEtablissementsColleges,
-	[DEPARTEMENTS_COLUMNS.NbEtablissementsParNiveauPotentielTotal]:
-		DepartementPropertiesKeys.NbEtablissementsParNiveauPotentielTotal,
-	[DEPARTEMENTS_COLUMNS.NbEtablissementsParNiveauPotentielColleges]:
-		DepartementPropertiesKeys.NbEtablissementsParNiveauPotentielColleges,
-} as const;
+type DepartementColumnValues = (typeof DEPARTEMENTS_COLUMNS)[keyof typeof DEPARTEMENTS_COLUMNS];
 
+/**
+ * Mapping of departements columns to Departement properties.
+ */
+export const DEPARTEMENTS_MAPPING = {
+	[DEPARTEMENTS_COLUMNS.Id]: 'code_departement',
+	[DEPARTEMENTS_COLUMNS.Nom]: 'libelle_departement',
+	[DEPARTEMENTS_COLUMNS.CodeRegion]: 'code_region',
+	[DEPARTEMENTS_COLUMNS.LibelleRegion]: 'libelle_region',
+	[DEPARTEMENTS_COLUMNS.NbElevesTotal]: 'nb_eleves_total',
+	[DEPARTEMENTS_COLUMNS.NbElevesColleges]: 'nb_eleves_colleges',
+	[DEPARTEMENTS_COLUMNS.NbEtablissementsTotal]: 'nb_etablissements_total',
+	[DEPARTEMENTS_COLUMNS.NbEtablissementsColleges]: 'nb_etablissements_colleges',
+	[DEPARTEMENTS_COLUMNS.NbEtablissementsProtegesTotal]: 'nb_etablissements_proteges_total',
+	[DEPARTEMENTS_COLUMNS.NbEtablissementsProtegesColleges]: 'nb_etablissements_proteges_colleges',
+	[DEPARTEMENTS_COLUMNS.SurfaceExploitableMaxTotal]: 'surface_exploitable_max_total',
+	[DEPARTEMENTS_COLUMNS.SurfaceExploitableMaxColleges]: 'surface_exploitable_max_colleges',
+	[DEPARTEMENTS_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
+	[DEPARTEMENTS_COLUMNS.PotentielSolaireColleges]: 'potentiel_solaire_colleges',
+	[DEPARTEMENTS_COLUMNS.PotentielNbFoyersTotal]: 'potentiel_nb_foyers_total',
+	[DEPARTEMENTS_COLUMNS.PotentielNbFoyersColleges]: 'potentiel_nb_foyers_colleges',
+	[DEPARTEMENTS_COLUMNS.TopEtablissementsTotal]: 'top_etablissements_total',
+	[DEPARTEMENTS_COLUMNS.TopEtablissementsColleges]: 'top_etablissements_colleges',
+	[DEPARTEMENTS_COLUMNS.NbEtablissementsParNiveauPotentielTotal]:
+		'nb_etablissements_par_niveau_potentiel_total',
+	[DEPARTEMENTS_COLUMNS.NbEtablissementsParNiveauPotentielColleges]:
+		'nb_etablissements_par_niveau_potentiel_colleges',
+} as const satisfies Partial<{
+	[K in DepartementColumnValues]: keyof Departement;
+}>;
+
+/**
+ * Mapping of departements columns to DepartementFeatureProperties properties for GeoJSON.
+ */
 export const DEPARTEMENTS_GEOJSON_MAPPING = {
-	[DEPARTEMENTS_COLUMNS.Id]: DepartementFeaturePropertiesKeys.Id,
-	[DEPARTEMENTS_COLUMNS.Nom]: DepartementFeaturePropertiesKeys.Nom,
-	[DEPARTEMENTS_COLUMNS.CodeRegion]: DepartementFeaturePropertiesKeys.CodeRegion,
-	[DEPARTEMENTS_COLUMNS.PotentielSolaireTotal]:
-		DepartementFeaturePropertiesKeys.PotentielSolaireTotal,
-	[DEPARTEMENTS_COLUMNS.PotentielSolaireLycees]:
-		DepartementFeaturePropertiesKeys.PotentielSolaireLycees,
-	[DEPARTEMENTS_COLUMNS.PotentielSolaireColleges]:
-		DepartementFeaturePropertiesKeys.PotentielSolaireColleges,
-	[DEPARTEMENTS_COLUMNS.PotentielSolairePrimaires]:
-		DepartementFeaturePropertiesKeys.PotentielSolairePrimaires,
-} as const;
+	[DEPARTEMENTS_COLUMNS.Id]: 'code_departement',
+	[DEPARTEMENTS_COLUMNS.Nom]: 'libelle_departement',
+	[DEPARTEMENTS_COLUMNS.CodeRegion]: 'code_region',
+	[DEPARTEMENTS_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
+	[DEPARTEMENTS_COLUMNS.PotentielSolaireLycees]: 'potentiel_solaire_lycees',
+	[DEPARTEMENTS_COLUMNS.PotentielSolaireColleges]: 'potentiel_solaire_colleges',
+	[DEPARTEMENTS_COLUMNS.PotentielSolairePrimaires]: 'potentiel_solaire_primaires',
+} as const satisfies Partial<{
+	[K in DepartementColumnValues]: keyof DepartementFeatureProperties;
+}>;

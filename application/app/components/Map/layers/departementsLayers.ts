@@ -1,6 +1,6 @@
 import { LayerProps } from 'react-map-gl/maplibre';
 
-import { DepartementFeaturePropertiesKeys } from '@/app/models/departements';
+import { DEPARTEMENT_GEOJSON_KEY_NOM } from '@/app/models/departements';
 
 import { COLOR_THRESHOLDS } from '../constants';
 import { zonesLayerPaint } from './zonesLayersPaint';
@@ -26,7 +26,7 @@ export const departementsLabelsLayer = {
 	type: 'symbol',
 	source: DEPARTEMENTS_LABELS_SOURCE_ID,
 	layout: {
-		'text-field': ['get', DepartementFeaturePropertiesKeys.Nom],
+		'text-field': ['get', DEPARTEMENT_GEOJSON_KEY_NOM],
 		'text-size': 12,
 		'text-anchor': 'center',
 		'text-max-width': 5,

@@ -24,8 +24,8 @@ import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import {
+	ETABLISSEMENT_GEOJSON_KEY_POTENTIEL_SOLAIRE,
 	EtablissementFeature,
-	EtablissementFeaturePropertiesKeys,
 } from '../../models/etablissements';
 import Loading from '../Loading';
 import BackButton from './BackButton';
@@ -498,7 +498,7 @@ export default function FranceMap() {
 						clusterProperties={{
 							potentiel_solaire: [
 								'number',
-								['get', EtablissementFeaturePropertiesKeys.PotentielSolaire],
+								['get', ETABLISSEMENT_GEOJSON_KEY_POTENTIEL_SOLAIRE],
 							],
 						}}
 					>

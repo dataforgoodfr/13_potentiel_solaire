@@ -8,10 +8,3 @@ export const NIVEAUX_POTENTIELS = [
 export type NiveauPotentiel = (typeof NIVEAUX_POTENTIELS)[number]['code'];
 
 export type NbEtablissementsByNiveauPotentiel = Record<NiveauPotentiel, number>;
-
-export const ZONE_FEATURE_POTENTIEL_SOLAIRE_KEY = {
-	TOTAL: 'potentiel_solaire_total',
-	LYCEES: 'potentiel_solaire_lycees',
-	COLLEGES: 'potentiel_solaire_colleges',
-	PRIMAIRES: 'potentiel_solaire_primaires',
-} as const;

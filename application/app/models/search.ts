@@ -1,48 +1,37 @@
-export const SearchPropertiesKeys = {
-	Id: 'id',
-	Libelle: 'libelle',
-	Source: 'source' as const,
-	ExtraData: 'extra_data',
-	ExtraDataNomCommune: 'nom_commune',
-	ExtraDataCodePostal: 'code_postal',
-	ExtraDataCodeRegion: 'code_region',
-	ExtraDataCodeDepartement: 'code_departement',
-	ExtraDataCodeCommune: 'code_commune',
-} as const;
-
 export type BaseResult = {
-	[SearchPropertiesKeys.Id]: string;
-	[SearchPropertiesKeys.Libelle]: string;
+	id: string;
+	libelle: string;
 };
 
 export type EtablissementResult = BaseResult & {
-	[SearchPropertiesKeys.Source]: 'etablissements';
-	[SearchPropertiesKeys.ExtraData]: {
-		[SearchPropertiesKeys.ExtraDataNomCommune]: string;
-		[SearchPropertiesKeys.ExtraDataCodePostal]: string;
-		[SearchPropertiesKeys.ExtraDataCodeRegion]: string;
-		[SearchPropertiesKeys.ExtraDataCodeDepartement]: string;
-		[SearchPropertiesKeys.ExtraDataCodeCommune]: string;
+	source: 'etablissements';
+	extra_data: {
+		nom_commune: string;
+		code_postal: string;
+		code_region: string;
+		code_departement: string;
+		code_commune: string;
 	};
 };
 
 export type CommuneResult = BaseResult & {
-	[SearchPropertiesKeys.Source]: 'communes';
-	[SearchPropertiesKeys.ExtraData]: {
-		[SearchPropertiesKeys.ExtraDataCodeRegion]: string;
-		[SearchPropertiesKeys.ExtraDataCodeDepartement]: string;
+	source: 'communes';
+	extra_data: {
+		code_region: string;
+		code_departement: string;
 	};
 };
 
 export type DepartementResult = BaseResult & {
-	[SearchPropertiesKeys.Source]: 'departements';
-	[SearchPropertiesKeys.ExtraData]: {
-		[SearchPropertiesKeys.ExtraDataCodeRegion]: string;
+	source: 'departements';
+	extra_data: {
+		code_region: string;
 	};
 };
 
 export type RegionResult = BaseResult & {
-	[SearchPropertiesKeys.Source]: 'regions';
+	source: 'regions';
+	extra_data: null;
 };
 
 export type SearchResult = EtablissementResult | CommuneResult | DepartementResult | RegionResult;

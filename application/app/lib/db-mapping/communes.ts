@@ -1,6 +1,9 @@
-import { CommuneFeaturePropertiesKeys, CommunePropertiesKeys } from '../../models/communes';
+import { Commune, CommuneFeatureProperties } from '../../models/communes';
 
 export const COMMUNES_TABLE = 'communes';
+/**
+ * DB column names for the communes table.
+ */
 export const COMMUNES_COLUMNS = {
 	Id: 'code_commune',
 	Nom: 'nom_commune',
@@ -29,45 +32,52 @@ export const COMMUNES_COLUMNS = {
 	Geometry: 'geom',
 } as const;
 
-export const COMMUNES_MAPPING = {
-	[COMMUNES_COLUMNS.Id]: CommunePropertiesKeys.Id,
-	[COMMUNES_COLUMNS.Nom]: CommunePropertiesKeys.Nom,
-	[COMMUNES_COLUMNS.CodeDepartement]: CommunePropertiesKeys.CodeDepartement,
-	[COMMUNES_COLUMNS.LibelleDepartement]: CommunePropertiesKeys.LibelleDepartement,
-	[COMMUNES_COLUMNS.CodeRegion]: CommunePropertiesKeys.CodeRegion,
-	[COMMUNES_COLUMNS.LibelleRegion]: CommunePropertiesKeys.LibelleRegion,
-	[COMMUNES_COLUMNS.NbElevesTotal]: CommunePropertiesKeys.NbElevesTotal,
-	[COMMUNES_COLUMNS.NbElevesPrimaires]: CommunePropertiesKeys.NbElevesPrimaires,
-	[COMMUNES_COLUMNS.NbEtablissementsTotal]: CommunePropertiesKeys.NbEtablissementsTotal,
-	[COMMUNES_COLUMNS.NbEtablissementsPrimaires]: CommunePropertiesKeys.NbEtablissementsPrimaires,
-	[COMMUNES_COLUMNS.NbEtablissementsProtegesTotal]:
-		CommunePropertiesKeys.NbEtablissementsProtegesTotal,
-	[COMMUNES_COLUMNS.NbEtablissementsProtegesPrimaires]:
-		CommunePropertiesKeys.NbEtablissementsProtegesPrimaires,
-	[COMMUNES_COLUMNS.SurfaceExploitableMaxTotal]: CommunePropertiesKeys.SurfaceExploitableMaxTotal,
-	[COMMUNES_COLUMNS.SurfaceExploitableMaxPrimaires]:
-		CommunePropertiesKeys.SurfaceExploitableMaxPrimaires,
-	[COMMUNES_COLUMNS.PotentielSolaireTotal]: CommunePropertiesKeys.PotentielSolaireTotal,
-	[COMMUNES_COLUMNS.PotentielSolairePrimaires]: CommunePropertiesKeys.PotentielSolairePrimaires,
-	[COMMUNES_COLUMNS.PotentielNbFoyersTotal]: CommunePropertiesKeys.PotentielNbFoyersTotal,
-	[COMMUNES_COLUMNS.PotentielNbFoyersPrimaires]: CommunePropertiesKeys.PotentielNbFoyersPrimaires,
-	[COMMUNES_COLUMNS.TopEtablissementsTotal]: CommunePropertiesKeys.TopEtablissementsTotal,
-	[COMMUNES_COLUMNS.TopEtablissementsPrimaires]: CommunePropertiesKeys.TopEtablissementsPrimaires,
-	[COMMUNES_COLUMNS.NbEtablissementsParNiveauPotentielTotal]:
-		CommunePropertiesKeys.NbEtablissementsParNiveauPotentielTotal,
-	[COMMUNES_COLUMNS.NbEtablissementsParNiveauPotentielPrimaires]:
-		CommunePropertiesKeys.NbEtablissementsParNiveauPotentielPrimaires,
-} as const;
+type CommuneColumnValues = (typeof COMMUNES_COLUMNS)[keyof typeof COMMUNES_COLUMNS];
 
+/**
+ * Mapping of communes columns to Commune properties.
+ */
+export const COMMUNES_MAPPING = {
+	[COMMUNES_COLUMNS.Id]: 'code_commune',
+	[COMMUNES_COLUMNS.Nom]: 'nom_commune',
+	[COMMUNES_COLUMNS.CodeDepartement]: 'code_departement',
+	[COMMUNES_COLUMNS.LibelleDepartement]: 'libelle_departement',
+	[COMMUNES_COLUMNS.CodeRegion]: 'code_region',
+	[COMMUNES_COLUMNS.LibelleRegion]: 'libelle_region',
+	[COMMUNES_COLUMNS.NbElevesTotal]: 'nb_eleves_total',
+	[COMMUNES_COLUMNS.NbElevesPrimaires]: 'nb_eleves_primaires',
+	[COMMUNES_COLUMNS.NbEtablissementsTotal]: 'nb_etablissements_total',
+	[COMMUNES_COLUMNS.NbEtablissementsPrimaires]: 'nb_etablissements_primaires',
+	[COMMUNES_COLUMNS.NbEtablissementsProtegesTotal]: 'nb_etablissements_proteges_total',
+	[COMMUNES_COLUMNS.NbEtablissementsProtegesPrimaires]: 'nb_etablissements_proteges_primaires',
+	[COMMUNES_COLUMNS.SurfaceExploitableMaxTotal]: 'surface_exploitable_max_total',
+	[COMMUNES_COLUMNS.SurfaceExploitableMaxPrimaires]: 'surface_exploitable_max_primaires',
+	[COMMUNES_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
+	[COMMUNES_COLUMNS.PotentielSolairePrimaires]: 'potentiel_solaire_primaires',
+	[COMMUNES_COLUMNS.PotentielNbFoyersTotal]: 'potentiel_nb_foyers_total',
+	[COMMUNES_COLUMNS.PotentielNbFoyersPrimaires]: 'potentiel_nb_foyers_primaires',
+	[COMMUNES_COLUMNS.TopEtablissementsTotal]: 'top_etablissements_total',
+	[COMMUNES_COLUMNS.TopEtablissementsPrimaires]: 'top_etablissements_primaires',
+	[COMMUNES_COLUMNS.NbEtablissementsParNiveauPotentielTotal]:
+		'nb_etablissements_par_niveau_potentiel_total',
+	[COMMUNES_COLUMNS.NbEtablissementsParNiveauPotentielPrimaires]:
+		'nb_etablissements_par_niveau_potentiel_primaires',
+} as const satisfies Partial<{
+	[K in CommuneColumnValues]: keyof Commune;
+}>;
+
+/**
+ * Mapping of communes columns to CommuneFeatureProperties properties for GeoJSON.
+ */
 export const COMMUNES_GEOJSON_MAPPING = {
-	[COMMUNES_COLUMNS.Id]: CommuneFeaturePropertiesKeys.Id,
-	[COMMUNES_COLUMNS.Nom]: CommuneFeaturePropertiesKeys.Nom,
-	[COMMUNES_COLUMNS.CodeDepartement]: CommuneFeaturePropertiesKeys.CodeDepartement,
-	[COMMUNES_COLUMNS.CodeRegion]: CommuneFeaturePropertiesKeys.CodeRegion,
-	[COMMUNES_COLUMNS.PotentielSolaireTotal]: CommuneFeaturePropertiesKeys.PotentielSolaireTotal,
-	[COMMUNES_COLUMNS.PotentielSolaireLycees]: CommuneFeaturePropertiesKeys.PotentielSolaireLycees,
-	[COMMUNES_COLUMNS.PotentielSolaireColleges]:
-		CommuneFeaturePropertiesKeys.PotentielSolaireColleges,
-	[COMMUNES_COLUMNS.PotentielSolairePrimaires]:
-		CommuneFeaturePropertiesKeys.PotentielSolairePrimaires,
-} as const;
+	[COMMUNES_COLUMNS.Id]: 'code_commune',
+	[COMMUNES_COLUMNS.Nom]: 'nom_commune',
+	[COMMUNES_COLUMNS.CodeDepartement]: 'code_departement',
+	[COMMUNES_COLUMNS.CodeRegion]: 'code_region',
+	[COMMUNES_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
+	[COMMUNES_COLUMNS.PotentielSolaireLycees]: 'potentiel_solaire_lycees',
+	[COMMUNES_COLUMNS.PotentielSolaireColleges]: 'potentiel_solaire_colleges',
+	[COMMUNES_COLUMNS.PotentielSolairePrimaires]: 'potentiel_solaire_primaires',
+} as const satisfies Partial<{
+	[K in CommuneColumnValues]: keyof CommuneFeatureProperties;
+}>;

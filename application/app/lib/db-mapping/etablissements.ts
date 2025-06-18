@@ -1,10 +1,10 @@
-import {
-	EtablissementFeaturePropertiesKeys,
-	EtablissementPropertiesKeys,
-} from '../../models/etablissements';
+import { Etablissement, EtablissementFeatureProperties } from '@/app/models/etablissements';
 
 export const ETABLISSEMENTS_TABLE = 'etablissements';
 
+/**
+ * DB column names for the etablissements table.
+ */
 export const ETABLISSEMENTS_COLUMNS = {
 	Id: 'identifiant_de_l_etablissement',
 	Nom: 'nom_etablissement',
@@ -29,36 +29,48 @@ export const ETABLISSEMENTS_COLUMNS = {
 	Geometry: 'geom',
 } as const;
 
-export const ETABLISSEMENTS_MAPPING = {
-	[ETABLISSEMENTS_COLUMNS.Id]: EtablissementPropertiesKeys.Id,
-	[ETABLISSEMENTS_COLUMNS.Nom]: EtablissementPropertiesKeys.Nom,
-	[ETABLISSEMENTS_COLUMNS.Type]: EtablissementPropertiesKeys.Type,
-	[ETABLISSEMENTS_COLUMNS.LibelleNature]: EtablissementPropertiesKeys.LibelleNature,
-	[ETABLISSEMENTS_COLUMNS.CodeCommune]: EtablissementPropertiesKeys.CodeCommune,
-	[ETABLISSEMENTS_COLUMNS.NomCommune]: EtablissementPropertiesKeys.NomCommune,
-	[ETABLISSEMENTS_COLUMNS.CodeDepartement]: EtablissementPropertiesKeys.CodeDepartement,
-	[ETABLISSEMENTS_COLUMNS.LibelleDepartement]: EtablissementPropertiesKeys.LibelleDepartement,
-	[ETABLISSEMENTS_COLUMNS.CodeRegion]: EtablissementPropertiesKeys.CodeRegion,
-	[ETABLISSEMENTS_COLUMNS.LibelleRegion]: EtablissementPropertiesKeys.LibelleRegion,
-	[ETABLISSEMENTS_COLUMNS.SurfaceExploitableMax]:
-		EtablissementPropertiesKeys.SurfaceExploitableMax,
-	[ETABLISSEMENTS_COLUMNS.PotentielSolaire]: EtablissementPropertiesKeys.PotentielSolaire,
-	[ETABLISSEMENTS_COLUMNS.PotentielNbFoyers]: EtablissementPropertiesKeys.PotentielNbFoyers,
-	[ETABLISSEMENTS_COLUMNS.Protection]: EtablissementPropertiesKeys.Protection,
-	[ETABLISSEMENTS_COLUMNS.NbEleves]: EtablissementPropertiesKeys.NbEleves,
-	[ETABLISSEMENTS_COLUMNS.Adresse1]: EtablissementPropertiesKeys.Adresse1,
-	[ETABLISSEMENTS_COLUMNS.Adresse2]: EtablissementPropertiesKeys.Adresse2,
-	[ETABLISSEMENTS_COLUMNS.Adresse3]: EtablissementPropertiesKeys.Adresse3,
-	[ETABLISSEMENTS_COLUMNS.CodePostal]: EtablissementPropertiesKeys.CodePostal,
-	[ETABLISSEMENTS_COLUMNS.NiveauPotentiel]: EtablissementPropertiesKeys.NiveauPotentiel,
-} as const;
+type EtablissementColumnValues =
+	(typeof ETABLISSEMENTS_COLUMNS)[keyof typeof ETABLISSEMENTS_COLUMNS];
 
+/**
+ * Mapping of etablissements columns to Etablissement properties.
+ */
+export const ETABLISSEMENTS_MAPPING = {
+	[ETABLISSEMENTS_COLUMNS.Id]: 'identifiant_de_l_etablissement',
+	[ETABLISSEMENTS_COLUMNS.Nom]: 'nom_etablissement',
+	[ETABLISSEMENTS_COLUMNS.Type]: 'type_etablissement',
+	[ETABLISSEMENTS_COLUMNS.LibelleNature]: 'libelle_nature',
+	[ETABLISSEMENTS_COLUMNS.CodeCommune]: 'code_commune',
+	[ETABLISSEMENTS_COLUMNS.NomCommune]: 'nom_commune',
+	[ETABLISSEMENTS_COLUMNS.CodeDepartement]: 'code_departement',
+	[ETABLISSEMENTS_COLUMNS.LibelleDepartement]: 'libelle_departement',
+	[ETABLISSEMENTS_COLUMNS.CodeRegion]: 'code_region',
+	[ETABLISSEMENTS_COLUMNS.LibelleRegion]: 'libelle_region',
+	[ETABLISSEMENTS_COLUMNS.SurfaceExploitableMax]: 'surface_exploitable_max',
+	[ETABLISSEMENTS_COLUMNS.PotentielSolaire]: 'potentiel_solaire',
+	[ETABLISSEMENTS_COLUMNS.PotentielNbFoyers]: 'potentiel_nb_foyers',
+	[ETABLISSEMENTS_COLUMNS.Protection]: 'protection',
+	[ETABLISSEMENTS_COLUMNS.NbEleves]: 'nb_eleves',
+	[ETABLISSEMENTS_COLUMNS.Adresse1]: 'adresse_1',
+	[ETABLISSEMENTS_COLUMNS.Adresse2]: 'adresse_2',
+	[ETABLISSEMENTS_COLUMNS.Adresse3]: 'adresse_3',
+	[ETABLISSEMENTS_COLUMNS.CodePostal]: 'code_postal',
+	[ETABLISSEMENTS_COLUMNS.NiveauPotentiel]: 'niveau_potentiel',
+} as const satisfies Partial<{
+	[K in EtablissementColumnValues]: keyof Etablissement;
+}>;
+
+/**
+ * Mapping of etablissements columns to EtablissementFeatureProperties properties for GeoJSON.
+ */
 export const ETABLISSEMENTS_GEOJSON_MAPPING = {
-	[ETABLISSEMENTS_COLUMNS.Id]: EtablissementFeaturePropertiesKeys.Id,
-	[ETABLISSEMENTS_COLUMNS.Nom]: EtablissementFeaturePropertiesKeys.Nom,
-	[ETABLISSEMENTS_COLUMNS.CodeCommune]: EtablissementFeaturePropertiesKeys.CodeCommune,
-	[ETABLISSEMENTS_COLUMNS.CodeDepartement]: EtablissementFeaturePropertiesKeys.CodeDepartement,
-	[ETABLISSEMENTS_COLUMNS.CodeRegion]: EtablissementFeaturePropertiesKeys.CodeRegion,
-	[ETABLISSEMENTS_COLUMNS.PotentielSolaire]: EtablissementFeaturePropertiesKeys.PotentielSolaire,
-	[ETABLISSEMENTS_COLUMNS.Protection]: EtablissementFeaturePropertiesKeys.Protection,
-} as const;
+	[ETABLISSEMENTS_COLUMNS.Id]: 'identifiant_de_l_etablissement',
+	[ETABLISSEMENTS_COLUMNS.Nom]: 'nom_etablissement',
+	[ETABLISSEMENTS_COLUMNS.CodeCommune]: 'code_commune',
+	[ETABLISSEMENTS_COLUMNS.CodeDepartement]: 'code_departement',
+	[ETABLISSEMENTS_COLUMNS.CodeRegion]: 'code_region',
+	[ETABLISSEMENTS_COLUMNS.PotentielSolaire]: 'potentiel_solaire',
+	[ETABLISSEMENTS_COLUMNS.Protection]: 'protection',
+} as const satisfies Partial<{
+	[K in EtablissementColumnValues]: keyof EtablissementFeatureProperties;
+}>;

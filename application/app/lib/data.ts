@@ -1,23 +1,14 @@
 import { DuckDBPreparedStatement } from '@duckdb/node-api';
 
-import {
-	Commune,
-	CommuneFeature,
-	CommunePropertiesKeys,
-	CommunesGeoJSON,
-} from '../models/communes';
-import {
-	Departement,
-	DepartementPropertiesKeys,
-	DepartementsGeoJSON,
-} from '../models/departements';
+import { Commune, CommuneFeature, CommunesGeoJSON } from '../models/communes';
+import { Departement, DepartementsGeoJSON } from '../models/departements';
 import {
 	Etablissement,
 	EtablissementWithLatLng,
 	EtablissementsGeoJSON,
 } from '../models/etablissements';
-import { Region, RegionPropertiesKeys } from '../models/regions';
-import { SearchPropertiesKeys, SearchResult } from '../models/search';
+import { Region } from '../models/regions';
+import { SearchResult } from '../models/search';
 import { isCodePostal, sanitizeString } from '../utils/string-utils';
 import {
 	COMMUNES_COLUMNS,
@@ -432,17 +423,13 @@ export async function fetchCommuneById(id: string): Promise<Commune | null> {
 		// TODO: check if duckdb can do this
 		return {
 			...result,
-			[CommunePropertiesKeys.TopEtablissementsTotal]: JSON.parse(
-				result[CommunePropertiesKeys.TopEtablissementsTotal] as string,
+			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
+			top_etablissements_primaires: JSON.parse(result.top_etablissements_primaires as string),
+			nb_etablissements_par_niveau_potentiel_total: JSON.parse(
+				result.nb_etablissements_par_niveau_potentiel_total as string,
 			),
-			[CommunePropertiesKeys.TopEtablissementsPrimaires]: JSON.parse(
-				result[CommunePropertiesKeys.TopEtablissementsPrimaires] as string,
-			),
-			[CommunePropertiesKeys.NbEtablissementsParNiveauPotentielTotal]: JSON.parse(
-				result[CommunePropertiesKeys.NbEtablissementsParNiveauPotentielTotal] as string,
-			),
-			[CommunePropertiesKeys.NbEtablissementsParNiveauPotentielPrimaires]: JSON.parse(
-				result[CommunePropertiesKeys.NbEtablissementsParNiveauPotentielPrimaires] as string,
+			nb_etablissements_par_niveau_potentiel_primaires: JSON.parse(
+				result.nb_etablissements_par_niveau_potentiel_primaires as string,
 			),
 		} as Commune;
 	} catch (error) {
@@ -545,19 +532,13 @@ export async function fetchDepartementById(id: string): Promise<Departement | nu
 		// TODO: check if duckdb can do this
 		return {
 			...result,
-			[DepartementPropertiesKeys.TopEtablissementsTotal]: JSON.parse(
-				result[DepartementPropertiesKeys.TopEtablissementsTotal] as string,
+			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
+			top_etablissements_colleges: JSON.parse(result.top_etablissements_colleges as string),
+			nb_etablissements_par_niveau_potentiel_total: JSON.parse(
+				result.nb_etablissements_par_niveau_potentiel_total as string,
 			),
-			[DepartementPropertiesKeys.TopEtablissementsColleges]: JSON.parse(
-				result[DepartementPropertiesKeys.TopEtablissementsColleges] as string,
-			),
-			[DepartementPropertiesKeys.NbEtablissementsParNiveauPotentielTotal]: JSON.parse(
-				result[DepartementPropertiesKeys.NbEtablissementsParNiveauPotentielTotal] as string,
-			),
-			[DepartementPropertiesKeys.NbEtablissementsParNiveauPotentielColleges]: JSON.parse(
-				result[
-					DepartementPropertiesKeys.NbEtablissementsParNiveauPotentielColleges
-				] as string,
+			nb_etablissements_par_niveau_potentiel_colleges: JSON.parse(
+				result.nb_etablissements_par_niveau_potentiel_colleges as string,
 			),
 		} as Departement;
 	} catch (error) {
@@ -607,17 +588,13 @@ export async function fetchRegionById(id: string): Promise<Region | null> {
 		// TODO: check if duckdb can do this
 		return {
 			...result,
-			[RegionPropertiesKeys.TopEtablissementsTotal]: JSON.parse(
-				result[RegionPropertiesKeys.TopEtablissementsTotal] as string,
+			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
+			top_etablissements_lycees: JSON.parse(result.top_etablissements_lycees as string),
+			nb_etablissements_par_niveau_potentiel_total: JSON.parse(
+				result.nb_etablissements_par_niveau_potentiel_total as string,
 			),
-			[RegionPropertiesKeys.TopEtablissementsLycees]: JSON.parse(
-				result[RegionPropertiesKeys.TopEtablissementsLycees] as string,
-			),
-			[RegionPropertiesKeys.NbEtablissementsParNiveauPotentielTotal]: JSON.parse(
-				result[RegionPropertiesKeys.NbEtablissementsParNiveauPotentielTotal] as string,
-			),
-			[RegionPropertiesKeys.NbEtablissementsParNiveauPotentielLycees]: JSON.parse(
-				result[RegionPropertiesKeys.NbEtablissementsParNiveauPotentielLycees] as string,
+			nb_etablissements_par_niveau_potentiel_lycees: JSON.parse(
+				result.nb_etablissements_par_niveau_potentiel_lycees as string,
 			),
 		} as Region;
 	} catch (error) {
@@ -656,7 +633,7 @@ export async function fetchSearchResults(
 			FROM ${REF_CODE_POSTAL_TABLE} refCp
 			INNER JOIN ${SEARCH_VIEW_TABLE} sv ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'communes' AND sv.${SEARCH_VIEW_COLUMNS.Id} = refCp.${REF_CODE_POSTAL_COLUMNS.CodeInsee}
 			WHERE refCp.${REF_CODE_POSTAL_COLUMNS.CodePostal} like $1
-			ORDER BY sv.${SearchPropertiesKeys.Libelle}
+			ORDER BY sv.${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Libelle]}
 			LIMIT $2;
 			`,
 			);
