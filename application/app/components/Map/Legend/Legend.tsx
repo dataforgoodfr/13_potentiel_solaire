@@ -18,14 +18,18 @@ function getLabel(unit: string) {
 	return `Potentiel solaire ${unit}/an`;
 }
 
-type Legend = { thresholds: Thresholds };
+type LegendProps = { thresholds: Thresholds };
 
-export default function Legend({ thresholds }: Legend) {
+export default function Legend({ thresholds }: LegendProps) {
 	const lastThreshold = Number(Object.keys(thresholds).slice(-1)[0]);
 	const lastThresholdUnit = getClosestEnergyUnit(lastThreshold);
 
 	return (
-		<div className='pointer-events-none flex flex-grow-0 flex-col items-center rounded-md bg-blue p-2 text-sm text-white'>
+		<div
+			className='pointer-events-none flex flex-grow-0 flex-col items-center rounded-md bg-blue p-2 text-sm text-white'
+			role='img'
+			aria-label={`Légende du potentiel solaire en ${lastThresholdUnit}/an`}
+		>
 			{getLabel(lastThresholdUnit)}
 			<LegendColorScale thresholds={thresholds} unit={lastThresholdUnit} />
 		</div>

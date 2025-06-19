@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,14 +16,26 @@ import {
 
 export default function Footer() {
 	const [isOpen, setIsOpen] = useState(false);
-	/* 	const contentRef = useRef<HTMLDivElement>(null);
-	const [maxHeight, setMaxHeight] = useState('0px');
+	const firstFocusableRef = useRef<HTMLHeadingElement>(null);
 
 	useEffect(() => {
-		if (contentRef.current) {
-			setMaxHeight(isOpen ? `${contentRef.current.scrollHeight}px` : '0px');
+		if (isOpen && firstFocusableRef.current) {
+			firstFocusableRef.current.focus();
 		}
-	}, [isOpen]); */
+	}, [isOpen]);
+
+	useEffect(() => {
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape' && isOpen) {
+				setIsOpen(false);
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [isOpen]);
 
 	return (
 		<footer className='fixed bottom-0 z-40 w-full bg-blue text-white' id='footer'>
@@ -47,11 +59,17 @@ export default function Footer() {
 
 			{isOpen && (
 				<div className='max-h-[75vh] overflow-y-auto bg-blue transition-all duration-500 ease-in-out'>
-					<div className='mx-auto max-w-screen-xl px-6 pb-6 pt-4'>
+					<div className='mx-auto max-w-screen-xl px-6 pb-6 pt-4' aria-live='polite'>
 						{/* Open view */}
 						<div className='flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between'>
 							<div className='text-center lg:max-w-xl lg:text-left'>
-								<h2 className='text-lg font-bold'>{footerDescription.title}</h2>
+								<h2
+									ref={firstFocusableRef}
+									tabIndex={-1}
+									className='text-lg font-bold outline-none'
+								>
+									{footerDescription.title}
+								</h2>
 								<div className='mx-auto my-2 h-[1px] w-5 bg-green lg:mx-0'></div>
 								<br />
 								<p className='text-left text-sm leading-relaxed'>
