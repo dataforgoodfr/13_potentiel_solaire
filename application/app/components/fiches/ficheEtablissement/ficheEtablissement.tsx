@@ -15,7 +15,7 @@ interface FicheEtablissementProps {
 
 export default function FicheEtablissement({ etablissement }: FicheEtablissementProps) {
 	return (
-		<div>
+		<main aria-label={`Fiche de l’établissement ${etablissement}`}>
 			<EtablissementCard {...etablissement} />
 			<br />
 			<ActionButtons />
@@ -35,6 +35,6 @@ export default function FicheEtablissement({ etablissement }: FicheEtablissement
 			</div>
 			<hr className='my-4' />
 			<AccordionCard />
-		</div>
+		</main>
 	);
 }

@@ -50,11 +50,17 @@ const ActionButtons = () => {
 			<button
 				onClick={handleShare}
 				title='Partager'
-				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+				aria-label='Partager la page'
+				className='focus-visible:outline-green-500 rounded p-2 text-darkgreen transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
 			>
 				<Share2 className='h-5 w-5' />
 			</button>
-			<button className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'>
+			<button
+				title='Télécharger'
+				aria-label='Télécharger les données'
+				className='focus-visible:outline-green-500 rounded p-2 text-darkgreen transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+				// TODO: Ajouter logique de téléchargement
+			>
 				<Download />
 			</button>
 		</div>

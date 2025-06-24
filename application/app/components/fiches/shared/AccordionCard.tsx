@@ -3,31 +3,9 @@ import { ACTION_LINKS } from '../../content/actions';
 const ACTIONS = [
 	{
 		title: 'Je suis un élu et je veux agir',
+		id: 'elu',
 		content: (
 			<>
-				{/* TODO: use in page action instead */}
-				{/* <p>Merci pour votre intérêt pour la transition énergétique de votre territoire !</p>
-				<p>
-					Les toitures des bâtiments scolaires offrent une importante opportunité, avec un
-					impact environnemental minime, pour développer les énergies renouvelables sur
-					votre territoire.  Ces installations présentent également des vertus
-					pédagogiques pour sensibiliser et former les générations futures aux enjeux de
-					transition énergétique.  
-				</p>
-				<p>
-					C’est aussi, une fois l’investissement remboursé, une opportunité de réduire les
-					factures énergétiques de la commune tout en réduisant son empreinte carbone !
-				</p>
-				<br />
-				<p>
-					A Greenpeace France, nous pensons que pour réussir la transition énergétique des
-					bâtiments publics, ces projets solaires doivent s’inscrire dans une réflexion
-					plus générale sur l’état du bâti. Pour les bâtiments passoires énergétiques il
-					est indispensable de les rénover de façon performante avant d’y installer des
-					panneaux solaires.
-				</p>
-				<br /> */}
-
 				<ul className='list-inside list-disc'>
 					<li className='mb-8 mt-2'>
 						De nombreuses communes nous ont fait remonter leurs difficultés à financer
@@ -97,27 +75,9 @@ const ACTIONS = [
 	},
 	{
 		title: 'Je suis un particulier et je veux agir',
+		id: 'particulier',
 		content: (
 			<>
-				{/* TODO: use in page action instead */}
-				{/* <p>Merci pour votre intérêt pour la transition énergétique de votre territoire !</p>
-				<p>
-					L’école est l’un des bâtiments essentiels de notre territoire : elle forme les
-					générations futures, est un lieu de rencontres, d’égalité et de mixité sociale. 
-				</p>
-				<p>
-					Votre commune a donc un devoir d’action et d’exemplarité sur les écoles : trop
-					d’écoles ont un bâti dégradé, inadapté à des conditions d’apprentissage propices
-					à la réussite scolaire et qui peut engendrer des problèmes de santé (asthmes,
-					allergies, problèmes respiratoires, malaises, …).
-				</p>
-				<p>
-					C’est pourquoi nous pensons que la transition des écoles doit être un des
-					piliers d’action de votre mairie : rénovation des bâtiments scolaires, pose de
-					panneaux solaires sur les toitures, végétalisation des cours, sensibilisation à
-					la transition écologique, …
-				</p>
-				<br /> */}
 				<p className='font-bold'>
 					Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur
 					vos territoires :
@@ -182,16 +142,35 @@ const ACTIONS = [
 const AccordionCard = () => {
 	return (
 		<div>
-			{ACTIONS.map(({ title, content }) => (
-				<details
-					key={title}
-					className='mb-2 rounded-md border bg-blue p-2 text-sm text-white'
-				>
-					<summary className='cursor-pointer font-bold'>{title}</summary>
-					<br />
-					{content}
-				</details>
-			))}
+			{ACTIONS.map(({ title, content, id }) => {
+				const summaryId = `summary-${id}`;
+				const contentId = `content-${id}`;
+
+				return (
+					<details
+						key={id}
+						className='mb-2 rounded-md border bg-blue p-2 text-sm text-white'
+					>
+						<summary
+							id={summaryId}
+							role='button'
+							aria-controls={contentId}
+							className='cursor-pointer font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-white'
+						>
+							{title}
+						</summary>
+
+						<div
+							id={contentId}
+							role='region'
+							aria-labelledby={summaryId}
+							className='mt-3'
+						>
+							{content}
+						</div>
+					</details>
+				);
+			})}
 		</div>
 	);
 };

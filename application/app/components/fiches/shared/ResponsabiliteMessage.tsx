@@ -24,8 +24,8 @@ export default function ResponsabiliteMessage({ niveau }: { niveau: Niveau }) {
 	const contenu = RESPONSABILITIES_TEXTS[niveau];
 
 	return (
-		<div className='bg-gray-50 mb-4 flex gap-4 rounded-lg p-2 text-grey'>
-			<Info size={72} />
+		<div role='note' className='bg-gray-50 mb-4 flex gap-4 rounded-lg p-2 text-grey'>
+			<Info size={72} aria-hidden='true' />
 			<div>
 				<p className='text-sm'>{contenu.principal}</p>
 				<p className='text-xs italic'>{contenu.autres}</p>

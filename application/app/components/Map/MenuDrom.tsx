@@ -39,7 +39,17 @@ function MenuDrom() {
 
 	return (
 		<div className='mt-2 flex w-full max-w-sm flex-row justify-start gap-2 bg-transparent md:justify-center'>
-			<button onClick={() => setIsOpen(!isOpen)} className={buttonStyle}>
+			<button
+				onClick={() => setIsOpen(!isOpen)}
+				className={buttonStyle}
+				aria-expanded={isOpen}
+				aria-controls='menu-drom-options'
+				aria-label={
+					isOpen
+						? 'Fermer le menu DROM'
+						: `Voir les établissements depuis ${activeLocation.name}`
+				}
+			>
 				{isOpen ? (
 					<X color='white' />
 				) : (
@@ -52,12 +62,12 @@ function MenuDrom() {
 				)}
 			</button>
 			{isOpen && (
-				<div className='flex gap-2'>
+				<div id='menu-drom-options' className='flex gap-2'>
 					{MENU_DROM_LOCATIONS.map((location) => (
 						<button
 							key={location.codeRegion}
 							onClick={() => handleTabChange(location)}
-							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : buttonHoverStyle}`}
+							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : ''} ${buttonHoverStyle}`}
 							aria-label={`Go to ${location.name}`}
 						>
 							<Image src={location.icon} alt={location.name} width={24} height={24} />

@@ -19,17 +19,26 @@ const TopCard = ({ topEtablissements }: Props) => {
 	}
 
 	return (
-		<div>
-			<div className='flex gap-1 text-grey'>
-				<Sun />
-				<p>Top 3 potentiel solaire :</p>
+		<div aria-labelledby='top-solar-title'>
+			<div className='flex items-center gap-2 text-grey'>
+				<Sun aria-hidden='true' />
+				<h2 id='top-solar-title' className='text-base font-semibold text-grey'>
+					Top 3 potentiel solaire :
+				</h2>
 			</div>
-			<ul className='list-none space-y-1 pl-0 font-bold text-darkgreen'>
+
+			<ol
+				className='list-none space-y-1 font-bold text-darkgreen'
+				aria-label='Établissements classés par potentiel solaire décroissant'
+			>
 				{topEtablissements.slice(0, 3).map((etab, index) => (
 					<li key={etab.id}>
-						{medals[index]}{' '}
+						<span aria-label={`Rang ${index + 1}`} role='img'>
+							{medals[index]}
+						</span>{' '}
 						<Link
 							href={`/etablissement/${etab.id}`}
+							className='underline decoration-dotted decoration-2 underline-offset-4 transition hover:text-primary focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue'
 							target='_blank'
 							rel='noopener noreferrer'
 							className='underline decoration-dotted decoration-2 underline-offset-4 transition hover:text-primary'
@@ -38,7 +47,7 @@ const TopCard = ({ topEtablissements }: Props) => {
 						</Link>
 					</li>
 				))}
-			</ul>
+			</ol>
 		</div>
 	);
 };

@@ -13,10 +13,9 @@ function getIconFromResult(source: SearchResult['source']) {
 		case 'communes':
 		case 'departements':
 		case 'regions':
-			return <MapPin />;
+			return <MapPin aria-hidden='true' focusable='false' />;
 		case 'etablissements':
-			return <School />;
-
+			return <School aria-hidden='true' focusable='false' />;
 		default:
 			throw new Error('Unexpected type - ' + source);
 	}
@@ -28,28 +27,32 @@ type ResultsListProps = {
 };
 
 export default function Suggestions({ items, onSelect }: ResultsListProps) {
-	const commandItems = items.map((item) => {
-		const { id, libelle, source } = item;
-		const icon = getIconFromResult(source);
+	return (
+		<div role='listbox' aria-label='Suggestions'>
+			{items.map((item) => {
+				const { id, libelle, source } = item;
+				const icon = getIconFromResult(source);
 
-		return (
-			<CommandItem
-				key={id}
-				className='flex grow cursor-pointer'
-				onSelect={() => onSelect(item)}
-			>
-				<div className='flex items-center gap-2'>
-					{icon}
-					<div>
-						{libelle}{' '}
-						{source === 'etablissements'
-							? `(${item.extra_data.code_postal})`
-							: `(${SOURCE_TO_LABEL[source]})`}
-					</div>
-				</div>
-			</CommandItem>
-		);
-	});
-
-	return commandItems;
+				return (
+					<CommandItem
+						key={id}
+						className='flex grow cursor-pointer'
+						onSelect={() => onSelect(item)}
+						role='option'
+						tabIndex={0}
+					>
+						<div className='flex items-center gap-2'>
+							{icon}
+							<div>
+								{libelle}{' '}
+								{source === 'etablissements'
+									? `(${item.extra_data.code_postal})`
+									: `(${SOURCE_TO_LABEL[source]})`}
+							</div>
+						</div>
+					</CommandItem>
+				);
+			})}
+		</div>
+	);
 }

@@ -14,9 +14,11 @@ export default function MapWithFiches() {
 	const [isFicheOpen] = useIsFicheOpen();
 
 	return (
-		<div className='flex flex-1 flex-col'>
+		<main className='flex flex-1 flex-col'>
 			<div className='relative flex-1'>
-				<Suspense>
+				<Suspense
+					fallback={<span className='sr-only'>Chargement de la carte en cours…</span>}
+				>
 					<HomeOverlay />
 					<FranceMap />
 				</Suspense>
@@ -29,6 +31,6 @@ export default function MapWithFiches() {
 					etablissement={etablissement ?? undefined}
 				/>
 			)}
-		</div>
+		</main>
 	);
 }

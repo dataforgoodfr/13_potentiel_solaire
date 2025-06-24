@@ -52,18 +52,25 @@ export default function Fiches({ etablissement, commune, departement, region }: 
 
 	return (
 		<div
-			className={`animate-slide-in-bottom md:animate-slide-in-right fixed right-0 top-0 z-50 h-full w-full overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:rounded-md`}
+			role='region'
+			aria-label={`Fiche ${activeTab}`}
+			className={`fixed right-0 top-0 z-50 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md`}
 		>
 			<button
 				onClick={handleClose}
+				aria-label='Fermer la fiche'
 				className='absolute left-1 top-2 text-xl text-grey hover:text-black'
 			>
-				<X />
+				<X aria-hidden='true' />
 			</button>
 			<div className='flex gap-1 pl-2'>
 				{filteredTabs.map((tab) => (
 					<button
 						key={tab.id}
+						role='tab'
+						id={`tab-${tab.id}`}
+						aria-selected={activeTab === tab.id}
+						aria-controls={`tabpanel-${tab.id}`}
 						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
 						style={{ flexBasis: `${(1 / filteredTabs.length) * 100}%` }}
 						onClick={() => setActiveTab(tab.id)}
@@ -72,7 +79,12 @@ export default function Fiches({ etablissement, commune, departement, region }: 
 					</button>
 				))}
 			</div>
-			<div className='p-4'>
+			<div
+				className='p-4'
+				role='tabpanel'
+				id={`tabpanel-${activeTab}`}
+				aria-labelledby={`tab-${activeTab}`}
+			>
 				{activeTab === 'region' && region && <FicheRegion region={region} />}
 				{activeTab === 'departement' && departement && (
 					<FicheDepartement departement={departement} />

@@ -392,7 +392,19 @@ export default function FranceMap() {
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
 	return (
-		<div className='relative flex h-full w-full flex-col'>
+		<div
+			role='application'
+			aria-label='Carte interactive de la France présentant les régions, départements, communes et établissements'
+      aria-describedby='map-description'
+			className='relative flex h-full w-full flex-col'
+		>
+			<div id='map-description' className='sr-only'>
+				Cette carte interactive montre le potentiel solaire des toits des établissements
+				scolaires à travers la France métropolitaine et les DROM. Vous pouvez explorer les
+				données visuellement ou accéder aux fiches détaillées via la barre de recherche. Les
+				informations sont également accessibles sans la carte.
+			</div>
+
 			<MapFromReactMapLibre
 				ref={mapRef}
 				initialViewState={initialViewState}

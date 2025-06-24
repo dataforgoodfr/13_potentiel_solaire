@@ -31,7 +31,7 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 	};
 
 	return (
-		<div>
+		<main aria-label={`Fiche de la région ${region.libelle_region}`}>
 			<CollectiviteHeaderCard type='region' nom={region.libelle_region} />
 			<ActionButtons />
 			<hr className='my-4' />
@@ -86,6 +86,6 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 			)}
 			<br />
 			<AccordionCard />
-		</div>
+		</main>
 	);
 }

@@ -32,18 +32,17 @@ interface NbEtablissementsProps {
 const NbEtablissements: React.FC<NbEtablissementsProps> = ({ niveau, nbEtablissements }) => {
 	return (
 		<>
-			<div className='flex gap-1 text-grey'>
-				<University />
-				<p className='text-sm font-bold'>Nombre total {getNiveauLabel(niveau)} :</p>
-			</div>
-			<p className='font-bold text-grey'>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<span className='text-3xl'>
+			<dl className='text-grey'>
+				<div className='flex gap-1'>
+					<University aria-hidden='true' />
+					<dt className='text-sm font-bold'>Nombre total {getNiveauLabel(niveau)} :</dt>
+				</div>
+				<dd className='pl-6 text-3xl font-bold'>
 					{nbEtablissements !== undefined && nbEtablissements !== null
 						? nbEtablissements
 						: UNKNOWN_TEXTS.nbEtablissements}
-				</span>
-			</p>
+				</dd>
+			</dl>
 		</>
 	);
 };

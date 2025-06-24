@@ -21,14 +21,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en' className='h-full'>
+		<html lang='fr' className='h-full'>
 			<body className='flex min-h-screen flex-col'>
 				<Suspense>
 					<InitialViewProvider>
 						<header className='sticky top-0 z-50'>
 							<NavBar />
 						</header>
-						<main className='flex flex-1 flex-col bg-blue'>
+						<main className='flex flex-1 flex-col bg-blue' role="main">
 							<Providers>{children}</Providers>
 						</main>
 					</InitialViewProvider>

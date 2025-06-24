@@ -31,7 +31,7 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 	};
 
 	return (
-		<div>
+		<main aria-label={`Fiche du département ${departement.libelle_departement}`}>
 			<CollectiviteHeaderCard type='departement' nom={departement.libelle_departement} />
 			<ActionButtons />
 			<hr className='my-4' />
@@ -85,6 +85,6 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 			)}
 			<br />
 			<AccordionCard />
-		</div>
+		</main>
 	);
 }
