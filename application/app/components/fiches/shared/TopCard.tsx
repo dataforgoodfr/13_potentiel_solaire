@@ -30,7 +30,6 @@ const TopCard = ({ topEtablissements }: Props) => {
 						{medals[index]}{' '}
 						<Link
 							href={`/etablissement/${etab.id}`}
-							rel='noopener noreferrer'
 							className='underline decoration-dotted decoration-2 underline-offset-4 transition hover:text-primary'
 						>
 							{etab.libelle}
