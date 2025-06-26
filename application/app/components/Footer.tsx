@@ -7,23 +7,10 @@ import Link from 'next/link';
 
 import { ArrowUpCircle } from 'lucide-react';
 
-import {
-	footerDescription,
-	footerLinks,
-	footerText,
-	partners,
-} from '../components/content/FooterContent';
+import { footerDescription, footerLinks, footerText, partners } from './content/footerContent';
 
 export default function Footer() {
 	const [isOpen, setIsOpen] = useState(false);
-	/* 	const contentRef = useRef<HTMLDivElement>(null);
-	const [maxHeight, setMaxHeight] = useState('0px');
-
-	useEffect(() => {
-		if (contentRef.current) {
-			setMaxHeight(isOpen ? `${contentRef.current.scrollHeight}px` : '0px');
-		}
-	}, [isOpen]); */
 
 	return (
 		<footer className='fixed bottom-0 z-40 w-full bg-blue text-white' id='footer'>
