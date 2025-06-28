@@ -3,6 +3,9 @@
 # Get parent directory of this script
 APPLICATION_DIR=$(dirname "$(readlink -f "$0")")
 
+# Move to the application directory
+cd "$APPLICATION_DIR" || exit 1
+
 # Get the current date
 ALGORITHME_VERSION="0.1.0"
 CURRENT_DATE=$(date +%Y%m%d)
