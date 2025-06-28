@@ -1,0 +1,22 @@
+name: build docker for application
+
+on:
+  pull_request:
+  push:
+    branches: [main, feature/add_action_for_app_ci]
+
+jobs:
+  ci-application:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./application
+      GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+    defaults:
+      run:
+        shell: bash -l {0}
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build and publish Docker image
+      run: bash ./publish_image.sh
