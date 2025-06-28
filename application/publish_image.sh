@@ -6,15 +6,11 @@ APPLICATION_DIR=$(dirname "$(readlink -f "$0")")
 # Move to the application directory
 cd "$APPLICATION_DIR" || exit 1
 
-# Get the current date
-ALGORITHME_VERSION="0.1.0"
-CURRENT_DATE=$(date +%Y%m%d)
+# Image name
 IMAGE_NAME="ghcr.io/dataforgoodfr/13_potentiel_solaire_app"
-TAG="$ALGORITHME_VERSION.$CURRENT_DATE"
 
 # Build docker image
 docker build \
-	-t $IMAGE_NAME:$TAG \
     -t $IMAGE_NAME:latest \
 	--build-arg DATABASE_PATH=/app/database/data.duckdb \
 	-f $APPLICATION_DIR/Dockerfile .
