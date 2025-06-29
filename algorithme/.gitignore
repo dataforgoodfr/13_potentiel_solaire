@@ -180,3 +180,4 @@ ENR*
 *.json
 *.err
 *.parquet
+/data/results/*.csv
