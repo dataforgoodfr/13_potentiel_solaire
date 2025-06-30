@@ -119,7 +119,7 @@ Visual studio code est recommandé pour le développement de l'application.
 
 ```sh
 # lancer la commande depuis le répertoire application
-docker create --name 13_potentiel_solaire_data_tmp ghcr.io/dataforgoodfr/13_potentiel_solaire_db:0.1.0.20250420 /bin/true && \
+docker create --name 13_potentiel_solaire_data_tmp ghcr.io/dataforgoodfr/13_potentiel_solaire_db:0.1.0.20250629 /bin/true && \
 docker cp 13_potentiel_solaire_data_tmp:/app/output/db/data.duckdb ./database && \
 docker cp 13_potentiel_solaire_data_tmp:/app/output/geojson/. ./public/data && \
 docker rm -f 13_potentiel_solaire_data_tmp
