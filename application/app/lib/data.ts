@@ -606,10 +606,16 @@ export async function fetchRegionById(id: string): Promise<Region | null> {
 // --- Search ----
 
 const DEFAULT_LIMIT = 10;
+/**
+ * Place a limit to avoid querying too many words.
+ * This default value has been set by looking at the maximum number of words in the sanitized_libelle of etablissements (i.e: 24).
+ */
+const MAX_WORDS_LIMIT = 25;
 
 /**
  * Fetch results from the search view.
- * If the query is a code postal, the results will be limited to communes.
+ * If the query is a code postal, the results will be limited to communes by using the ref_code_postal.
+ * The result will be ordered by source (regions, departements, communes, etablissements) and then by libelle.
  * @param query
  * @param limit
  * @returns
@@ -621,7 +627,7 @@ export async function fetchSearchResults(
 	try {
 		const connection = await db.connect();
 
-		let prepared;
+		let prepared: DuckDBPreparedStatement;
 		if (isCodePostal(query)) {
 			prepared = await connection.prepare(
 				`
@@ -638,7 +644,18 @@ export async function fetchSearchResults(
 			`,
 			);
 			prepared.bindVarchar(1, `${query}%`);
+			prepared.bindInteger(2, limit);
 		} else {
+			// Split the query by spaces and build AND conditions for each word
+			const words = sanitizeString(query).toLowerCase().split(/\s+/).filter(Boolean);
+
+			if (words.length > MAX_WORDS_LIMIT) {
+				throw new Error('The query contains too many words.');
+			}
+
+			const whereClauses = words
+				.map((_, idx) => `sv.${SEARCH_VIEW_COLUMNS.SanitizedLibelle} like $${idx + 1}`)
+				.join(' AND ');
 			prepared = await connection.prepare(
 				`
 			SELECT
@@ -647,14 +664,24 @@ export async function fetchSearchResults(
 			sv.${SEARCH_VIEW_COLUMNS.Libelle} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Libelle]}, 
 			sv.${SEARCH_VIEW_COLUMNS.ExtraData} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]}
 			FROM main.${SEARCH_VIEW_TABLE} sv
-			WHERE sv.${SEARCH_VIEW_COLUMNS.SanitizedLibelle} like $1
-			ORDER BY sv.${SEARCH_VIEW_COLUMNS.Libelle}
-			LIMIT $2;
+			WHERE ${whereClauses}
+			ORDER BY 
+				CASE sv.${SEARCH_VIEW_COLUMNS.Source}
+					WHEN 'regions' THEN 1
+					WHEN 'departements' THEN 2
+					WHEN 'communes' THEN 3
+					WHEN 'etablissements' THEN 4
+					ELSE 5
+				END,
+				sv.${SEARCH_VIEW_COLUMNS.Libelle}
+			LIMIT $${words.length + 1};
 			`,
 			);
-			prepared.bindVarchar(1, `%${sanitizeString(query).toLowerCase()}%`);
+			words.forEach((word, idx) => {
+				prepared.bindVarchar(idx + 1, `%${word}%`);
+			});
+			prepared.bindInteger(words.length + 1, limit);
 		}
-		prepared.bindInteger(2, limit);
 
 		const reader = await prepared.runAndReadAll();
 		// TODO - query data with extra_data using duckdb directly
