@@ -153,6 +153,8 @@ export function Autocomplete({
 		onInputChange(value);
 		if (!isPopoverOpen && value.length >= openSuggestionsAtInputLength) {
 			setIsPopoverOpen(true);
+		} else if (isPopoverOpen && value.length < openSuggestionsAtInputLength) {
+			setIsPopoverOpen(false);
 		}
 	}
 
@@ -184,7 +186,6 @@ export function Autocomplete({
 							placeholder={placeholder}
 							onKeyDown={relayInputKeyDownToCommand}
 							onChange={onInputValueChange}
-							onClick={() => setIsPopoverOpen(true)}
 							className='pl-8 pr-16 placeholder:truncate'
 						/>
 					</PopoverAnchor>
