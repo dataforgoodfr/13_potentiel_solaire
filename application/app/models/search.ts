@@ -17,8 +17,8 @@ export type EtablissementResult = BaseResult & {
 export type CommuneResult = BaseResult & {
 	source: 'communes';
 	extra_data: {
-		code_region: string;
 		code_departement: string;
+		libelle_departement: string;
 	};
 };
 
