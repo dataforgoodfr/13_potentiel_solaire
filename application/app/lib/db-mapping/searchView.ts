@@ -12,9 +12,8 @@ export const SEARCH_VIEW_COLUMNS = {
 	ExtraData: 'extra_data',
 	ExtraDataNomCommune: 'nom_commune',
 	ExtraDataCodePostal: 'code_postal',
-	ExtraDataCodeRegion: 'code_region',
 	ExtraDataCodeDepartement: 'code_departement',
-	ExtraDataCodeCommune: 'code_commune',
+	ExtraDataLibelleDepartement: 'libelle_departement',
 } as const;
 
 type SearchColumnValues = (typeof SEARCH_VIEW_COLUMNS)[keyof typeof SEARCH_VIEW_COLUMNS];

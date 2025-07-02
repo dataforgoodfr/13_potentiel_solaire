@@ -144,7 +144,14 @@ export function Autocomplete({
 	noOptionsText = DEFAULT_EMPTY_RESULT_TEXT,
 	openSuggestionsAtInputLength = 1,
 }: AutocompleteProps) {
+	/**
+	 * Hidden `CommandInput` ref to relay keydown events to the command list.
+	 */
 	const cmdInputRef = useRef<HTMLInputElement>(null);
+	/**
+	 * Actual form input ref.
+	 */
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
@@ -153,6 +160,8 @@ export function Autocomplete({
 		onInputChange(value);
 		if (!isPopoverOpen && value.length >= openSuggestionsAtInputLength) {
 			setIsPopoverOpen(true);
+		} else if (isPopoverOpen && value.length < openSuggestionsAtInputLength) {
+			setIsPopoverOpen(false);
 		}
 	}
 
@@ -170,6 +179,7 @@ export function Autocomplete({
 
 	function handleClear() {
 		setIsPopoverOpen(false);
+		inputRef.current?.focus();
 		onClear?.();
 	}
 
@@ -180,11 +190,11 @@ export function Autocomplete({
 				<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
 					<PopoverAnchor>
 						<Input
+							ref={inputRef}
 							value={inputValue}
 							placeholder={placeholder}
 							onKeyDown={relayInputKeyDownToCommand}
 							onChange={onInputValueChange}
-							onClick={() => setIsPopoverOpen(true)}
 							className='pl-8 pr-16 placeholder:truncate'
 						/>
 					</PopoverAnchor>
