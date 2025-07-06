@@ -31,8 +31,9 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 	};
 
 	return (
-		<div>
+		<article aria-label={`Fiche de la commune ${commune.nom_commune}`}>
 			<CollectiviteHeaderCard type='commune' nom={commune.nom_commune} />
+			<hr className='mt-4 border-t-0' />
 			<ActionButtons />
 			<hr className='my-4' />
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
@@ -85,6 +86,6 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			)}
 			<br />
 			<AccordionCard />
-		</div>
+		</article>
 	);
 }

@@ -7,9 +7,17 @@ export default function HomeOverlay() {
 	if (!isInitialView) return null;
 
 	return (
-		<div className='absolute inset-0 z-40 flex h-full w-full flex-col items-center justify-start bg-blue/80 p-4'>
+		<div
+			role='dialog'
+			aria-modal='true'
+			aria-labelledby='home-overlay-title'
+			className='absolute inset-0 z-40 flex h-full w-full flex-col items-center justify-start bg-blue/80 p-4'
+		>
 			{/* TODO: text color should be gray-6 */}
-			<h1 className='mb-24 inline-block font-verdana text-[28px] font-normal leading-normal tracking-sm text-slate-100 lg:ms-24 lg:self-start'>
+			<h1
+				id='home-overlay-title'
+				className='mb-24 inline-block font-verdana text-[28px] font-normal leading-normal tracking-sm text-slate-100 lg:ms-24 lg:self-start'
+			>
 				Découvrez le
 				<br />
 				<strong>potentiel solaire</strong> 🔆
@@ -29,6 +37,7 @@ export default function HomeOverlay() {
 					<button
 						className='rounded-md bg-light-green px-4 py-2 text-sm font-bold leading-6 text-darkgreen'
 						onClick={closeInitialView}
+						aria-label='Fermer la fenêtre de recherche et utiliser la carte'
 					>
 						Je préfère utiliser la carte
 					</button>

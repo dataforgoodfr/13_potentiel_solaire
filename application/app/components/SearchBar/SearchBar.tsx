@@ -196,13 +196,17 @@ export function Autocomplete({
 							onKeyDown={relayInputKeyDownToCommand}
 							onChange={onInputValueChange}
 							className='pl-8 pr-16 placeholder:truncate'
+							aria-label='Recherche par ville ou établissement'
+							aria-autocomplete='list'
+							aria-controls='search-results-list'
+							aria-expanded={isPopoverOpen}
 						/>
 					</PopoverAnchor>
 					<PopoverContent
 						onOpenAutoFocus={(e) => e.preventDefault()}
 						className='max-h-[--radix-popover-content-available-height] w-[--radix-popover-trigger-width] p-1'
 					>
-						<Command shouldFilter={false} loop>
+						<Command shouldFilter={false} loop role='listbox' id='search-results-list'>
 							<CommandInput ref={cmdInputRef} value={inputValue} className='hidden' />
 							<CommandList>
 								{loading && (

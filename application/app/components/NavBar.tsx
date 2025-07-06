@@ -5,6 +5,7 @@ import { KeyboardEvent, Suspense, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { FocusTrap } from 'focus-trap-react';
 import { ListFilter, Menu, X } from 'lucide-react';
 
 import GOOD from '../../public/images/GOOD.svg';
@@ -25,15 +26,12 @@ export default function NavBar() {
 
 	const handleToggle = () => setIsOpen(!isOpen);
 
-	const handleClose = (e: KeyboardEvent<HTMLButtonElement>) => {
-		if (e.code === 'Escape') setIsOpen(false);
-	};
-
-	const handleKeypress = (e: KeyboardEvent<HTMLButtonElement>) => {
-		if (e.code === 'Escape') setIsOpen(false);
-		if (e.code === 'Enter') {
+	const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+		if (e.code === 'Escape') {
+			setIsOpen(false);
+		} else if (e.code === 'Enter' || e.code === ' ') {
 			e.preventDefault();
-			setIsOpen(!isOpen);
+			setIsOpen((prev) => !prev);
 		}
 	};
 
@@ -46,7 +44,7 @@ export default function NavBar() {
 					<button
 						className='text-white xl:hidden'
 						onClick={handleToggle}
-						onKeyDown={handleKeypress}
+						onKeyDown={handleKeyDown}
 						type='button'
 						aria-expanded={isOpen}
 						aria-controls='menu-principal'
@@ -74,6 +72,7 @@ export default function NavBar() {
 							<ListFilter
 								className='shrink-0 cursor-pointer stroke-green'
 								size={24}
+								aria-label='Filtrer les résultats'
 							/>
 						</Suspense>
 					</div>
@@ -95,54 +94,57 @@ export default function NavBar() {
 
 			{/* Menu mobile plein écran */}
 			{isOpen && (
-				<div className='fixed inset-0 z-50 flex flex-col bg-blue'>
-					{/* Bouton de fermeture */}
-					<div className='flex items-start justify-between p-4'>
-						<button
-							onClick={handleToggle}
-							onKeyDown={handleClose}
-							className='text-white'
-							aria-label='Fermer le menu'
-						>
-							<X className='stroke-green' size={32} />
-						</button>
-					</div>
-
-					{/* Logo centré */}
-					<div className='mb-8 flex items-center justify-center'>
-						<Image
-							src={imgLogo}
-							alt='logo'
-							width={108}
-							height={33}
-							className='h-[33px] w-[108px]'
-						/>
-					</div>
-
-					{/* Liens verticaux */}
-					<div className='relative w-full space-y-4 bg-green px-6 pb-20 pt-4 text-base font-bold text-darkgreen overflow-hidden '>
-						{links.map((link) => (
-							<Link
-								key={link.href}
-								href={link.href}
-								onClick={() => setIsOpen(false)}
-								className='group flex items-center justify-between pb-2'
+				<FocusTrap>
+					<div
+						className='fixed inset-0 z-50 flex flex-col bg-blue'
+						role='dialog'
+						aria-modal='true'
+						aria-labelledby='menu-mobile-title'
+					>
+						<h2 id='menu-mobile-title' className='sr-only'>
+							Menu principal mobile
+						</h2>
+						{/* Bouton de fermeture */}
+						<div className='flex items-start justify-between p-4'>
+							<button
+								onClick={handleToggle}
+								onKeyDown={handleKeyDown}
+								className='text-white'
+								aria-label='Fermer le menu'
 							>
-								<span className='underline decoration-dotted decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid'>
-									{link.title}
-								</span>
-								<span className='text-2xl'>→</span>
-							</Link>
-						))}
-						<Image
-							src={GOOD}
-							alt='Mascotte du projet : un tournesol souriant'
-							width={160}
-							height={160}
-							className='absolute -bottom-9 -right-9 h-auto w-32 -rotate-30 overflow-hidden'
-						/>
+								<X className='stroke-green' size={32} />
+							</button>
+						</div>
+
+						{/* Logo centré */}
+						<div className='mb-8 flex items-center justify-center'>
+							<Image
+								src={imgLogo}
+								alt='logo'
+								width={108}
+								height={33}
+								className='h-[33px] w-[108px]'
+							/>
+						</div>
+
+						{/* Liens verticaux */}
+						<div className='w-full space-y-4 bg-green px-6 py-4 text-xl font-bold text-darkgreen'>
+							{links.map((link) => (
+								<Link
+									key={link.href}
+									href={link.href}
+									onClick={() => setIsOpen(false)}
+									className='group flex items-center justify-between pb-2'
+								>
+									<span className='underline decoration-dotted decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid'>
+										{link.title}
+									</span>
+									<span className='text-2xl'>→</span>
+								</Link>
+							))}
+						</div>
 					</div>
-				</div>
+				</FocusTrap>
 			)}
 		</header>
 	);
