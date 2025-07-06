@@ -606,6 +606,11 @@ export async function fetchRegionById(id: string): Promise<Region | null> {
 // --- Search ----
 
 const DEFAULT_LIMIT = 10;
+/**
+ * Place a limit to avoid querying too many words.
+ * This default value has been set by looking at the maximum number of words in the sanitized_libelle of etablissements (i.e: 24).
+ */
+const MAX_WORDS_LIMIT = 25;
 
 /**
  * Fetch results from the search view.
@@ -643,7 +648,14 @@ export async function fetchSearchResults(
 		} else {
 			// Split the query by spaces and build AND conditions for each word
 			const words = sanitizeString(query).toLowerCase().split(/\s+/).filter(Boolean);
-			const whereClauses = words.map((_, idx) => `sv.${SEARCH_VIEW_COLUMNS.SanitizedLibelle} like $${idx + 1}`).join(' AND ');
+
+			if (words.length > MAX_WORDS_LIMIT) {
+				throw new Error('The query contains too many words.');
+			}
+
+			const whereClauses = words
+				.map((_, idx) => `sv.${SEARCH_VIEW_COLUMNS.SanitizedLibelle} like $${idx + 1}`)
+				.join(' AND ');
 			prepared = await connection.prepare(
 				`
 			SELECT
@@ -663,7 +675,7 @@ export async function fetchSearchResults(
 				END,
 				sv.${SEARCH_VIEW_COLUMNS.Libelle}
 			LIMIT $${words.length + 1};
-			`
+			`,
 			);
 			words.forEach((word, idx) => {
 				prepared.bindVarchar(idx + 1, `%${word}%`);
