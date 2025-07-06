@@ -635,8 +635,7 @@ export async function fetchSearchResults(
 			sv.${SEARCH_VIEW_COLUMNS.Source} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Source]}, 
 			sv.${SEARCH_VIEW_COLUMNS.Id} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Id]}, 
 			sv.${SEARCH_VIEW_COLUMNS.Libelle} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.Libelle]}, 
-			sv.${SEARCH_VIEW_COLUMNS.ExtraData} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]},
-			refCp.${REF_CODE_POSTAL_COLUMNS.CodePostal} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodePostal]}
+			sv.${SEARCH_VIEW_COLUMNS.ExtraData} as ${SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]}
 			FROM ${REF_CODE_POSTAL_TABLE} refCp
 			INNER JOIN ${SEARCH_VIEW_TABLE} sv ON sv.${SEARCH_VIEW_COLUMNS.Source} = 'communes' AND sv.${SEARCH_VIEW_COLUMNS.Id} = refCp.${REF_CODE_POSTAL_COLUMNS.CodeInsee}
 			WHERE refCp.${REF_CODE_POSTAL_COLUMNS.CodePostal} like $1
@@ -692,13 +691,9 @@ export async function fetchSearchResults(
 			source: d.source,
 			libelle: d.libelle,
 			extra_data:
-				SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData] in d &&
-				d[SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]] !== null
+				SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData] in d
 					? JSON.parse(d[SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraData]])
-					: {
-							[SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodePostal]]:
-								d[SEARCH_VIEW_MAPPING[SEARCH_VIEW_COLUMNS.ExtraDataCodePostal]],
-						},
+					: undefined,
 		})) as SearchResult[];
 	} catch (error) {
 		console.error('Database Error:', error);

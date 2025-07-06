@@ -25,9 +25,15 @@ function getIconFromResult(source: SearchResult['source']) {
 function getExtraDataLibelle(result: SearchResult) {
 	const { source } = result;
 	switch (source) {
-		case 'communes':
 		case 'etablissements':
 			return `(${result.extra_data.code_postal})`;
+		case 'communes': {
+			const codeDepartementWithoutLeadingZero = result.extra_data.code_departement.replace(
+				/^0+/,
+				'',
+			);
+			return `(${SOURCE_TO_LABEL[source]} - ${codeDepartementWithoutLeadingZero})`;
+		}
 		case 'departements':
 		case 'regions':
 			return `(${SOURCE_TO_LABEL[source]})`;
@@ -45,6 +51,7 @@ export default function Suggestions({ items, onSelect }: ResultsListProps) {
 	const commandItems = items.map((item) => {
 		const { id, libelle, source } = item;
 		const icon = getIconFromResult(source);
+		const extraDataLibelle = getExtraDataLibelle(item);
 
 		return (
 			<CommandItem
@@ -55,7 +62,7 @@ export default function Suggestions({ items, onSelect }: ResultsListProps) {
 				<div className='flex items-center gap-2'>
 					{icon}
 					<div>
-						{libelle} {getExtraDataLibelle(item)}
+						{libelle} {extraDataLibelle}
 					</div>
 				</div>
 			</CommandItem>
