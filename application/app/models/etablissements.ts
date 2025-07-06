@@ -23,12 +23,6 @@ export type Etablissement = {
 	niveau_potentiel: NiveauPotentiel;
 };
 
-//TODO: remove later
-export type EtablissementWithLatLng = Etablissement & {
-	longitude: number;
-	latitude: number;
-};
-
 export interface TopEtablissement {
 	id: string;
 	libelle: string;
