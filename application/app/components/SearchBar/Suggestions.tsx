@@ -22,6 +22,20 @@ function getIconFromResult(source: SearchResult['source']) {
 	}
 }
 
+function getExtraDataLibelle(result: SearchResult) {
+	const { source } = result;
+	switch (source) {
+		case 'communes':
+		case 'etablissements':
+			return `(${result.extra_data.code_postal})`;
+		case 'departements':
+		case 'regions':
+			return `(${SOURCE_TO_LABEL[source]})`;
+		default:
+			throw new Error('Unexpected result - ' + result);
+	}
+}
+
 type ResultsListProps = {
 	items: SearchResult[];
 	onSelect: (selection: SearchResult) => void;
@@ -41,10 +55,7 @@ export default function Suggestions({ items, onSelect }: ResultsListProps) {
 				<div className='flex items-center gap-2'>
 					{icon}
 					<div>
-						{libelle}{' '}
-						{source === 'etablissements'
-							? `(${item.extra_data.code_postal})`
-							: `(${SOURCE_TO_LABEL[source]})`}
+						{libelle} {getExtraDataLibelle(item)}
 					</div>
 				</div>
 			</CommandItem>
