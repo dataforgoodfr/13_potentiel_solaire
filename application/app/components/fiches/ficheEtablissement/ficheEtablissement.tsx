@@ -8,6 +8,7 @@ import GraphiqueCard from './GraphiqueCard';
 import InstallationCard from './InstallationCard';
 import InterpretationMessage from './IntepretationMessage';
 import ProtectionCard from './ProtectionCard';
+import RattachementCard from './RattachementCard';
 
 interface FicheEtablissementProps {
 	etablissement: Etablissement;
@@ -20,6 +21,13 @@ export default function FicheEtablissement({ etablissement }: FicheEtablissement
 			<br />
 			<ActionButtons />
 			<hr className='my-4' />
+
+			{etablissement.est_seul_dans_sa_zone === false &&
+				etablissement.etablissements_rattaches && (
+					<RattachementCard
+						etablissements_rattaches={etablissement.etablissements_rattaches}
+					/>
+				)}
 			{etablissement.protection && <ProtectionCard />}
 			<PotentielSolaireCard
 				potentielSolaire={etablissement.potentiel_solaire}
