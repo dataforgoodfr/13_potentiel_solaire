@@ -18,10 +18,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 			});
 			const activeTabParam = buildActiveTabParam('etablissement');
 			return NextResponse.redirect(
-				new URL(
 					`/?${codesParams.toString()}&${activeTabParam.toString()}`,
-					request.nextUrl.origin,
-				),
 			);
 		}
 	} catch (e) {
