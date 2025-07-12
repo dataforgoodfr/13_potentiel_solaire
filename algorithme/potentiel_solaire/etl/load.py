@@ -21,11 +21,13 @@ def load_buildings_attachment_results_to_db(codes_departement: list[str]):
         results = DepartementResults(code_departement=code_departement)
         schools_establishments = results.load_gdf(layer="schools_establishments")
         schools_buildings = results.load_gdf(layer="schools_buildings")
+        schools_educational_zones = results.load_gdf(layer="educational_zones")
 
         # Aggregation des resultats par etablissement
         schools_buildings_results = aggregate_buildings_attachment_by_etablishment(
             schools_establishments=schools_establishments,
-            schools_buildings_results=schools_buildings
+            schools_buildings_results=schools_buildings,
+            schools_educational_zones=schools_educational_zones
         )
 
         # Sauvegarde des resultats dans la base de donnees

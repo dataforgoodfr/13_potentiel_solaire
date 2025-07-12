@@ -10,7 +10,6 @@ ENV PATH="/root/.local/bin:$PATH"
 COPY pyproject.toml poetry.lock alembic.ini sources.yaml ./
 COPY database ./database
 COPY potentiel_solaire ./potentiel_solaire
-COPY notebooks/pipeline_algorithme.ipynb ./notebooks/pipeline_algorithme.ipynb
 COPY README.md ./
 
 # Install dependencies and the local package

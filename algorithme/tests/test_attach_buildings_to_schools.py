@@ -508,7 +508,7 @@ def test_attach_buildings_to_schools(
     # init
 
     # call
-    schools_buildings = attach_buildings_to_schools(schools_establishments, educational_zones, buildings)
+    schools_buildings, schools_educational_zones = attach_buildings_to_schools(schools_establishments, educational_zones, buildings)
 
     # assert
     # on a le meme nombre de batiments

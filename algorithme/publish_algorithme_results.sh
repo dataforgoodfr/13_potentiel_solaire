@@ -29,7 +29,6 @@ docker build \
 docker run --rm \
     --volume $ALGORITHME_DIR/data:/app/data \
     --volume $ALGORITHME_DIR/database:/app/database \
-    --volume $ALGORITHME_DIR/notebooks/exports:/app/notebooks/exports \
     13_potentiel_solaire_algo:$ALGORITHME_VERSION algorithme update-database-indicators
 
 # Check if the previous command was successful

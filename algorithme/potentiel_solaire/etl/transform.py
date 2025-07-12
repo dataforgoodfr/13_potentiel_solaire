@@ -48,7 +48,7 @@ def calculate_attach_buildings_to_schools(codes_departement: list[str]):
         logger.info("Nb de batiments (D%s): %s", code_departement, nb_buildings)
 
         # Attachement des batiments et zones scolaires aux etablissements scolaires
-        schools_buildings = attach_buildings_to_schools(
+        schools_buildings, schools_educational_zones = attach_buildings_to_schools(
             schools_establishments=schools_establishments,
             educational_zones=educational_zones,
             buildings=buildings
@@ -65,7 +65,7 @@ def calculate_attach_buildings_to_schools(codes_departement: list[str]):
 
         # Sauvegarde des resultats
         results.save_gdf(
-            gdf=educational_zones,
+            gdf=schools_educational_zones,
             layer="educational_zones"
         )
         results.save_gdf(
