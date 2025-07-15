@@ -75,7 +75,8 @@ def update_buildings_attachment_for_schools(
         update_query = f"""
             UPDATE {etablissements_table.name}
             SET 
-                nb_batiments_associes = results_by_school.nb_batiments_associes
+                nb_batiments_associes = results_by_school.nb_batiments_associes,
+                identifiant_topo_zone_rattachee = results_by_school.cleabs_grande_zone,
             FROM
                 results_by_school
             WHERE
@@ -339,13 +340,43 @@ def update_indicators_for_schools():
         logger.info("Update des indicateurs de la table etablissements")
 
         update_query = f"""
+        -- Calcul des niveaux de potentiel solaire
         UPDATE {etablissements_table.name}
         SET 
             niveau_potentiel = s.niveau_potentiel,
             potentiel_nb_foyers = FLOOR(potentiel_solaire / 5000)
         FROM {seuils_niveaux_potentiels_table.name} s
         WHERE potentiel_solaire >= s.min_potentiel_solaire
-              AND potentiel_solaire <= s.max_potentiel_solaire
+              AND potentiel_solaire <= s.max_potentiel_solaire;
+
+        -- Mise a jour des indicateurs de rattachement des batiments aux etablissements
+        WITH
+            indicateurs_rattachement AS (
+                SELECT
+                    identifiant_de_l_etablissement,
+                    -- si une zone a un seul etablissement rattache, alors il est seul dans sa zone
+                    CASE 
+                        WHEN identifiant_topo_zone_rattachee IS NOT NULL
+                        THEN COUNT(DISTINCT identifiant_de_l_etablissement) OVER (PARTITION BY identifiant_topo_zone_rattachee) = 1
+                        ELSE NULL
+                    END AS est_seul_dans_sa_zone,
+
+                    -- si a lechelle de la zone au moins un batiment a ete rattache, alors le rattachement a reussi
+                    -- les cas dechec sont tres probablement du a un soucis dans la completude des donnees utilisees (BD TOPO, annuaire des etablissements, ...)
+                    SUM(nb_batiments_associes) OVER (PARTITION BY identifiant_topo_zone_rattachee) > 0 AS reussite_rattachement,
+
+                    -- vu que le potentiel solaire a ete affecte a un seul etablissement de la zone, on indique aussi le potentiel solaire a lechelle de la zone
+                    SUM(potentiel_solaire) OVER (PARTITION BY identifiant_topo_zone_rattachee) AS potentiel_solaire_zone
+                FROM {etablissements_table.name}
+            )
+
+        UPDATE {etablissements_table.name}
+        SET 
+            est_seul_dans_sa_zone = ir.est_seul_dans_sa_zone,
+            reussite_rattachement = ir.reussite_rattachement,
+            potentiel_solaire_zone = ir.potentiel_solaire_zone
+        FROM indicateurs_rattachement ir
+        WHERE {etablissements_table.name}.{etablissements_table.pkey} = ir.identifiant_de_l_etablissement;
         """
 
         conn.execute(update_query)

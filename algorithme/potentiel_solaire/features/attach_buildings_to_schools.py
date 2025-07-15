@@ -1,3 +1,4 @@
+from typing import Tuple
 import geopandas as gpd
 import pandas as pd
 
@@ -128,13 +129,13 @@ def attach_buildings_to_schools(
     educational_zones: gpd.GeoDataFrame,
     buildings: gpd.GeoDataFrame,
     crs_for_distances: int = CRS_FOR_BUFFERS,
-) -> gpd.GeoDataFrame:
+) -> Tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
     """Determine les batiments de chaque etablissement scolaire
 
     :param schools_establishments: annuraires des etablissements scolaires
     :param educational_zones: zones d educations (BD TOPO)
     :param buildings: batiments (BD TOPO)
-    :return: geodataframe des batiments scolaires
+    :return: geodataframe des batiments scolaires et geodataframe des relations zones d'éducation - établissements scolaires
     """
 
     # Regroupement des petites zones dans les grandes
@@ -148,6 +149,14 @@ def attach_buildings_to_schools(
         schools_establishments=schools_establishments,
         educational_zones=educational_zones_merged,
     )
+
+    # Copie de la relation zones d'éducation - établissements scolaires
+    schools_educational_zones = educational_zones_attached_to_schools[[
+        "identifiant_de_l_etablissement", 
+        "cleabs_grande_zone", 
+        "identifiants_sources",
+        "geometry"
+    ]].copy()
 
     # On souhaite garder une seule zone par etablissement
     # En cas d'ambiguité (plusieurs établissements sur la meme grande zone), 
@@ -186,4 +195,4 @@ def attach_buildings_to_schools(
         crs_for_distances=crs_for_distances
     )
 
-    return schools_buildings.drop_duplicates(subset=["cleabs_bat"])
+    return schools_buildings.drop_duplicates(subset=["cleabs_bat"]), schools_educational_zones

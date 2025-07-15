@@ -126,7 +126,6 @@ Il est aussi possible de le faire avec Docker d'installé sans passer par python
     docker run --rm \
         --volume ./data:/app/data \
         --volume ./database:/app/database \
-        --volume ./notebooks/exports:/app/notebooks/exports \
         13_potentiel_solaire_algo alembic upgrade head
 
 ### Lancement des calculs sur toute la France :
@@ -134,7 +133,6 @@ Il est aussi possible de le faire avec Docker d'installé sans passer par python
     docker run --rm \
         --volume ./data:/app/data \
         --volume ./database:/app/database \
-        --volume ./notebooks/exports:/app/notebooks/exports \
         13_potentiel_solaire_algo algorithme calculate-for-schools --all_departements
 
 ## 4.2 Créer un token github (classic) personnel
