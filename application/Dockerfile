@@ -2,7 +2,7 @@
 
 # Generate database and export geojson
 # ARG GENERATOR_IMAGE=13_potentiel_solaire_mock_data
-ARG GENERATOR_IMAGE=ghcr.io/dataforgoodfr/13_potentiel_solaire_db:0.1.0.20250629
+ARG GENERATOR_IMAGE=ghcr.io/dataforgoodfr/13_potentiel_solaire_db:0.1.0.20250820
 FROM ${GENERATOR_IMAGE} AS generator
 
 FROM node:18-slim AS base
