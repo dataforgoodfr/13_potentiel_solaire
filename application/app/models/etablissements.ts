@@ -2,6 +2,7 @@ import { NiveauPotentiel } from './common';
 
 export type Etablissement = {
 	identifiant_de_l_etablissement: string;
+	identifiant_topo_zone_rattachee: string;
 	nom_etablissement: string;
 	type_etablissement: string;
 	libelle_nature: string;
@@ -21,7 +22,15 @@ export type Etablissement = {
 	potentiel_nb_foyers: number;
 	protection: boolean;
 	niveau_potentiel: NiveauPotentiel;
+	est_seul_dans_sa_zone: boolean | null;
+	reussite_rattachement: boolean;
+	etablissements_rattaches: EtablissementLite[] | null;
 };
+
+export type EtablissementLite = Pick<
+	Etablissement,
+	'identifiant_de_l_etablissement' | 'nom_etablissement'
+>;
 
 export interface TopEtablissement {
 	id: string;
