@@ -31,6 +31,9 @@ export const ETABLISSEMENTS_COLUMNS = {
 	EstSeulDansSaZone: 'est_seul_dans_sa_zone',
 	ReussiteRattachement: 'reussite_rattachement',
 	EtablissementsRattaches: 'etablissements_rattaches',
+	SurfaceExploitableMaxZone: 'surface_exploitable_max_zone',
+	PotentielNbFoyersZone: 'potentiel_nb_foyers_zone',
+	NiveauPotentielZone: 'niveau_potentiel_zone',
 	Geometry: 'geom',
 } as const;
 
@@ -52,21 +55,22 @@ export const ETABLISSEMENTS_MAPPING = {
 	[ETABLISSEMENTS_COLUMNS.LibelleDepartement]: 'libelle_departement',
 	[ETABLISSEMENTS_COLUMNS.CodeRegion]: 'code_region',
 	[ETABLISSEMENTS_COLUMNS.LibelleRegion]: 'libelle_region',
-	[ETABLISSEMENTS_COLUMNS.SurfaceExploitableMax]: 'surface_exploitable_max',
 	/**
-	 * On récupère le potentiel_solaire_zone qui est renseigné pour chaque établissement.
+	 * On récupère le potentiel_solaire_zone qui est renseigné pour chaque établissement pour gérer les groupes d'etablissements.
 	 * Seul un des établissements d'une meme zone a le potentiel_solaire renseigné pour éviter de fausser les résultats (les autres sont à 0).
 	 * Voir https://github.com/dataforgoodfr/13_potentiel_solaire/issues/131
+	 * Idem pour SurfaceExploitableMaxZone, PotentielNbFoyersZone et NiveauPotentielZone
 	 */
 	[ETABLISSEMENTS_COLUMNS.PotentielSolaireZone]: 'potentiel_solaire',
-	[ETABLISSEMENTS_COLUMNS.PotentielNbFoyers]: 'potentiel_nb_foyers',
+	[ETABLISSEMENTS_COLUMNS.NiveauPotentielZone]: 'niveau_potentiel',
+	[ETABLISSEMENTS_COLUMNS.SurfaceExploitableMaxZone]: 'surface_exploitable_max',
+	[ETABLISSEMENTS_COLUMNS.PotentielNbFoyersZone]: 'potentiel_nb_foyers',
 	[ETABLISSEMENTS_COLUMNS.Protection]: 'protection',
 	[ETABLISSEMENTS_COLUMNS.NbEleves]: 'nb_eleves',
 	[ETABLISSEMENTS_COLUMNS.Adresse1]: 'adresse_1',
 	[ETABLISSEMENTS_COLUMNS.Adresse2]: 'adresse_2',
 	[ETABLISSEMENTS_COLUMNS.Adresse3]: 'adresse_3',
 	[ETABLISSEMENTS_COLUMNS.CodePostal]: 'code_postal',
-	[ETABLISSEMENTS_COLUMNS.NiveauPotentiel]: 'niveau_potentiel',
 	[ETABLISSEMENTS_COLUMNS.EstSeulDansSaZone]: 'est_seul_dans_sa_zone',
 	[ETABLISSEMENTS_COLUMNS.ReussiteRattachement]: 'reussite_rattachement',
 	[ETABLISSEMENTS_COLUMNS.EtablissementsRattaches]: 'etablissements_rattaches',
@@ -84,7 +88,7 @@ export const ETABLISSEMENTS_GEOJSON_MAPPING = {
 	[ETABLISSEMENTS_COLUMNS.CodeDepartement]: 'code_departement',
 	[ETABLISSEMENTS_COLUMNS.CodeRegion]: 'code_region',
 	/**
-	 * On récupère le potentiel_solaire_zone qui est renseigné pour chaque établissement.
+	 * On récupère le potentiel_solaire_zone qui est renseigné pour chaque établissement pour gérer les groupes d'etablissements.
 	 * Seul un des établissements d'une meme zone a le potentiel_solaire renseigné pour éviter de fausser les résultats (les autres sont à 0).
 	 * Voir https://github.com/dataforgoodfr/13_potentiel_solaire/issues/131
 	 */
