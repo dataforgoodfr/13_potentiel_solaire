@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { EtablissementLite } from '@/app/models/etablissements';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { CircleAlert } from 'lucide-react';
@@ -8,14 +10,22 @@ interface RattachementCardProps {
 	etablissements_rattaches: EtablissementLite[];
 }
 
+function sortByName(a: EtablissementLite, b: EtablissementLite) {
+	return a.nom_etablissement.localeCompare(b.nom_etablissement);
+}
+
 const RattachementCard: React.FC<RattachementCardProps> = ({ etablissements_rattaches }) => {
+	const sortedEtablissements = useMemo(
+		() => [...etablissements_rattaches].sort(sortByName),
+		[etablissements_rattaches],
+	);
 	return (
 		<div className={'mb-2 flex gap-4 rounded-md bg-gray p-2'}>
 			<CircleAlert size={40} />
 			<div className={''}>
 				<p className='mb-2 text-sm font-normal text-blue'>{RATTACHEMENT_TEXT}</p>
 				<ul className='list-none space-y-4 pl-0 font-bold text-darkgreen'>
-					{etablissements_rattaches.map((etab) => (
+					{sortedEtablissements.map((etab) => (
 						<li key={etab.identifiant_de_l_etablissement}>
 							{/* <Link
 								href={`/etablissement/${etab.identifiant_de_l_etablissement}`}
