@@ -13,7 +13,7 @@ export default function Footer() {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
-		<footer className='fixed bottom-0 z-40 w-full bg-blue text-white' id='footer'>
+		<footer className='fixed bottom-0 z-50 w-full bg-blue text-white' id='footer'>
 			<div className='flex w-full items-center justify-center border-t border-green bg-blue py-2'>
 				<button
 					onClick={() => setIsOpen(!isOpen)}
