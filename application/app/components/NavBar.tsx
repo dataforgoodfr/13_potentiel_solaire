@@ -5,8 +5,7 @@ import { KeyboardEvent, Suspense, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import * as Popover from '@radix-ui/react-popover';
-import { ListFilter, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 import GOOD from '../../public/images/GOOD.svg';
 import imgLogo from '../../public/images/logo.svg';
@@ -72,28 +71,6 @@ export default function NavBar() {
 					<div className='m-4 flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
 						<Suspense>
 							<SearchBar />
-							<Popover.Root>
-								<Popover.Trigger asChild>
-									<button
-										aria-disabled='true'
-										className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
-									>
-										<ListFilter
-											className='shrink-0 cursor-pointer stroke-green'
-											size={24}
-										/>
-									</button>
-								</Popover.Trigger>
-								<Popover.Portal>
-									<Popover.Content
-										className='z-50 rounded bg-blue px-3 py-1.5 text-xs text-white shadow'
-										sideOffset={5}
-									>
-										Cette fonctionnalité n&apos;est pas encore disponible !
-										<Popover.Arrow className='fill-black' />
-									</Popover.Content>
-								</Popover.Portal>
-							</Popover.Root>
 						</Suspense>
 					</div>
 				)}
