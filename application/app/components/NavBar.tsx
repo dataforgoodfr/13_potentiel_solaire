@@ -68,7 +68,7 @@ export default function NavBar() {
 
 				{/* Bloc SearchBar + boutons */}
 				{showSearchBar && (
-					<div className='m-4 flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
+					<div className='mt-4 mb-4 flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
 						<Suspense>
 							<SearchBar />
 						</Suspense>
