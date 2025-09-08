@@ -44,7 +44,7 @@ export default function PotentielSolaireCard({
 	if (grise) {
 		return (
 			<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-6 outline-select'>
-				<p className='text-base text-grey font-semibold'>
+				<p className='text-base font-semibold text-grey'>
 					Données incomplètes pour cet établissement
 				</p>
 			</div>
