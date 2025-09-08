@@ -19,6 +19,7 @@ interface PotentielSolaireCardProps {
 	nbEleves?: number;
 	level?: CarteLevel;
 	header?: React.ReactNode;
+	grise?: boolean;
 }
 
 const getPotentielSolaireElement = (potentiel?: number): JSX.Element => {
@@ -38,7 +39,17 @@ export default function PotentielSolaireCard({
 	nbEleves,
 	level,
 	header,
+	grise,
 }: PotentielSolaireCardProps) {
+	if (grise) {
+		return (
+			<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-6 outline-select'>
+				<p className='text-base text-grey font-semibold'>
+					Données incomplètes pour cet établissement
+				</p>
+			</div>
+		);
+	}
 	return (
 		<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-2 outline-select'>
 			{header && <div className='mb-5'>{header}</div>}

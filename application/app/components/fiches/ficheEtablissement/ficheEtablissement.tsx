@@ -3,7 +3,6 @@ import { Etablissement } from '@/app/models/etablissements';
 import ActionButtons from '../shared/ActionButtons';
 import PotentielSolaireCard from '../shared/PotentielSolaireCard';
 import EtablissementCard from './EtablissementCard';
-// import GraphiqueCard from './GraphiqueCard';
 import InstallationCard from './InstallationCard';
 import InterpretationMessage from './IntepretationMessage';
 import ProtectionCard from './ProtectionCard';
@@ -14,6 +13,13 @@ interface FicheEtablissementProps {
 }
 
 export default function FicheEtablissement({ etablissement }: FicheEtablissementProps) {
+	console.log(
+		'reussite_rattachement (type:',
+		typeof etablissement.reussite_rattachement,
+		')',
+		'valeur:',
+		etablissement.reussite_rattachement,
+	);
 	return (
 		<div>
 			<EtablissementCard {...etablissement} />
@@ -34,12 +40,18 @@ export default function FicheEtablissement({ etablissement }: FicheEtablissement
 				nbEleves={etablissement.nb_eleves ?? undefined}
 				level='etablissement'
 				header={<InterpretationMessage niveau_potentiel={etablissement.niveau_potentiel} />}
+				grise={!etablissement.reussite_rattachement}
 			/>
-			<hr className='my-4' />
-			<div className='ml-2'>
-				<InstallationCard surfaceExploitableMax={etablissement.surface_exploitable_max} />
-				{/* <GraphiqueCard /> */}
-			</div>
+			{etablissement.reussite_rattachement && (
+				<>
+					<hr className='my-4' />
+					<div className='ml-2'>
+						<InstallationCard
+							surfaceExploitableMax={etablissement.surface_exploitable_max}
+						/>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }
