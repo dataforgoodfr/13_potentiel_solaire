@@ -1,28 +1,36 @@
+import { useState } from 'react';
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CircleAlert } from 'lucide-react';
 
-const PROTECTION_TEXT = 'Une partie de cet établissement est située en zone protégée';
+const PROTECTION_TEXT = 'Une partie de cet établissement est située en zone protégée.';
+const INFO_TRIGGER_TEXT = "Plus d'info";
+const INFO_HIDE_TEXT = "Moins d'info";
+const INFO_TEXT =
+	"Cette zone classée bâtiment de France est une zone qui se trouve à proximité d'un monument ou d'un site historique protégé par la loi. Elle délimite des secteurs aux abord de sites historiques protégés, établissant un périmètre de 500m autour de chaque monument concerné. ";
 
 const ProtectionCard: React.FC = () => {
+	const [triggerText, setTriggerText] = useState<string>(INFO_TRIGGER_TEXT);
+
 	return (
-		<div className={'mb-4 flex flex-col rounded-md bg-orange p-2'}>
-			<div className={'flex gap-4 rounded-md p-2'}>
-				<CircleAlert color='orange' size={40} />
-				<p className='text-sm font-normal text-blue'>{PROTECTION_TEXT}</p>
+		<div className={'mb-4 flex gap-4 rounded-md bg-orange p-2'}>
+			<CircleAlert color='orange' size={40} className='min-h-7 min-w-7 sm:h-10 sm:w-10' />
+			<div className='text-sm font-normal text-blue'>
+				{PROTECTION_TEXT}{' '}
+				<Collapsible
+					asChild
+					defaultOpen={false}
+					onOpenChange={(isOpen) => {
+						if (isOpen) return setTriggerText(INFO_HIDE_TEXT);
+						setTriggerText(INFO_TRIGGER_TEXT);
+					}}
+				>
+					<span className='inline'>
+						<CollapsibleContent>{INFO_TEXT}</CollapsibleContent>
+						<CollapsibleTrigger>{triggerText}</CollapsibleTrigger>
+					</span>
+				</Collapsible>
 			</div>
-			<Collapsible>
-				<CollapsibleTrigger>Voir plus</CollapsibleTrigger>
-				<CollapsibleContent>
-					<div className='p-4'>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</div>
-				</CollapsibleContent>
-			</Collapsible>
 		</div>
 	);
 };
