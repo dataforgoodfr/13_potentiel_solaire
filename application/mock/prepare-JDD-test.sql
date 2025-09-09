@@ -44,7 +44,7 @@ CREATE OR REPLACE TABLE regions AS
 	NULL::JSON AS nb_etablissements_par_niveau_potentiel_total,
 	NULL::JSON AS nb_etablissements_par_niveau_potentiel_lycees,
 	geom
-	FROM ST_Read(getvariable('path_to_folder') || 'a-reg2021.json') reg;
+	FROM ST_Read(getvariable('path_to_folder') || 'a-reg2021.json') reg;  -- avec le fichier en local (plus rapide)
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4') reg;  --16s
 
 CREATE OR REPLACE TABLE departements AS
@@ -71,7 +71,7 @@ CREATE OR REPLACE TABLE departements AS
 	NULL::JSON AS nb_etablissements_par_niveau_potentiel_total,
 	NULL::JSON AS nb_etablissements_par_niveau_potentiel_colleges,
     geom
-	FROM ST_Read(getvariable('path_to_folder') || 'a-dep2021.json') dept;
+	FROM ST_Read(getvariable('path_to_folder') || 'a-dep2021.json') dept;   -- avec le fichier en local (plus rapide)
 	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/92f37c92-3aae-452c-8af1-c77e6dd590e5') dept;   --40s
 
 CREATE OR REPLACE TABLE communes AS
@@ -101,8 +101,8 @@ CREATE OR REPLACE TABLE communes AS
 	NULL::JSON AS nb_etablissements_par_niveau_potentiel_total,
 	NULL::JSON AS nb_etablissements_par_niveau_potentiel_primaires,
 	geom
-	FROM ST_Read(getvariable('path_to_folder') || 'a-com2022.json') com;
-	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581') com; -- ~15 min
+	FROM ST_Read(getvariable('path_to_folder') || 'a-com2022.json') com;    -- avec le fichier en local (plus rapide)
+	-- FROM ST_Read('https://www.data.gouv.fr/fr/datasets/r/fb3580f6-e875-408d-809a-ad22fc418581') com; --  ~15 min
 
 
 CREATE OR REPLACE TABLE etablissements AS
@@ -115,21 +115,21 @@ CREATE OR REPLACE TABLE etablissements AS
 	adresse_2,
 	adresse_3,
 	code_postal,
-	nombre_d_eleves AS nb_eleves,
+	-- nombre_d_eleves AS nb_eleves,  -- dernier dataset contient des varchar a la place d'integer => random instead
+	FLOOR(RANDOM() * (getvariable('nb_eleves_max') - getvariable('nb_eleves_min') + 1)) + getvariable('nb_eleves_min') AS nb_eleves,
 	code_commune,
 	nom_commune,
 	code_departement,
 	libelle_departement,
 	code_region,
 	libelle_region,
-	FLOOR(RANDOM() * (getvariable('nb_eleves_max') - getvariable('nb_eleves_min') + 1)) + getvariable('nb_eleves_min') AS nb_eleves,
 	FLOOR(RANDOM() * (getvariable('surface_exploitable_max') - getvariable('surface_exploitable_min') + 1)) + getvariable('surface_exploitable_min') AS surface_exploitable_max,
 	FLOOR(RANDOM() * (getvariable('potentiel_solaire_max') - getvariable('potentiel_solaire_min') + 1)) + getvariable('potentiel_solaire_min') AS potentiel_solaire,
 	0 AS potentiel_nb_foyers,
 	NULL::VARCHAR AS niveau_potentiel,
 	(RANDOM() < 0.5) AS protection,
 	geom
-	FROM ST_Read(getvariable('path_to_folder') || 'fr-en-annuaire-education.geojson') etab;
+	FROM ST_Read(getvariable('path_to_folder') || 'fr-en-annuaire-education.geojson') etab;   -- avec le fichier en local (plus rapide)
 	-- FROM ST_Read('https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-annuaire-education/exports/geojson?lang=fr') etab; --42s
 
 -- 2. maj count_etablissements, count_etablissements_proteges, surface_exploitable, potentiel_solaire depuis les tables créées

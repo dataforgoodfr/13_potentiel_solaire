@@ -6,5 +6,6 @@ README.md
 .next
 .git
 database
+mock
 .env
 .env.*
