@@ -9,16 +9,20 @@ import {
 	MapMouseEvent,
 	MapProps as MapPropsReactMapLibre,
 	MapRef,
+	NavigationControl,
 	Source,
 } from 'react-map-gl/maplibre';
 
+import { SelectedPlaces } from '@/app/models/common';
 import { CommuneFeature } from '@/app/models/communes';
 import { DepartementFeature } from '@/app/models/departements';
 import { RegionFeature } from '@/app/models/regions';
+import useActiveTab from '@/app/utils/hooks/useActiveTab';
 import useCommunesGeoJSON from '@/app/utils/hooks/useCommunesGeoJSON';
 import useDepartementsGeoJSON from '@/app/utils/hooks/useDepartementsGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
+import { getCurrentLevelItem } from '@/app/utils/level-utils';
 import { bbox } from '@turf/turf';
 import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -29,11 +33,12 @@ import {
 } from '../../models/etablissements';
 import Loading from '../Loading';
 import BackButton from './BackButton';
+import CurrentLevel from './CurrentLevel';
 import Legend from './Legend/Legend';
 import MenuDrom from './MenuDrom';
 import { COLOR_THRESHOLDS } from './constants';
 import useLayers from './hooks/useLayers';
-import { ClusterFeature, Layer } from './interfaces';
+import { ClusterFeature, Layer, Level } from './interfaces';
 import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
@@ -123,7 +128,11 @@ function interact(enabled: boolean) {
 	};
 }
 
-export default function FranceMap() {
+interface FranceMapProps {
+	selectedPlaces: SelectedPlaces;
+}
+
+export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 	const {
 		layers,
@@ -133,12 +142,15 @@ export default function FranceMap() {
 	} = useLayers();
 	const [isInteractive, setIsInteractive] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);
+	const [, , setActiveTab] = useActiveTab();
 
 	const isNationLevel = level === 'nation';
 	const isRegionLevel = level === 'region';
 	const isDepartementLevel = level === 'departement';
 	const isCommuneLevel = level === 'commune';
 	const isEtablissementLevel = level === 'etablissement';
+
+	const currentLevelItem = getCurrentLevelItem(level, selectedPlaces);
 
 	const codeRegion = layers.find((layer) => layer.level === 'region')?.code;
 	const codeDepartement = layers.find((layer) => layer.level === 'departement')?.code;
@@ -178,7 +190,7 @@ export default function FranceMap() {
 		);
 		if (!activeRegion) return;
 
-		zoomOnFeature(activeRegion);
+		zoomOnPolygonFeature(activeRegion);
 	}, [codeRegion, regionsGeoJSON?.features]);
 	const zoomOnActiveDepartement = useCallback(() => {
 		const activeDepartement = departementsGeoJSON?.features.find(
@@ -186,7 +198,7 @@ export default function FranceMap() {
 		);
 		if (!activeDepartement) return;
 
-		zoomOnFeature(activeDepartement);
+		zoomOnPolygonFeature(activeDepartement);
 	}, [codeDepartement, departementsGeoJSON?.features]);
 	const zoomOnActiveCommune = useCallback(() => {
 		const activeCommune = communesGeoJSON?.features.find(
@@ -194,7 +206,7 @@ export default function FranceMap() {
 		);
 		if (!activeCommune) return;
 
-		zoomOnFeature(activeCommune);
+		zoomOnPolygonFeature(activeCommune);
 	}, [codeCommune, communesGeoJSON?.features]);
 	const zoomOnActiveEtablissement = useCallback(() => {
 		const activeEtablissement = etablissementsGeoJSON?.features.find(
@@ -202,7 +214,7 @@ export default function FranceMap() {
 		);
 		if (!activeEtablissement) return;
 
-		zoomOnFeature(activeEtablissement);
+		zoomOnPointFeature(activeEtablissement);
 	}, [codeEtablissement, etablissementsGeoJSON?.features]);
 
 	function easeTo(options: EaseToOptions) {
@@ -282,9 +294,7 @@ export default function FranceMap() {
 		});
 	}
 
-	function zoomOnFeature(
-		feature: EtablissementFeature | CommuneFeature | DepartementFeature | RegionFeature,
-	) {
+	function zoomOnPolygonFeature(feature: CommuneFeature | DepartementFeature | RegionFeature) {
 		if (!mapRef.current) return;
 
 		const [minLng, minLat, maxLng, maxLat] = bbox(feature);
@@ -296,6 +306,16 @@ export default function FranceMap() {
 			],
 			{ padding: 40, duration: ANIMATION_TIME_MS },
 		);
+	}
+
+	function zoomOnPointFeature(feature: EtablissementFeature) {
+		if (!mapRef.current) return;
+
+		easeTo({
+			center: [feature.geometry.coordinates[0], feature.geometry.coordinates[1]],
+			zoom: 16,
+			duration: ANIMATION_TIME_MS,
+		});
 	}
 
 	function toggleInteractions(enabled: boolean) {
@@ -313,6 +333,13 @@ export default function FranceMap() {
 
 		removeLayer();
 	}
+
+	const openFiche = useCallback(
+		(level: Exclude<Level, 'nation'>) => {
+			setActiveTab(level);
+		},
+		[setActiveTab],
+	);
 
 	async function handleClickOnRegion(feature: RegionFeature) {
 		setLayers([{ code: feature.properties.code_region, level: 'region' }]);
@@ -429,6 +456,7 @@ export default function FranceMap() {
 				}}
 				{...interact(isInteractive)}
 			>
+				<NavigationControl position='top-left' />
 				{regionsGeoJSON && (
 					<Source
 						key={REGIONS_SOURCE_ID}
@@ -538,7 +566,18 @@ export default function FranceMap() {
 					<MenuDrom />
 				</div>
 			</MapFromReactMapLibre>
-			{level !== 'nation' && <BackButton onBack={goBackOneLevel} />}
+			{!isNationLevel && (
+				<div className='absolute left-11 top-2 flex gap-1'>
+					<BackButton onBack={goBackOneLevel} />
+					{currentLevelItem && (
+						<CurrentLevel
+							level={level}
+							levelItem={currentLevelItem}
+							openFiche={openFiche}
+						/>
+					)}
+				</div>
+			)}
 			{isLoading && (
 				<div className='absolute left-0 top-0 h-[100%] w-[100%] bg-slate-400 opacity-50'>
 					<Loading />

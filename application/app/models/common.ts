@@ -1,3 +1,8 @@
+import { Commune } from './communes';
+import { Departement } from './departements';
+import { Etablissement } from './etablissements';
+import { Region } from './regions';
+
 //TODO: fetch from db at startup instead of hardcoding
 export const NIVEAUX_POTENTIELS = [
 	{ code: '1_HIGH', min: 250000, max: 999999999999 },
@@ -8,3 +13,10 @@ export const NIVEAUX_POTENTIELS = [
 export type NiveauPotentiel = (typeof NIVEAUX_POTENTIELS)[number]['code'];
 
 export type NbEtablissementsByNiveauPotentiel = Record<NiveauPotentiel, number>;
+
+export type SelectedPlaces = {
+	etablissement: Etablissement | undefined;
+	commune: Commune | undefined;
+	departement: Departement | undefined;
+	region: Region | undefined;
+};

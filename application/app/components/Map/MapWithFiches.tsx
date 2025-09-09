@@ -13,20 +13,22 @@ export default function MapWithFiches() {
 	const { etablissement, commune, departement, region, isFetching } = useSelectedPlaces();
 	const [isFicheOpen] = useActiveTab();
 
+	const selectedPlaces = { etablissement, commune, departement, region };
+
 	return (
 		<div className='flex flex-1 flex-col'>
 			<div className='relative flex-1'>
 				<Suspense>
 					<HomeOverlay />
-					<FranceMap />
+					<FranceMap selectedPlaces={selectedPlaces} />
 				</Suspense>
 			</div>
 			{isFicheOpen && (
 				<Fiches
-					commune={commune ?? undefined}
-					departement={departement ?? undefined}
-					region={region ?? undefined}
-					etablissement={etablissement ?? undefined}
+					commune={commune}
+					departement={departement}
+					region={region}
+					etablissement={etablissement}
 					isFetching={isFetching}
 				/>
 			)}
