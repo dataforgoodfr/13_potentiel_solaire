@@ -14,7 +14,7 @@ const ProtectionCard: React.FC = () => {
 
 	return (
 		<div className={'mb-4 flex gap-4 rounded-md bg-orange p-2'}>
-			<CircleAlert color='orange' size={40} className='min-h-7 min-w-7 sm:h-10 sm:w-10' />
+			<CircleAlert color='orange' self-center size={26} className='shrink-0' />
 			<div className='text-sm font-normal text-blue'>
 				{PROTECTION_TEXT}{' '}
 				<Collapsible
