@@ -38,7 +38,7 @@ export default function CommentAgirPage() {
 	return (
 		<>
 			<main className='mx-auto max-w-5xl px-4 py-8 pb-40'>
-				<div className='flex flex-col md:flex-row gap-6'>
+				<div className='flex flex-col gap-6 md:flex-row'>
 					<div className='order-2 md:order-1'>
 						<StaticPage {...commentAgirContent} />
 					</div>
