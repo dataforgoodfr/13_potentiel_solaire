@@ -1,5 +1,8 @@
 'use client';
 
+import Image from 'next/image';
+
+import commentagir from '../../public/images/comment-agir.svg';
 import StaticPage from '../components/StaticPage';
 import {
 	ELU_BODY,
@@ -34,8 +37,15 @@ const actionsLong = [
 export default function CommentAgirPage() {
 	return (
 		<>
-			<main className='pb-40 mx-auto max-w-3xl px-4 py-8'>
-				<StaticPage {...commentAgirContent} />
+			<main className='mx-auto max-w-5xl px-4 py-8 pb-40'>
+				<div className='flex flex-col md:flex-row gap-6'>
+					<div className='order-2 md:order-1'>
+						<StaticPage {...commentAgirContent} />
+					</div>
+					<div className='order-1 mt-8 shrink md:order-2 md:mt-20'>
+						<Image src={commentagir} alt='école' className='rounded-2xl' />
+					</div>
+				</div>
 				<AccordionCard actions={actionsLong} />
 			</main>
 		</>
