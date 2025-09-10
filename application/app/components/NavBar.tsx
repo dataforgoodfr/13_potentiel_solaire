@@ -39,7 +39,7 @@ export default function NavBar() {
 	};
 
 	return (
-		<header className='bg-blue px-4 py-2'>
+		<header className='sticky top-0 z-50 bg-blue px-4 py-3'>
 			<div className='flex flex-col gap-4 xl:flex-row xl:flex-nowrap xl:items-center xl:justify-between'>
 				{/* Bloc gauche : menu (mobile) + logo */}
 				<div className='flex w-full items-center justify-between xl:w-auto xl:justify-start xl:gap-6'>
@@ -68,7 +68,7 @@ export default function NavBar() {
 
 				{/* Bloc SearchBar + boutons */}
 				{showSearchBar && (
-					<div className='mt-4 mb-4 flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
+					<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
 						<Suspense>
 							<SearchBar />
 						</Suspense>
