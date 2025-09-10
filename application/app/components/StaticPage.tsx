@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 export type StaticPageProps = {
 	title: string;
+	picture?: { src: string; alt: string; width: number };
 	sections: {
 		heading: string;
 		paragraphs: (string | ReactNode)[];
