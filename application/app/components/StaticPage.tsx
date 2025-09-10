@@ -1,8 +1,10 @@
+import { ReactNode } from 'react';
+
 export type StaticPageProps = {
 	title: string;
 	sections: {
 		heading: string;
-		paragraphs: string[];
+		paragraphs: (string | ReactNode)[];
 	}[];
 };
 
