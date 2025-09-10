@@ -15,4 +15,8 @@ export const ACTION_LINKS = {
 		label: 'Contacter par mail mon élu',
 		url: 'https://www.data.gouv.fr/reuses/adresses-mairies-fr/',
 	},
+	siteDataForGood: {
+		label: 'Site de Data For Good',
+		url: 'https://dataforgood.fr/',
+	},
 };
