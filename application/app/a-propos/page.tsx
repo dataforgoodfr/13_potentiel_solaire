@@ -69,7 +69,7 @@ export default function AProposPage() {
 						}}
 					>
 						<span className='mb-4 w-full max-w-6xl bg-[#151528]'>
-							<CollapsibleTrigger>{action.title}</CollapsibleTrigger>
+							<CollapsibleTrigger className="flex w-full justify-between">{action.title}</CollapsibleTrigger>
 							<CollapsibleContent>{action.content}</CollapsibleContent>
 						</span>
 					</Collapsible>
