@@ -31,7 +31,7 @@ const StaticPage = ({ title, sections, media }: StaticPageProps) => (
 		))}
 =======
 const StaticPage = ({ title, sections, picture }: StaticPageProps) => (
-	<article className={clsx('mx-auto max-w-3xl px-4 py-8', !!picture && 'max-w-6xl px-8 md:px-0')}>
+	<article className={clsx('mx-auto max-w-3xl px-4 py-8', !!picture && 'max-w-6xl px-8 md:px-4')}>
 		<h1
 			className='mb-4 text-[24px] font-bold leading-[28px] tracking-normal text-white'
 			style={{ textDecoration: 'none' }}

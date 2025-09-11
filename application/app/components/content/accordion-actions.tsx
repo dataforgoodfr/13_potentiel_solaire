@@ -180,33 +180,3 @@ export const PARTICULIER_END = (
 	</li>
 );
 
-export const DATA_FOR_GOOD_TEXT = (
-	<>
-		<p className='mb-6 mt-6'>
-			<strong>Data For Good</strong> est une association loi 1901 créée en 2014 qui rassemble
-			une communauté de 6000+ bénévoles tech (Data Scientists, Data Analysts, Data Engineers,
-			Developers, UX/UI Designers, Product & Project Owners) souhaitant s‘engager pour
-			l‘intérêt général.
-		</p>
-		<p className='mb-6'>
-			Nous réalisons chaque année des saisons d‘accélération où une dizaine de projets sont
-			accompagnés par les bénévoles sur des thématiques sociales, sociétales et
-			environnementales. Nous avons ainsi accompagné, accéléré et co-construit plus de 1000
-			projets depuis 2014.
-		</p>
-		<p className='mb-6'>
-			Nous sommes également fervents critiques des risques et des dérives de la technologie,
-			faire partie de la communauté est aussi s‘engager pour une technologie sobre et
-			respectueuse des enjeux sociaux et environnementaux, et accepter que la technologie
-			n‘est pas la solution à tous les problèmes.
-		</p>
-		<a
-				href={ACTION_LINKS.siteDataForGood.url}
-				target='_blank'
-				rel='noopener noreferrer'
-				className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen hover:underline'
-			>
-				{ACTION_LINKS.siteDataForGood.label}
-			</a>
-	</>
-);
