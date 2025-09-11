@@ -9,11 +9,7 @@ import { SquareMinus, SquarePlus } from 'lucide-react';
 
 import StaticPage from '../components/StaticPage';
 import aProposContent from '../components/content/a-propos';
-import {
-	DATA_FOR_GOOD_TEXT,
-	ELU_BODY,
-	ELU_INTRO_LONG,
-} from '../components/content/accordion-actions';
+import { A_PROPOS_DATA_FOR_GOOD, A_PROPOS_GREENPEACE } from '../components/content/a-propos';
 
 const titleStyle = 'flex h-16 w-full items-center justify-between px-16';
 const contentStyle = 'px-16 pb-4 leading-relaxed tracking-normal text-sol_ko';
@@ -33,12 +29,7 @@ const getActionsLong = (isOpen: boolean[]) => [
 				{isOpen[0] && <SquareMinus className='text-white' />}
 			</div>
 		),
-		content: (
-			<div className={contentStyle}>
-				{ELU_INTRO_LONG}
-				{ELU_BODY}
-			</div>
-		),
+		content: <div className={contentStyle}>{A_PROPOS_GREENPEACE}</div>,
 	},
 	{
 		title: (
@@ -55,7 +46,7 @@ const getActionsLong = (isOpen: boolean[]) => [
 				{isOpen[1] && <SquareMinus className='text-white' />}
 			</div>
 		),
-		content: <div className={`${contentStyle} pb-8`}>{DATA_FOR_GOOD_TEXT}</div>,
+		content: <div className={`${contentStyle} pb-8`}>{A_PROPOS_DATA_FOR_GOOD}</div>,
 	},
 ];
 

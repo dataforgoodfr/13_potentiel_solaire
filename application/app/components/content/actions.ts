@@ -19,4 +19,8 @@ export const ACTION_LINKS = {
 		label: 'Site de Data For Good',
 		url: 'https://dataforgood.fr/',
 	},
+	siteGreenpeace: {
+		label: 'Site de Greenpeace France',
+		url: 'https://www.greenpeace.fr/',
+	},
 };
