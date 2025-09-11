@@ -39,7 +39,7 @@ const StaticPage = ({ title, sections, picture }: StaticPageProps) => (
 			{title}
 		</h1>
 
-		<div className={clsx('flex flex-col gap-12', !!picture && 'md:flex-row-reverse')}>
+		<div className={clsx('flex flex-col', !!picture && 'gap-12 md:flex-row-reverse')}>
 			{picture && (
 				<div className='mt-4 w-full rounded-sm md:h-16 md:w-1/2'>
 					<Image
