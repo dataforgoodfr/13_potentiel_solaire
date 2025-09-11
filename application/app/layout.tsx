@@ -25,7 +25,13 @@ export default function RootLayout({
 			<body className='flex min-h-screen flex-col'>
 				<Suspense>
 					<InitialViewProvider>
+<<<<<<< HEAD
 						<NavBar  />
+=======
+						<header>
+							<NavBar />
+						</header>
+>>>>>>> 0669212 ([FRONT] fix: adjust z-index components)
 						<main className='flex flex-1 flex-col bg-blue'>
 							<Providers>{children}</Providers>
 						</main>
