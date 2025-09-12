@@ -15,7 +15,7 @@ export default function BackButton({ onBack, previousLevel }: BackButtonProps) {
 			onClick={onBack}
 			className='flex items-center gap-2 rounded-md border border-white bg-blue text-sm shadow-md'
 			size='sm'
-			aria-label='Retour'
+			aria-label={LEVEL_TO_LABEL_INCLUDING_NATION[previousLevel]}
 		>
 			<ChevronLeft size={20} />
 			<span className='hidden sm:block'>
