@@ -100,7 +100,7 @@ export default function Fiches({
 	const tabs: Tab = [
 		{ id: 'region', label: LEVEL_TO_LABEL_SHORTENED['region'] },
 		{ id: 'departement', label: LEVEL_TO_LABEL_SHORTENED['departement'] },
-		{ id: 'commune', label: LEVEL_TO_LABEL_SHORTENED['region'] },
+		{ id: 'commune', label: LEVEL_TO_LABEL_SHORTENED['commune'] },
 		{ id: 'etablissement', label: etablissement?.type_etablissement },
 	];
 
