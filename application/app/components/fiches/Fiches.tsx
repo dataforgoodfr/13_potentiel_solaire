@@ -98,14 +98,14 @@ export default function Fiches({
 	}
 
 	const tabs: Tab = [
-		{ id: 'region', label: LEVEL_TO_LABEL_SHORTENED['region'] },
-		{ id: 'departement', label: LEVEL_TO_LABEL_SHORTENED['departement'] },
-		{ id: 'commune', label: LEVEL_TO_LABEL_SHORTENED['commune'] },
-		{ id: 'etablissement', label: etablissement?.type_etablissement },
-	];
+    ...(region ? [{ id: 'region' as const, label: LEVEL_TO_LABEL_SHORTENED['region'] }] : []),
+    ...(departement ? [{ id: 'departement' as const, label: LEVEL_TO_LABEL_SHORTENED['departement'] }] : []),
+    ...(commune ? [{ id: 'commune' as const, label: LEVEL_TO_LABEL_SHORTENED['commune'] }] : []),
+    ...(etablissement ? [{ id: 'etablissement' as const, label: etablissement.type_etablissement }] : []),
+  ];
 
 	const filteredTabs = tabs.filter((tab) => tab.label !== undefined);
-
+  
 	return (
 		<div
 			ref={ficheContainerRef}
