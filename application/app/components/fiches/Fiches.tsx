@@ -11,6 +11,7 @@ import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
+import { LEVEL_TO_LABEL_SHORTENED } from '../Map/layers/layers';
 import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
@@ -97,10 +98,10 @@ export default function Fiches({
 	}
 
 	const tabs: Tab = [
-		{ id: 'region', label: region?.libelle_region },
-		{ id: 'departement', label: departement?.libelle_departement },
-		{ id: 'commune', label: commune?.nom_commune },
-		{ id: 'etablissement', label: etablissement?.nom_etablissement },
+		{ id: 'region', label: LEVEL_TO_LABEL_SHORTENED['region'] },
+		{ id: 'departement', label: LEVEL_TO_LABEL_SHORTENED['departement'] },
+		{ id: 'commune', label: LEVEL_TO_LABEL_SHORTENED['commune'] },
+		{ id: 'etablissement', label: etablissement?.type_etablissement },
 	];
 
 	const filteredTabs = tabs.filter((tab) => tab.label !== undefined);

@@ -322,6 +322,9 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		setIsInteractive(enabled);
 	}
 
+	function getLayerUp(): Layer {
+		return layers.slice(-2)[0];
+	}
 	function goBackOneLevel() {
 		if (layers.length < 2) return;
 
@@ -568,7 +571,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			</MapFromReactMapLibre>
 			{!isNationLevel && (
 				<div className='absolute left-11 top-2 flex gap-1'>
-					<BackButton onBack={goBackOneLevel} />
+					<BackButton onBack={goBackOneLevel} previousLevel={getLayerUp().level} />
 					{currentLevelItem && (
 						<CurrentLevel
 							level={level}

@@ -7,13 +7,7 @@ import { Button } from '@/components/ui/button';
 import { MapPin } from 'lucide-react';
 
 import { Level } from './interfaces';
-
-const LEVEL_TO_LABEL: Record<Exclude<Level, 'nation'>, string> = {
-	etablissement: 'Établissement',
-	commune: 'Commune',
-	departement: 'Département',
-	region: 'Région',
-};
+import { LEVEL_TO_LABEL } from './layers/layers';
 
 type CurrentLevelProps = {
 	level: Exclude<Level, 'nation'>;
