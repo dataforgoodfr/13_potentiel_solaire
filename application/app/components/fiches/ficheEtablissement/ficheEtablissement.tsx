@@ -13,13 +13,8 @@ interface FicheEtablissementProps {
 }
 
 export default function FicheEtablissement({ etablissement }: FicheEtablissementProps) {
-	console.log(
-		'reussite_rattachement (type:',
-		typeof etablissement.reussite_rattachement,
-		')',
-		'valeur:',
-		etablissement.reussite_rattachement,
-	);
+  const donneesDisponibles = etablissement.reussite_rattachement
+
 	return (
 		<div>
 			<EtablissementCard {...etablissement} />
@@ -40,9 +35,9 @@ export default function FicheEtablissement({ etablissement }: FicheEtablissement
 				nbEleves={etablissement.nb_eleves ?? undefined}
 				level='etablissement'
 				header={<InterpretationMessage niveau_potentiel={etablissement.niveau_potentiel} />}
-				grise={!etablissement.reussite_rattachement}
+				grise={!donneesDisponibles}
 			/>
-			{etablissement.reussite_rattachement && (
+			{donneesDisponibles && (
 				<>
 					<hr className='my-4' />
 					<div className='ml-2'>
