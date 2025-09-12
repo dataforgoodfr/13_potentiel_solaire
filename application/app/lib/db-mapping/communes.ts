@@ -75,9 +75,6 @@ export const COMMUNES_GEOJSON_MAPPING = {
 	[COMMUNES_COLUMNS.CodeDepartement]: 'code_departement',
 	[COMMUNES_COLUMNS.CodeRegion]: 'code_region',
 	[COMMUNES_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
-	[COMMUNES_COLUMNS.PotentielSolaireLycees]: 'potentiel_solaire_lycees',
-	[COMMUNES_COLUMNS.PotentielSolaireColleges]: 'potentiel_solaire_colleges',
-	[COMMUNES_COLUMNS.PotentielSolairePrimaires]: 'potentiel_solaire_primaires',
 } as const satisfies Partial<{
 	[K in CommuneColumnValues]: keyof CommuneFeatureProperties;
 }>;

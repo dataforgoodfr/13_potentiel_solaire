@@ -6,9 +6,10 @@ import { FillLayerSpecification } from 'maplibre-gl';
 import { Thresholds } from '../constants';
 import thresholdsToStepColorsParams from './thresholdsToColorsParams';
 
-const ZONE_GEOJSON_KEY_POTENTIEL_SOLAIRE_TOTAL: keyof DepartementFeatureProperties &
-	keyof CommuneFeatureProperties &
-	keyof RegionFeatureProperties = 'potentiel_solaire_total';
+const ZONE_GEOJSON_KEY_POTENTIEL_SOLAIRE_TOTAL =
+	'potentiel_solaire_total' satisfies keyof DepartementFeatureProperties &
+		keyof CommuneFeatureProperties &
+		keyof RegionFeatureProperties;
 
 export function zonesLayerPaint(thresholds: Thresholds, isBackground: boolean) {
 	const fillColors = thresholdsToStepColorsParams(thresholds);

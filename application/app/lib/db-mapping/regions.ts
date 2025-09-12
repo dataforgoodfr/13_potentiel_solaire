@@ -62,9 +62,6 @@ export const REGIONS_GEOJSON_MAPPING = {
 	[REGIONS_COLUMNS.Id]: 'code_region',
 	[REGIONS_COLUMNS.Nom]: 'libelle_region',
 	[REGIONS_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
-	[REGIONS_COLUMNS.PotentielSolaireLycees]: 'potentiel_solaire_lycees',
-	[REGIONS_COLUMNS.PotentielSolaireColleges]: 'potentiel_solaire_colleges',
-	[REGIONS_COLUMNS.PotentielSolairePrimaires]: 'potentiel_solaire_primaires',
 } as const satisfies Partial<{
 	[K in RegionColumnValues]: keyof RegionFeatureProperties;
 }>;
