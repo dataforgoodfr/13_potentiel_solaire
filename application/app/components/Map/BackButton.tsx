@@ -1,11 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 
+import { Level } from './interfaces';
+import { LEVEL_TO_LABEL_INCLUDING_NATION } from './layers/layers';
+
 type BackButtonProps = {
 	onBack: () => void;
+	previousLevel: Level;
 };
 
-export default function BackButton({ onBack }: BackButtonProps) {
+export default function BackButton({ onBack, previousLevel }: BackButtonProps) {
 	return (
 		<Button
 			onClick={onBack}
@@ -14,7 +18,9 @@ export default function BackButton({ onBack }: BackButtonProps) {
 			aria-label='Retour'
 		>
 			<ChevronLeft size={20} />
-			<span className='hidden sm:block'>Retour</span>
+			<span className='hidden sm:block'>
+				{LEVEL_TO_LABEL_INCLUDING_NATION[previousLevel]}
+			</span>
 		</Button>
 	);
 }
