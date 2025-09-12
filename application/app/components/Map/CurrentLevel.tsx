@@ -4,7 +4,7 @@ import { Etablissement } from '@/app/models/etablissements';
 import { Region } from '@/app/models/regions';
 import { getLevelName } from '@/app/utils/level-utils';
 import { Button } from '@/components/ui/button';
-import { Newspaper } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 import { Level } from './interfaces';
 
@@ -31,7 +31,7 @@ export default function CurrentLevel({ level, levelItem, openFiche }: CurrentLev
 			aria-label={`Ouvrir la fiche de ${nom} (${LEVEL_TO_LABEL[level]})`}
 		>
 			{nom} {`(${LEVEL_TO_LABEL[level]})`}
-			<Newspaper size={20} />
+			<MapPin size={20} />
 		</Button>
 	);
 }
