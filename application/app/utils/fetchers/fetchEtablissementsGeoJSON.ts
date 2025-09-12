@@ -17,7 +17,6 @@ export async function fetchEtablissementsGeoJSON(codeCommune: string | null) {
 
 		return data;
 	} catch (error) {
-		//TODO: create empty geojson collection as fallback value
 		console.error('Error while retrieving etablissements data:', error);
 		throw new Error('Failed to load etablissements from geojson file');
 	}

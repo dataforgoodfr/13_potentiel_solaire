@@ -10,7 +10,6 @@ const UNKNOWN_TEXTS = {
 	adresse: 'Adresse inconnue',
 };
 
-//TODO: if adresse_3 is null => use code_postal + nom_commune (à confirmer au niveau data)
 const EtablissementCard = ({
 	nom_etablissement,
 	adresse_1,

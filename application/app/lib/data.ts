@@ -315,7 +315,7 @@ export async function fetchCommuneById(id: string): Promise<Commune | null> {
 		if (!result) {
 			return null;
 		}
-		// TODO: check if duckdb can do this
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		return {
 			...result,
 			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
@@ -426,7 +426,7 @@ export async function fetchDepartementById(id: string): Promise<Departement | nu
 		if (!result) {
 			return null;
 		}
-		// TODO: check if duckdb can do this
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		return {
 			...result,
 			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
@@ -483,7 +483,7 @@ export async function fetchRegionById(id: string): Promise<Region | null> {
 		if (!result) {
 			return null;
 		}
-		// TODO: check if duckdb can do this
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		return {
 			...result,
 			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
@@ -583,7 +583,7 @@ export async function fetchSearchResults(
 		}
 
 		const reader = await prepared.runAndReadAll();
-		// TODO - query data with extra_data using duckdb directly
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return reader.getRowObjectsJson().map((d: any) => ({
 			id: d.id,

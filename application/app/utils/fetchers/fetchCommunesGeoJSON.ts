@@ -16,7 +16,6 @@ export async function fetchCommunesGeoJSON(codeDepartement: string | null) {
 
 		return data;
 	} catch (error) {
-		//TODO: create empty geojson collection as fallback value
 		console.error('Error while retrieving communes data:', error);
 		throw new Error('Failed to load communes from API');
 	}

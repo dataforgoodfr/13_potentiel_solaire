@@ -16,7 +16,6 @@ export async function fetchDepartementsGeoJSON(codeRegion: string | null) {
 
 		return data;
 	} catch (error) {
-		//TODO: create empty geojson collection as fallback value
 		console.error('Error while retrieving departements data:', error);
 		throw new Error('Failed to load departements from API');
 	}

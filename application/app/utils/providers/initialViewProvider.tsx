@@ -11,7 +11,6 @@ export interface InitialViewContextType {
 
 export const InitialViewContext = createContext<InitialViewContextType | undefined>(undefined);
 
-//TODO: if useURLParams has values then don't show initial view
 export const InitialViewProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	const { values } = useURLParams();
 	const isAtLeastOnePlaceSelected = Object.values(values).some((code) => code !== null);

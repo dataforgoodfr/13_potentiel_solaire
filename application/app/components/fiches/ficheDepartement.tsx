@@ -37,7 +37,6 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='departement' />
 			<br />
-			{/* TODO: Les seuils des colleges ne sont pas encore établis */}
 			{activeTab === 'all' ? (
 				<>
 					<PotentielSolaireCard

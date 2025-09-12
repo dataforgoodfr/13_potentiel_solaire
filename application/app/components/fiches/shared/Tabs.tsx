@@ -4,7 +4,6 @@ type TabsProps = {
 	onTabChange: (tabId: string) => void;
 };
 
-// TODO: improve accessibility of this non interactive element
 export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 	return (
 		<div className='mb-4 flex'>
