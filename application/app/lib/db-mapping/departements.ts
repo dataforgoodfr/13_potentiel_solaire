@@ -70,9 +70,6 @@ export const DEPARTEMENTS_GEOJSON_MAPPING = {
 	[DEPARTEMENTS_COLUMNS.Nom]: 'libelle_departement',
 	[DEPARTEMENTS_COLUMNS.CodeRegion]: 'code_region',
 	[DEPARTEMENTS_COLUMNS.PotentielSolaireTotal]: 'potentiel_solaire_total',
-	[DEPARTEMENTS_COLUMNS.PotentielSolaireLycees]: 'potentiel_solaire_lycees',
-	[DEPARTEMENTS_COLUMNS.PotentielSolaireColleges]: 'potentiel_solaire_colleges',
-	[DEPARTEMENTS_COLUMNS.PotentielSolairePrimaires]: 'potentiel_solaire_primaires',
 } as const satisfies Partial<{
 	[K in DepartementColumnValues]: keyof DepartementFeatureProperties;
 }>;

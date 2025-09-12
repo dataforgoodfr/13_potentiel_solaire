@@ -72,11 +72,6 @@ import {
 
 const MAP_STYLE_URL = `/map-styles/map-style.json`;
 
-// TODO: Respecter les conditions de réutilisation des données Etalab
-// - Mentionner la source des données (Etalab)
-// - Indiquer la date de mise à jour du fichier map-style.json
-// - Vérifier et respecter la licence (Licence Ouverte 2.0 ou ODbL)
-
 const MOBILE_VIEW_STATE = {
 	longitude: 2.388334,
 	latitude: 43.903354,

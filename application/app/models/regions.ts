@@ -27,9 +27,6 @@ export interface RegionFeatureProperties {
 	code_region: string;
 	libelle_region: string;
 	potentiel_solaire_total: number;
-	potentiel_solaire_lycees: number;
-	potentiel_solaire_colleges: number;
-	potentiel_solaire_primaires: number;
 }
 export type RegionFeature = RegionsGeoJSON['features'][number];
 

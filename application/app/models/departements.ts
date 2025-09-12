@@ -30,9 +30,6 @@ export interface DepartementFeatureProperties {
 	libelle_departement: string;
 	code_region: string;
 	potentiel_solaire_total: number;
-	potentiel_solaire_lycees: number;
-	potentiel_solaire_colleges: number;
-	potentiel_solaire_primaires: number;
 }
 export type DepartementFeature = DepartementsGeoJSON['features'][number];
 

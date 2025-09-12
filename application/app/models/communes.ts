@@ -33,9 +33,6 @@ export interface CommuneFeatureProperties {
 	code_departement: string;
 	code_region: string;
 	potentiel_solaire_total: number;
-	potentiel_solaire_lycees: number;
-	potentiel_solaire_colleges: number;
-	potentiel_solaire_primaires: number;
 }
 export type CommuneFeature = CommunesGeoJSON['features'][number];
 

@@ -11,7 +11,6 @@ export async function fetchRegionsGeoJSON() {
 
 		return data;
 	} catch (error) {
-		//TODO: create empty geojson collection as fallback value
 		console.error('Error while retrieving regions data:', error);
 		throw new Error('Failed to load regions from API');
 	}

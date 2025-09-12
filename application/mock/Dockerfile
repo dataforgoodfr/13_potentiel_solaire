@@ -1,5 +1,4 @@
 # Use a specific version of Alpine for stability
-# TODO: use lighter image
 # FROM node:18 AS base
 FROM debian:bookworm-slim
 

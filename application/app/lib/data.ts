@@ -194,13 +194,7 @@ export async function fetchCommuneContainsLatLng({
 			'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.CodeRegion]}',
 			c.${COMMUNES_COLUMNS.CodeRegion},
 			'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolaireTotal]}',
-			c.${COMMUNES_COLUMNS.PotentielSolaireTotal},
-			'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolaireLycees]}',
-			c.${COMMUNES_COLUMNS.PotentielSolaireLycees},
-			'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolaireColleges]}',
-			c.${COMMUNES_COLUMNS.PotentielSolaireColleges},
-			'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolairePrimaires]}',
-			c.${COMMUNES_COLUMNS.PotentielSolairePrimaires}
+			c.${COMMUNES_COLUMNS.PotentielSolaireTotal}
 			),
 			'${GEOJSON_GEOMETRY_KEY}', ST_AsGeoJSON(c.${COMMUNES_COLUMNS.Geometry})::JSON
 		) as geojson
@@ -247,13 +241,7 @@ export async function fetchCommunesGeoJSON(
 				'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.CodeRegion]}',
 				c.${COMMUNES_COLUMNS.CodeRegion},
 				'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolaireTotal]}',
-				c.${COMMUNES_COLUMNS.PotentielSolaireTotal},
-				'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolaireLycees]}',
-				c.${COMMUNES_COLUMNS.PotentielSolaireLycees},
-				'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolaireColleges]}',
-				c.${COMMUNES_COLUMNS.PotentielSolaireColleges},
-				'${COMMUNES_GEOJSON_MAPPING[COMMUNES_COLUMNS.PotentielSolairePrimaires]}',
-				c.${COMMUNES_COLUMNS.PotentielSolairePrimaires}
+				c.${COMMUNES_COLUMNS.PotentielSolaireTotal}
 				),
 				'${GEOJSON_GEOMETRY_KEY}', ST_AsGeoJSON(c.${COMMUNES_COLUMNS.Geometry})::JSON
 				)
@@ -315,7 +303,7 @@ export async function fetchCommuneById(id: string): Promise<Commune | null> {
 		if (!result) {
 			return null;
 		}
-		// TODO: check if duckdb can do this
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		return {
 			...result,
 			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
@@ -360,13 +348,7 @@ export async function fetchDepartementsGeoJSON(
 				'${DEPARTEMENTS_GEOJSON_MAPPING[DEPARTEMENTS_COLUMNS.CodeRegion]}',
 				d.${DEPARTEMENTS_COLUMNS.CodeRegion},
 				'${DEPARTEMENTS_GEOJSON_MAPPING[DEPARTEMENTS_COLUMNS.PotentielSolaireTotal]}',
-				d.${DEPARTEMENTS_COLUMNS.PotentielSolaireTotal},
-				'${DEPARTEMENTS_GEOJSON_MAPPING[DEPARTEMENTS_COLUMNS.PotentielSolaireLycees]}',
-				d.${DEPARTEMENTS_COLUMNS.PotentielSolaireLycees},
-				'${DEPARTEMENTS_GEOJSON_MAPPING[DEPARTEMENTS_COLUMNS.PotentielSolaireColleges]}',
-				d.${DEPARTEMENTS_COLUMNS.PotentielSolaireColleges},
-				'${DEPARTEMENTS_GEOJSON_MAPPING[DEPARTEMENTS_COLUMNS.PotentielSolairePrimaires]}',
-				d.${DEPARTEMENTS_COLUMNS.PotentielSolairePrimaires}
+				d.${DEPARTEMENTS_COLUMNS.PotentielSolaireTotal}
 				),
 				'${GEOJSON_GEOMETRY_KEY}', ST_AsGeoJSON(d.${DEPARTEMENTS_COLUMNS.Geometry})::JSON
 				)
@@ -426,7 +408,7 @@ export async function fetchDepartementById(id: string): Promise<Departement | nu
 		if (!result) {
 			return null;
 		}
-		// TODO: check if duckdb can do this
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		return {
 			...result,
 			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
@@ -483,7 +465,7 @@ export async function fetchRegionById(id: string): Promise<Region | null> {
 		if (!result) {
 			return null;
 		}
-		// TODO: check if duckdb can do this
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		return {
 			...result,
 			top_etablissements_total: JSON.parse(result.top_etablissements_total as string),
@@ -583,7 +565,7 @@ export async function fetchSearchResults(
 		}
 
 		const reader = await prepared.runAndReadAll();
-		// TODO - query data with extra_data using duckdb directly
+		// TODO: deserialize directly with duckdb api : implement custom converter as JSON column are seen as VARCHAR @see https://github.com/duckdb/duckdb-node-neo/discussions/253#discussioncomment-13645477
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return reader.getRowObjectsJson().map((d: any) => ({
 			id: d.id,

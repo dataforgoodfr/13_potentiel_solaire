@@ -5,7 +5,7 @@ export const ACTION_LINKS = {
 	},
 	contact: {
 		label: 'Nous contacter',
-		url: 'https://www.greenpeace.fr/contact/', // TODO : placer le correct email
+		url: 'mailto:etablissement.solaire@greenpeace.fr',
 	},
 	commentAgir: {
 		label: 'Comment agir ?',

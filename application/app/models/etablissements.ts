@@ -40,7 +40,6 @@ export interface TopEtablissement {
 }
 
 // --- GeoJSON ----
-//TODO: clean unused properties
 export interface EtablissementFeatureProperties {
 	identifiant_de_l_etablissement: string;
 	nom_etablissement: string;

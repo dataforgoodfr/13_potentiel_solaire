@@ -31,10 +31,9 @@ export const ELU_BODY = (
 			<p className='font-bold'>
 				Si cela est votre cas, nous vous invitons à nous contacter à l’adresse suivante :
 			</p>
+			{/* mailto: donc pas besoin de target blank */}
 			<a
 				href={ACTION_LINKS.contact.url}
-				target='_blank'
-				rel='noopener noreferrer'
 				className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen hover:underline'
 			>
 				{ACTION_LINKS.contact.label}

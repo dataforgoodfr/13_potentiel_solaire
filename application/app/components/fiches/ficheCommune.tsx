@@ -37,7 +37,6 @@ export default function FicheCommune({ commune }: FicheCommuneProps) {
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='commune' />
 			<br />
-			{/* TODO: Les seuils des primaires ne sont pas encore établis */}
 			{activeTab === 'all' ? (
 				<>
 					<PotentielSolaireCard
