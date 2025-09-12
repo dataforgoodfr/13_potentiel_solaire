@@ -2,7 +2,7 @@ import { JSX } from 'react';
 
 import { getColorForPotentiel } from '@/app/utils/solar-utils';
 import * as Popover from '@radix-ui/react-popover';
-import { CircleHelp, HousePlug, Users, Zap } from 'lucide-react';
+import { CircleHelp, FileX, HousePlug, Users, Zap } from 'lucide-react';
 
 import { getClosestEnergyUnit, getFormattedPotentielSolaire } from '../../../utils/energy-utils';
 
@@ -44,9 +44,12 @@ export default function PotentielSolaireCard({
 	if (grise) {
 		return (
 			<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-6 outline-select'>
-				<p className='text-base font-semibold text-grey'>
-					Données incomplètes pour cet établissement
-				</p>
+				<div className='flex items-center text-grey'>
+					<FileX className='h-8 w-8 mt-2 flex-shrink-0 self-stretch' />
+					<p className='ml-2 text-base font-semibold'>
+						Données incomplètes pour cet établissement
+					</p>
+				</div>
 			</div>
 		);
 	}
