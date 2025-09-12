@@ -35,7 +35,7 @@ export const footerText = {
 export const footerDescription = {
 	title: 'Notre objectif',
 	text: `L’outil Établissement Solaire permet d’évaluer le potentiel des toitures des établissements
-scolaires français pour accueillir des panneaux solaires photovoltaïques. Interactif, avec des données accessibles et libres,
+scolaires publics français pour accueillir des panneaux solaires photovoltaïques. Interactif, avec des données accessibles et libres,
 il permet d’aider les habitant·es et les collectivités locales à connaître le potentiel de leur territoire et à agir pour
 développer les énergies renouvelables près de chez eux.`,
 };
