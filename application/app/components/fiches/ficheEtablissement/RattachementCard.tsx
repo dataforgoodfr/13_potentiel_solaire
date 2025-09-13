@@ -21,7 +21,7 @@ const RattachementCard: React.FC<RattachementCardProps> = ({ etablissements_ratt
 		[etablissements_rattaches],
 	);
 	return (
-		<div className={'mb-2 flex gap-4 rounded-md bg-gris p-2'}>
+		<div className={'bg-gris mb-2 flex gap-4 rounded-md p-2'}>
 			<CircleAlert size={40} />
 			<div className={''}>
 				<p className='mb-2 text-sm font-normal text-blue'>{RATTACHEMENT_TEXT}</p>
