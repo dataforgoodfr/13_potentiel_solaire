@@ -15,7 +15,7 @@ const CollapsibleTrigger = React.forwardRef<
 		<span
 			ref={ref}
 			className={cn(
-				'inline-flex cursor-pointer text-base font-normal underline decoration-dotted',
+				'inline-flex cursor-pointer text-base font-normal',
 				className,
 			)}
 			{...props}

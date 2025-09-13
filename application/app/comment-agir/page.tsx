@@ -15,7 +15,7 @@ import AccordionCard from '../components/fiches/shared/AccordionCard';
 
 const actionsLong = [
 	{
-		title: 'Je suis un élu et je veux agir',
+		title: 'Je suis un·e élu·e et je veux agir',
 		content: (
 			<>
 				{ELU_INTRO_LONG}
@@ -24,7 +24,7 @@ const actionsLong = [
 		),
 	},
 	{
-		title: 'Je suis un particulier et je veux agir',
+		title: 'Je suis un·e citoyen·ne et je veux agir',
 		content: (
 			<>
 				{PARTICULIER_INTRO_LONG}
@@ -39,11 +39,15 @@ export default function CommentAgirPage() {
 		<>
 			<main className='mx-auto max-w-5xl px-4 py-8 pb-40'>
 				<div className='flex flex-col gap-6 md:flex-row'>
-					<div className='order-2 md:order-1'>
+					<div className='order-2 flex-1 md:order-1'>
 						<StaticPage {...commentAgirContent} />
 					</div>
-					<div className='order-1 mt-8 shrink md:order-2 md:mt-20'>
-						<Image src={commentagir} alt='école' className='rounded-2xl' />
+					<div className='order-1 ml-10 mt-8 flex-1 shrink md:order-2 md:mt-24'>
+						<Image
+							src={commentagir}
+							alt='école'
+							className='h-auto w-full rounded-2xl object-contain'
+						/>
 					</div>
 				</div>
 				<AccordionCard actions={actionsLong} />

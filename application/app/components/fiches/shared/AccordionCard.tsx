@@ -1,3 +1,15 @@
+'use client';
+
+import { useState } from 'react';
+
+import { SquareMinus, SquarePlus } from 'lucide-react';
+
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from '../../../../components/ui/collapsible';
+
 interface AccordionCardProps {
 	actions: {
 		title: string;
@@ -9,14 +21,31 @@ export default function AccordionCard({ actions }: AccordionCardProps) {
 	return (
 		<div>
 			{actions.map((action, index) => (
-				<details
+				<Collapsible
 					key={index}
-					className='mb-2 rounded-md border border-blue bg-blue p-2 text-sm text-white'
+					className='mb-2 rounded-md border border-blue bg-black p-2 text-sm text-white'
 				>
-					<summary className='cursor-pointer font-bold'>{action.title}</summary>
-					<div className='mt-2'>{action.content}</div>
-				</details>
+					<CollapsibleTrigger className='px-4 py-2 flex w-full items-center justify-between text-sm font-bold'>
+						<span>{action.title}</span>
+						<CollapsibleIcon />
+					</CollapsibleTrigger>
+					<CollapsibleContent className='mt-2 block'>{action.content}</CollapsibleContent>
+				</Collapsible>
 			))}
 		</div>
+	);
+}
+
+function CollapsibleIcon() {
+	const [open, setOpen] = useState(false);
+
+	return (
+		<Collapsible onOpenChange={setOpen}>
+			{open ? (
+				<SquareMinus className='h-5 w-5 shrink-0 stroke-green' />
+			) : (
+				<SquarePlus className='h-5 w-5 shrink-0 stroke-green' />
+			)}
+		</Collapsible>
 	);
 }
