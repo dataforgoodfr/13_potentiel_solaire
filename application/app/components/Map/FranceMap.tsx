@@ -559,7 +559,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						)}
 					</Source>
 				)}
-				<div className='absolute inset-x-0 bottom-24 z-30 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+				<div className='z-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
 					<Legend thresholds={COLOR_THRESHOLDS[level]} />
 					<MenuDrom />
 				</div>
