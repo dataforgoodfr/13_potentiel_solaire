@@ -35,8 +35,8 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 	useChangeCodesOnSelection(selection, onSelect);
 
 	async function handleSelect(selection: SearchResult) {
-		setQuery(selection.libelle);
 		setSelection(selection);
+		setQuery('');
 	}
 
 	function clearSearch() {
@@ -213,7 +213,14 @@ export function Autocomplete({
 								<CommandEmpty className='p-2'>{noOptionsText}</CommandEmpty>
 								{options && options.length > 0 && (
 									<CommandGroup>
-										<Suggestions items={options ?? []} onSelect={onSelect} />
+										{/* <Suggestions items={options ?? []} onSelect={onSelect} /> */}
+										<Suggestions
+											items={options ?? []}
+											onSelect={(selection) => {
+												onSelect(selection);
+												setIsPopoverOpen(false);
+											}}
+										/>
 									</CommandGroup>
 								)}
 							</CommandList>
