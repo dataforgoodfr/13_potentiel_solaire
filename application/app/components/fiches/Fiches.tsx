@@ -110,8 +110,6 @@ export default function Fiches({
 			: []),
 	];
 
-	const filteredTabs = tabs.filter((tab) => tab.label !== undefined);
-
 	return (
 		<div
 			ref={ficheContainerRef}
@@ -124,11 +122,11 @@ export default function Fiches({
 				<X />
 			</button>
 			<div className='flex gap-1 pl-2'>
-				{filteredTabs.map((tab) => (
+				{tabs.map((tab) => (
 					<button
 						key={tab.id}
 						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
-						style={{ flexBasis: `${(1 / filteredTabs.length) * 100}%` }}
+						style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
 						onClick={() => setActiveTab(tab.id)}
 					>
 						{tab.label}
