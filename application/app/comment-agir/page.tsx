@@ -37,7 +37,7 @@ const actionsLong = [
 export default function CommentAgirPage() {
 	return (
 		<>
-			<main className='mx-auto max-w-5xl px-4 py-8 pb-40'>
+			<div className='mx-auto max-w-5xl px-4 py-8 pb-40'>
 				<div className='flex flex-col gap-6 md:flex-row'>
 					<div className='order-2 flex-1 md:order-1'>
 						<StaticPage {...commentAgirContent} />
@@ -51,7 +51,7 @@ export default function CommentAgirPage() {
 					</div>
 				</div>
 				<AccordionCard actions={actionsLong} />
-			</main>
+			</div>
 		</>
 	);
 }

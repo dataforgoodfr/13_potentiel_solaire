@@ -14,10 +14,7 @@ const CollapsibleTrigger = React.forwardRef<
 	<CollapsiblePrimitive.Trigger asChild>
 		<span
 			ref={ref}
-			className={cn(
-				'inline-flex cursor-pointer text-base font-normal',
-				className,
-			)}
+			className={cn('inline-flex cursor-pointer text-base font-normal', className)}
 			{...props}
 		></span>
 	</CollapsiblePrimitive.Trigger>

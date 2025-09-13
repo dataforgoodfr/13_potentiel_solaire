@@ -25,7 +25,7 @@ export default function AccordionCard({ actions }: AccordionCardProps) {
 					key={index}
 					className='mb-2 rounded-md border border-blue bg-black p-2 text-sm text-white'
 				>
-					<CollapsibleTrigger className='px-4 py-2 flex w-full items-center justify-between text-sm font-bold'>
+					<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
 						<span>{action.title}</span>
 						<CollapsibleIcon />
 					</CollapsibleTrigger>
