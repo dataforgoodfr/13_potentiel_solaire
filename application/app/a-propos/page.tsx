@@ -66,7 +66,7 @@ export default function AProposPage() {
 	);
 	return (
 		<>
-			<main className='mx-auto mb-24 flex max-w-6xl flex-col justify-evenly py-8'>
+			<div className='mx-auto mb-24 flex max-w-6xl flex-col justify-evenly py-8'>
 				<StaticPage {...aProposContent} />
 
 				{getActionsLong(
@@ -94,7 +94,7 @@ export default function AProposPage() {
 						</span>
 					</Collapsible>
 				))}
-			</main>
+			</div>
 		</>
 	);
 }
