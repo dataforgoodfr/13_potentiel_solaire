@@ -36,22 +36,33 @@ const actionsLong = [
 
 export default function CommentAgirPage() {
 	return (
-		<>
-			<div className='mx-auto max-w-5xl px-4 py-8 pb-40'>
-				<div className='flex flex-col gap-6 md:flex-row'>
-					<div className='order-2 flex-1 md:order-1'>
-						<StaticPage {...commentAgirContent} />
-					</div>
-					<div className='order-1 ml-10 mt-8 flex-1 shrink md:order-2 md:mt-24'>
-						<Image
-							src={commentagir}
-							alt='école'
-							className='h-auto w-full rounded-2xl object-contain'
-						/>
-					</div>
+		<div className='mx-auto max-w-5xl px-4 py-8 pb-40'>
+			<div className='flex flex-col gap-6 md:flex-row'>
+				<div className='order-2 flex-1 md:order-1'>
+					<StaticPage
+						{...commentAgirContent}
+						media={
+							<div className='block md:hidden'>
+								<Image
+									src={commentagir}
+									alt='école'
+									className='mt-8 h-auto w-full rounded-2xl object-contain'
+								/>
+							</div>
+						}
+					/>
 				</div>
-				<AccordionCard actions={actionsLong} />
+
+				<div className='order-1 mt-8 hidden flex-1 shrink md:order-2 md:ml-10 md:mt-24 md:block'>
+					<Image
+						src={commentagir}
+						alt='école'
+						className='h-auto w-full rounded-2xl object-contain'
+					/>
+				</div>
 			</div>
-		</>
+
+			<AccordionCard actions={actionsLong} />
+		</div>
 	);
 }
