@@ -46,7 +46,7 @@ const StaticPage = ({ title, sections, picture }: StaticPageProps) => (
 			style={{ textDecoration: 'none' }}
 =======
 const StaticPage = ({ title, sections, picture }: StaticPageProps) => {
-	const [imgSrc, setImgSrc] = useState<string | undefined>(picture?.alt);
+	const [imgSrc, setImgSrc] = useState<string | undefined>(picture?.src);
 	return (
 		<article
 			className={clsx('mx-auto max-w-3xl px-4 py-8', !!picture && 'max-w-6xl px-8 md:px-4')}
