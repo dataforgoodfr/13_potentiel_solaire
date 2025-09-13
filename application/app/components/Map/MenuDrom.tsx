@@ -38,7 +38,7 @@ function MenuDrom() {
 	}
 
 	return (
-		<div className='mt-2 flex w-full max-w-sm flex-row justify-start gap-2 bg-transparent md:justify-center'>
+		<div className='mt-2 flex w-full max-w-sm flex-row justify-start gap-2 bg-transparent'>
 			<button onClick={() => setIsOpen(!isOpen)} className={buttonStyle}>
 				{isOpen ? (
 					<X color='white' />
