@@ -41,6 +41,7 @@ export default {
 				ring: 'hsl(var(--ring))',
 				green: 'var(--color-green)',
 				grey: 'var(--color-grey)',
+				darkgrey: 'var(--color-darkgrey)',
 				yellow: 'var(--color-yellow)',
 				orange: 'var(--color-orange)',
 				blue: 'hsl(var(--color-blue) / <alpha-value>)',

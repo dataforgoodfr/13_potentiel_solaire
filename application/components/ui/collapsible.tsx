@@ -12,14 +12,11 @@ const CollapsibleTrigger = React.forwardRef<
 	React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Trigger>
 >(({ className, ...props }, ref) => (
 	<CollapsiblePrimitive.Trigger asChild>
-		<span
+		<button
 			ref={ref}
-			className={cn(
-				'inline-flex cursor-pointer text-base font-normal underline decoration-dotted',
-				className,
-			)}
+			className={cn('inline-flex cursor-pointer text-base font-normal', className)}
 			{...props}
-		></span>
+		></button>
 	</CollapsiblePrimitive.Trigger>
 ));
 CollapsibleTrigger.displayName = CollapsiblePrimitive.Trigger.displayName;
