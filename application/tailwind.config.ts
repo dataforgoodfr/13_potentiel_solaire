@@ -69,6 +69,19 @@ export default {
 			boxShadow: {
 				base: 'var(--boxShadow-base)',
 			},
+			zIndex: {
+				base: 'var(--z-base)',
+				footer: 'var(--z-footer)',
+				header: 'var(--z-header)',
+				'home-overlay': 'var(--z-home-overlay)',
+				fiche: 'var(--z-fiche)',
+				'footer-drawer': 'var(--z-footer-drawer)',
+				overlay: 'var(--z-overlay)',
+				toast: 'var(--z-toast)',
+				tooltip: 'var(--z-tooltip)',
+				legend: 'var(--z-legend)',
+				modal: 'var(--z-modal)',
+			},
 			rotate: {
 				'-12': '-12deg',
 				'-30': '-30deg',
