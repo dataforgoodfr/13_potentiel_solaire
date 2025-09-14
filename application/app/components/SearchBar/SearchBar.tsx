@@ -36,7 +36,6 @@ export default function SearchBar({
 	const [query, setQuery] = useState('');
 	const { items, isLoading } = useDebouncedSearch(query);
 
-	// const [selection, setSelection] = useState<SearchResult | null>(null);
 	const [internalSelection, setInternalSelection] = useState<SearchResult | null>(null);
 	const selection = externalSelection !== undefined ? externalSelection : internalSelection;
 	const setSelection = onSelectionChange || setInternalSelection;
