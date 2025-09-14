@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { SquareMinus, SquarePlus } from 'lucide-react';
 
 import {
@@ -33,13 +34,13 @@ function CollapsibleItem({ action }: { action: { title: string; content: React.R
 		<Collapsible
 			open={open}
 			onOpenChange={setOpen}
-			className='mb-2 rounded-md border border-blue bg-darkgrey p-2 text-sm text-white'
+			className='bg-darkgrey mb-2 rounded-md border border-blue p-2 text-sm text-white'
 		>
 			<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
 				<span>{action.title}</span>
 				<CollapsibleIcon open={open} />
 			</CollapsibleTrigger>
-			<CollapsibleContent className='mt-2 block'>{action.content}</CollapsibleContent>
+			<CollapsibleContent className='mt-2 block px-4'>{action.content}</CollapsibleContent>
 		</Collapsible>
 	);
 }
