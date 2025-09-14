@@ -66,7 +66,7 @@ const ActionButtons = () => {
 				</Popover.Trigger>
 				<Popover.Portal>
 					<Popover.Content
-						className='z-50 rounded bg-blue px-3 py-1.5 text-xs text-white shadow'
+						className='z-tooltip rounded bg-blue px-3 py-1.5 text-xs text-white shadow'
 						sideOffset={5}
 					>
 						Cette fonctionnalité n&apos;est pas encore disponible !
