@@ -1,8 +1,10 @@
 import SearchBar from '@/app/components/SearchBar/SearchBar';
 import { useInitialView } from '@/app/utils/providers/initialViewProvider';
+import { useSearch } from '@/app/utils/providers/searchProvider';
 
 export default function HomeOverlay() {
 	const { isInitialView, closeInitialView } = useInitialView();
+	const { selection, setSelection } = useSearch();
 
 	if (!isInitialView) return null;
 
@@ -21,7 +23,11 @@ export default function HomeOverlay() {
 						Saisir une région, un département, une commune ou le nom d&#39;un
 						établissement :
 					</h2>
-					<SearchBar onSelect={closeInitialView} />
+					<SearchBar
+						onSelect={closeInitialView}
+						selection={selection}
+						onSelectionChange={setSelection}
+					/>
 				</div>
 				<hr className='my-5 h-[1px] w-full border-green' />
 				<div className='flex items-center justify-center'>

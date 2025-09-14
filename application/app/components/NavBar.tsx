@@ -11,6 +11,7 @@ import { Menu, X } from 'lucide-react';
 import GOOD from '../../public/images/GOOD.svg';
 import imgLogo from '../../public/images/logo.svg';
 import useShowSearchBar from '../utils/hooks/useShowSearchBar';
+import { useSearch } from '../utils/providers/searchProvider';
 import SearchBar from './SearchBar/SearchBar';
 
 const links = [
@@ -22,6 +23,7 @@ const links = [
 
 export default function NavBar() {
 	const showSearchBar = useShowSearchBar();
+	const { selection, setSelection } = useSearch();
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -71,7 +73,7 @@ export default function NavBar() {
 				{showSearchBar && (
 					<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
 						<Suspense>
-							<SearchBar />
+							<SearchBar selection={selection} onSelectionChange={setSelection} />
 						</Suspense>
 					</div>
 				)}

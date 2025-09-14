@@ -24,19 +24,28 @@ const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
 	onSelect?: () => void;
+	selection?: SearchResult | null;
+	onSelectionChange?: (selection: SearchResult | null) => void;
 };
 
-export default function SearchBar({ onSelect }: SearchBarProps) {
+export default function SearchBar({
+	onSelect,
+	selection: externalSelection,
+	onSelectionChange,
+}: SearchBarProps) {
 	const [query, setQuery] = useState('');
 	const { items, isLoading } = useDebouncedSearch(query);
 
-	const [selection, setSelection] = useState<SearchResult | null>(null);
+	// const [selection, setSelection] = useState<SearchResult | null>(null);
+	const [internalSelection, setInternalSelection] = useState<SearchResult | null>(null);
+	const selection = externalSelection !== undefined ? externalSelection : internalSelection;
+	const setSelection = onSelectionChange || setInternalSelection;
 
 	useChangeCodesOnSelection(selection, onSelect);
 
 	async function handleSelect(selection: SearchResult) {
-		setQuery(selection.libelle);
 		setSelection(selection);
+		setQuery('');
 	}
 
 	function clearSearch() {
@@ -52,6 +61,7 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 			loading={isLoading}
 			onSelect={handleSelect}
 			onClear={clearSearch}
+			selection={selection}
 		/>
 	);
 }
@@ -130,6 +140,7 @@ type AutocompleteProps = {
 	loadingText?: string;
 	loading?: boolean;
 	openSuggestionsAtInputLength?: number;
+	selection?: SearchResult | null;
 };
 
 // Inspired from: https://github.com/shadcn-ui/ui/issues/1069
@@ -143,6 +154,7 @@ export function Autocomplete({
 	placeholder = DEFAULT_PLACEHOLDER,
 	noOptionsText = DEFAULT_EMPTY_RESULT_TEXT,
 	openSuggestionsAtInputLength = 1,
+	selection,
 }: AutocompleteProps) {
 	/**
 	 * Hidden `CommandInput` ref to relay keydown events to the command list.
@@ -155,9 +167,18 @@ export function Autocomplete({
 
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+	useEffect(() => {
+		if (!loading && (!options || options.length === 0)) {
+			setIsPopoverOpen(false);
+		}
+	}, [loading, options]);
+
 	function onInputValueChange(e: ChangeEvent<HTMLInputElement>) {
 		const value = e.target.value;
 		onInputChange(value);
+		if (value.length > 0 && selection) {
+			onClear?.();
+		}
 		if (!isPopoverOpen && value.length >= openSuggestionsAtInputLength) {
 			setIsPopoverOpen(true);
 		} else if (isPopoverOpen && value.length < openSuggestionsAtInputLength) {
@@ -191,7 +212,7 @@ export function Autocomplete({
 					<PopoverAnchor>
 						<Input
 							ref={inputRef}
-							value={inputValue}
+							value={selection?.libelle ?? inputValue}
 							placeholder={placeholder}
 							onKeyDown={relayInputKeyDownToCommand}
 							onChange={onInputValueChange}
@@ -210,7 +231,9 @@ export function Autocomplete({
 										<Loading />
 									</CommandLoading>
 								)}
-								<CommandEmpty className='p-2'>{noOptionsText}</CommandEmpty>
+								{inputValue.length > 0 && (
+									<CommandEmpty className='p-2'>{noOptionsText}</CommandEmpty>
+								)}
 								{options && options.length > 0 && (
 									<CommandGroup>
 										<Suggestions items={options ?? []} onSelect={onSelect} />
