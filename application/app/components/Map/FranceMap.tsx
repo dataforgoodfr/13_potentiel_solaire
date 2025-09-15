@@ -493,7 +493,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={regionLabelPoints}
 					>
-						{isNationLevel && <LayerReactMapLibre {...regionsLabelsLayer} />}
+						<LayerReactMapLibre {...regionsLabelsLayer} />
 					</Source>
 				)}
 				{departementsGeoJSON && (
@@ -519,7 +519,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={departementLabelPoints}
 					>
-						{isRegionLevel && <LayerReactMapLibre {...departementsLabelsLayer} />}
+						<LayerReactMapLibre {...departementsLabelsLayer} />
 					</Source>
 				)}
 				{communesGeoJSON && (
@@ -545,7 +545,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={communeLabelPoints}
 					>
-						{isDepartementLevel && <LayerReactMapLibre {...communesLabelsLayer} />}
+						<LayerReactMapLibre {...communesLabelsLayer} />
 					</Source>
 				)}
 				{etablissementsGeoJSON && (
