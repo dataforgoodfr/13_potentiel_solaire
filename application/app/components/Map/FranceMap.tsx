@@ -454,7 +454,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				}}
 				{...interact(isInteractive)}
 			>
-				<NavigationControl position='top-left' />
+				<NavigationControl position='top-left' showCompass={false} />
 				{regionsGeoJSON && (
 					<Source
 						key={REGIONS_SOURCE_ID}
