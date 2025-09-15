@@ -39,5 +39,6 @@ export type DepartementsGeoJSON = GeoJSON.FeatureCollection<
 >;
 
 // Reference keys for proper access with maplibre layer properties
+export const DEPARTEMENT_GEOJSON_KEY_ID: keyof DepartementFeatureProperties = 'code_departement';
 export const DEPARTEMENT_GEOJSON_KEY_NOM: keyof DepartementFeatureProperties =
 	'libelle_departement';

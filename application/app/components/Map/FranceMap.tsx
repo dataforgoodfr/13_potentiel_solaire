@@ -24,7 +24,7 @@ import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
 import { getCurrentLevelItem } from '@/app/utils/level-utils';
 import { bbox } from '@turf/turf';
-import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
+import { EaseToOptions, GeoJSONSource, MapOptions } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import {
@@ -43,16 +43,15 @@ import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
 	communesLabelsLayer,
-	communesLayer,
-	communesLineLayer,
-	communesTransparentLayer,
+	getCommunesLayer,
+	getCommunesLineLayer,
 } from './layers/communesLayers';
 import {
 	DEPARTEMENTS_LABELS_SOURCE_ID,
 	DEPARTEMENTS_SOURCE_ID,
-	departementsBackgroundLayer,
 	departementsLabelsLayer,
-	departementsLayer,
+	getDepartementsLayer,
+	getDepartementsLineLayer,
 } from './layers/departementsLayers';
 import {
 	ETABLISSEMENTS_SOURCE_ID,
@@ -65,9 +64,9 @@ import {
 import {
 	REGIONS_LABELS_SOURCE_ID,
 	REGIONS_SOURCE_ID,
-	regionsBackgroundLayer,
+	getRegionsLayer,
+	getRegionsLineLayer,
 	regionsLabelsLayer,
-	regionsLayer,
 } from './layers/regionsLayers';
 
 const MAP_STYLE_URL = `/map-styles/map-style.json`;
@@ -85,6 +84,25 @@ const DESKTOP_VIEW_STATE = {
 } satisfies MapPropsReactMapLibre['initialViewState'];
 
 const ANIMATION_TIME_MS = 800;
+
+/**
+ * These values passed as props to he maps are only init values (they can't be updated).
+ */
+const DEFAULT_ZOOM_CONSTRAINT = {
+	minZoom: 4,
+	maxZoom: 18,
+} satisfies Partial<MapOptions>;
+
+/**
+ * Interactivity config options.
+ * We deactivate rotating.
+ * doubleClickZoom is disabled to avoid staggered zoom when combined with easeTo on click.
+ */
+const DEFAULT_INTERACTIVITY_CONFIG = {
+	dragRotate: false,
+	touchZoomRotate: false,
+	doubleClickZoom: false,
+} satisfies Partial<MapOptions>;
 
 type EventFeature<Feature extends GeoJSON.Feature = GeoJSON.Feature> = Feature & {
 	layer: LayerProps;
@@ -112,17 +130,6 @@ function isFeatureFrom<T extends EventFeature>(
 	return feature.layer.id === layer.id;
 }
 
-function interact(enabled: boolean) {
-	return {
-		scrollZoom: enabled,
-		boxZoom: enabled,
-		dragRotate: enabled,
-		keyboard: enabled,
-		doubleClickZoom: enabled,
-		touchZoomRotate: enabled,
-	};
-}
-
 interface FranceMapProps {
 	selectedPlaces: SelectedPlaces;
 }
@@ -135,7 +142,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		removeLayer,
 		setLayers,
 	} = useLayers();
-	const [isInteractive, setIsInteractive] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [, , setActiveTab] = useActiveTab();
 
@@ -210,7 +216,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		if (!activeEtablissement) return;
 
 		zoomOnPointFeature(activeEtablissement);
-	}, [codeEtablissement, etablissementsGeoJSON?.features]);
+	}, [codeEtablissement, etablissementsGeoJSON?.features, zoomOnPointFeature]);
 
 	function easeTo(options: EaseToOptions) {
 		if (!mapRef.current) return;
@@ -233,7 +239,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 
 	useEffect(() => {
 		if (isEtablissementLevel) {
-			toggleInteractions(true);
 			zoomOnActiveEtablissement();
 
 			return;
@@ -313,21 +318,11 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		});
 	}
 
-	function toggleInteractions(enabled: boolean) {
-		setIsInteractive(enabled);
-	}
-
 	function getLayerUp(): Layer {
 		return layers.slice(-2)[0];
 	}
 	function goBackOneLevel() {
 		if (layers.length < 2) return;
-
-		const layerUp = layers.slice(-2)[0];
-
-		if (layerUp.level === 'departement') {
-			toggleInteractions(false);
-		}
 
 		removeLayer();
 	}
@@ -358,8 +353,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		];
 
 		setLayers(newLayers);
-
-		toggleInteractions(true);
 	}
 	async function handleClickOnEtablissement(feature: EtablissementFeature) {
 		const newLayers: Layer[] = [
@@ -370,8 +363,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		];
 
 		setLayers(newLayers, 'etablissement');
-
-		toggleInteractions(true);
 	}
 
 	async function onClick(event: MapMouseEvent) {
@@ -391,10 +382,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			return;
 		}
 
-		if (
-			isFeatureFrom<EventCommuneFeature>(feature, communesLayer) ||
-			isFeatureFrom<EventCommuneFeature>(feature, communesTransparentLayer)
-		) {
+		if (isFeatureFrom<EventCommuneFeature>(feature, communesLayer)) {
 			handleClickOnCommune(feature);
 
 			return;
@@ -424,6 +412,48 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
+	// Memorized layers with dynamic props
+	const regionsLayer = useMemo(
+		() => getRegionsLayer(codeRegion ?? null, isEtablissementsLayerVisible, !isNationLevel),
+		[codeRegion, isNationLevel, isEtablissementsLayerVisible],
+	);
+	const regionsLineLayer = useMemo(() => getRegionsLineLayer(codeRegion ?? null), [codeRegion]);
+
+	const departementsLayer = useMemo(
+		() =>
+			getDepartementsLayer(
+				codeDepartement ?? null,
+				isEtablissementsLayerVisible,
+				!isNationLevel && !isRegionLevel,
+			),
+		[codeDepartement, isNationLevel, isRegionLevel, isEtablissementsLayerVisible],
+	);
+	const departementLineLayer = useMemo(
+		() => getDepartementsLineLayer(codeDepartement ?? null),
+		[codeDepartement],
+	);
+
+	const communesLayer = useMemo(
+		() =>
+			getCommunesLayer(
+				codeCommune ?? null,
+				isEtablissementsLayerVisible,
+				!isNationLevel && !isRegionLevel && !isDepartementLevel,
+			),
+		[
+			codeCommune,
+			isNationLevel,
+			isRegionLevel,
+			isDepartementLevel,
+			isEtablissementsLayerVisible,
+		],
+	);
+
+	const communeLineLayer = useMemo(
+		() => getCommunesLineLayer(codeCommune ?? null),
+		[codeCommune],
+	);
+
 	const unclusteredPointLayer = useMemo(
 		() => getUnclusteredPointLayer(codeEtablissement ?? null),
 		[codeEtablissement],
@@ -444,7 +474,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 					regionsLayer.id,
 					departementsLayer.id,
 					communesLayer.id,
-					communesTransparentLayer.id,
 					clusterLayer.id,
 					unclusteredPointLayer.id,
 					unclusteredPointProtegeLayer.id,
@@ -452,7 +481,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				onClick={onClick}
 				onLoad={() => {
 					setIsLoaded(true);
-					toggleInteractions(false);
 					if (mapRef.current) {
 						const isDesktop = window.innerWidth >= 768;
 						const view = isDesktop ? DESKTOP_VIEW_STATE : MOBILE_VIEW_STATE;
@@ -462,7 +490,8 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						});
 					}
 				}}
-				{...interact(isInteractive)}
+				{...DEFAULT_INTERACTIVITY_CONFIG}
+				{...DEFAULT_ZOOM_CONSTRAINT}
 			>
 				<NavigationControl position='top-left' showCompass={false} />
 				{regionsGeoJSON && (
@@ -472,11 +501,8 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={regionsGeoJSON}
 					>
-						{isNationLevel ? (
-							<LayerReactMapLibre {...regionsLayer} />
-						) : (
-							<LayerReactMapLibre {...regionsBackgroundLayer} />
-						)}
+						<LayerReactMapLibre {...regionsLayer} />
+						{!isNationLevel && <LayerReactMapLibre {...regionsLineLayer} />}
 					</Source>
 				)}
 				{regionLabelPoints && (
@@ -486,7 +512,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={regionLabelPoints}
 					>
-						{isNationLevel && <LayerReactMapLibre {...regionsLabelsLayer} />}
+						<LayerReactMapLibre {...regionsLabelsLayer} />
 					</Source>
 				)}
 				{departementsGeoJSON && (
@@ -496,9 +522,9 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={departementsGeoJSON}
 					>
-						{isRegionLevel && <LayerReactMapLibre {...departementsLayer} />}
-						{isDepartementLevel && (
-							<LayerReactMapLibre {...departementsBackgroundLayer} />
+						<LayerReactMapLibre {...departementsLayer} />
+						{!isNationLevel && !isRegionLevel && (
+							<LayerReactMapLibre {...departementLineLayer} />
 						)}
 					</Source>
 				)}
@@ -509,7 +535,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={departementLabelPoints}
 					>
-						{isRegionLevel && <LayerReactMapLibre {...departementsLabelsLayer} />}
+						<LayerReactMapLibre {...departementsLabelsLayer} />
 					</Source>
 				)}
 				{communesGeoJSON && (
@@ -519,13 +545,10 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={communesGeoJSON}
 					>
+						<LayerReactMapLibre {...communesLayer} />
 						{isEtablissementsLayerVisible && (
-							<LayerReactMapLibre {...communesTransparentLayer} />
+							<LayerReactMapLibre {...communeLineLayer} />
 						)}
-						{isEtablissementsLayerVisible && (
-							<LayerReactMapLibre {...communesLineLayer} />
-						)}
-						{isDepartementLevel && <LayerReactMapLibre {...communesLayer} />}
 					</Source>
 				)}
 				{communeLabelPoints && (
@@ -535,7 +558,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={communeLabelPoints}
 					>
-						{isDepartementLevel && <LayerReactMapLibre {...communesLabelsLayer} />}
+						<LayerReactMapLibre {...communesLabelsLayer} />
 					</Source>
 				)}
 				{etablissementsGeoJSON && (

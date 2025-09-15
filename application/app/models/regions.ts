@@ -33,4 +33,5 @@ export type RegionFeature = RegionsGeoJSON['features'][number];
 export type RegionsGeoJSON = GeoJSON.FeatureCollection<GeoJSON.Polygon, RegionFeatureProperties>;
 
 // Reference keys for proper access with maplibre layer properties
+export const REGIONS_GEOJSON_KEY_ID: keyof RegionFeatureProperties = 'code_region';
 export const REGIONS_GEOJSON_KEY_NOM: keyof RegionFeatureProperties = 'libelle_region';
