@@ -3,22 +3,31 @@ import { LayerProps } from 'react-map-gl/maplibre';
 import { REGIONS_GEOJSON_KEY_ID, REGIONS_GEOJSON_KEY_NOM } from '@/app/models/regions';
 
 import { COLOR_THRESHOLDS } from '../constants';
-import { zonesLayerPaint } from './zonesLayersPaint';
+import { zonesLayerFillOpacity, zonesLayerPaint } from './zonesLayersPaint';
 
 export const REGIONS_SOURCE_ID = 'regions';
 export const REGIONS_LABELS_SOURCE_ID = 'regions-labels';
 
-function getRegionsLayer(isBackground = false) {
+export function getRegionsLayer(
+	selectedRegionId: string | null,
+	isLastLevel: boolean,
+	isBackground: boolean,
+) {
 	return {
 		id: 'regions',
 		type: 'fill',
 		source: REGIONS_SOURCE_ID,
-		paint: zonesLayerPaint(COLOR_THRESHOLDS.nation, isBackground),
+		paint: {
+			...zonesLayerPaint(COLOR_THRESHOLDS.nation),
+			...zonesLayerFillOpacity(
+				REGIONS_GEOJSON_KEY_ID,
+				selectedRegionId,
+				isLastLevel,
+				isBackground,
+			),
+		},
 	} satisfies LayerProps;
 }
-
-export const regionsLayer = getRegionsLayer();
-export const regionsBackgroundLayer = getRegionsLayer(true);
 
 const DEFAULT_ZONE_LINE_WIDTH = 0;
 const SELECTED_ZONE_LINE_WIDTH = 6;
@@ -37,7 +46,6 @@ export function getRegionsLineLayer(selectedRegionId: string | null) {
 				SELECTED_ZONE_LINE_WIDTH,
 				DEFAULT_ZONE_LINE_WIDTH,
 			],
-			// 'line-opacity': 0.5,
 		},
 	} satisfies LayerProps;
 }

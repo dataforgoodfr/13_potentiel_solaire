@@ -3,22 +3,31 @@ import { LayerProps } from 'react-map-gl/maplibre';
 import { DEPARTEMENT_GEOJSON_KEY_ID, DEPARTEMENT_GEOJSON_KEY_NOM } from '@/app/models/departements';
 
 import { COLOR_THRESHOLDS } from '../constants';
-import { zonesLayerPaint } from './zonesLayersPaint';
+import { zonesLayerFillOpacity, zonesLayerPaint } from './zonesLayersPaint';
 
 export const DEPARTEMENTS_SOURCE_ID = 'departements';
 export const DEPARTEMENTS_LABELS_SOURCE_ID = 'departements-labels';
 
-function getDepartementsLayer(isBackground = false) {
+export function getDepartementsLayer(
+	selectedDepartementId: string | null,
+	isLastLevel: boolean,
+	isBackground: boolean,
+) {
 	return {
 		id: 'departements',
 		type: 'fill',
 		source: DEPARTEMENTS_SOURCE_ID,
-		paint: zonesLayerPaint(COLOR_THRESHOLDS.region, isBackground),
+		paint: {
+			...zonesLayerPaint(COLOR_THRESHOLDS.region),
+			...zonesLayerFillOpacity(
+				DEPARTEMENT_GEOJSON_KEY_ID,
+				selectedDepartementId,
+				isLastLevel,
+				isBackground,
+			),
+		},
 	} satisfies LayerProps;
 }
-
-export const departementsLayer = getDepartementsLayer();
-export const departementsBackgroundLayer = getDepartementsLayer(true);
 
 const DEFAULT_ZONE_LINE_WIDTH = 0;
 const SELECTED_ZONE_LINE_WIDTH = 6;
@@ -37,7 +46,6 @@ export function getDepartementsLineLayer(selectedDepartementId: string | null) {
 				SELECTED_ZONE_LINE_WIDTH,
 				DEFAULT_ZONE_LINE_WIDTH,
 			],
-			// 'line-opacity': 0.5,
 		},
 	} satisfies LayerProps;
 }

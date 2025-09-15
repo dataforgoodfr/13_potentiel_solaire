@@ -43,16 +43,14 @@ import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
 	communesLabelsLayer,
-	communesLayer,
-	communesTransparentLayer,
+	getCommunesLayer,
 	getCommunesLineLayer,
 } from './layers/communesLayers';
 import {
 	DEPARTEMENTS_LABELS_SOURCE_ID,
 	DEPARTEMENTS_SOURCE_ID,
-	departementsBackgroundLayer,
 	departementsLabelsLayer,
-	departementsLayer,
+	getDepartementsLayer,
 	getDepartementsLineLayer,
 } from './layers/departementsLayers';
 import {
@@ -66,10 +64,9 @@ import {
 import {
 	REGIONS_LABELS_SOURCE_ID,
 	REGIONS_SOURCE_ID,
+	getRegionsLayer,
 	getRegionsLineLayer,
-	regionsBackgroundLayer,
 	regionsLabelsLayer,
-	regionsLayer,
 } from './layers/regionsLayers';
 
 const MAP_STYLE_URL = `/map-styles/map-style.json`;
@@ -219,7 +216,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		if (!activeEtablissement) return;
 
 		zoomOnPointFeature(activeEtablissement);
-	}, [codeEtablissement, etablissementsGeoJSON?.features]);
+	}, [codeEtablissement, etablissementsGeoJSON?.features, zoomOnPointFeature]);
 
 	function easeTo(options: EaseToOptions) {
 		if (!mapRef.current) return;
@@ -385,10 +382,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			return;
 		}
 
-		if (
-			isFeatureFrom<EventCommuneFeature>(feature, communesLayer) ||
-			isFeatureFrom<EventCommuneFeature>(feature, communesTransparentLayer)
-		) {
+		if (isFeatureFrom<EventCommuneFeature>(feature, communesLayer)) {
 			handleClickOnCommune(feature);
 
 			return;
@@ -419,13 +413,43 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
 	// Memorized layers with dynamic props
+	const regionsLayer = useMemo(
+		() => getRegionsLayer(codeRegion ?? null, isEtablissementsLayerVisible, !isNationLevel),
+		[codeRegion, isNationLevel, isEtablissementsLayerVisible],
+	);
 	const regionsLineLayer = useMemo(() => getRegionsLineLayer(codeRegion ?? null), [codeRegion]);
 
+	const departementsLayer = useMemo(
+		() =>
+			getDepartementsLayer(
+				codeDepartement ?? null,
+				isEtablissementsLayerVisible,
+				!isNationLevel && !isRegionLevel,
+			),
+		[codeDepartement, isNationLevel, isRegionLevel, isEtablissementsLayerVisible],
+	);
 	const departementLineLayer = useMemo(
 		() => getDepartementsLineLayer(codeDepartement ?? null),
 		[codeDepartement],
 	);
-	const communesLineLayer = useMemo(
+
+	const communesLayer = useMemo(
+		() =>
+			getCommunesLayer(
+				codeCommune ?? null,
+				isEtablissementsLayerVisible,
+				!isNationLevel && !isRegionLevel && !isDepartementLevel,
+			),
+		[
+			codeCommune,
+			isNationLevel,
+			isRegionLevel,
+			isDepartementLevel,
+			isEtablissementsLayerVisible,
+		],
+	);
+
+	const communeLineLayer = useMemo(
 		() => getCommunesLineLayer(codeCommune ?? null),
 		[codeCommune],
 	);
@@ -450,7 +474,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 					regionsLayer.id,
 					departementsLayer.id,
 					communesLayer.id,
-					communesTransparentLayer.id,
 					clusterLayer.id,
 					unclusteredPointLayer.id,
 					unclusteredPointProtegeLayer.id,
@@ -478,11 +501,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={regionsGeoJSON}
 					>
-						{isNationLevel ? (
-							<LayerReactMapLibre {...regionsLayer} />
-						) : (
-							<LayerReactMapLibre {...regionsBackgroundLayer} />
-						)}
+						<LayerReactMapLibre {...regionsLayer} />
 						{!isNationLevel && <LayerReactMapLibre {...regionsLineLayer} />}
 					</Source>
 				)}
@@ -503,10 +522,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={departementsGeoJSON}
 					>
-						{isRegionLevel && <LayerReactMapLibre {...departementsLayer} />}
-						{isDepartementLevel && (
-							<LayerReactMapLibre {...departementsBackgroundLayer} />
-						)}
+						<LayerReactMapLibre {...departementsLayer} />
 						{!isNationLevel && !isRegionLevel && (
 							<LayerReactMapLibre {...departementLineLayer} />
 						)}
@@ -529,13 +545,10 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={communesGeoJSON}
 					>
+						<LayerReactMapLibre {...communesLayer} />
 						{isEtablissementsLayerVisible && (
-							<LayerReactMapLibre {...communesTransparentLayer} />
+							<LayerReactMapLibre {...communeLineLayer} />
 						)}
-						{isEtablissementsLayerVisible && (
-							<LayerReactMapLibre {...communesLineLayer} />
-						)}
-						{isDepartementLevel && <LayerReactMapLibre {...communesLayer} />}
 					</Source>
 				)}
 				{communeLabelPoints && (

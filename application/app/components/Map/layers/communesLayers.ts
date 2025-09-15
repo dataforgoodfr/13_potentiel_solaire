@@ -3,25 +3,31 @@ import { LayerProps } from 'react-map-gl/maplibre';
 import { COMMUNE_GEOJSON_KEY_ID, COMMUNE_GEOJSON_KEY_NOM } from '@/app/models/communes';
 
 import { COLOR_THRESHOLDS } from '../constants';
-import { zonesLayerPaint } from './zonesLayersPaint';
+import { zonesLayerFillOpacity, zonesLayerPaint } from './zonesLayersPaint';
 
 export const COMMUNES_SOURCE_ID = 'communes';
 export const COMMUNES_LABELS_SOURCE_ID = 'communes-labels';
 
-export const communesLayer = {
-	id: 'communes',
-	type: 'fill',
-	source: COMMUNES_SOURCE_ID,
-	paint: zonesLayerPaint(COLOR_THRESHOLDS.departement, false),
-} satisfies LayerProps;
-
-// Used to be able to click
-export const communesTransparentLayer = {
-	id: 'communesTransparent',
-	type: 'fill',
-	source: COMMUNES_SOURCE_ID,
-	paint: { 'fill-color': 'transparent' },
-} satisfies LayerProps;
+export function getCommunesLayer(
+	selectedCommuneId: string | null,
+	isLastLevel: boolean,
+	isBackground: boolean,
+) {
+	return {
+		id: 'communes',
+		type: 'fill',
+		source: COMMUNES_SOURCE_ID,
+		paint: {
+			...zonesLayerPaint(COLOR_THRESHOLDS.departement),
+			...zonesLayerFillOpacity(
+				COMMUNE_GEOJSON_KEY_ID,
+				selectedCommuneId,
+				isLastLevel,
+				isBackground,
+			),
+		},
+	} satisfies LayerProps;
+}
 
 const DEFAULT_ZONE_LINE_WIDTH = 2;
 const DEFAULT_ZONE_LINE_COLOR = 'grey';
