@@ -3,12 +3,6 @@ import { ACTION_LINKS } from './actions';
 
 const aProposContent: StaticPageProps = {
 	title: 'À propos',
-	picture: {
-		src: '/images/kids.webp',
-		altSrc: '/images/kids.png',
-		alt: 'groupe d‘enfants sous le soleil',
-		width: 455,
-	},
 	sections: [
 		{
 			heading: '',

@@ -1,22 +1,18 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react';
-
 import Image from 'next/image';
 
+import dataForGoodImgSrc from '../../public/images/dataForGoodLong.svg';
+import greenpeaceImgSrc from '../../public/images/greenpeaceLong.svg';
+import kidsImgSrc from '../../public/images/kids.svg';
 import StaticPage from '../components/StaticPage';
 import aProposContent from '../components/content/a-propos';
 import { A_PROPOS_DATA_FOR_GOOD, A_PROPOS_GREENPEACE } from '../components/content/a-propos';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
 
-const contentStyle = 'px-16 pb-4 leading-relaxed tracking-normal text-sol_ko';
+const contentStyle = 'px-4 pb-4 leading-relaxed tracking-normal text-sol_ko';
 
-const getActionsLong = (
-	greenpeaceImgSrc: string,
-	dataForGoodImgSrc: string,
-	setGreenpeaceImgSrc: Dispatch<SetStateAction<string>>,
-	setDataForGoodImgSrc: Dispatch<SetStateAction<string>>,
-) => [
+const actionsLong = [
 	{
 		title: (
 			<Image
@@ -25,7 +21,6 @@ const getActionsLong = (
 				width={261}
 				height={37}
 				className='h-16 w-auto object-contain'
-				onError={() => setGreenpeaceImgSrc('/images/greenpeaceLong.png')}
 			/>
 		),
 		content: <div className={contentStyle}>{A_PROPOS_GREENPEACE}</div>,
@@ -39,7 +34,6 @@ const getActionsLong = (
 				height={48}
 				style={{ borderRadius: '30px' }}
 				className='h-12 w-auto object-contain'
-				onError={() => setDataForGoodImgSrc('/images/dataForGoodLong.png')}
 			/>
 		),
 		content: <div className={`${contentStyle} pb-8`}>{A_PROPOS_DATA_FOR_GOOD}</div>,
@@ -47,12 +41,6 @@ const getActionsLong = (
 ];
 
 export default function AProposPage() {
-	const [greenpeaceImgSrc, setGreenpeaceImgSrc] = useState<string>('/images/greenpeaceLong.webp');
-	const [dataForGoodImgSrc, setDataForGoodImgSrc] = useState<string>(
-		'/images/dataForGoodLong.webp',
-	);
-	const [aProposSrc, setAProposSrc] = useState<string>('/images/kids.webp');
-
 	return (
 		<div className='mx-auto max-w-5xl px-4 py-8 pb-40'>
 			<div className='flex flex-col gap-6 md:flex-row'>
@@ -62,10 +50,9 @@ export default function AProposPage() {
 						media={
 							<div className='block md:hidden'>
 								<Image
-									src={aProposSrc}
+									src={kidsImgSrc}
 									alt='groupe d‘enfants sous le soleil'
 									className='mt-8 h-auto w-full rounded-2xl object-contain'
-									onError={() => setAProposSrc('/images/kids.png')}
 									width={455}
 									height={250}
 								/>
@@ -76,24 +63,16 @@ export default function AProposPage() {
 
 				<div className='order-1 mt-8 hidden flex-1 shrink md:order-2 md:ml-10 md:mt-24 md:block'>
 					<Image
-						src={aProposSrc}
+						src={kidsImgSrc}
 						alt='groupe d‘enfants sous le soleil'
 						className='h-auto w-full rounded-2xl object-contain'
-						onError={() => setAProposSrc('/images/kids.png')}
 						width={455}
 						height={250}
 					/>
 				</div>
 			</div>
 
-			<AccordionCard
-				actions={getActionsLong(
-					greenpeaceImgSrc,
-					dataForGoodImgSrc,
-					setGreenpeaceImgSrc,
-					setDataForGoodImgSrc,
-				)}
-			/>
+			<AccordionCard actions={actionsLong} />
 		</div>
 	);
 }
