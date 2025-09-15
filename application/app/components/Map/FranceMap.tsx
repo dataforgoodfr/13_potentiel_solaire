@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
 	LayerProps,
 	Layer as LayerReactMapLibre,
@@ -58,9 +58,9 @@ import {
 	ETABLISSEMENTS_SOURCE_ID,
 	clusterCountLayer,
 	clusterLayer,
-	unclusteredPointLayer,
+	getUnclusteredPointLayer,
+	getUnclusteredPointProtegeLayer,
 	unclusteredPointProtegeIconLayer,
-	unclusteredPointProtegeLayer,
 } from './layers/etablissementsLayers';
 import {
 	REGIONS_LABELS_SOURCE_ID,
@@ -423,6 +423,16 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		isEtablissementsGeoJSONFetching;
 
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
+
+	const unclusteredPointLayer = useMemo(
+		() => getUnclusteredPointLayer(codeEtablissement ?? null),
+		[codeEtablissement],
+	);
+
+	const unclusteredPointProtegeLayer = useMemo(
+		() => getUnclusteredPointProtegeLayer(codeEtablissement ?? null),
+		[codeEtablissement],
+	);
 
 	return (
 		<div className='relative flex h-full w-full flex-col'>
