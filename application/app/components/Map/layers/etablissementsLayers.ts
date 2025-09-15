@@ -36,7 +36,7 @@ const POINT_RADIUS = 18;
 const DEFAULT_POINT_STROKE_WIDTH = 0;
 const SELECTED_POINT_STROKE_WIDTH = 10;
 const SELECTED_POINT_STROKE_COLOR = '#231c3f'; //the main palette blue color
-const SELECTED_POINT_STROKE_OPACITY = 0.6;
+const SELECTED_POINT_STROKE_OPACITY = 0.8;
 
 /**
  * If there is a selected etablissement we add a halo around the point.
