@@ -44,8 +44,8 @@ import {
 	COMMUNES_SOURCE_ID,
 	communesLabelsLayer,
 	communesLayer,
-	communesLineLayer,
 	communesTransparentLayer,
+	getCommunesLineLayer,
 } from './layers/communesLayers';
 import {
 	DEPARTEMENTS_LABELS_SOURCE_ID,
@@ -53,6 +53,7 @@ import {
 	departementsBackgroundLayer,
 	departementsLabelsLayer,
 	departementsLayer,
+	getDepartementsLineLayer,
 } from './layers/departementsLayers';
 import {
 	ETABLISSEMENTS_SOURCE_ID,
@@ -65,6 +66,7 @@ import {
 import {
 	REGIONS_LABELS_SOURCE_ID,
 	REGIONS_SOURCE_ID,
+	getRegionsLineLayer,
 	regionsBackgroundLayer,
 	regionsLabelsLayer,
 	regionsLayer,
@@ -416,6 +418,18 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
+	// Memorized layers with dynamic props
+	const regionsLineLayer = useMemo(() => getRegionsLineLayer(codeRegion ?? null), [codeRegion]);
+
+	const departementLineLayer = useMemo(
+		() => getDepartementsLineLayer(codeDepartement ?? null),
+		[codeDepartement],
+	);
+	const communesLineLayer = useMemo(
+		() => getCommunesLineLayer(codeCommune ?? null),
+		[codeCommune],
+	);
+
 	const unclusteredPointLayer = useMemo(
 		() => getUnclusteredPointLayer(codeEtablissement ?? null),
 		[codeEtablissement],
@@ -469,6 +483,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						) : (
 							<LayerReactMapLibre {...regionsBackgroundLayer} />
 						)}
+						{!isNationLevel && <LayerReactMapLibre {...regionsLineLayer} />}
 					</Source>
 				)}
 				{regionLabelPoints && (
@@ -491,6 +506,9 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						{isRegionLevel && <LayerReactMapLibre {...departementsLayer} />}
 						{isDepartementLevel && (
 							<LayerReactMapLibre {...departementsBackgroundLayer} />
+						)}
+						{!isNationLevel && !isRegionLevel && (
+							<LayerReactMapLibre {...departementLineLayer} />
 						)}
 					</Source>
 				)}

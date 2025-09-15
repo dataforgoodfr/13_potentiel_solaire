@@ -1,6 +1,6 @@
 import { LayerProps } from 'react-map-gl/maplibre';
 
-import { COMMUNE_GEOJSON_KEY_NOM } from '@/app/models/communes';
+import { COMMUNE_GEOJSON_KEY_ID, COMMUNE_GEOJSON_KEY_NOM } from '@/app/models/communes';
 
 import { COLOR_THRESHOLDS } from '../constants';
 import { zonesLayerPaint } from './zonesLayersPaint';
@@ -13,7 +13,6 @@ export const communesLayer = {
 	type: 'fill',
 	source: COMMUNES_SOURCE_ID,
 	paint: zonesLayerPaint(COLOR_THRESHOLDS.departement, false),
-	maxzoom: 11,
 } satisfies LayerProps;
 
 // Used to be able to click
@@ -24,12 +23,34 @@ export const communesTransparentLayer = {
 	paint: { 'fill-color': 'transparent' },
 } satisfies LayerProps;
 
-export const communesLineLayer = {
-	id: 'communesLine',
-	type: 'line',
-	source: COMMUNES_SOURCE_ID,
-	paint: { 'line-color': 'grey', 'line-width': 1 },
-} satisfies LayerProps;
+const DEFAULT_ZONE_LINE_WIDTH = 2;
+const DEFAULT_ZONE_LINE_COLOR = 'grey';
+const SELECTED_ZONE_LINE_WIDTH = 6;
+const SELECTED_ZONE_LINE_COLOR = 'white';
+
+export function getCommunesLineLayer(selectedCommuneId: string | null) {
+	return {
+		id: 'communes-line',
+		type: 'line',
+		source: COMMUNES_SOURCE_ID,
+		paint: {
+			'line-color': [
+				'match',
+				['get', COMMUNE_GEOJSON_KEY_ID],
+				selectedCommuneId ?? '',
+				SELECTED_ZONE_LINE_COLOR,
+				DEFAULT_ZONE_LINE_COLOR,
+			],
+			'line-width': [
+				'match',
+				['get', COMMUNE_GEOJSON_KEY_ID],
+				selectedCommuneId ?? '',
+				SELECTED_ZONE_LINE_WIDTH,
+				DEFAULT_ZONE_LINE_WIDTH,
+			],
+		},
+	} satisfies LayerProps;
+}
 
 export const communesLabelsLayer = {
 	id: 'communes-labels',

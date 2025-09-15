@@ -1,6 +1,6 @@
 import { LayerProps } from 'react-map-gl/maplibre';
 
-import { REGIONS_GEOJSON_KEY_NOM } from '@/app/models/regions';
+import { REGIONS_GEOJSON_KEY_ID, REGIONS_GEOJSON_KEY_NOM } from '@/app/models/regions';
 
 import { COLOR_THRESHOLDS } from '../constants';
 import { zonesLayerPaint } from './zonesLayersPaint';
@@ -14,12 +14,33 @@ function getRegionsLayer(isBackground = false) {
 		type: 'fill',
 		source: REGIONS_SOURCE_ID,
 		paint: zonesLayerPaint(COLOR_THRESHOLDS.nation, isBackground),
-		maxzoom: 10,
 	} satisfies LayerProps;
 }
 
 export const regionsLayer = getRegionsLayer();
 export const regionsBackgroundLayer = getRegionsLayer(true);
+
+const DEFAULT_ZONE_LINE_WIDTH = 0;
+const SELECTED_ZONE_LINE_WIDTH = 6;
+
+export function getRegionsLineLayer(selectedRegionId: string | null) {
+	return {
+		id: 'regions-line',
+		type: 'line',
+		source: REGIONS_SOURCE_ID,
+		paint: {
+			'line-color': 'white',
+			'line-width': [
+				'match',
+				['get', REGIONS_GEOJSON_KEY_ID],
+				selectedRegionId ?? '',
+				SELECTED_ZONE_LINE_WIDTH,
+				DEFAULT_ZONE_LINE_WIDTH,
+			],
+			// 'line-opacity': 0.5,
+		},
+	} satisfies LayerProps;
+}
 
 export const regionsLabelsLayer = {
 	id: 'regions-labels',
