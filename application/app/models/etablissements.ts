@@ -58,6 +58,8 @@ export type EtablissementsGeoJSON = GeoJSON.FeatureCollection<
 export type EtablissementFeature = EtablissementsGeoJSON['features'][number];
 
 // Reference keys for proper access with maplibre layer properties
+export const ETABLISSEMENT_GEOJSON_KEY_ID: keyof EtablissementFeatureProperties =
+	'identifiant_de_l_etablissement';
 export const ETABLISSEMENT_GEOJSON_KEY_PROTECTION: keyof EtablissementFeatureProperties =
 	'protection';
 export const ETABLISSEMENT_GEOJSON_KEY_POTENTIEL_SOLAIRE: keyof EtablissementFeatureProperties =

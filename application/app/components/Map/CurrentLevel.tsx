@@ -20,7 +20,7 @@ export default function CurrentLevel({ level, levelItem, openFiche }: CurrentLev
 	return (
 		<Button
 			onClick={() => openFiche(level)}
-			className='flex items-center gap-2 rounded-md border border-white bg-blue text-sm shadow-md'
+			className='flex items-center gap-2 rounded-md bg-green text-sm font-bold text-darkgreen shadow-md hover:bg-green hover:underline'
 			size='sm'
 			aria-label={`Ouvrir la fiche de ${nom} (${LEVEL_TO_LABEL[level]})`}
 		>
