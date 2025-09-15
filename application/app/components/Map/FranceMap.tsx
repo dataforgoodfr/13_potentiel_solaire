@@ -24,7 +24,7 @@ import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
 import { getCurrentLevelItem } from '@/app/utils/level-utils';
 import { bbox } from '@turf/turf';
-import { EaseToOptions, GeoJSONSource } from 'maplibre-gl';
+import { EaseToOptions, GeoJSONSource, MapOptions } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import {
@@ -86,6 +86,25 @@ const DESKTOP_VIEW_STATE = {
 
 const ANIMATION_TIME_MS = 800;
 
+/**
+ * These values passed as props to he maps are only init values (they can't be updated).
+ */
+const DEFAULT_ZOOM_CONSTRAINT = {
+	minZoom: 4,
+	maxZoom: 18,
+} satisfies Partial<MapOptions>;
+
+/**
+ * Interactivity config options.
+ * We deactivate rotating.
+ * doubleClickZoom is disabled to avoid staggered zoom when combined with easeTo on click.
+ */
+const DEFAULT_INTERACTIVITY_CONFIG = {
+	dragRotate: false,
+	touchZoomRotate: false,
+	doubleClickZoom: false,
+} satisfies Partial<MapOptions>;
+
 type EventFeature<Feature extends GeoJSON.Feature = GeoJSON.Feature> = Feature & {
 	layer: LayerProps;
 	source: string;
@@ -112,17 +131,6 @@ function isFeatureFrom<T extends EventFeature>(
 	return feature.layer.id === layer.id;
 }
 
-function interact(enabled: boolean) {
-	return {
-		scrollZoom: enabled,
-		boxZoom: enabled,
-		dragRotate: enabled,
-		keyboard: enabled,
-		doubleClickZoom: enabled,
-		touchZoomRotate: enabled,
-	};
-}
-
 interface FranceMapProps {
 	selectedPlaces: SelectedPlaces;
 }
@@ -135,7 +143,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		removeLayer,
 		setLayers,
 	} = useLayers();
-	const [isInteractive, setIsInteractive] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [, , setActiveTab] = useActiveTab();
 
@@ -233,7 +240,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 
 	useEffect(() => {
 		if (isEtablissementLevel) {
-			toggleInteractions(true);
 			zoomOnActiveEtablissement();
 
 			return;
@@ -313,21 +319,11 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		});
 	}
 
-	function toggleInteractions(enabled: boolean) {
-		setIsInteractive(enabled);
-	}
-
 	function getLayerUp(): Layer {
 		return layers.slice(-2)[0];
 	}
 	function goBackOneLevel() {
 		if (layers.length < 2) return;
-
-		const layerUp = layers.slice(-2)[0];
-
-		if (layerUp.level === 'departement') {
-			toggleInteractions(false);
-		}
 
 		removeLayer();
 	}
@@ -358,8 +354,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		];
 
 		setLayers(newLayers);
-
-		toggleInteractions(true);
 	}
 	async function handleClickOnEtablissement(feature: EtablissementFeature) {
 		const newLayers: Layer[] = [
@@ -370,8 +364,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		];
 
 		setLayers(newLayers, 'etablissement');
-
-		toggleInteractions(true);
 	}
 
 	async function onClick(event: MapMouseEvent) {
@@ -452,7 +444,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				onClick={onClick}
 				onLoad={() => {
 					setIsLoaded(true);
-					toggleInteractions(false);
 					if (mapRef.current) {
 						const isDesktop = window.innerWidth >= 768;
 						const view = isDesktop ? DESKTOP_VIEW_STATE : MOBILE_VIEW_STATE;
@@ -462,7 +453,8 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						});
 					}
 				}}
-				{...interact(isInteractive)}
+				{...DEFAULT_INTERACTIVITY_CONFIG}
+				{...DEFAULT_ZOOM_CONSTRAINT}
 			>
 				<NavigationControl position='top-left' showCompass={false} />
 				{regionsGeoJSON && (
