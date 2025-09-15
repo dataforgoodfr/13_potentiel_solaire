@@ -20,7 +20,7 @@ const actionsLong = [
 				alt='Logo de Greenpeace'
 				width={261}
 				height={37}
-				className='h-16 w-auto object-contain'
+				className='h-12 w-auto object-contain'
 			/>
 		),
 		content: <div className={contentStyle}>{A_PROPOS_GREENPEACE}</div>,
