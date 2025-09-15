@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 
 import { SquareMinus, SquarePlus } from 'lucide-react';
 
@@ -12,8 +12,8 @@ import {
 
 interface AccordionCardProps {
 	actions: {
-		title: string;
-		content: React.ReactNode;
+		title: JSX.Element | string;
+		content: JSX.Element;
 	}[];
 }
 
@@ -27,7 +27,11 @@ export default function AccordionCard({ actions }: AccordionCardProps) {
 	);
 }
 
-function CollapsibleItem({ action }: { action: { title: string; content: React.ReactNode } }) {
+function CollapsibleItem({
+	action,
+}: {
+	action: { title: JSX.Element | string; content: JSX.Element };
+}) {
 	const [open, setOpen] = useState(false);
 
 	return (
