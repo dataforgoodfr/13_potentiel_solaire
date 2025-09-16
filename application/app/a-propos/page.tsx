@@ -10,7 +10,7 @@ import aProposContent from '../components/content/a-propos';
 import { A_PROPOS_DATA_FOR_GOOD, A_PROPOS_GREENPEACE } from '../components/content/a-propos';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
 
-const contentStyle = 'px-4 pb-4 leading-relaxed tracking-normal text-sol_ko';
+const contentStyle = 'pb-4 leading-relaxed tracking-normal text-sol_ko';
 
 const actionsLong = [
 	{
