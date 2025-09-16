@@ -40,7 +40,7 @@ export default function NavBar() {
 	};
 
 	return (
-		<header className='sticky top-0 z-50 flex justify-between bg-blue px-4 py-3 xl:justify-center'>
+		<header className='z-header sticky top-0 flex justify-between bg-blue px-4 py-3 xl:justify-center'>
 			<div className='w-full max-w-screen-xl justify-between'>
 				<div className='flex flex-col gap-4 xl:flex-row xl:flex-nowrap xl:items-center xl:justify-between'>
 					{/* Bloc gauche : menu (mobile) + logo */}

@@ -8,7 +8,7 @@ export default function HomeOverlay() {
 
 	return (
 		<div className='z-home-overlay absolute inset-0 flex h-full w-full flex-col items-center justify-start bg-blue/80 p-4'>
-			<div className='w-full max-w-screen-xl pb-6 pt-4'>
+			<div className='w-full max-w-screen-xl pb-6 pt-0 md:pt-4'>
 				<h1 className='mb-24 inline-block font-verdana text-[28px] font-normal leading-normal tracking-sm text-slate-100 lg:ms-24 lg:self-start'>
 					Découvrez le
 					<br />
