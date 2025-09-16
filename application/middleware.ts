@@ -1,20 +1,32 @@
 import { MiddlewareConfig, NextRequest, NextResponse } from 'next/server';
 
+import { TabId } from './app/components/fiches/Fiches';
 import {
+	ACTIVE_TAB_KEY,
 	CODE_COMMUNES_KEY,
 	CODE_DEPARTEMENTS_KEY,
 	CODE_ETABLISSEMENTS_KEY,
 	CODE_REGIONS_KEY,
+	CODE_TO_TAB_ID_MAP,
 	codesDiffer,
 	getLongestValidHierarchy,
 } from './app/utils/state-utils';
 
+/**
+ * Handle requests to the root path '/'.
+ * If one of the codes are missing following the hierarchy, or if the activeTab is not consistent with the last valid code,
+ * redirect to the same path with the longest valid hierarchy of codes and the corresponding activeTab.
+ * It avoids having unstable states in the application.
+ * @param request
+ * @returns
+ */
 export function middleware(request: NextRequest) {
 	const paramsClone = new URLSearchParams(request.nextUrl.searchParams);
 	const codeRegion = paramsClone.get(CODE_REGIONS_KEY);
 	const codeDepartement = paramsClone.get(CODE_DEPARTEMENTS_KEY);
 	const codeCommune = paramsClone.get(CODE_COMMUNES_KEY);
 	const codeEtablissement = paramsClone.get(CODE_ETABLISSEMENTS_KEY);
+	const activeTabParam = paramsClone.get(ACTIVE_TAB_KEY);
 
 	const currentHierarchy = {
 		codeRegion,
@@ -23,9 +35,13 @@ export function middleware(request: NextRequest) {
 		codeEtablissement,
 	};
 
-	const longestValidHierarchy = getLongestValidHierarchy(currentHierarchy);
+	const [longestValidHierarchy, lastValidLevel] = getLongestValidHierarchy(currentHierarchy);
+	const lastValidActiveTab = lastValidLevel ? CODE_TO_TAB_ID_MAP[lastValidLevel] : null;
 
-	if (codesDiffer(currentHierarchy, longestValidHierarchy)) {
+	// only change tab if there was an activeTab in the url
+	const activeTabChanged = activeTabParam !== null && activeTabParam !== lastValidActiveTab;
+
+	if (codesDiffer(currentHierarchy, longestValidHierarchy) || activeTabChanged) {
 		const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 		if (!baseUrl) throw new Error('NEXT_PUBLIC_BASE_URL must be set!');
 
@@ -36,6 +52,10 @@ export function middleware(request: NextRequest) {
 					paramsClone.delete(key);
 				}
 			});
+		if (activeTabChanged) {
+			paramsClone.set(ACTIVE_TAB_KEY, lastValidActiveTab as TabId);
+		}
+
 		return NextResponse.redirect(new URL(`/?${paramsClone.toString()}`, baseUrl));
 	}
 
