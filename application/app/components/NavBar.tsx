@@ -40,54 +40,56 @@ export default function NavBar() {
 	};
 
 	return (
-		<header className='z-header sticky top-0 bg-blue px-4 py-3'>
-			<div className='flex flex-col gap-4 xl:flex-row xl:flex-nowrap xl:items-center xl:justify-between'>
-				{/* Bloc gauche : menu (mobile) + logo */}
-				<div className='flex w-full items-center justify-between xl:w-auto xl:justify-start xl:gap-6'>
-					{/* Burger menu */}
-					<button
-						className='text-white xl:hidden'
-						onClick={handleToggle}
-						onKeyDown={handleKeypress}
-						type='button'
-						aria-expanded={isOpen}
-						aria-controls='menu-principal'
-						aria-label='Toggle Menu'
-					>
-						{isOpen ? (
-							<X className='stroke-green' />
-						) : (
-							<Menu className='stroke-green' />
-						)}
-					</button>
-
-					{/* Logo */}
-					<Link href='/' className='flex-none xl:ml-0'>
-						<Image src={imgLogo} alt='logo' width={108} height={33} />
-					</Link>
-				</div>
-
-				{/* Bloc SearchBar + boutons */}
-				{showSearchBar && (
-					<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
-						<Suspense>
-							<SearchBar />
-						</Suspense>
-					</div>
-				)}
-
-				{/* Menu desktop */}
-				<nav className='hidden shrink-0 xl:flex xl:gap-4' aria-label='Menu principal'>
-					{links.map((link) => (
-						<Link
-							key={link.href}
-							href={link.href}
-							className='whitespace-nowrap text-base text-white hover:underline'
+		<header className='z-header sticky top-0 flex justify-between bg-blue px-4 py-3 xl:justify-center'>
+			<div className='w-full max-w-screen-xl justify-between'>
+				<div className='flex flex-col gap-4 xl:flex-row xl:flex-nowrap xl:items-center xl:justify-between'>
+					{/* Bloc gauche : menu (mobile) + logo */}
+					<div className='flex w-full items-center justify-between xl:w-auto xl:justify-start xl:gap-6'>
+						{/* Burger menu */}
+						<button
+							className='text-white xl:hidden'
+							onClick={handleToggle}
+							onKeyDown={handleKeypress}
+							type='button'
+							aria-expanded={isOpen}
+							aria-controls='menu-principal'
+							aria-label='Toggle Menu'
 						>
-							{link.title}
+							{isOpen ? (
+								<X className='stroke-green' />
+							) : (
+								<Menu className='stroke-green' />
+							)}
+						</button>
+
+						{/* Logo */}
+						<Link href='/' className='flex-none xl:ml-0'>
+							<Image src={imgLogo} alt='logo' width={108} height={33} />
 						</Link>
-					))}
-				</nav>
+					</div>
+
+					{/* Bloc SearchBar + boutons */}
+					{showSearchBar && (
+						<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
+							<Suspense>
+								<SearchBar />
+							</Suspense>
+						</div>
+					)}
+
+					{/* Menu desktop */}
+					<nav className='hidden shrink-0 xl:flex xl:gap-4' aria-label='Menu principal'>
+						{links.map((link) => (
+							<Link
+								key={link.href}
+								href={link.href}
+								className='whitespace-nowrap text-base text-white hover:underline'
+							>
+								{link.title}
+							</Link>
+						))}
+					</nav>
+				</div>
 			</div>
 
 			{/* Menu mobile plein écran */}
