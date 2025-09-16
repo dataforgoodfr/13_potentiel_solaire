@@ -17,8 +17,8 @@ export default function HomeOverlay() {
 					de votre <strong>école</strong> 🏫
 				</h1>
 
-				<div className='flex w-full justify-center'>
-					<div className='flex max-w-[434px] shrink-0 flex-col items-center justify-center rounded-[8px] border border-green bg-blue/80 py-[30px] shadow-base'>
+				<div className='flex w-full justify-center py-4'>
+					<div className='flex max-w-[434px] shrink-1 flex-col items-center justify-center rounded-[8px] border border-green bg-blue/80 py-[30px] shadow-base'>
 						<div className='px-3'>
 							<h2 className='mb-4 text-base font-normal leading-6 text-white'>
 								Saisir une région, un département, une commune ou le nom d&#39;un
