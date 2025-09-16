@@ -47,10 +47,8 @@ export function middleware(request: NextRequest) {
 
 		Object.entries(longestValidHierarchy)
 			.filter(([_, value]) => value === null)
-			.forEach(([key, value]) => {
-				if (value === null) {
-					paramsClone.delete(key);
-				}
+			.forEach(([key]) => {
+				paramsClone.delete(key);
 			});
 		if (activeTabChanged) {
 			paramsClone.set(ACTIVE_TAB_KEY, lastValidActiveTab as TabId);
