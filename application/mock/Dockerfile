@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y curl unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install DuckDB
-RUN curl -L -O https://github.com/duckdb/duckdb/releases/download/v1.2.1/duckdb_cli-linux-amd64.zip \
+RUN curl -L -O https://github.com/duckdb/duckdb/releases/download/v1.3.2/duckdb_cli-linux-amd64.zip \
     && unzip duckdb_cli-linux-amd64.zip -d /usr/local/bin \
     && rm duckdb_cli-linux-amd64.zip
 
