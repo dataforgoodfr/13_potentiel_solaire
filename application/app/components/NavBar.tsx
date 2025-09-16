@@ -17,7 +17,7 @@ const links = [
 	{ title: 'Accueil', href: '/' },
 	{ title: 'Comment agir ?', href: '/comment-agir' },
 	{ title: 'Notre méthodologie', href: '/notre-methodologie' },
-	{ title: 'À propos', href: '/about' },
+	{ title: 'À propos', href: '/a-propos' },
 ];
 
 export default function NavBar() {
