@@ -8,6 +8,7 @@ import { Etablissement } from '@/app/models/etablissements';
 import { Region } from '@/app/models/regions';
 import useActiveTab from '@/app/utils/hooks/useActiveTab';
 import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
+import { codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
@@ -53,15 +54,6 @@ function getInitialTab(codes: Codes): TabId {
 	if (codes.codeRegion !== null) return 'region';
 
 	throw new Error(`Codes ${codes} is not supported to get initial tab`);
-}
-
-function codesDiffer(codes1: Codes, codes2: Codes): boolean {
-	return (
-		codes1.codeRegion !== codes2.codeRegion ||
-		codes1.codeDepartement !== codes2.codeDepartement ||
-		codes1.codeCommune !== codes2.codeCommune ||
-		codes1.codeEtablissement !== codes2.codeEtablissement
-	);
 }
 
 export default function Fiches({
@@ -113,7 +105,7 @@ export default function Fiches({
 	return (
 		<div
 			ref={ficheContainerRef}
-			className={`z-fiche fixed right-0 top-0 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md`}
+			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md`}
 		>
 			<button
 				onClick={handleClose}
