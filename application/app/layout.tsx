@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 import './styles/globals.css';
 import { InitialViewProvider } from './utils/providers/initialViewProvider';
+import { SearchProvider } from './utils/providers/searchProvider';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -25,10 +26,12 @@ export default function RootLayout({
 			<body className='flex min-h-screen flex-col'>
 				<Suspense>
 					<InitialViewProvider>
-						<NavBar />
-						<main className='flex flex-1 flex-col bg-blue'>
-							<Providers>{children}</Providers>
-						</main>
+						<SearchProvider>
+							<NavBar />
+							<main className='flex flex-1 flex-col bg-blue'>
+								<Providers>{children}</Providers>
+							</main>
+						</SearchProvider>
 					</InitialViewProvider>
 				</Suspense>
 				<Toaster />
