@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 
-import dataForGoodImgSrc from '../../public/images/dataForGoodLong.svg';
-import greenpeaceImgSrc from '../../public/images/greenpeaceLong.svg';
-import kidsImgSrc from '../../public/images/kids.svg';
+import aProposImgSrc from '../../public/images/a-propos.png';
+import dataForGoodImgSrc from '../../public/images/data-for-good-long.png';
+import greenpeaceImgSrc from '../../public/images/greenpeace-long.png';
 import StaticPage from '../components/StaticPage';
 import aProposContent from '../components/content/a-propos';
 import { A_PROPOS_DATA_FOR_GOOD, A_PROPOS_GREENPEACE } from '../components/content/a-propos';
@@ -50,7 +50,7 @@ export default function AProposPage() {
 						media={
 							<div className='block md:hidden'>
 								<Image
-									src={kidsImgSrc}
+									src={aProposImgSrc}
 									alt='groupe d‘enfants sous le soleil'
 									className='mt-8 h-auto w-full rounded-2xl object-contain'
 									width={455}
@@ -63,7 +63,7 @@ export default function AProposPage() {
 
 				<div className='order-1 mt-8 hidden flex-1 shrink md:order-2 md:ml-10 md:mt-24 md:block'>
 					<Image
-						src={kidsImgSrc}
+						src={aProposImgSrc}
 						alt='groupe d‘enfants sous le soleil'
 						className='h-auto w-full rounded-2xl object-contain'
 						width={455}

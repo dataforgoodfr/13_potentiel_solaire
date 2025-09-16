@@ -1,6 +1,6 @@
 'use client';
 
-import { JSX, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { SquareMinus, SquarePlus } from 'lucide-react';
 
@@ -12,8 +12,8 @@ import {
 
 interface AccordionCardProps {
 	actions: {
-		title: JSX.Element | string;
-		content: JSX.Element;
+		title: ReactNode;
+		content: ReactNode;
 	}[];
 }
 
@@ -30,7 +30,7 @@ export default function AccordionCard({ actions }: AccordionCardProps) {
 function CollapsibleItem({
 	action,
 }: {
-	action: { title: JSX.Element | string; content: JSX.Element };
+	action: { title: ReactNode | string; content: ReactNode };
 }) {
 	const [open, setOpen] = useState(false);
 
@@ -41,7 +41,7 @@ function CollapsibleItem({
 			className='bg-darkgrey mb-2 rounded-md border border-blue p-2 text-sm text-white'
 		>
 			<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
-				<span>{action.title}</span>
+				<span className='text-start'>{action.title}</span>
 				<CollapsibleIcon open={open} />
 			</CollapsibleTrigger>
 			<CollapsibleContent className='mt-2 block px-4'>{action.content}</CollapsibleContent>

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import commentagir from '../../public/images/comment-agir.svg';
+import commentagir from '../../public/images/comment-agir.png';
 import StaticPage from '../components/StaticPage';
 import {
 	ELU_BODY,
@@ -47,6 +47,8 @@ export default function CommentAgirPage() {
 									src={commentagir}
 									alt='école'
 									className='mt-8 h-auto w-full rounded-2xl object-contain'
+									width={455}
+									height={250}
 								/>
 							</div>
 						}
@@ -58,6 +60,8 @@ export default function CommentAgirPage() {
 						src={commentagir}
 						alt='école'
 						className='h-auto w-full rounded-2xl object-contain'
+						width={455}
+						height={250}
 					/>
 				</div>
 			</div>
