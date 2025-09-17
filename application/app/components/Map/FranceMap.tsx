@@ -211,13 +211,23 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		zoomOnPolygonFeature(activeCommune);
 	}, [codeCommune, communesGeoJSON?.features]);
 	const zoomOnActiveEtablissement = useCallback(() => {
+		function zoomOnPointFeature(feature: EtablissementFeature) {
+			if (!mapRef.current) return;
+
+			easeTo({
+				center: [feature.geometry.coordinates[0], feature.geometry.coordinates[1]],
+				zoom: 16,
+				duration: ANIMATION_TIME_MS,
+			});
+		}
+
 		const activeEtablissement = etablissementsGeoJSON?.features.find(
 			(feature) => feature.properties.identifiant_de_l_etablissement === codeEtablissement,
 		);
 		if (!activeEtablissement) return;
 
 		zoomOnPointFeature(activeEtablissement);
-	}, [codeEtablissement, etablissementsGeoJSON?.features, zoomOnPointFeature]);
+	}, [codeEtablissement, etablissementsGeoJSON?.features]);
 
 	function easeTo(options: EaseToOptions) {
 		if (!mapRef.current) return;
@@ -307,16 +317,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			],
 			{ padding: 40, duration: ANIMATION_TIME_MS },
 		);
-	}
-
-	function zoomOnPointFeature(feature: EtablissementFeature) {
-		if (!mapRef.current) return;
-
-		easeTo({
-			center: [feature.geometry.coordinates[0], feature.geometry.coordinates[1]],
-			zoom: 16,
-			duration: ANIMATION_TIME_MS,
-		});
 	}
 
 	function getLayerUp(): Layer {
