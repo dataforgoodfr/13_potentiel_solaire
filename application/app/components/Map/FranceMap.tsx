@@ -598,7 +598,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				</div>
 			</MapFromReactMapLibre>
 			{!isNationLevel && (
-				<div className='absolute left-11 top-2 flex gap-1'>
+				<div className='absolute left-11 top-2 flex max-w-[calc(100%-3rem)] gap-1 overflow-hidden'>
 					<BackButton onBack={goBackOneLevel} previousLevel={getLayerUp().level} />
 					{currentLevelItem && (
 						<CurrentLevel
