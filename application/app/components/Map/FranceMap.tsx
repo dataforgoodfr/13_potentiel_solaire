@@ -24,7 +24,7 @@ import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
 import { getCurrentLevelItem } from '@/app/utils/level-utils';
 import { bbox } from '@turf/turf';
-import { EaseToOptions, GeoJSONSource, MapOptions } from 'maplibre-gl';
+import { EaseToOptions, GeoJSONSource, MapLayerMouseEvent, MapOptions } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import {
@@ -136,6 +136,7 @@ interface FranceMapProps {
 
 export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
+	const [cursor, setCursor] = useState<string>('grab');
 	const {
 		layers,
 		lastLayer: { level },
@@ -412,6 +413,24 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
+	/**
+	 * When moving onto an etablissement, we want to show the pointer cursor.
+	 * On other layers, we show the default grab cursor.
+	 */
+	const onMouseMove = useCallback(
+		(e: MapLayerMouseEvent) => {
+			if (
+				isEtablissementsLayerVisible &&
+				e.features?.[0]?.source === ETABLISSEMENTS_SOURCE_ID
+			) {
+				setCursor('pointer');
+			} else {
+				setCursor('grab');
+			}
+		},
+		[isEtablissementsLayerVisible],
+	);
+
 	// Memorized layers with dynamic props
 	const regionsLayer = useMemo(
 		() => getRegionsLayer(codeRegion ?? null, isEtablissementsLayerVisible, !isNationLevel),
@@ -490,6 +509,10 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						});
 					}
 				}}
+				onMouseMove={onMouseMove}
+				onDragStart={() => setCursor('grabbing')}
+				onDragEnd={() => setCursor('grab')}
+				cursor={cursor}
 				{...DEFAULT_INTERACTIVITY_CONFIG}
 				{...DEFAULT_ZOOM_CONSTRAINT}
 			>
