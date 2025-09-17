@@ -24,6 +24,7 @@ export const partners = [
 			{ name: 'YouTube', href: 'https://www.youtube.com/channel/UCA_utdbmVhAOFujulWlaaCQ' },
 			{ name: 'Twitch', href: 'https://www.twitch.tv/dataforgood' },
 			{ name: 'Meetup', href: 'https://www.meetup.com/data-for-good-fr/' },
+			{ name: 'Site web', href: 'https://dataforgood.fr/' },
 		],
 	},
 ];
