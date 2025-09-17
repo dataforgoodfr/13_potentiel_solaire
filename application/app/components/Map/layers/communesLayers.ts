@@ -58,18 +58,23 @@ export function getCommunesLineLayer(selectedCommuneId: string | null) {
 	} satisfies LayerProps;
 }
 
+/**
+ * Layer for the communes label.
+ * When zooming out (after the minZoom), the labels are hidden because they are too small and decrease readability.
+ */
 export const communesLabelsLayer = {
 	id: 'communes-labels',
 	type: 'symbol',
 	source: COMMUNES_LABELS_SOURCE_ID,
 	layout: {
 		'text-field': ['get', COMMUNE_GEOJSON_KEY_NOM],
-		'text-size': 10,
+		'text-size': 14,
 		'text-anchor': 'center',
 	},
 	paint: {
-		'text-color': '#555555',
+		'text-color': '#333333',
 		'text-halo-color': '#ffffff',
 		'text-halo-width': 1.5,
 	},
+	minzoom: 6.5,
 } satisfies LayerProps;

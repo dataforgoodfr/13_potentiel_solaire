@@ -23,8 +23,9 @@ import useDepartementsGeoJSON from '@/app/utils/hooks/useDepartementsGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
 import { getCurrentLevelItem } from '@/app/utils/level-utils';
+import { isAfter } from '@/app/utils/map-utils';
 import { bbox } from '@turf/turf';
-import { EaseToOptions, GeoJSONSource, MapOptions } from 'maplibre-gl';
+import { EaseToOptions, GeoJSONSource, MapLayerMouseEvent, MapOptions } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import {
@@ -96,11 +97,12 @@ const DEFAULT_ZOOM_CONSTRAINT = {
 /**
  * Interactivity config options.
  * We deactivate rotating.
- * doubleClickZoom is disabled to avoid staggered zoom when combined with easeTo on click.
+ * doubleClickZoom is disabled to avoid staggered zoom when combined with easeTo after clicking an element.
+ * Note: touchZoomRotate is kept with true but disabled more granularly in handleMapRef (deactivate rotation).
  */
 const DEFAULT_INTERACTIVITY_CONFIG = {
 	dragRotate: false,
-	touchZoomRotate: false,
+	touchPitch: false,
 	doubleClickZoom: false,
 } satisfies Partial<MapOptions>;
 
@@ -136,6 +138,22 @@ interface FranceMapProps {
 
 export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
+
+	/**
+	 * Handle the map reference at init.
+	 * Configure some map options not available as props (see touchZoomRotate option).
+	 * @param ref
+	 */
+	const handleMapRef = (ref: MapRef | null) => {
+		mapRef.current = ref;
+		if (ref) {
+			const map = ref.getMap();
+			map.keyboard.disableRotation();
+			map.touchZoomRotate.disableRotation();
+		}
+	};
+
+	const [cursor, setCursor] = useState<string>('grab');
 	const {
 		layers,
 		lastLayer: { level },
@@ -210,13 +228,23 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		zoomOnPolygonFeature(activeCommune);
 	}, [codeCommune, communesGeoJSON?.features]);
 	const zoomOnActiveEtablissement = useCallback(() => {
+		function zoomOnPointFeature(feature: EtablissementFeature) {
+			if (!mapRef.current) return;
+
+			easeTo({
+				center: [feature.geometry.coordinates[0], feature.geometry.coordinates[1]],
+				zoom: 16,
+				duration: ANIMATION_TIME_MS,
+			});
+		}
+
 		const activeEtablissement = etablissementsGeoJSON?.features.find(
 			(feature) => feature.properties.identifiant_de_l_etablissement === codeEtablissement,
 		);
 		if (!activeEtablissement) return;
 
 		zoomOnPointFeature(activeEtablissement);
-	}, [codeEtablissement, etablissementsGeoJSON?.features, zoomOnPointFeature]);
+	}, [codeEtablissement, etablissementsGeoJSON?.features]);
 
 	function easeTo(options: EaseToOptions) {
 		if (!mapRef.current) return;
@@ -306,16 +334,6 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			],
 			{ padding: 40, duration: ANIMATION_TIME_MS },
 		);
-	}
-
-	function zoomOnPointFeature(feature: EtablissementFeature) {
-		if (!mapRef.current) return;
-
-		easeTo({
-			center: [feature.geometry.coordinates[0], feature.geometry.coordinates[1]],
-			zoom: 16,
-			duration: ANIMATION_TIME_MS,
-		});
 	}
 
 	function getLayerUp(): Layer {
@@ -412,6 +430,24 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 
 	const isEtablissementsLayerVisible = isCommuneLevel || isEtablissementLevel;
 
+	/**
+	 * When moving onto an etablissement, we want to show the pointer cursor.
+	 * On other layers, we show the default grab cursor.
+	 */
+	const onMouseMove = useCallback(
+		(e: MapLayerMouseEvent) => {
+			if (
+				isEtablissementsLayerVisible &&
+				e.features?.[0]?.source === ETABLISSEMENTS_SOURCE_ID
+			) {
+				setCursor('pointer');
+			} else {
+				setCursor('grab');
+			}
+		},
+		[isEtablissementsLayerVisible],
+	);
+
 	// Memorized layers with dynamic props
 	const regionsLayer = useMemo(
 		() => getRegionsLayer(codeRegion ?? null, isEtablissementsLayerVisible, !isNationLevel),
@@ -424,9 +460,9 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			getDepartementsLayer(
 				codeDepartement ?? null,
 				isEtablissementsLayerVisible,
-				!isNationLevel && !isRegionLevel,
+				isAfter(level, 'region'),
 			),
-		[codeDepartement, isNationLevel, isRegionLevel, isEtablissementsLayerVisible],
+		[codeDepartement, level, isEtablissementsLayerVisible],
 	);
 	const departementLineLayer = useMemo(
 		() => getDepartementsLineLayer(codeDepartement ?? null),
@@ -438,15 +474,9 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			getCommunesLayer(
 				codeCommune ?? null,
 				isEtablissementsLayerVisible,
-				!isNationLevel && !isRegionLevel && !isDepartementLevel,
+				isAfter(level, 'departement'),
 			),
-		[
-			codeCommune,
-			isNationLevel,
-			isRegionLevel,
-			isDepartementLevel,
-			isEtablissementsLayerVisible,
-		],
+		[codeCommune, level, isEtablissementsLayerVisible],
 	);
 
 	const communeLineLayer = useMemo(
@@ -467,7 +497,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	return (
 		<div className='relative flex h-full w-full flex-col'>
 			<MapFromReactMapLibre
-				ref={mapRef}
+				ref={handleMapRef}
 				initialViewState={MOBILE_VIEW_STATE}
 				mapStyle={MAP_STYLE_URL}
 				interactiveLayerIds={[
@@ -490,6 +520,10 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						});
 					}
 				}}
+				onMouseMove={onMouseMove}
+				onDragStart={() => setCursor('grabbing')}
+				onDragEnd={() => setCursor('grab')}
+				cursor={cursor}
 				{...DEFAULT_INTERACTIVITY_CONFIG}
 				{...DEFAULT_ZOOM_CONSTRAINT}
 			>
@@ -502,7 +536,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						data={regionsGeoJSON}
 					>
 						<LayerReactMapLibre {...regionsLayer} />
-						{!isNationLevel && <LayerReactMapLibre {...regionsLineLayer} />}
+						{isAfter(level, 'nation') && <LayerReactMapLibre {...regionsLineLayer} />}
 					</Source>
 				)}
 				{regionLabelPoints && (
@@ -523,7 +557,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						data={departementsGeoJSON}
 					>
 						<LayerReactMapLibre {...departementsLayer} />
-						{!isNationLevel && !isRegionLevel && (
+						{isAfter(level, 'region') && (
 							<LayerReactMapLibre {...departementLineLayer} />
 						)}
 					</Source>
@@ -592,7 +626,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						)}
 					</Source>
 				)}
-				<div className='z-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+				<div className='absolute inset-x-0 bottom-24 z-legend flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
 					<Legend thresholds={COLOR_THRESHOLDS[level]} />
 					<MenuDrom />
 				</div>
