@@ -50,20 +50,24 @@ export function getDepartementsLineLayer(selectedDepartementId: string | null) {
 	} satisfies LayerProps;
 }
 
+/**
+ * Labels for the departements layer.
+ * When zooming out (after the minZoom), the labels are hidden because they are too small and decrease readability.
+ */
 export const departementsLabelsLayer = {
 	id: 'departements-labels',
 	type: 'symbol',
 	source: DEPARTEMENTS_LABELS_SOURCE_ID,
 	layout: {
 		'text-field': ['get', DEPARTEMENT_GEOJSON_KEY_NOM],
-		'text-size': 12,
+		'text-size': 15,
 		'text-anchor': 'center',
 		'text-max-width': 5,
-		'text-allow-overlap': true,
 	},
 	paint: {
 		'text-color': '#333333',
 		'text-halo-color': '#ffffff',
 		'text-halo-width': 2,
 	},
+	minzoom: 5,
 } satisfies LayerProps;

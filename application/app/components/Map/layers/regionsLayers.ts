@@ -56,13 +56,12 @@ export const regionsLabelsLayer = {
 	source: REGIONS_LABELS_SOURCE_ID,
 	layout: {
 		'text-field': ['get', REGIONS_GEOJSON_KEY_NOM],
-		'text-size': 12,
+		'text-size': 15,
 		'text-anchor': 'center',
 		'text-max-width': 5,
-		'text-allow-overlap': true,
 	},
 	paint: {
-		'text-color': '#000000',
+		'text-color': '#333333',
 		'text-halo-color': '#ffffff',
 		'text-halo-width': 2,
 	},
