@@ -23,6 +23,7 @@ import useDepartementsGeoJSON from '@/app/utils/hooks/useDepartementsGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
 import { getCurrentLevelItem } from '@/app/utils/level-utils';
+import { isAfter } from '@/app/utils/map-utils';
 import { bbox } from '@turf/turf';
 import { EaseToOptions, GeoJSONSource, MapLayerMouseEvent, MapOptions } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -443,9 +444,9 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			getDepartementsLayer(
 				codeDepartement ?? null,
 				isEtablissementsLayerVisible,
-				!isNationLevel && !isRegionLevel,
+				isAfter(level, 'region'),
 			),
-		[codeDepartement, isNationLevel, isRegionLevel, isEtablissementsLayerVisible],
+		[codeDepartement, level, isEtablissementsLayerVisible],
 	);
 	const departementLineLayer = useMemo(
 		() => getDepartementsLineLayer(codeDepartement ?? null),
@@ -457,15 +458,9 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 			getCommunesLayer(
 				codeCommune ?? null,
 				isEtablissementsLayerVisible,
-				!isNationLevel && !isRegionLevel && !isDepartementLevel,
+				isAfter(level, 'departement'),
 			),
-		[
-			codeCommune,
-			isNationLevel,
-			isRegionLevel,
-			isDepartementLevel,
-			isEtablissementsLayerVisible,
-		],
+		[codeCommune, level, isEtablissementsLayerVisible],
 	);
 
 	const communeLineLayer = useMemo(
@@ -525,7 +520,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						data={regionsGeoJSON}
 					>
 						<LayerReactMapLibre {...regionsLayer} />
-						{!isNationLevel && <LayerReactMapLibre {...regionsLineLayer} />}
+						{isAfter(level, 'nation') && <LayerReactMapLibre {...regionsLineLayer} />}
 					</Source>
 				)}
 				{regionLabelPoints && (
@@ -546,7 +541,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						data={departementsGeoJSON}
 					>
 						<LayerReactMapLibre {...departementsLayer} />
-						{!isNationLevel && !isRegionLevel && (
+						{isAfter(level, 'region') && (
 							<LayerReactMapLibre {...departementLineLayer} />
 						)}
 					</Source>
