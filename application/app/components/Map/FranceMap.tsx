@@ -97,11 +97,12 @@ const DEFAULT_ZOOM_CONSTRAINT = {
 /**
  * Interactivity config options.
  * We deactivate rotating.
- * doubleClickZoom is disabled to avoid staggered zoom when combined with easeTo on click.
+ * doubleClickZoom is disabled to avoid staggered zoom when combined with easeTo after clicking an element.
+ * Note: touchZoomRotate is kept with true but disabled more granularly in handleMapRef (deactivate rotation).
  */
 const DEFAULT_INTERACTIVITY_CONFIG = {
 	dragRotate: false,
-	touchZoomRotate: false,
+	touchPitch: false,
 	doubleClickZoom: false,
 } satisfies Partial<MapOptions>;
 
@@ -137,6 +138,21 @@ interface FranceMapProps {
 
 export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
+
+	/**
+	 * Handle the map reference at init.
+	 * Configure some map options not available as props (see touchZoomRotate option).
+	 * @param ref
+	 */
+	const handleMapRef = (ref: MapRef | null) => {
+		mapRef.current = ref;
+		if (ref) {
+			const map = ref.getMap();
+			map.keyboard.disableRotation();
+			map.touchZoomRotate.disableRotation();
+		}
+	};
+
 	const [cursor, setCursor] = useState<string>('grab');
 	const {
 		layers,
@@ -481,7 +497,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	return (
 		<div className='relative flex h-full w-full flex-col'>
 			<MapFromReactMapLibre
-				ref={mapRef}
+				ref={handleMapRef}
 				initialViewState={MOBILE_VIEW_STATE}
 				mapStyle={MAP_STYLE_URL}
 				interactiveLayerIds={[
@@ -610,7 +626,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						)}
 					</Source>
 				)}
-				<div className='z-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+				<div className='absolute inset-x-0 bottom-24 z-legend flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
 					<Legend thresholds={COLOR_THRESHOLDS[level]} />
 					<MenuDrom />
 				</div>
