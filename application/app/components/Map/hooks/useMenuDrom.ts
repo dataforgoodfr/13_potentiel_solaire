@@ -11,31 +11,31 @@ const HEXAGONE_LOCATION: MenuDromLocation = {
 
 export const MENU_DROM_LOCATIONS: MenuDromLocation[] = [
 	{
-		name: 'guadeloupe',
+		name: 'Guadeloupe',
 		codeRegion: '01',
 		codeDepartement: '971',
 		icon: './DROMs/guadeloupe.svg',
 	},
 	{
-		name: 'martinique',
+		name: 'Martinique',
 		codeRegion: '02',
 		codeDepartement: '972',
 		icon: './DROMs/martinique.svg',
 	},
 	{
-		name: 'guyane',
+		name: 'Guyane',
 		codeRegion: '03',
 		codeDepartement: '973',
 		icon: './DROMs/guyane.svg',
 	},
 	{
-		name: 'reunion',
+		name: 'La Réunion',
 		codeRegion: '04',
 		codeDepartement: '974',
 		icon: './DROMs/reunion.svg',
 	},
 	{
-		name: 'mayotte',
+		name: 'Mayotte',
 		codeRegion: '06',
 		codeDepartement: '976',
 		icon: './DROMs/mayotte.svg',
