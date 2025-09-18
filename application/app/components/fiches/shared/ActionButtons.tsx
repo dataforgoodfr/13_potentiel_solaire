@@ -1,9 +1,8 @@
 'use client';
 
+import { printFiche } from '@/app/utils/pdf-utils';
 import { toast } from '@/hooks/use-toast';
 import { Download, Share2 } from 'lucide-react';
-
-import { printFiche } from '@/app/utils/pdf-utils';
 
 const ActionButtons = () => {
 	const handleShare = async () => {
@@ -46,7 +45,6 @@ const ActionButtons = () => {
 			}
 		}
 	};
-	// 	// Check which fiche type is present in the DOM
 	// 	const ficheIds = [
 	// 		'fiche-commune',
 	// 		'fiche-departement',
@@ -85,16 +83,16 @@ const ActionButtons = () => {
 	// };
 
 	const handleDownload = () => {
-    try {
-      printFiche();
-    } catch (error) {
-      console.error('Print failed:', error);
-      toast({
-        title: 'Erreur lors de l\'impression',
-        variant: 'destructive',
-      });
-    }
-  };
+		try {
+			printFiche();
+		} catch (error) {
+			console.error('Print failed:', error);
+			toast({
+				title: "Erreur lors de l'impression",
+				variant: 'destructive',
+			});
+		}
+	};
 
 	return (
 		<div className='flex gap-4'>
