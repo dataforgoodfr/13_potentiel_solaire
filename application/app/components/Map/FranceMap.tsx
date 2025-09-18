@@ -23,7 +23,7 @@ import useDepartementsGeoJSON from '@/app/utils/hooks/useDepartementsGeoJSON';
 import useEtablissementsGeoJSON from '@/app/utils/hooks/useEtablissementsGeoJSON';
 import useRegionsGeoJSON from '@/app/utils/hooks/useRegionsGeoJSON';
 import { getCurrentLevelItem } from '@/app/utils/level-utils';
-import { isAfter } from '@/app/utils/map-utils';
+import { defaultLocale, isAfter } from '@/app/utils/map-utils';
 import { bbox } from '@turf/turf';
 import { EaseToOptions, GeoJSONSource, MapLayerMouseEvent, MapOptions } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -500,6 +500,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				ref={handleMapRef}
 				initialViewState={MOBILE_VIEW_STATE}
 				mapStyle={MAP_STYLE_URL}
+        locale={defaultLocale}
 				interactiveLayerIds={[
 					regionsLayer.id,
 					departementsLayer.id,
@@ -626,7 +627,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						)}
 					</Source>
 				)}
-				<div className='absolute inset-x-0 bottom-24 z-legend flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+				<div className='z-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
 					<Legend thresholds={COLOR_THRESHOLDS[level]} />
 					<MenuDrom />
 				</div>

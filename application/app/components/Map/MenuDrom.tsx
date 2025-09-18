@@ -58,7 +58,7 @@ function MenuDrom() {
 							key={location.codeRegion}
 							onClick={() => handleTabChange(location)}
 							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : buttonHoverStyle}`}
-							aria-label={`Go to ${location.name}`}
+							aria-label={`Naviguer vers ${location.name.toUpperCase}`}
 						>
 							<Image src={location.icon} alt={location.name} width={24} height={24} />
 						</button>
