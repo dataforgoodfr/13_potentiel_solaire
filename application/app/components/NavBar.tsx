@@ -144,15 +144,13 @@ export default function NavBar() {
 										key={link.href}
 										href={link.href}
 										onClick={() => setIsOpen(false)}
-										className={`group flex items-center justify-between pb-2 ${
-											isActive ? 'decoration-solid' : ''
-										}`}
+										className='group flex items-center justify-between pb-2'
 									>
 										<span
-											className={`underline decoration-dotted decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid ${
+											className={`underline decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid ${
 												isActive
 													? 'decoration-solid'
-													: ''
+													: 'decoration-dotted'
 											}`}
 										>
 											{link.title}
