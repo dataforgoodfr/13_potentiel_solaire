@@ -41,7 +41,6 @@ export default function NavBar() {
 		}
 	};
 
-	// Function to check if a link is active
 	const isActiveLink = (href: string) => {
 		if (href === '/') {
 			return pathname === '/';
