@@ -15,7 +15,7 @@ import AccordionCard from '../components/fiches/shared/AccordionCard';
 
 const actionsLong = [
 	{
-		title: 'Je suis un·e élu·e et je veux agir',
+		title: 'Je suis un élu ou une élue et je veux agir',
 		content: (
 			<>
 				{ELU_INTRO_LONG}
@@ -24,7 +24,7 @@ const actionsLong = [
 		),
 	},
 	{
-		title: 'Je suis un·e citoyen·ne et je veux agir',
+		title: 'Je suis un citoyen ou une citoyenne et je veux agir',
 		content: (
 			<>
 				{PARTICULIER_INTRO_LONG}
