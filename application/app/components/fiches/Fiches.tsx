@@ -21,11 +21,11 @@ import AccordionCard from './shared/AccordionCard';
 
 const actionsShort = [
 	{
-		title: 'Je suis un élu et je veux agir',
+		title: 'Je suis un élu ou une élue et je veux agir',
 		content: <>{ELU_BODY}</>,
 	},
 	{
-		title: 'Je suis un particulier et je veux agir',
+		title: 'Je suis un citoyen ou une citoyenne et je veux agir',
 		content: (
 			<>
 				{PARTICULIER_BODY}
