@@ -22,3 +22,10 @@ export function isAfter(level: Level, otherLevel: Level): boolean {
 	const otherLevelIndex = LEVEL_HIERARCHY.indexOf(otherLevel);
 	return levelIndex > otherLevelIndex;
 }
+
+export const defaultLocale = {
+    'AttributionControl.ToggleAttribution': 'Afficher/masquer les attributions',
+    'Map.Title': 'Carte',
+    'NavigationControl.ZoomIn': 'Zoom avant',
+    'NavigationControl.ZoomOut': 'Zoom arrière',
+};
