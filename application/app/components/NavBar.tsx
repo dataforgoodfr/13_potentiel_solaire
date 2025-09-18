@@ -12,13 +12,7 @@ import GOOD from '../../public/images/GOOD.svg';
 import imgLogo from '../../public/images/logo.svg';
 import useShowSearchBar from '../utils/hooks/useShowSearchBar';
 import SearchBar from './SearchBar/SearchBar';
-
-const links = [
-	{ title: 'Accueil', href: '/' },
-	{ title: 'Comment agir ?', href: '/comment-agir' },
-	{ title: 'Notre méthodologie', href: '/notre-methodologie' },
-	{ title: 'À propos', href: '/a-propos' },
-];
+import { navBarLinks as links } from './content/navBar';
 
 export default function NavBar() {
 	const showSearchBar = useShowSearchBar();
