@@ -242,7 +242,7 @@ export function Autocomplete({
 						</Command>
 					</PopoverContent>
 				</Popover>
-				{inputValue.length > 0 && (
+				{(inputValue.length > 0 || selection != null) && (
 					<button
 						type='button'
 						onClick={handleClear}
