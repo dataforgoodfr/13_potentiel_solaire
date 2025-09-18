@@ -11,7 +11,7 @@ import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
-import { LEVEL_TO_LABEL_SHORTENED } from '../Map/layers/layers';
+import { LEVEL_TO_LABEL_SHORTENED, TYPE_ETABLISSEMENT_TO_LABEL } from '../Map/layers/layers';
 import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
@@ -106,7 +106,12 @@ export default function Fiches({
 			? [{ id: 'commune' as const, label: LEVEL_TO_LABEL_SHORTENED['commune'] }]
 			: []),
 		...(etablissement
-			? [{ id: 'etablissement' as const, label: etablissement.type_etablissement }]
+			? [
+					{
+						id: 'etablissement' as const,
+						label: TYPE_ETABLISSEMENT_TO_LABEL[etablissement.type_etablissement],
+					},
+				]
 			: []),
 	];
 
