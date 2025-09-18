@@ -128,6 +128,7 @@ export default function Fiches({
 						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
 						style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
 						onClick={() => setActiveTab(tab.id)}
+            title={tab.label}
 					>
 						{tab.label}
 					</button>
