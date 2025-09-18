@@ -90,14 +90,12 @@ export default function Footer() {
 													{partners[0].name}
 												</div>
 												{partners[0].address && (
-													<div className='mt-2 text-[0.6rem] text-white'>
+													<div className='mt-2 text-xs text-white'>
 														{partners[0].address}
 														<br />
 														{partners[0].city}
 														<br />
-														{partners[0].phone && (
-															<span>Tel : {partners[0].phone}</span>
-														)}
+														{partners[0].phone}
 													</div>
 												)}
 											</div>
@@ -117,18 +115,16 @@ export default function Footer() {
 													{partners[1].name}
 												</div>
 												{partners[1].address && (
-													<div className='mt-2 text-[0.6rem] text-white'>
+													<div className='mt-2 text-xs text-white'>
 														{partners[1].address}
 														<br />
 														{partners[1].city}
 														<br />
-														{partners[1].phone && (
-															<span>Tel : {partners[1].phone}</span>
-														)}
+														{partners[1].phone}
 													</div>
 												)}
 												{partners[1].socials && (
-													<div className='mt-2 grid grid-cols-2 gap-x-2 gap-y-0.5 text-[0.6rem] text-green'>
+													<div className='mt-2 grid grid-cols-2 text-center gap-x-2 gap-y-0.5 text-xs text-green'>
 														{partners[1].socials.map((social) => (
 															<a
 																key={social.name}

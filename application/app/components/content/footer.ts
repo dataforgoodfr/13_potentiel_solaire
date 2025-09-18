@@ -19,12 +19,12 @@ export const partners = [
 		name: 'Data For Good',
 		logo: '/images/DataForGood.svg',
 		socials: [
+			{ name: 'Site web', href: 'https://dataforgood.fr/' },
 			{ name: 'Github', href: 'https://github.com/dataforgoodfr' },
-			{ name: 'Hugging Face', href: 'https://huggingface.co/DataForGood' },
 			{ name: 'YouTube', href: 'https://www.youtube.com/channel/UCA_utdbmVhAOFujulWlaaCQ' },
 			{ name: 'Twitch', href: 'https://www.twitch.tv/dataforgood' },
+			{ name: 'Hugging Face', href: 'https://huggingface.co/DataForGood' },
 			{ name: 'Meetup', href: 'https://www.meetup.com/data-for-good-fr/' },
-			{ name: 'Site web', href: 'https://dataforgood.fr/' },
 		],
 	},
 ];
