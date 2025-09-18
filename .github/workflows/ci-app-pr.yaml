@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "application/**"
-      - ".github/workflows/ci-app-pr.yml"
+      - ".github/workflows/ci-app-pr.yaml"
 
 jobs:
   build:
