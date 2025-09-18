@@ -164,24 +164,12 @@ export function Autocomplete({
 	 */
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-	useEffect(() => {
-		if (!loading && (!options || options.length === 0)) {
-			setIsPopoverOpen(false);
-		}
-	}, [loading, options]);
-
 	function onInputValueChange(e: ChangeEvent<HTMLInputElement>) {
 		const value = e.target.value;
 		onInputChange(value);
+
 		if (value.length > 0 && selection) {
 			onClear?.();
-		}
-		if (!isPopoverOpen && value.length >= openSuggestionsAtInputLength) {
-			setIsPopoverOpen(true);
-		} else if (isPopoverOpen && value.length < openSuggestionsAtInputLength) {
-			setIsPopoverOpen(false);
 		}
 	}
 
@@ -198,7 +186,6 @@ export function Autocomplete({
 	}
 
 	function handleClear() {
-		setIsPopoverOpen(false);
 		inputRef.current?.focus();
 		onClear?.();
 	}
@@ -207,7 +194,12 @@ export function Autocomplete({
 		<div className='w-full max-w-screen-sm text-white'>
 			<div className='relative w-full'>
 				<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
-				<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+				<Popover
+					open={
+						inputValue.length >= openSuggestionsAtInputLength &&
+						(loading || (options && options.length > 0) || inputValue.length > 0)
+					}
+				>
 					<PopoverAnchor>
 						<Input
 							ref={inputRef}
