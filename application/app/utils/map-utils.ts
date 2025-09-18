@@ -24,9 +24,8 @@ export function isAfter(level: Level, otherLevel: Level): boolean {
 }
 
 export const defaultLocale = {
-    'AttributionControl.ToggleAttribution': 'Afficher/masquer les attributionsToggle attribution',
+    'AttributionControl.ToggleAttribution': 'Afficher/masquer les attributions',
     'Map.Title': 'Carte',
     'NavigationControl.ZoomIn': 'Zoom avant',
     'NavigationControl.ZoomOut': 'Zoom arrière',
 };
-
