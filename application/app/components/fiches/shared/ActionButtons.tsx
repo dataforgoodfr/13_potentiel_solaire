@@ -1,8 +1,9 @@
 'use client';
 
 import { toast } from '@/hooks/use-toast';
-import * as Popover from '@radix-ui/react-popover';
 import { Download, Share2 } from 'lucide-react';
+
+import { printFiche } from '@/app/utils/pdf-utils';
 
 const ActionButtons = () => {
 	const handleShare = async () => {
@@ -45,6 +46,55 @@ const ActionButtons = () => {
 			}
 		}
 	};
+	// 	// Check which fiche type is present in the DOM
+	// 	const ficheIds = [
+	// 		'fiche-commune',
+	// 		'fiche-departement',
+	// 		'fiche-region',
+	// 		'fiche-etablissement',
+	// 	];
+	// 	const ficheId = ficheIds.find((id) => document.getElementById(id));
+
+	// 	if (!ficheId) {
+	// 		throw new Error('No fiche found in DOM');
+	// 	}
+
+	// 	// Extract fiche type from ID
+	// 	const ficheType = ficheId.replace('fiche-', '');
+
+	// 	// Extract name based on fiche type
+	// 	let ficheName = 'fiche';
+
+	// 	if (ficheType === 'etablissement') {
+	// 		// For établissement, get name from EtablissementCard
+	// 		const etablissementCard = document.querySelector(
+	// 			'[data-testid="etablissement-card"] h1, .etablissement-card h1, h1',
+	// 		);
+	// 		if (etablissementCard) {
+	// 			ficheName = etablissementCard.textContent?.trim() || 'etablissement';
+	// 		}
+	// 	} else {
+	// 		// For collectivités, get name from CollectiviteHeaderCard
+	// 		const headerCard = document.querySelector(`#${ficheId} h1`);
+	// 		if (headerCard) {
+	// 			ficheName = headerCard.textContent?.trim() || ficheType;
+	// 		}
+	// 	}
+
+	// 	return { ficheId: 'fiche-root', ficheType, ficheName };
+	// };
+
+	const handleDownload = () => {
+    try {
+      printFiche();
+    } catch (error) {
+      console.error('Print failed:', error);
+      toast({
+        title: 'Erreur lors de l\'impression',
+        variant: 'destructive',
+      });
+    }
+  };
 
 	return (
 		<div className='flex gap-4'>
@@ -55,25 +105,14 @@ const ActionButtons = () => {
 			>
 				<Share2 className='h-5 w-5' />
 			</button>
-			<Popover.Root>
-				<Popover.Trigger asChild>
-					<button
-						aria-disabled='true'
-						className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
-					>
-						<Download />
-					</button>
-				</Popover.Trigger>
-				<Popover.Portal>
-					<Popover.Content
-						className='z-tooltip rounded bg-blue px-3 py-1.5 text-xs text-white shadow'
-						sideOffset={5}
-					>
-						Cette fonctionnalité n&apos;est pas encore disponible !
-						<Popover.Arrow className='fill-black' />
-					</Popover.Content>
-				</Popover.Portal>
-			</Popover.Root>
+
+			<button
+				onClick={handleDownload}
+				title='Télécharger'
+				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+			>
+				<Download />
+			</button>
 		</div>
 	);
 };

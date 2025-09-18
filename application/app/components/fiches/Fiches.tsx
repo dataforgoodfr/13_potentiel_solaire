@@ -137,6 +137,7 @@ export default function Fiches({
 
 	return (
 		<div
+			id='fiche-root'
 			ref={ficheContainerRef}
 			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
 		>
