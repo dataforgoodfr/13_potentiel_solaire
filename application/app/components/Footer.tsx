@@ -124,7 +124,7 @@ export default function Footer() {
 													</div>
 												)}
 												{partners[1].socials && (
-													<div className='mt-2 grid grid-cols-2 text-center gap-x-2 gap-y-0.5 text-xs text-green'>
+													<div className='mt-2 grid grid-cols-2 gap-x-2 gap-y-0.5 text-center text-xs text-green'>
 														{partners[1].socials.map((social) => (
 															<a
 																key={social.name}
