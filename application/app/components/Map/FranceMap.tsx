@@ -500,7 +500,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				ref={handleMapRef}
 				initialViewState={MOBILE_VIEW_STATE}
 				mapStyle={MAP_STYLE_URL}
-        locale={defaultLocale}
+				locale={defaultLocale}
 				interactiveLayerIds={[
 					regionsLayer.id,
 					departementsLayer.id,
