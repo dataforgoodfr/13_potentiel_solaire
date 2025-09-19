@@ -1,6 +1,5 @@
 import { MiddlewareConfig, NextRequest, NextResponse } from 'next/server';
 
-import { TabId } from './app/components/fiches/Fiches';
 import {
 	ACTIVE_TAB_KEY,
 	CODE_COMMUNES_KEY,
@@ -10,6 +9,7 @@ import {
 	CODE_TO_TAB_ID_MAP,
 	codesDiffer,
 	getLongestValidHierarchy,
+	isTabValid,
 } from './app/utils/state-utils';
 
 /**
@@ -36,12 +36,10 @@ export function middleware(request: NextRequest) {
 	};
 
 	const [longestValidHierarchy, lastValidLevel] = getLongestValidHierarchy(currentHierarchy);
-	const lastValidActiveTab = lastValidLevel ? CODE_TO_TAB_ID_MAP[lastValidLevel] : null;
+	const invalidActiveTab =
+		activeTabParam !== null && !isTabValid(activeTabParam, longestValidHierarchy);
 
-	// only change tab if there was an activeTab in the url
-	const activeTabChanged = activeTabParam !== null && activeTabParam !== lastValidActiveTab;
-
-	if (codesDiffer(currentHierarchy, longestValidHierarchy) || activeTabChanged) {
+	if (codesDiffer(currentHierarchy, longestValidHierarchy) || invalidActiveTab) {
 		const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 		if (!baseUrl) throw new Error('NEXT_PUBLIC_BASE_URL must be set!');
 
@@ -50,8 +48,12 @@ export function middleware(request: NextRequest) {
 			.forEach(([key]) => {
 				paramsClone.delete(key);
 			});
-		if (activeTabChanged) {
-			paramsClone.set(ACTIVE_TAB_KEY, lastValidActiveTab as TabId);
+		if (invalidActiveTab) {
+			if (lastValidLevel !== null) {
+				paramsClone.set(ACTIVE_TAB_KEY, CODE_TO_TAB_ID_MAP[lastValidLevel]);
+			} else {
+				paramsClone.delete(ACTIVE_TAB_KEY);
+			}
 		}
 
 		return NextResponse.redirect(new URL(`/?${paramsClone.toString()}`, baseUrl));
