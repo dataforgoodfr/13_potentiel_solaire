@@ -8,7 +8,7 @@ import { Etablissement } from '@/app/models/etablissements';
 import { Region } from '@/app/models/regions';
 import useActiveTab from '@/app/utils/hooks/useActiveTab';
 import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
-import { codesDiffer } from '@/app/utils/state-utils';
+import { ALLOWED_TABS, codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
@@ -36,7 +36,8 @@ const actionsShort = [
 	},
 ];
 
-export type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
+export type TabId = (typeof ALLOWED_TABS)[number];
+
 type Tab = { id: TabId; label?: string }[];
 
 interface FichesProps {

@@ -17,6 +17,7 @@ export function codesDiffer(codes1: Codes, codes2: Codes): boolean {
 }
 
 export const ACTIVE_TAB_KEY = 'activeTab';
+export const ALLOWED_TABS = ['region', 'departement', 'commune', 'etablissement'] as const;
 
 export function buildActiveTabParam(tabId: TabId): URLSearchParams {
 	return new URLSearchParams({ [ACTIVE_TAB_KEY]: tabId });
@@ -40,6 +41,16 @@ export const LEVEL_CODE_HIERARCHY: Array<keyof Codes> = [
 	CODE_COMMUNES_KEY,
 	CODE_ETABLISSEMENTS_KEY,
 ] as const;
+
+/**
+ * Map a TabId to a code key.
+ */
+export const TAB_ID_TO_CODE_MAP: Record<TabId, keyof Codes> = {
+	region: 'codeRegion',
+	departement: 'codeDepartement',
+	commune: 'codeCommune',
+	etablissement: 'codeEtablissement',
+};
 
 /**
  * Map a code key to a TabId.
@@ -72,4 +83,19 @@ export function getLongestValidHierarchy(codes: Codes): [Codes, keyof Codes | nu
 		validLevels[level] = codes[level];
 	}
 	return [validLevels, lastValidLevel];
+}
+
+/**
+ * Checks that the activeTabParam is valid:
+ * - is one of the allowed tabs
+ * - corresponds to a non-null code in the provided Codes (meaning the level will load)
+ * @param activeTabParam
+ * @param codes
+ * @returns
+ */
+export function isTabValid(activeTabParam: string, codes: Codes): boolean {
+	return (
+		ALLOWED_TABS.includes(activeTabParam as TabId) &&
+		codes[TAB_ID_TO_CODE_MAP[activeTabParam as TabId]] !== null
+	);
 }
