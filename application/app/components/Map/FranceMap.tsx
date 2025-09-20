@@ -134,9 +134,10 @@ function isFeatureFrom<T extends EventFeature>(
 
 interface FranceMapProps {
 	selectedPlaces: SelectedPlaces;
+	hideToolbar?: boolean;
 }
 
-export default function FranceMap({ selectedPlaces }: FranceMapProps) {
+export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 
 	/**
@@ -533,7 +534,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				{...DEFAULT_INTERACTIVITY_CONFIG}
 				{...DEFAULT_ZOOM_CONSTRAINT}
 			>
-				<NavigationControl position='top-left' showCompass={false} />
+				{!hideToolbar && <NavigationControl position='top-left' showCompass={false} />}
 				{regionsGeoJSON && (
 					<Source
 						key={REGIONS_SOURCE_ID}
@@ -632,12 +633,14 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						)}
 					</Source>
 				)}
-				<div className='z-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+				{!hideToolbar && (
+					<div className='absolute inset-x-0 bottom-24 z-legend flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
 					<Legend thresholds={COLOR_THRESHOLDS[level]} />
 					<MenuDrom />
 				</div>
+				)}
 			</MapFromReactMapLibre>
-			{!isNationLevel && (
+			{!hideToolbar && !isNationLevel && (
 				<div className='absolute left-11 top-2 flex max-w-[calc(100%-3rem)] gap-1 overflow-hidden'>
 					<BackButton onBack={goBackOneLevel} previousLevel={getLayerUp().level} />
 					{currentLevelItem && (
