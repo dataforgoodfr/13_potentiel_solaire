@@ -50,6 +50,13 @@ export const printFiche = () => {
 
             /* Page setup */
             @page { size: A4; margin: 1cm; }
+
+			@media print {
+				.print-bg {
+					-webkit-print-color-adjust: exact;
+					print-color-adjust: exact;
+				}
+			}
           </style>
         </head>
         <body>

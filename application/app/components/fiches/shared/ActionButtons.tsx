@@ -95,11 +95,11 @@ const ActionButtons = () => {
 	};
 
 	return (
-		<div className='flex gap-4'>
+		<div className='flex gap-4 print:hidden'>
 			<button
 				onClick={handleShare}
 				title='Partager'
-				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+				className='rounded p-2 text-darkgreen transition hover:bg-gray-100'
 			>
 				<Share2 className='h-5 w-5' />
 			</button>
@@ -107,7 +107,7 @@ const ActionButtons = () => {
 			<button
 				onClick={handleDownload}
 				title='Télécharger'
-				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+				className='rounded p-2 text-darkgreen transition hover:bg-gray-100'
 			>
 				<Download />
 			</button>

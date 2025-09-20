@@ -144,7 +144,7 @@ export default function Fiches({
 			<header>
 				<button
 					onClick={handleClose}
-					className='absolute left-1 top-2 text-xl text-grey hover:text-black'
+					className='absolute left-1 top-2 text-xl text-grey hover:text-black print:hidden'
 				>
 					<X />
 				</button>
@@ -173,13 +173,13 @@ export default function Fiches({
 					</div>
 				) : (
 					<>
-						{activeTab === 'region' && region && <FicheRegion region={region} />}
+						{activeTab === 'region' && region && <FicheRegion region={region} ficheRef={ficheContainerRef} />}
 						{activeTab === 'departement' && departement && (
-							<FicheDepartement departement={departement} />
+							<FicheDepartement departement={departement} ficheRef={ficheContainerRef} />
 						)}
-						{activeTab === 'commune' && commune && <FicheCommune commune={commune} />}
+						{activeTab === 'commune' && commune && <FicheCommune commune={commune} ficheRef={ficheContainerRef} />}
 						{activeTab === 'etablissement' && etablissement && (
-							<FicheEtablissement etablissement={etablissement} />
+							<FicheEtablissement etablissement={etablissement} ficheRef={ficheContainerRef}/>
 						)}
 						<hr className='my-4' />
 						<AccordionCard actions={actionsShort} />
