@@ -63,6 +63,6 @@ export const regionsLabelsLayer = {
 	paint: {
 		'text-color': '#333333',
 		'text-halo-color': '#ffffff',
-		'text-halo-width': 2,
+		'text-halo-width': 1,
 	},
 } satisfies LayerProps;

@@ -67,7 +67,7 @@ export const departementsLabelsLayer = {
 	paint: {
 		'text-color': '#333333',
 		'text-halo-color': '#ffffff',
-		'text-halo-width': 2,
+		'text-halo-width': 1,
 	},
 	minzoom: 5,
 } satisfies LayerProps;

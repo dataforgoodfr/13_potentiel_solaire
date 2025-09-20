@@ -43,7 +43,7 @@ import { ClusterFeature, Layer, Level } from './interfaces';
 import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
-	communesLabelsLayer,
+	getCommunesLabelLayer,
 	getCommunesLayer,
 	getCommunesLineLayer,
 } from './layers/communesLayers';
@@ -484,6 +484,11 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 		[codeCommune],
 	);
 
+	const communesLabelLayer = useMemo(
+		() => getCommunesLabelLayer(isEtablissementsLayerVisible),
+		[isEtablissementsLayerVisible],
+	);
+
 	const unclusteredPointLayer = useMemo(
 		() => getUnclusteredPointLayer(codeEtablissement ?? null),
 		[codeEtablissement],
@@ -593,7 +598,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={communeLabelPoints}
 					>
-						<LayerReactMapLibre {...communesLabelsLayer} />
+						<LayerReactMapLibre {...communesLabelLayer} />
 					</Source>
 				)}
 				{etablissementsGeoJSON && (
