@@ -50,7 +50,7 @@ import {
 import {
 	DEPARTEMENTS_LABELS_SOURCE_ID,
 	DEPARTEMENTS_SOURCE_ID,
-	departementsLabelsLayer,
+	getDepartementsLabelsLayer,
 	getDepartementsLayer,
 	getDepartementsLineLayer,
 } from './layers/departementsLayers';
@@ -65,9 +65,9 @@ import {
 import {
 	REGIONS_LABELS_SOURCE_ID,
 	REGIONS_SOURCE_ID,
+	getRegionsLabelsLayer,
 	getRegionsLayer,
 	getRegionsLineLayer,
-	regionsLabelsLayer,
 } from './layers/regionsLayers';
 
 const MAP_STYLE_URL = `/map-styles/map-style.json`;
@@ -456,6 +456,11 @@ export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProp
 	);
 	const regionsLineLayer = useMemo(() => getRegionsLineLayer(codeRegion ?? null), [codeRegion]);
 
+	const regionsLabelsLayer = useMemo(
+		() => getRegionsLabelsLayer(codeRegion ?? null),
+		[codeRegion],
+	);
+
 	const departementsLayer = useMemo(
 		() =>
 			getDepartementsLayer(
@@ -467,6 +472,10 @@ export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProp
 	);
 	const departementLineLayer = useMemo(
 		() => getDepartementsLineLayer(codeDepartement ?? null),
+		[codeDepartement],
+	);
+	const departementsLabelsLayer = useMemo(
+		() => getDepartementsLabelsLayer(codeDepartement ?? null),
 		[codeDepartement],
 	);
 
@@ -635,9 +644,9 @@ export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProp
 				)}
 				{!hideToolbar && (
 					<div className='absolute inset-x-0 bottom-24 z-legend flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
-					<Legend thresholds={COLOR_THRESHOLDS[level]} />
-					<MenuDrom />
-				</div>
+						<Legend thresholds={COLOR_THRESHOLDS[level]} />
+						<MenuDrom />
+					</div>
 				)}
 			</MapFromReactMapLibre>
 			{!hideToolbar && !isNationLevel && (

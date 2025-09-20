@@ -60,7 +60,6 @@ export function getCommunesLineLayer(selectedCommuneId: string | null) {
 
 /**
  * Layer for the communes label.
- * When zooming out (after the minZoom), the labels are hidden because they are too small and decrease readability.
  */
 export function getCommunesLabelLayer(isEtablissementLevel: boolean) {
 	return {
@@ -77,6 +76,5 @@ export function getCommunesLabelLayer(isEtablissementLevel: boolean) {
 			'text-halo-width': isEtablissementLevel ? 0 : 1,
 			'text-halo-color': '#ffffff', // only useful if isEtablissementLevel is true
 		},
-		minzoom: 6.5,
 	} satisfies LayerProps;
 }

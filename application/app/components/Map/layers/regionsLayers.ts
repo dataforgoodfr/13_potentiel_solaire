@@ -50,19 +50,32 @@ export function getRegionsLineLayer(selectedRegionId: string | null) {
 	} satisfies LayerProps;
 }
 
-export const regionsLabelsLayer = {
-	id: 'regions-labels',
-	type: 'symbol',
-	source: REGIONS_LABELS_SOURCE_ID,
-	layout: {
-		'text-field': ['get', REGIONS_GEOJSON_KEY_NOM],
-		'text-size': 15,
-		'text-anchor': 'center',
-		'text-max-width': 5,
-	},
-	paint: {
-		'text-color': '#333333',
-		'text-halo-color': '#ffffff',
-		'text-halo-width': 1,
-	},
-} satisfies LayerProps;
+/**
+ * Labels for the regions layer.
+ * We hide the label of the selected region to avoid overlap with the departement label.
+ */
+export function getRegionsLabelsLayer(selectedRegionId: string | null) {
+	return {
+		id: 'regions-labels',
+		type: 'symbol',
+		source: REGIONS_LABELS_SOURCE_ID,
+		layout: {
+			'text-field': ['get', REGIONS_GEOJSON_KEY_NOM],
+			'text-size': 15,
+			'text-anchor': 'center',
+			'text-max-width': 5,
+		},
+		paint: {
+			'text-opacity': [
+				'match',
+				['get', REGIONS_GEOJSON_KEY_ID],
+				selectedRegionId ?? '',
+				0,
+				1,
+			],
+			'text-color': '#333333',
+			'text-halo-color': '#ffffff',
+			'text-halo-width': 1,
+		},
+	} satisfies LayerProps;
+}

@@ -52,22 +52,30 @@ export function getDepartementsLineLayer(selectedDepartementId: string | null) {
 
 /**
  * Labels for the departements layer.
- * When zooming out (after the minZoom), the labels are hidden because they are too small and decrease readability.
+ * We hide the label of the selected departement to avoid overlap with the commune label.
  */
-export const departementsLabelsLayer = {
-	id: 'departements-labels',
-	type: 'symbol',
-	source: DEPARTEMENTS_LABELS_SOURCE_ID,
-	layout: {
-		'text-field': ['get', DEPARTEMENT_GEOJSON_KEY_NOM],
-		'text-size': 15,
-		'text-anchor': 'center',
-		'text-max-width': 5,
-	},
-	paint: {
-		'text-color': '#333333',
-		'text-halo-color': '#ffffff',
-		'text-halo-width': 1,
-	},
-	minzoom: 5,
-} satisfies LayerProps;
+export function getDepartementsLabelsLayer(selectedDepartementId: string | null) {
+	return {
+		id: 'departements-labels',
+		type: 'symbol',
+		source: DEPARTEMENTS_LABELS_SOURCE_ID,
+		layout: {
+			'text-field': ['get', DEPARTEMENT_GEOJSON_KEY_NOM],
+			'text-size': 15,
+			'text-anchor': 'center',
+			'text-max-width': 5,
+		},
+		paint: {
+			'text-opacity': [
+				'match',
+				['get', DEPARTEMENT_GEOJSON_KEY_ID],
+				selectedDepartementId ?? '',
+				0,
+				1,
+			],
+			'text-color': '#333333',
+			'text-halo-color': '#ffffff',
+			'text-halo-width': 1,
+		},
+	} satisfies LayerProps;
+}
