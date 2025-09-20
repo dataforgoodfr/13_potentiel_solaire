@@ -12,7 +12,7 @@ import { ALLOWED_TABS, codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
-import { LEVEL_TO_LABEL_SHORTENED } from '../Map/layers/layers';
+import { LEVEL_TO_LABEL_SHORTENED, TYPE_ETABLISSEMENT_TO_LABEL } from '../Map/layers/layers';
 import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
@@ -99,7 +99,12 @@ export default function Fiches({
 			? [{ id: 'commune' as const, label: LEVEL_TO_LABEL_SHORTENED['commune'] }]
 			: []),
 		...(etablissement
-			? [{ id: 'etablissement' as const, label: etablissement.type_etablissement }]
+			? [
+					{
+						id: 'etablissement' as const,
+						label: TYPE_ETABLISSEMENT_TO_LABEL[etablissement.type_etablissement],
+					},
+				]
 			: []),
 	];
 
@@ -121,6 +126,7 @@ export default function Fiches({
 						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
 						style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
 						onClick={() => setActiveTab(tab.id)}
+            title={tab.label}
 					>
 						{tab.label}
 					</button>
