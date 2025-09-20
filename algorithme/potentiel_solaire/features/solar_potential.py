@@ -63,18 +63,31 @@ def calculate_solar_potential(
 def calculate_surface_utile(surface_totale_au_sol: float):
     """Calcule la surface utile pour le PV.
 
-    Pour le moment il s agit d'un simple ratio.
-    @TODO Remplacer par une formule plus fine
+    Nous faisons l'hypothèse qu au maximum 60 % de la surface au sol dun bâtiment 
+    peut être utilisée pour installer des panneaux solaires.
+    Ce coefficient tient compte, de façon simplifiée et moyennée,
+    des éléments qui réduisent la surface exploitable maximum : 
+     - segments de toits présentant une irradiation annuelle trop faible (liée à leur pente et orientation)
+     - obstacles, équipements techniques, etc.
+
+     Cette estimation a fait l objet d une validation sur un echantillon de 7 % des etablissements :
+     - Ces etablissements ont ete selectionnes car susceptibles de faire l objet des actions prioritaires de Greenpeace France
+     - Une segmentation fine des toitures a été réalisée à partir des données de Modèle Numérique de Surface (MNS)
+            - cf algorithme/notebooks/calcul_segmentation_toits_etablissements_prioritaires.ipynb
+     - Le potentiel solaire a été calculé en utilisant l API PVGIS en prenant en compte pente et orientation de chaque segment
+            - cf algorithme/notebooks/calcul_potentiel_solaire_etablissements_prioritaires.ipynb
+     - Seuls les segments présentant une irradiation annuelle supérieure à 900 kWh/m² ont été retenus 
+       pour calculer la surface exploitable maximum et le potentiel total du bâtiment.
+
+    Des analyses ont ensuite ete menées pour comparer les resultats obtenus :
+    - cf algorithme/notebooks/comparaison_resultats_algorithmes.ipynb
 
     :param surface_totale_au_sol: surface totale au sol du batiment
     :return: la surface utile pour installation de panneaux PV
     """
-    if surface_totale_au_sol <= 100:
+    # A minima 2 m² pour installer des panneaux
+    if surface_totale_au_sol <= 4:
         return 0
-
-    if 100 < surface_totale_au_sol < 500:
-        ratio = 0.4 * surface_totale_au_sol / 5000 + 0.2
-        return ratio * surface_totale_au_sol
 
     return 0.6 * surface_totale_au_sol
 
