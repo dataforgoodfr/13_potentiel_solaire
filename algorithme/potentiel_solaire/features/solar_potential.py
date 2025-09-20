@@ -81,6 +81,7 @@ def calculate_surface_utile(surface_totale_au_sol: float):
 
     Des analyses ont ensuite ete menées pour comparer les resultats obtenus :
     - cf algorithme/notebooks/comparaison_resultats_algorithmes.ipynb
+    - cf algorithme/notebooks/Test_hypotheses_potentiel_solaire.ipynb
 
     :param surface_totale_au_sol: surface totale au sol du batiment
     :return: la surface utile pour installation de panneaux PV
