@@ -43,14 +43,14 @@ import { ClusterFeature, Layer, Level } from './interfaces';
 import {
 	COMMUNES_LABELS_SOURCE_ID,
 	COMMUNES_SOURCE_ID,
-	communesLabelsLayer,
+	getCommunesLabelLayer,
 	getCommunesLayer,
 	getCommunesLineLayer,
 } from './layers/communesLayers';
 import {
 	DEPARTEMENTS_LABELS_SOURCE_ID,
 	DEPARTEMENTS_SOURCE_ID,
-	departementsLabelsLayer,
+	getDepartementsLabelsLayer,
 	getDepartementsLayer,
 	getDepartementsLineLayer,
 } from './layers/departementsLayers';
@@ -65,9 +65,9 @@ import {
 import {
 	REGIONS_LABELS_SOURCE_ID,
 	REGIONS_SOURCE_ID,
+	getRegionsLabelsLayer,
 	getRegionsLayer,
 	getRegionsLineLayer,
-	regionsLabelsLayer,
 } from './layers/regionsLayers';
 
 const MAP_STYLE_URL = `/map-styles/map-style.json`;
@@ -134,9 +134,10 @@ function isFeatureFrom<T extends EventFeature>(
 
 interface FranceMapProps {
 	selectedPlaces: SelectedPlaces;
+	hideToolbar?: boolean;
 }
 
-export default function FranceMap({ selectedPlaces }: FranceMapProps) {
+export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProps) {
 	const mapRef = useRef<MapRef>(null);
 
 	/**
@@ -455,6 +456,11 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	);
 	const regionsLineLayer = useMemo(() => getRegionsLineLayer(codeRegion ?? null), [codeRegion]);
 
+	const regionsLabelsLayer = useMemo(
+		() => getRegionsLabelsLayer(codeRegion ?? null),
+		[codeRegion],
+	);
+
 	const departementsLayer = useMemo(
 		() =>
 			getDepartementsLayer(
@@ -466,6 +472,10 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	);
 	const departementLineLayer = useMemo(
 		() => getDepartementsLineLayer(codeDepartement ?? null),
+		[codeDepartement],
+	);
+	const departementsLabelsLayer = useMemo(
+		() => getDepartementsLabelsLayer(codeDepartement ?? null),
 		[codeDepartement],
 	);
 
@@ -482,6 +492,11 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 	const communeLineLayer = useMemo(
 		() => getCommunesLineLayer(codeCommune ?? null),
 		[codeCommune],
+	);
+
+	const communesLabelLayer = useMemo(
+		() => getCommunesLabelLayer(isEtablissementsLayerVisible),
+		[isEtablissementsLayerVisible],
 	);
 
 	const unclusteredPointLayer = useMemo(
@@ -528,7 +543,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 				{...DEFAULT_INTERACTIVITY_CONFIG}
 				{...DEFAULT_ZOOM_CONSTRAINT}
 			>
-				<NavigationControl position='top-left' showCompass={false} />
+				{!hideToolbar && <NavigationControl position='top-left' showCompass={false} />}
 				{regionsGeoJSON && (
 					<Source
 						key={REGIONS_SOURCE_ID}
@@ -593,7 +608,7 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						type='geojson'
 						data={communeLabelPoints}
 					>
-						<LayerReactMapLibre {...communesLabelsLayer} />
+						<LayerReactMapLibre {...communesLabelLayer} />
 					</Source>
 				)}
 				{etablissementsGeoJSON && (
@@ -627,12 +642,14 @@ export default function FranceMap({ selectedPlaces }: FranceMapProps) {
 						)}
 					</Source>
 				)}
-				<div className='z-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
-					<Legend thresholds={COLOR_THRESHOLDS[level]} />
-					<MenuDrom />
-				</div>
+				{!hideToolbar && (
+					<div className='absolute inset-x-0 bottom-24 z-legend flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+						<Legend thresholds={COLOR_THRESHOLDS[level]} />
+						<MenuDrom />
+					</div>
+				)}
 			</MapFromReactMapLibre>
-			{!isNationLevel && (
+			{!hideToolbar && !isNationLevel && (
 				<div className='absolute left-11 top-2 flex max-w-[calc(100%-3rem)] gap-1 overflow-hidden'>
 					<BackButton onBack={goBackOneLevel} previousLevel={getLayerUp().level} />
 					{currentLevelItem && (
