@@ -1,7 +1,7 @@
 import pytest
 import geopandas as gpd
 
-from shapely import from_wkt 
+from shapely import from_wkt
 
 from potentiel_solaire.features.attach_buildings_to_schools import attach_buildings_to_schools
 
@@ -281,7 +281,7 @@ TEST_CRS = "EPSG:4326"
         ),
     ),
 
-    # Test 4 (#TODO) : 
+    # Test 4 : 
     # Une zone est partagée entre trois établissements
     (
         # Test 4 : schools_establishments
@@ -370,134 +370,73 @@ TEST_CRS = "EPSG:4326"
         ),
     ),
 
-    # Test 5 (#TODO) : 
-    # Deux etablissements pour deux zones
-    # Une des zones est inclue dans l'autre
-    #  (
-    #     # Test 5 : schools_establishments
-    #     gpd.GeoDataFrame(
-    #         {       
-    #             "identifiant_de_l_etablissement": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ),
-    #     # Test 5 : educational_zones
-    #     gpd.GeoDataFrame(
-    #         {
-    #             "cleabs": [
-
-
-    #             ],
-    #             "identifiants_sources": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-          
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ), 
-    #     # Test 5 : buildings
-    #     gpd.GeoDataFrame(
-    #         {
-    #             "cleabs": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ),
-    #     # Test 5 : schools_buildings_expected
-    #     gpd.GeoDataFrame(
-    #         {
-    #             "cleabs_bat": [
-
-    #             ],
-    #             "cleabs_zone": [ 
-
-    #             ],
-    #             "identifiant_de_l_etablissement": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ),
-    # ),
-
-    # Test 6 (#TODO) : 
-    # Une zone est partagée entre deux établissements
-    # Une autre zone est associée à un troisième établissement
-    # Une des zones est inclue dans l'autre
-    #  (
-    #     # Test 6 : schools_establishments
-    #     gpd.GeoDataFrame(
-    #         {       
-    #             "identifiant_de_l_etablissement": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ),
-    #     # Test 6 : educational_zones
-    #     gpd.GeoDataFrame(
-    #         {
-    #             "cleabs": [
-
-
-    #             ],
-    #             "identifiants_sources": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-          
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ), 
-    #     # Test 6 : buildings
-    #     gpd.GeoDataFrame(
-    #         {
-    #             "cleabs": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ),
-    #     # Test 6 : schools_buildings_expected
-    #     gpd.GeoDataFrame(
-    #         {
-    #             "cleabs_bat": [
-
-    #             ],
-    #             "cleabs_zone": [ 
-
-    #             ],
-    #             "identifiant_de_l_etablissement": [
-
-    #             ],
-    #             "geometry": map(from_wkt, [
-
-    #             ]),
-    #         },
-    #         crs=TEST_CRS
-    #     ),
-    # ),
+    # Test 5 : 
+    # Une zone est petite (25 m²) et n'est pas inclue dans une autre
+    # On a un batiment (871 m²) qui intersecte la zone 
+    # Meme si le batiment n est pas inclu a plus de 50%, on l affecte tout de même
+    # Car il nest pas majoritairement dans une autre zone et que la zone n a pas d'autre batiment
+     (
+        # Test 5 : schools_establishments
+        gpd.GeoDataFrame(
+            {       
+                "identifiant_de_l_etablissement": [
+                    "0641422Y",
+                ],
+                "nombre_d_eleves": [
+                    92,
+                ],
+                "geometry": map(from_wkt, [
+                    "POINT (-1.31105 43.38546)",
+                ]),
+            },
+            crs=TEST_CRS
+        ),
+        # Test 5 : educational_zones
+        gpd.GeoDataFrame(
+            {
+                "cleabs": [
+                    "SURFACTI0000000129550492",
+                ],
+                "identifiants_sources": [
+                    "MEN:0641422Y",
+                ],
+                "geometry": map(from_wkt, [
+                    "MULTIPOLYGON (((-1.3117034321544356 43.38460490551525, -1.3117000661908425 43.38455999134217, -1.3117616475525264 43.38455753637174, -1.3117650135640022 43.38460245054283, -1.3117034321544356 43.38460490551525)))"
+                ]),
+            },
+            crs=TEST_CRS
+        ), 
+        # Test 5 : buildings
+        gpd.GeoDataFrame(
+            {
+                "cleabs": [
+                    "BATIMENT0000000333124310",
+                ],
+                "geometry": map(from_wkt, [
+                    "MULTIPOLYGON Z (((-1.312045496074278 43.38463631689692 64.8, -1.3120274572125996 43.38456045384832 64.8, -1.3120005633894436 43.38456422895594 64.8, -1.3119972249250256 43.38455264947847 64.8, -1.3119214699586985 43.38456377835256 64.8, -1.3119247410857893 43.38457445954914 64.8, -1.311846522821347 43.384585686574155 64.8, -1.3118333908982525 43.38452584529374 64.8, -1.3118553582090724 43.38452226663116 64.8, -1.3118588312865338 43.3845356426794 64.8, -1.3119336238929125 43.38452815608422 64.8, -1.3119315170702042 43.38451652750333 64.8, -1.3119584781988056 43.384513650696235 64.8, -1.3119419404060395 43.3844413316712 64.8, -1.311426273469053 43.38448351199952 64.8, -1.3114418482597214 43.38455947333617 64.8, -1.3114614869838799 43.38455778951283 64.8, -1.311465027287571 43.38457206385767 64.8, -1.3115410516199593 43.3845645284371 64.8, -1.311538810241797 43.384551103281154 64.8, -1.3116259191798458 43.38454312592552 64.8, -1.311643755551932 43.384616294189456 64.8, -1.311605844337505 43.38462140936795 64.8, -1.3116023713136302 43.38460803331073 64.8, -1.3115387978514947 43.384616874370224 64.8, -1.3115435698069207 43.3846310996159 64.8, -1.3115166759190562 43.38463487460351 64.8, -1.3115358111281876 43.38470889207696 64.8, -1.312045496074278 43.38463631689692 64.8)))",
+                ]),
+            },
+            crs=TEST_CRS
+        ),
+        # Test 5 : schools_buildings_expected
+        gpd.GeoDataFrame(
+            {
+                "cleabs_bat": [
+                    "BATIMENT0000000333124310",
+                ],
+                "cleabs_grande_zone": [ 
+                    "SURFACTI0000000129550492",
+                ],
+                "identifiant_de_l_etablissement": [
+                    "0641422Y",
+                ],
+                "geometry": map(from_wkt, [
+                    "MULTIPOLYGON Z (((-1.312045496074278 43.38463631689692 64.8, -1.3120274572125996 43.38456045384832 64.8, -1.3120005633894436 43.38456422895594 64.8, -1.3119972249250256 43.38455264947847 64.8, -1.3119214699586985 43.38456377835256 64.8, -1.3119247410857893 43.38457445954914 64.8, -1.311846522821347 43.384585686574155 64.8, -1.3118333908982525 43.38452584529374 64.8, -1.3118553582090724 43.38452226663116 64.8, -1.3118588312865338 43.3845356426794 64.8, -1.3119336238929125 43.38452815608422 64.8, -1.3119315170702042 43.38451652750333 64.8, -1.3119584781988056 43.384513650696235 64.8, -1.3119419404060395 43.3844413316712 64.8, -1.311426273469053 43.38448351199952 64.8, -1.3114418482597214 43.38455947333617 64.8, -1.3114614869838799 43.38455778951283 64.8, -1.311465027287571 43.38457206385767 64.8, -1.3115410516199593 43.3845645284371 64.8, -1.311538810241797 43.384551103281154 64.8, -1.3116259191798458 43.38454312592552 64.8, -1.311643755551932 43.384616294189456 64.8, -1.311605844337505 43.38462140936795 64.8, -1.3116023713136302 43.38460803331073 64.8, -1.3115387978514947 43.384616874370224 64.8, -1.3115435698069207 43.3846310996159 64.8, -1.3115166759190562 43.38463487460351 64.8, -1.3115358111281876 43.38470889207696 64.8, -1.312045496074278 43.38463631689692 64.8)))",
+                ]),
+            },
+            crs=TEST_CRS
+        ),
+    ),
 ])
 def test_attach_buildings_to_schools(
     schools_establishments, 

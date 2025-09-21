@@ -273,9 +273,9 @@ def segmentation_toits(data, min_surface: float = 2, debug: bool = False):
         labeled_bounds_mask = labeled_bounds == n 
         slope_n = np.where(labeled_bounds_mask, slope_filtered, 0)
         azimut_n = np.where(labeled_bounds_mask, azimut_filtered, 0)
-        surface_m = np.sum(labeled_bounds_mask) * 0.25
         slope_degree = np.sum(slope_n) / np.sum(labeled_bounds_mask)
         azimut_degree = np.sum(azimut_n) / np.sum(labeled_bounds_mask)
+        surface_m = np.sum(labeled_bounds_mask) * 0.25 / np.cos(np.radians(slope_degree))
         new_row = pd.DataFrame({"label":[int(n)],"surface":[surface_m],"slope":[slope_degree],"azimut":[azimut_degree]})
         df_segment_toiture = pd.concat([df_segment_toiture,new_row])
 

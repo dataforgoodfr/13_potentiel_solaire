@@ -95,6 +95,9 @@ def filter_buildings_mostly_outside_zone(
 ):
     """On ne garde que les batiments qui sont a plus de 50% dans une zone d education.
 
+    Dans le cas d une petite zone (< 30 m²) on garde le batiment meme s il n est pas a plus de 50% dans la zone.
+    Le batiment ne doit pas deja etre affecte a une autre zone.
+
     :param educational_zones: zones d educations (BD TOPO)
     :param buildings: batiments (BD TOPO)
     :param crs_for_distances: crs utilise pour le calcul en metres
@@ -111,10 +114,28 @@ def filter_buildings_mostly_outside_zone(
     
     # Calcul de l'aire des bâtiments présent dans la zone
     buildings_for_schools['area'] = buildings_for_schools['geometry'].to_crs(crs_for_distances).apply(lambda x :x.area)
-    
+
     # Filtre pour ne récupérer que les bâtiments présents à plus de 50%
     buildings_to_keep = buildings_for_schools.loc[((buildings_for_schools['area']/buildings_for_schools['total_area'])*100) > 50]
     buildings_to_keep = pd.DataFrame(buildings_to_keep.drop(columns=["geometry"]))
+
+    # Identification batiments intersectant des petites zones (< 30 m²)
+    small_zones = educational_zones[educational_zones['geometry'].to_crs(crs_for_distances).apply(lambda x :x.area) < 30][["cleabs"]]
+    buildings_in_small_zones = buildings_for_schools.merge(
+        small_zones,
+        left_on="cleabs_zone",
+        right_on="cleabs",
+        how="inner"
+    ).drop(columns=["cleabs"])
+    
+    # On ne garde que les batiments qui n'ont pas deja ete affecte a une autre zone
+    buildings_in_small_zones = buildings_in_small_zones[
+        ~buildings_in_small_zones['cleabs_bat'].isin(buildings_to_keep['cleabs_bat'])
+    ]
+
+    # On concatene les deux dataframes
+    buildings_in_small_zones = pd.DataFrame(buildings_in_small_zones.drop(columns=["geometry"]))
+    buildings_to_keep = pd.concat([buildings_to_keep, buildings_in_small_zones], ignore_index=True)
 
     return buildings.merge(
         buildings_to_keep,
