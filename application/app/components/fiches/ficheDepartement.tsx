@@ -20,9 +20,17 @@ type TabId = (typeof tabs)[number]['id'];
 
 interface FicheDepartementProps {
 	departement: Departement;
+	ficheRef?: React.RefObject<HTMLDivElement | null>;
+	onBeforePrint?: () => void;
+	onAfterPrint?: () => void;
 }
 
-export default function FicheDepartement({ departement }: FicheDepartementProps) {
+export default function FicheDepartement({
+	departement,
+	ficheRef,
+	onBeforePrint,
+	onAfterPrint,
+}: FicheDepartementProps) {
 	const [activeTab, setActiveTab] = useState<TabId>('all');
 
 	const handleTabChange = (tab: TabId) => {
@@ -32,7 +40,12 @@ export default function FicheDepartement({ departement }: FicheDepartementProps)
 	return (
 		<div>
 			<CollectiviteHeaderCard type='departement' nom={departement.libelle_departement} />
-			<ActionButtons />
+			<ActionButtons
+				ficheRef={ficheRef}
+				ficheName={departement.libelle_departement}
+				onBeforePrint={onBeforePrint}
+				onAfterPrint={onAfterPrint}
+			/>
 			<hr className='my-4' />
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='departement' />

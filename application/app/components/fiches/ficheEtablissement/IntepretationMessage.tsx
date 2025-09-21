@@ -43,7 +43,7 @@ const InterpretationMessage = ({ niveau_potentiel }: InterpretationMessageProps)
 						alt={`Potentiel ${ALT_LABELS[niveau_potentiel]}`}
 						width={143}
 						height={130}
-						className='absolute -bottom-16 -left-8 animate-slide-in motion-reduce:animate-none'
+						className='absolute -bottom-16 -left-8 animate-slide-in motion-reduce:animate-none print:animate-none'
 					/>
 				</div>
 

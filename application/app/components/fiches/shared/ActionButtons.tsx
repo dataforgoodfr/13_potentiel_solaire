@@ -1,10 +1,23 @@
 'use client';
 
+import { useReactToPrint } from 'react-to-print';
+
 import { toast } from '@/hooks/use-toast';
-import * as Popover from '@radix-ui/react-popover';
 import { Download, Share2 } from 'lucide-react';
 
-const ActionButtons = () => {
+interface ActionButtonsProps {
+	ficheRef?: React.RefObject<HTMLDivElement | null>;
+	ficheName?: string;
+	onBeforePrint?: () => void;
+	onAfterPrint?: () => void;
+}
+
+export default function ActionButtons({
+	ficheRef,
+	ficheName,
+	onBeforePrint,
+	onAfterPrint,
+}: ActionButtonsProps) {
 	const handleShare = async () => {
 		const url = window.location.href;
 
@@ -46,8 +59,39 @@ const ActionButtons = () => {
 		}
 	};
 
+	const reactToPrintFn = useReactToPrint({
+		contentRef: ficheRef as React.RefObject<HTMLDivElement>,
+		documentTitle: `Potentiel solaire ${ficheName}` || 'Potentiel solaire',
+		onBeforePrint: async () => {
+			if (onBeforePrint) await onBeforePrint();
+		},
+		onAfterPrint: async () => {
+			if (onAfterPrint) await onAfterPrint();
+		},
+		onPrintError: (error) => {
+			console.error('Print error:', error);
+			toast({
+				title: "Erreur lors de l'impression",
+				variant: 'destructive',
+			});
+		},
+	});
+
+	const handleDownload = () => {
+		if (!ficheRef?.current) {
+			console.error('Nothing to print: ficheRef is null');
+			toast({
+				title: "Impossible d'imprimer, contenu introuvable",
+				variant: 'destructive',
+			});
+			return;
+		}
+
+		reactToPrintFn();
+	};
+
 	return (
-		<div className='flex gap-4'>
+		<div className='flex gap-4 print:hidden'>
 			<button
 				onClick={handleShare}
 				title='Partager'
@@ -55,27 +99,14 @@ const ActionButtons = () => {
 			>
 				<Share2 className='h-5 w-5' />
 			</button>
-			<Popover.Root>
-				<Popover.Trigger asChild>
-					<button
-						aria-disabled='true'
-						className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
-					>
-						<Download />
-					</button>
-				</Popover.Trigger>
-				<Popover.Portal>
-					<Popover.Content
-						className='z-tooltip rounded bg-blue px-3 py-1.5 text-xs text-white shadow'
-						sideOffset={5}
-					>
-						Cette fonctionnalité n&apos;est pas encore disponible !
-						<Popover.Arrow className='fill-black' />
-					</Popover.Content>
-				</Popover.Portal>
-			</Popover.Root>
+
+			<button
+				onClick={handleDownload}
+				title='Télécharger'
+				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+			>
+				<Download />
+			</button>
 		</div>
 	);
-};
-
-export default ActionButtons;
+}

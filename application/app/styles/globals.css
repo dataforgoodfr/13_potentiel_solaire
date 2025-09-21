@@ -70,3 +70,16 @@ body {
 		@apply bg-background text-foreground;
 	}
 }
+@media print {
+	@page {
+		margin: 2rem;
+	}
+	.accordion-wrapper {
+		page-break-inside: avoid;
+		page-break-after: always;
+		padding-top: 10px;
+	}
+	#fiche-root {
+		padding: 0;
+	}
+}

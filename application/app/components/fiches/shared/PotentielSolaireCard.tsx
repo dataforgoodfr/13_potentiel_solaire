@@ -33,6 +33,8 @@ const getPotentielSolaireElement = (potentiel?: number): JSX.Element => {
 	);
 };
 
+const potentielEquivalentHelpText = '5000 kWh/an pour un foyer de 2 personnes';
+
 export default function PotentielSolaireCard({
 	potentielSolaire,
 	potentielNbFoyers,
@@ -78,11 +80,11 @@ export default function PotentielSolaireCard({
 			<div className='flex items-center gap-2 font-bold text-blue'>
 				{potentielSolaire !== undefined && level ? (
 					<div
-						className='border-1 h-4 w-4 rounded-full border border-slate-400'
+						className='border-1 print-bg h-4 w-4 rounded-full border border-slate-400'
 						style={{ backgroundColor: getColorForPotentiel(level, potentielSolaire) }}
 					/>
 				) : (
-					<div className='bg-yellow-300 border-1 h-4 w-4 rounded-full border border-slate-400' />
+					<div className='border-1 h-4 w-4 rounded-full border border-slate-400' />
 				)}
 				{getPotentielSolaireElement(potentielSolaire)}
 			</div>
@@ -107,7 +109,7 @@ export default function PotentielSolaireCard({
 					<Popover.Trigger asChild>
 						<button
 							aria-disabled='true'
-							className='rounded p-2 text-darkgreen transition hover:bg-gray-100'
+							className='rounded p-2 text-darkgreen transition hover:bg-gray-100 print:hidden'
 						>
 							<CircleHelp />
 						</button>
@@ -117,12 +119,13 @@ export default function PotentielSolaireCard({
 							className='z-tooltip rounded bg-blue px-3 py-1.5 text-xs text-white shadow'
 							sideOffset={5}
 						>
-							5000 kWh/an pour un foyer de 2 personnes
+							{potentielEquivalentHelpText}
 							<Popover.Arrow className='fill-black' />
 						</Popover.Content>
 					</Popover.Portal>
 				</Popover.Root>
 			</div>
+			<div className='ms-9 hidden italic print:block'>({potentielEquivalentHelpText})</div>
 		</div>
 	);
 }
