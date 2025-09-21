@@ -21,9 +21,16 @@ type TabId = (typeof tabs)[number]['id'];
 interface FicheCommuneProps {
 	commune: Commune;
 	ficheRef?: React.RefObject<HTMLDivElement | null>;
+	onBeforePrint?: () => void;
+	onAfterPrint?: () => void;
 }
 
-export default function FicheCommune({ commune, ficheRef }: FicheCommuneProps) {
+export default function FicheCommune({
+	commune,
+	ficheRef,
+	onBeforePrint,
+	onAfterPrint,
+}: FicheCommuneProps) {
 	const [activeTab, setActiveTab] = useState<TabId>('all');
 
 	const handleTabChange = (tab: TabId) => {
@@ -33,7 +40,12 @@ export default function FicheCommune({ commune, ficheRef }: FicheCommuneProps) {
 	return (
 		<div>
 			<CollectiviteHeaderCard type='commune' nom={commune.nom_commune} />
-			<ActionButtons ficheRef={ficheRef} ficheName={commune.nom_commune} />
+			<ActionButtons
+				ficheRef={ficheRef}
+				ficheName={commune.nom_commune}
+				onBeforePrint={onBeforePrint}
+				onAfterPrint={onAfterPrint}
+			/>
 			<hr className='my-4' />
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 			<ResponsabiliteMessage niveau='commune' />

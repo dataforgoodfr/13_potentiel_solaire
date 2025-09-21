@@ -30,10 +30,10 @@ export default function AccordionCard({ actions, printOpen }: AccordionCardProps
 
 function CollapsibleItem({
 	action,
-  printOpen = false,
+	printOpen = false,
 }: {
 	action: { title: ReactNode | string; content: ReactNode };
-  printOpen?: boolean;
+	printOpen?: boolean;
 }) {
 	const [open, setOpen] = useState(false);
 

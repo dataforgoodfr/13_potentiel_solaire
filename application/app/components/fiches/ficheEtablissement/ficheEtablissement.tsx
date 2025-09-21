@@ -31,7 +31,7 @@ export default function FicheEtablissement({
 				ficheRef={ficheRef}
 				ficheName={etablissement.nom_etablissement}
 				onBeforePrint={onBeforePrint}
-        onAfterPrint={onAfterPrint}
+				onAfterPrint={onAfterPrint}
 			/>
 
 			<hr className='my-4' />

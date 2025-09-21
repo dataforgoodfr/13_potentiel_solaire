@@ -185,16 +185,28 @@ export default function Fiches({
 					) : (
 						<>
 							{activeTab === 'region' && region && (
-								<FicheRegion region={region} ficheRef={ficheContainerRef} />
+								<FicheRegion
+									region={region}
+									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
+								/>
 							)}
 							{activeTab === 'departement' && departement && (
 								<FicheDepartement
 									departement={departement}
 									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
 								/>
 							)}
 							{activeTab === 'commune' && commune && (
-								<FicheCommune commune={commune} ficheRef={ficheContainerRef} />
+								<FicheCommune
+									commune={commune}
+									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
+								/>
 							)}
 							{activeTab === 'etablissement' && etablissement && (
 								<FicheEtablissement

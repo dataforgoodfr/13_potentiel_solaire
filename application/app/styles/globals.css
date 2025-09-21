@@ -75,8 +75,8 @@ body {
 		margin: 2rem;
 	}
 	.accordion-wrapper {
-    page-break-inside: avoid;
-    page-break-after: always;
+		page-break-inside: avoid;
+		page-break-after: always;
 		padding-top: 10px;
 	}
 	#fiche-root {

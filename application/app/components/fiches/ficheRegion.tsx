@@ -21,9 +21,16 @@ type TabId = (typeof tabs)[number]['id'];
 interface FicheRegionProps {
 	region: Region;
 	ficheRef?: React.RefObject<HTMLDivElement | null>;
+	onBeforePrint?: () => void;
+	onAfterPrint?: () => void;
 }
 
-export default function FicheRegion({ region, ficheRef }: FicheRegionProps) {
+export default function FicheRegion({
+	region,
+	ficheRef,
+	onBeforePrint,
+	onAfterPrint,
+}: FicheRegionProps) {
 	const [activeTab, setActiveTab] = useState<TabId>('all');
 
 	const handleTabChange = (tab: TabId) => {
@@ -33,7 +40,12 @@ export default function FicheRegion({ region, ficheRef }: FicheRegionProps) {
 	return (
 		<div>
 			<CollectiviteHeaderCard type='region' nom={region.libelle_region} />
-			<ActionButtons ficheRef={ficheRef} ficheName={region.libelle_region} />
+			<ActionButtons
+				ficheRef={ficheRef}
+				ficheName={region.libelle_region}
+				onBeforePrint={onBeforePrint}
+				onAfterPrint={onAfterPrint}
+			/>
 			<hr className='my-4' />
 
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
