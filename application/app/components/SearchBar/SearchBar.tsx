@@ -217,7 +217,7 @@ export function Autocomplete({
 							}}
 							onChange={onInputValueChange}
 							className='pl-8 pr-16 placeholder:truncate'
-              aria-label='Recherche par collectivité ou établissement'
+							aria-label='Recherche par collectivité ou établissement'
 						/>
 					</PopoverAnchor>
 					<PopoverContent
@@ -250,7 +250,7 @@ export function Autocomplete({
 					<button
 						type='button'
 						onClick={handleClear}
-						className='absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-gray-400 hover:text-gray-600'
+						className='text-gray-400 hover:text-gray-600 absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center'
 						aria-label='Effacer la recherche'
 					>
 						<X size={16} />

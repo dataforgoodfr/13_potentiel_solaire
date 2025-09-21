@@ -49,7 +49,7 @@ export default function NavBar() {
 	};
 
 	return (
-		<header className='sticky top-0 z-header flex justify-between bg-blue px-4 py-3 xl:justify-center'>
+		<header className='z-header sticky top-0 flex justify-between bg-blue px-4 py-3 xl:justify-center'>
 			<div className='w-full max-w-screen-xl justify-between'>
 				<div className='flex flex-col gap-4 xl:flex-row xl:flex-nowrap xl:items-center xl:justify-between'>
 					{/* Bloc gauche : menu (mobile) + logo */}
@@ -109,7 +109,7 @@ export default function NavBar() {
 			{/* Menu mobile plein écran */}
 			{isOpen &&
 				createPortal(
-					<div className='fixed inset-0 z-mobile-menu-overlay flex flex-col bg-blue'>
+					<div className='z-mobile-menu-overlay fixed inset-0 flex flex-col bg-blue'>
 						{/* Bouton de fermeture */}
 						<div className='flex items-start justify-between p-4'>
 							<button

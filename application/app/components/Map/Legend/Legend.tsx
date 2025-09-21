@@ -46,7 +46,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 	const slicesCount = thresholdValues.length;
 	const sliceWidth = (width - 2 * margin - 2 * BORDER_RADIUS) / slicesCount;
 	const sliceHeight = (height - 2 * margin) / 2;
-  const LEVEL_LABELS = ['limité', 'bon', 'élevé'];
+	const LEVEL_LABELS = ['limité', 'bon', 'élevé'];
 
 	function getAriaLabel(i: number) {
 		const start = thresholdValues[i][0];
@@ -54,8 +54,10 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 		const startConverted = Math.round(convertKWhTo(start, unit));
 		const endConverted = end ? Math.round(convertKWhTo(end, unit)) : undefined;
 
-		if (i === 0) return `${startConverted} à ${endConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
-		if (end) return `${startConverted} à ${endConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
+		if (i === 0)
+			return `${startConverted} à ${endConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
+		if (end)
+			return `${startConverted} à ${endConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
 		return `À partir de ${startConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
 	}
 
@@ -74,7 +76,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 					fill={thresholdValues[0][1]}
 					fillOpacity={OPACITY}
 					rx={BORDER_RADIUS}
-          aria-label={getAriaLabel(0)}
+					aria-label={getAriaLabel(0)}
 				/>
 				{thresholdValues.map(([thresholdValue, color], i) => (
 					<rect
@@ -84,7 +86,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 						x={sliceWidth * i + BORDER_RADIUS}
 						fill={color}
 						fillOpacity={OPACITY}
-            aria-label={getAriaLabel(i)}
+						aria-label={getAriaLabel(i)}
 					/>
 				))}
 				<rect
@@ -94,7 +96,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 					fill={thresholdValues.slice(-1)[0][1]}
 					fillOpacity={OPACITY}
 					rx={BORDER_RADIUS}
-          aria-label={getAriaLabel(thresholdValues.length - 1)}
+					aria-label={getAriaLabel(thresholdValues.length - 1)}
 				/>
 				{thresholdValues.map(([thresholdValue], i) => (
 					<text
