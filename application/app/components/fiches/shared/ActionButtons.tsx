@@ -8,9 +8,16 @@ import { Download, Share2 } from 'lucide-react';
 interface ActionButtonsProps {
 	ficheRef?: React.RefObject<HTMLDivElement | null>;
 	ficheName?: string;
+	onBeforePrint?: () => void;
+	onAfterPrint?: () => void;
 }
 
-export default function ActionButtons({ ficheRef, ficheName }: ActionButtonsProps) {
+export default function ActionButtons({
+	ficheRef,
+	ficheName,
+	onBeforePrint,
+	onAfterPrint,
+}: ActionButtonsProps) {
 	const handleShare = async () => {
 		const url = window.location.href;
 
@@ -55,6 +62,12 @@ export default function ActionButtons({ ficheRef, ficheName }: ActionButtonsProp
 	const reactToPrintFn = useReactToPrint({
 		contentRef: ficheRef as React.RefObject<HTMLDivElement>,
 		documentTitle: `Potentiel solaire ${ficheName}` || 'Potentiel solaire',
+		onBeforePrint: async () => {
+			if (onBeforePrint) await onBeforePrint();
+		},
+		onAfterPrint: async () => {
+			if (onAfterPrint) await onAfterPrint();
+		},
 		onPrintError: (error) => {
 			console.error('Print error:', error);
 			toast({
@@ -74,19 +87,7 @@ export default function ActionButtons({ ficheRef, ficheName }: ActionButtonsProp
 			return;
 		}
 
-		const ficheElement = ficheRef.current;
-		const accordions = ficheElement.querySelectorAll<HTMLElement>(
-			'[data-state="closed"], [aria-expanded="false"], .collapsible-trigger',
-		);
-		accordions.forEach((accordion) => accordion.click());
-
-		const accordionWrappers = ficheElement.querySelectorAll<HTMLElement>('.accordion-wrapper');
-		accordionWrappers.forEach((el) => {
-			el.style.breakInside = 'avoid';
-			el.style.breakAfter = 'always';
-		});
-
-		setTimeout(() => reactToPrintFn(), 50);
+		reactToPrintFn();
 	};
 
 	return (

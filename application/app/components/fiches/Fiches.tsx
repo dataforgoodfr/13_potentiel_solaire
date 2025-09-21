@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Commune } from '@/app/models/communes';
 import { Departement } from '@/app/models/departements';
@@ -135,6 +135,18 @@ export default function Fiches({
 			: []),
 	];
 
+	const [printOpen, setPrintOpen] = useState(false);
+
+	const handleBeforePrint = async () => {
+		setPrintOpen(true);
+		// wait for next frame so Accordion opens visually before print
+		await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+	};
+
+	const handleAfterPrint = async () => {
+		setPrintOpen(false);
+	};
+
 	return (
 		<div
 			className={`z-fiche fixed right-0 top-0 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
@@ -188,10 +200,12 @@ export default function Fiches({
 								<FicheEtablissement
 									etablissement={etablissement}
 									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
 								/>
 							)}
 							<hr className='my-4' />
-							<AccordionCard actions={actionsShort} />
+							<AccordionCard actions={actionsShort} printOpen={printOpen} />
 						</>
 					)}
 				</section>

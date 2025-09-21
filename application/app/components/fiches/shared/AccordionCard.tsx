@@ -15,13 +15,14 @@ interface AccordionCardProps {
 		title: ReactNode;
 		content: ReactNode;
 	}[];
+	printOpen?: boolean;
 }
 
-export default function AccordionCard({ actions }: AccordionCardProps) {
+export default function AccordionCard({ actions, printOpen }: AccordionCardProps) {
 	return (
 		<div className='accordion-wrapper'>
 			{actions.map((action, index) => (
-				<CollapsibleItem key={index} action={action} />
+				<CollapsibleItem key={index} action={action} printOpen={printOpen} />
 			))}
 		</div>
 	);
@@ -29,14 +30,16 @@ export default function AccordionCard({ actions }: AccordionCardProps) {
 
 function CollapsibleItem({
 	action,
+  printOpen = false,
 }: {
 	action: { title: ReactNode | string; content: ReactNode };
+  printOpen?: boolean;
 }) {
 	const [open, setOpen] = useState(false);
 
 	return (
 		<Collapsible
-			open={open}
+			open={printOpen || open}
 			onOpenChange={setOpen}
 			className='bg-darkgrey mb-2 rounded-md border border-blue p-2 text-sm text-white'
 		>
