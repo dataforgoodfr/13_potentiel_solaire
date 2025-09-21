@@ -1,3 +1,5 @@
+import { TypeEtablissement } from '@/app/models/etablissements';
+
 import { Level } from '../interfaces';
 
 export const LEVEL_TO_LABEL: Record<Exclude<Level, 'nation'>, string> = {
@@ -13,8 +15,20 @@ export const LEVEL_TO_LABEL_INCLUDING_NATION: Record<Level, string> = {
 };
 
 export const LEVEL_TO_LABEL_SHORTENED: Record<Exclude<Level, 'nation'>, string> = {
-	etablissement: 'Établissement',
-	commune: 'Commune',
+	etablissement: 'Établ.',
+	commune: 'Com.',
 	departement: 'Dépt.',
-	region: 'Région',
+	region: 'Rég.',
+};
+
+export const TYPE_ETABLISSEMENT_TO_LABEL: Record<TypeEtablissement, string> = {
+	Ecole: 'École',
+	Collège: 'Collège',
+	Lycée: 'Lycée',
+};
+
+export const TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED: Record<TypeEtablissement, string> = {
+	Ecole: 'ÉCL',
+	Collège: 'CLG',
+	Lycée: 'LGT',
 };

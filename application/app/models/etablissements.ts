@@ -1,10 +1,12 @@
 import { NiveauPotentiel } from './common';
 
+export type TypeEtablissement = 'Ecole' | 'Collège' | 'Lycée';
+
 export type Etablissement = {
 	identifiant_de_l_etablissement: string;
 	identifiant_topo_zone_rattachee: string;
 	nom_etablissement: string;
-	type_etablissement: string;
+	type_etablissement: TypeEtablissement;
 	libelle_nature: string;
 	adresse_1: string | null;
 	adresse_2: string | null;
@@ -36,7 +38,7 @@ export interface TopEtablissement {
 	id: string;
 	libelle: string;
 	potentiel_solaire: number;
-	type_etablissement?: string;
+	type_etablissement?: TypeEtablissement;
 }
 
 // --- GeoJSON ----
