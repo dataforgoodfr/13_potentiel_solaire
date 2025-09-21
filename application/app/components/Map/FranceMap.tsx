@@ -75,7 +75,7 @@ const MAP_STYLE_URL = `/map-styles/map-style.json`;
 const MOBILE_VIEW_STATE = {
 	longitude: 2.388334,
 	latitude: 43.903354,
-	zoom: 4.1,
+	zoom: 4,
 } satisfies MapPropsReactMapLibre['initialViewState'];
 
 const DESKTOP_VIEW_STATE = {
@@ -90,7 +90,7 @@ const ANIMATION_TIME_MS = 800;
  * These values passed as props to he maps are only init values (they can't be updated).
  */
 const DEFAULT_ZOOM_CONSTRAINT = {
-	minZoom: 4,
+	minZoom: 3.5,
 	maxZoom: 18,
 } satisfies Partial<MapOptions>;
 
