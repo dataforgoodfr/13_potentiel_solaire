@@ -107,6 +107,12 @@ export default {
 				'slide-in-bottom': 'slide-in-bottom 0.4s ease-out',
 				'slide-in': 'slide-in 1.5s ease-out forwards',
 			},
+			padding: {
+				'safe-bottom': 'env(safe-area-inset-bottom)',
+				'safe-top': 'env(safe-area-inset-top)',
+				'safe-left': 'env(safe-area-inset-left)',
+				'safe-right': 'env(safe-area-inset-right)',
+			},
 		},
 	},
 	// eslint-disable-next-line @typescript-eslint/no-require-imports
