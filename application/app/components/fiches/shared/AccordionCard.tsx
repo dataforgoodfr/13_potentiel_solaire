@@ -41,7 +41,7 @@ function CollapsibleItem({
 			className='bg-darkgrey mb-2 rounded-md border border-blue p-2 text-sm text-white'
 		>
 			<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
-				<span className='text-start'>{action.title}</span>
+				<span className='pe-4 text-start'>{action.title}</span>
 				<CollapsibleIcon open={open} />
 			</CollapsibleTrigger>
 			<CollapsibleContent className='mt-2 block px-4'>{action.content}</CollapsibleContent>
