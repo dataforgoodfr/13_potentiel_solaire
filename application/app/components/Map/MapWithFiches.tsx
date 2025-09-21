@@ -18,7 +18,7 @@ export default function MapWithFiches() {
 	const selectedPlaces = { etablissement, commune, departement, region };
 
 	return (
-		<div className='relative flex-1'>
+		<div className='pb-safe-bottom relative flex-1'>
 			<Suspense>
 				<HomeOverlay />
 				<FranceMap selectedPlaces={selectedPlaces} hideToolbar={isInitialView} />
