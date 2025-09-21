@@ -1,10 +1,8 @@
 import SearchBar from '@/app/components/SearchBar/SearchBar';
 import { useInitialView } from '@/app/utils/providers/initialViewProvider';
-import { useSearch } from '@/app/utils/providers/searchProvider';
 
 export default function HomeOverlay() {
 	const { isInitialView, closeInitialView } = useInitialView();
-	const { selection, setSelection } = useSearch();
 
 	if (!isInitialView) return null;
 
@@ -26,17 +24,13 @@ export default function HomeOverlay() {
 								Saisir une région, un département, une commune ou le nom d&#39;un
 								établissement :
 							</h2>
-							<SearchBar
-						    onSelect={closeInitialView}
-						    selection={selection}
-						    onSelectionChange={setSelection}
-					    />
+							<SearchBar onSelect={closeInitialView} />
 						</div>
 						<hr className='my-5 h-[1px] w-full border-green' />
 						<div className='flex items-center justify-center px-[15px]'>
 							<button
 								className='rounded-md bg-green px-4 py-2 text-sm font-bold leading-6 text-darkgreen'
-								onClick={closeInitialView}
+								onClick={() => closeInitialView()}
 							>
 								Je préfère utiliser la carte
 							</button>

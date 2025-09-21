@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { SearchResult } from '@/app/models/search';
 import useCommune from '@/app/utils/hooks/useCommune';
@@ -23,28 +23,27 @@ const DEFAULT_PLACEHOLDER = 'Entrez une ville, un établissement...';
 const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
-	onSelect?: () => void;
-	selection?: SearchResult | null;
-	onSelectionChange?: (selection: SearchResult | null) => void;
+	initTerm?: string;
+	onSelect?: (searchTerm: string, result: SearchResult) => void;
 };
 
-export default function SearchBar({
-	onSelect,
-	selection: externalSelection,
-	onSelectionChange,
-}: SearchBarProps) {
-	const [query, setQuery] = useState('');
+export default function SearchBar({ initTerm = '', onSelect }: SearchBarProps) {
+	const [query, setQuery] = useState(initTerm);
 	const { items, isLoading } = useDebouncedSearch(query);
 
-	const [internalSelection, setInternalSelection] = useState<SearchResult | null>(null);
-	const selection = externalSelection !== undefined ? externalSelection : internalSelection;
-	const setSelection = onSelectionChange || setInternalSelection;
+	const [selection, setSelection] = useState<SearchResult | null>(null);
 
-	useChangeCodesOnSelection(selection, onSelect);
+	const onSelectFn = useCallback(
+		(result: SearchResult | null) => {
+			return onSelect && result ? onSelect(query, result) : void 0;
+		},
+		[onSelect, query],
+	);
+
+	useChangeCodesOnSelection(selection, onSelectFn);
 
 	async function handleSelect(selection: SearchResult) {
 		setSelection(selection);
-		setQuery('');
 	}
 
 	function clearSearch() {
@@ -60,12 +59,14 @@ export default function SearchBar({
 			loading={isLoading}
 			onSelect={handleSelect}
 			onClear={clearSearch}
-			selection={selection}
 		/>
 	);
 }
 
-function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: () => void) {
+function useChangeCodesOnSelection(
+	selection: SearchResult | null,
+	onChange?: (result: SearchResult | null) => void,
+) {
 	const { setCodes } = useURLParams();
 	const { region } = useRegion(selection?.source === 'regions' ? selection?.id : null);
 	const { departement } = useDepartement(
@@ -87,7 +88,7 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'region',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
 		if (departement != null) {
 			setCodes(
@@ -99,7 +100,7 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'departement',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
 		if (commune != null) {
 			setCodes(
@@ -111,7 +112,7 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'commune',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
 		if (etablissement != null) {
 			setCodes(
@@ -123,9 +124,9 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'etablissement',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
-	}, [commune, departement, etablissement, onChange, region, setCodes]);
+	}, [commune, departement, etablissement, onChange, region, setCodes, selection]);
 }
 
 type AutocompleteProps = {
@@ -139,7 +140,6 @@ type AutocompleteProps = {
 	loadingText?: string;
 	loading?: boolean;
 	openSuggestionsAtInputLength?: number;
-	selection?: SearchResult | null;
 };
 
 // Inspired from: https://github.com/shadcn-ui/ui/issues/1069
@@ -153,7 +153,6 @@ export function Autocomplete({
 	placeholder = DEFAULT_PLACEHOLDER,
 	noOptionsText = DEFAULT_EMPTY_RESULT_TEXT,
 	openSuggestionsAtInputLength = 1,
-	selection,
 }: AutocompleteProps) {
 	/**
 	 * Hidden `CommandInput` ref to relay keydown events to the command list.
@@ -164,12 +163,15 @@ export function Autocomplete({
 	 */
 	const inputRef = useRef<HTMLInputElement>(null);
 
+	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
 	function onInputValueChange(e: ChangeEvent<HTMLInputElement>) {
 		const value = e.target.value;
 		onInputChange(value);
-
-		if (value.length > 0 && selection) {
-			onClear?.();
+		if (!isPopoverOpen && value.length >= openSuggestionsAtInputLength) {
+			setIsPopoverOpen(true);
+		} else if (isPopoverOpen && value.length < openSuggestionsAtInputLength) {
+			setIsPopoverOpen(false);
 		}
 	}
 
@@ -186,8 +188,14 @@ export function Autocomplete({
 	}
 
 	function handleClear() {
+		setIsPopoverOpen(false);
 		inputRef.current?.focus();
 		onClear?.();
+	}
+
+	function handleSelect(option: SearchResult) {
+		setIsPopoverOpen(false);
+		onSelect(option);
 	}
 
 	return (
@@ -195,17 +203,18 @@ export function Autocomplete({
 			<div className='relative w-full'>
 				<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
 				<Popover
-					open={
-						inputValue.length >= openSuggestionsAtInputLength &&
-						(loading || (options && options.length > 0) || inputValue.length > 0)
-					}
+					open={isPopoverOpen && inputValue.length >= openSuggestionsAtInputLength}
+					onOpenChange={setIsPopoverOpen}
 				>
 					<PopoverAnchor>
 						<Input
 							ref={inputRef}
-							value={selection?.libelle ?? inputValue}
+							value={inputValue}
 							placeholder={placeholder}
 							onKeyDown={relayInputKeyDownToCommand}
+							onFocus={() => {
+								setIsPopoverOpen(true);
+							}}
 							onChange={onInputValueChange}
 							className='pl-8 pr-16 placeholder:truncate'
 						/>
@@ -222,23 +231,25 @@ export function Autocomplete({
 										<Loading />
 									</CommandLoading>
 								)}
-								{inputValue.length > 0 && (
-									<CommandEmpty className='p-2'>{noOptionsText}</CommandEmpty>
-								)}
+
+								<CommandEmpty className='p-2'>{noOptionsText}</CommandEmpty>
 								{options && options.length > 0 && (
 									<CommandGroup>
-										<Suggestions items={options ?? []} onSelect={onSelect} />
+										<Suggestions
+											items={options ?? []}
+											onSelect={handleSelect}
+										/>
 									</CommandGroup>
 								)}
 							</CommandList>
 						</Command>
 					</PopoverContent>
 				</Popover>
-				{(inputValue.length > 0 || selection != null) && (
+				{inputValue.length > 0 && (
 					<button
 						type='button'
 						onClick={handleClear}
-						className='text-gray-400 hover:text-gray-600 absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center'
+						className='absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-gray-400 hover:text-gray-600'
 						aria-label='Clear search'
 					>
 						<X size={16} />
