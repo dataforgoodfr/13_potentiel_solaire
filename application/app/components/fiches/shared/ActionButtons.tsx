@@ -54,7 +54,7 @@ export default function ActionButtons({ ficheRef, ficheName }: ActionButtonsProp
 
 	const reactToPrintFn = useReactToPrint({
 		contentRef: ficheRef as React.RefObject<HTMLDivElement>,
-		documentTitle: ficheName || 'fiche',
+		documentTitle: `Potentiel solaire ${ficheName}` || 'Potentiel solaire',
 		onPrintError: (error) => {
 			console.error('Print error:', error);
 			toast({
