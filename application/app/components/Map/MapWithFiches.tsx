@@ -18,13 +18,11 @@ export default function MapWithFiches() {
 	const selectedPlaces = { etablissement, commune, departement, region };
 
 	return (
-		<div className='flex flex-1 flex-col'>
-			<div className='relative flex-1'>
-				<Suspense>
-					<HomeOverlay />
-					<FranceMap selectedPlaces={selectedPlaces} hideToolbar={isInitialView} />
-				</Suspense>
-			</div>
+		<div className='relative flex-1'>
+			<Suspense>
+				<HomeOverlay />
+				<FranceMap selectedPlaces={selectedPlaces} hideToolbar={isInitialView} />
+			</Suspense>
 			{isFicheOpen && (
 				<Fiches
 					commune={commune}
