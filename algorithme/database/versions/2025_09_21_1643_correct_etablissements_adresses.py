@@ -8,7 +8,6 @@ Create Date: 2025-09-21 16:43:38.331116
 from typing import Sequence, Union
 
 from alembic import op
-import sqlalchemy as sa
 
 from potentiel_solaire.constants import DATABASE_FOLDER
 
