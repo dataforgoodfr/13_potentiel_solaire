@@ -150,12 +150,15 @@ export default function Fiches({
 	return (
 		<div
 			className={`z-fiche fixed right-0 top-0 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
+			role='region'
+			aria-label={`Fiche ${activeTab}`}
 		>
 			<div id='fiche-root' ref={ficheContainerRef}>
 				<header>
 					<button
 						onClick={handleClose}
 						className='absolute left-1 top-2 text-xl text-grey hover:text-black print:hidden'
+						aria-label='Fermer la fiche'
 					>
 						<X />
 					</button>
@@ -173,7 +176,7 @@ export default function Fiches({
 						))}
 					</div>
 				</header>
-				<section className='p-4'>
+				<section className='p-4' aria-labelledby={`tab-${activeTab}`}>
 					{isFetching ? (
 						<div
 							role='alert'

@@ -13,9 +13,9 @@ function getIconFromResult(source: SearchResult['source']) {
 		case 'communes':
 		case 'departements':
 		case 'regions':
-			return <MapPin />;
+			return <MapPin aria-hidden='true' focusable='false' />;
 		case 'etablissements':
-			return <School />;
+			return <School aria-hidden='true' focusable='false' />;
 
 		default:
 			throw new Error('Unexpected type - ' + source);
@@ -58,6 +58,8 @@ export default function Suggestions({ items, onSelect }: ResultsListProps) {
 				key={id}
 				className='flex grow cursor-pointer'
 				onSelect={() => onSelect(item)}
+				role='listbox'
+				aria-label='Suggestions'
 			>
 				<div className='flex items-center gap-2'>
 					{icon}

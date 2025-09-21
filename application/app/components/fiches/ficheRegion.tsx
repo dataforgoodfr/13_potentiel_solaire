@@ -38,7 +38,7 @@ export default function FicheRegion({
 	};
 
 	return (
-		<div>
+		<article aria-label={`Fiche de la région ${region.libelle_region}`}>
 			<CollectiviteHeaderCard type='region' nom={region.libelle_region} />
 			<ActionButtons
 				ficheRef={ficheRef}
@@ -95,6 +95,6 @@ export default function FicheRegion({
 					<TopCard topEtablissements={region.top_etablissements_lycees} />
 				</>
 			)}
-		</div>
+		</article>
 	);
 }
