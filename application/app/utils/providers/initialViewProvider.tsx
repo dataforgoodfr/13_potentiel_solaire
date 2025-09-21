@@ -6,7 +6,8 @@ import useURLParams from '../hooks/useURLParams';
 
 export interface InitialViewContextType {
 	isInitialView: boolean;
-	closeInitialView: () => void;
+	closeInitialView: (searchTerm?: string) => void;
+	searchTerm?: string;
 }
 
 export const InitialViewContext = createContext<InitialViewContextType | undefined>(undefined);
@@ -15,13 +16,15 @@ export const InitialViewProvider: React.FC<{ children: ReactNode }> = ({ childre
 	const { values } = useURLParams();
 	const isAtLeastOnePlaceSelected = Object.values(values).some((code) => code !== null);
 	const [isInitialView, setIsInitialView] = useState(!isAtLeastOnePlaceSelected);
+	const [searchTerm, setSearchTerm] = useState('');
 
-	const closeInitialView = useCallback(() => {
+	const closeInitialView = useCallback((searchTerm: string = '') => {
 		setIsInitialView(false);
+		setSearchTerm(searchTerm);
 	}, []);
 
 	return (
-		<InitialViewContext.Provider value={{ isInitialView, closeInitialView }}>
+		<InitialViewContext.Provider value={{ isInitialView, closeInitialView, searchTerm }}>
 			{children}
 		</InitialViewContext.Provider>
 	);

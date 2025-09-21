@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { SearchResult } from '@/app/models/search';
 import useCommune from '@/app/utils/hooks/useCommune';
@@ -23,19 +23,26 @@ const DEFAULT_PLACEHOLDER = 'Entrez une ville, un établissement...';
 const DEFAULT_EMPTY_RESULT_TEXT = 'Aucun résultat trouvé';
 
 type SearchBarProps = {
-	onSelect?: () => void;
+	initTerm?: string;
+	onSelect?: (searchTerm: string, result: SearchResult) => void;
 };
 
-export default function SearchBar({ onSelect }: SearchBarProps) {
-	const [query, setQuery] = useState('');
+export default function SearchBar({ initTerm = '', onSelect }: SearchBarProps) {
+	const [query, setQuery] = useState(initTerm);
 	const { items, isLoading } = useDebouncedSearch(query);
 
 	const [selection, setSelection] = useState<SearchResult | null>(null);
 
-	useChangeCodesOnSelection(selection, onSelect);
+	const onSelectFn = useCallback(
+		(result: SearchResult | null) => {
+			return onSelect && result ? onSelect(query, result) : void 0;
+		},
+		[onSelect, query],
+	);
+
+	useChangeCodesOnSelection(selection, onSelectFn);
 
 	async function handleSelect(selection: SearchResult) {
-		setQuery(selection.libelle);
 		setSelection(selection);
 	}
 
@@ -56,7 +63,10 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
 	);
 }
 
-function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: () => void) {
+function useChangeCodesOnSelection(
+	selection: SearchResult | null,
+	onChange?: (result: SearchResult | null) => void,
+) {
 	const { setCodes } = useURLParams();
 	const { region } = useRegion(selection?.source === 'regions' ? selection?.id : null);
 	const { departement } = useDepartement(
@@ -78,7 +88,7 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'region',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
 		if (departement != null) {
 			setCodes(
@@ -90,7 +100,7 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'departement',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
 		if (commune != null) {
 			setCodes(
@@ -102,7 +112,7 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'commune',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
 		if (etablissement != null) {
 			setCodes(
@@ -114,9 +124,9 @@ function useChangeCodesOnSelection(selection: SearchResult | null, onChange?: ()
 				},
 				'etablissement',
 			);
-			onChange?.();
+			onChange?.(selection);
 		}
-	}, [commune, departement, etablissement, onChange, region, setCodes]);
+	}, [commune, departement, etablissement, onChange, region, setCodes, selection]);
 }
 
 type AutocompleteProps = {
@@ -183,17 +193,28 @@ export function Autocomplete({
 		onClear?.();
 	}
 
+	function handleSelect(option: SearchResult) {
+		setIsPopoverOpen(false);
+		onSelect(option);
+	}
+
 	return (
 		<div className='w-full max-w-screen-sm text-white'>
 			<div className='relative w-full'>
 				<Search className='pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground' />
-				<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+				<Popover
+					open={isPopoverOpen && inputValue.length >= openSuggestionsAtInputLength}
+					onOpenChange={setIsPopoverOpen}
+				>
 					<PopoverAnchor>
 						<Input
 							ref={inputRef}
 							value={inputValue}
 							placeholder={placeholder}
 							onKeyDown={relayInputKeyDownToCommand}
+							onFocus={() => {
+								setIsPopoverOpen(true);
+							}}
 							onChange={onInputValueChange}
 							className='pl-8 pr-16 placeholder:truncate'
 						/>
@@ -210,10 +231,14 @@ export function Autocomplete({
 										<Loading />
 									</CommandLoading>
 								)}
+
 								<CommandEmpty className='p-2'>{noOptionsText}</CommandEmpty>
 								{options && options.length > 0 && (
 									<CommandGroup>
-										<Suggestions items={options ?? []} onSelect={onSelect} />
+										<Suggestions
+											items={options ?? []}
+											onSelect={handleSelect}
+										/>
 									</CommandGroup>
 								)}
 							</CommandList>
@@ -224,7 +249,7 @@ export function Autocomplete({
 					<button
 						type='button'
 						onClick={handleClear}
-						className='text-gray-400 hover:text-gray-600 absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center'
+						className='absolute right-8 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-gray-400 hover:text-gray-600'
 						aria-label='Clear search'
 					>
 						<X size={16} />

@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyboardEvent, Suspense, useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import Image from 'next/image';
@@ -22,7 +22,7 @@ const links = [
 ];
 
 export default function NavBar() {
-	const showSearchBar = useShowSearchBar();
+	const { show: showSearchBar, searchTerm } = useShowSearchBar();
 	const pathname = usePathname();
 
 	const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +49,7 @@ export default function NavBar() {
 	};
 
 	return (
-		<header className='z-header sticky top-0 flex justify-between bg-blue px-4 py-3 xl:justify-center'>
+		<header className='sticky top-0 z-header flex justify-between bg-blue px-4 py-3 xl:justify-center'>
 			<div className='w-full max-w-screen-xl justify-between'>
 				<div className='flex flex-col gap-4 xl:flex-row xl:flex-nowrap xl:items-center xl:justify-between'>
 					{/* Bloc gauche : menu (mobile) + logo */}
@@ -80,9 +80,7 @@ export default function NavBar() {
 					{/* Bloc SearchBar + boutons */}
 					{showSearchBar && (
 						<div className='flex w-full items-center gap-2 xl:min-w-0 xl:max-w-[600px] xl:flex-grow'>
-							<Suspense>
-								<SearchBar />
-							</Suspense>
+							<SearchBar initTerm={searchTerm} />
 						</div>
 					)}
 
@@ -111,7 +109,7 @@ export default function NavBar() {
 			{/* Menu mobile plein écran */}
 			{isOpen &&
 				createPortal(
-					<div className='z-mobile-menu-overlay fixed inset-0 flex flex-col bg-blue'>
+					<div className='fixed inset-0 z-mobile-menu-overlay flex flex-col bg-blue'>
 						{/* Bouton de fermeture */}
 						<div className='flex items-start justify-between p-4'>
 							<button
@@ -148,9 +146,7 @@ export default function NavBar() {
 									>
 										<span
 											className={`underline decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid ${
-												isActive
-													? 'decoration-solid'
-													: 'decoration-dotted'
+												isActive ? 'decoration-solid' : 'decoration-dotted'
 											}`}
 										>
 											{link.title}
