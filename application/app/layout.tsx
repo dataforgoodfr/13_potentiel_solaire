@@ -26,7 +26,7 @@ export default function RootLayout({
 				<Suspense>
 					<InitialViewProvider>
 						<NavBar />
-						<main className='flex flex-1 flex-col bg-blue'>
+						<main className='flex flex-1 flex-col'>
 							<Providers>{children}</Providers>
 						</main>
 					</InitialViewProvider>
