@@ -45,7 +45,7 @@ export default function PotentielSolaireCard({
 		return (
 			<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-6 outline-select'>
 				<div className='flex items-center text-grey'>
-					<FileX className='h-8 w-8 mt-2 flex-shrink-0 self-stretch' />
+					<FileX className='mt-2 h-8 w-8 flex-shrink-0 self-stretch' />
 					<p className='ml-2 text-base font-semibold'>
 						Données incomplètes pour cet établissement
 					</p>
@@ -67,13 +67,13 @@ export default function PotentielSolaireCard({
 						</p>
 					</>
 				) : (
-					<span className='text-gray-500 italic'>{UNKNOWN_TEXTS.nbEleves}</span>
+					<span className='italic text-gray-500'>{UNKNOWN_TEXTS.nbEleves}</span>
 				)}
 			</div>
 
 			<div className='mt-5 flex gap-1 text-grey'>
 				<Zap />
-				<p className='text-sm font-bold'>Potentiel de production annuelle </p>
+				<p className='text-sm font-bold'>Potentiel de production annuelle&nbsp;:</p>
 			</div>
 			<div className='flex items-center gap-2 font-bold text-blue'>
 				{potentielSolaire !== undefined && level ? (
@@ -92,7 +92,7 @@ export default function PotentielSolaireCard({
 			<div className='flex gap-1 text-grey'>
 				<HousePlug size={36} />
 				<p className='text-sm font-bold'>
-					&nbsp;Équivalent à la consommation électrique annuelle de :
+					&nbsp;Équivalent à la consommation électrique annuelle de&nbsp;:
 				</p>
 			</div>
 			<div className='flex w-full items-center justify-between ps-7 text-darkgreen'>
@@ -107,7 +107,7 @@ export default function PotentielSolaireCard({
 					<Popover.Trigger asChild>
 						<button
 							aria-disabled='true'
-							className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+							className='rounded p-2 text-darkgreen transition hover:bg-gray-100'
 						>
 							<CircleHelp />
 						</button>
