@@ -38,6 +38,7 @@ body {
 		--color-sol_ko: #fffbd6;
 		--color-grey: #5d5b65;
 		--color-gris: #fafafa;
+		--color-darkgrey: #151528;
 		--color-blue: 251 38% 18%;
 		--color-select: #a29db9;
 		--font-sans: 'Verdana', sans-serif;
@@ -48,16 +49,17 @@ body {
 		--fontSize-Xl: 2.5rem;
 		--boxShadow-base: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)';
 		--z-base: 0;
-		--z-header: 20;
+		--z-map-legend: 10;
+		--z-home-overlay: 20;
+		--z-header: 30;
 		--z-footer: 30;
-		--z-home-overlay: 30;
-		--z-legend: 35;
-		--z-modal: 40;
-		--z-fiche: 40;
-		--z-footer-drawer: 45;
-		--z-overlay: 60;
-		--z-toast: 70;
-		--z-tooltip: 80;
+		--z-popover: 40;
+		--z-dialog: 50;
+		--z-fiche: 50;
+		--z-tooltip: 70;
+		--z-footer-drawer: 80;
+		--z-mobile-menu-overlay: 90;
+		--z-toast: 100;
 	}
 }
 @layer base {

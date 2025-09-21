@@ -8,10 +8,16 @@ import { Etablissement } from '@/app/models/etablissements';
 import { Region } from '@/app/models/regions';
 import useActiveTab from '@/app/utils/hooks/useActiveTab';
 import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
+import { ALLOWED_TABS, codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
-import { LEVEL_TO_LABEL_SHORTENED } from '../Map/layers/layers';
+import {
+	LEVEL_TO_LABEL,
+	LEVEL_TO_LABEL_SHORTENED,
+	TYPE_ETABLISSEMENT_TO_LABEL,
+	TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED,
+} from '../Map/layers/layers';
 import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
@@ -21,11 +27,11 @@ import AccordionCard from './shared/AccordionCard';
 
 const actionsShort = [
 	{
-		title: 'Je suis un élu et je veux agir',
+		title: 'Je suis un élu ou une élue et je veux agir',
 		content: <>{ELU_BODY}</>,
 	},
 	{
-		title: 'Je suis un particulier et je veux agir',
+		title: 'Je suis un citoyen ou une citoyenne et je veux agir',
 		content: (
 			<>
 				{PARTICULIER_BODY}
@@ -35,8 +41,8 @@ const actionsShort = [
 	},
 ];
 
-export type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
-type Tab = { id: TabId; label?: string }[];
+export type TabId = (typeof ALLOWED_TABS)[number];
+type Tab = { id: TabId; label?: string; fullLabel?: string }[];
 
 interface FichesProps {
 	etablissement?: Etablissement;
@@ -53,15 +59,6 @@ function getInitialTab(codes: Codes): TabId {
 	if (codes.codeRegion !== null) return 'region';
 
 	throw new Error(`Codes ${codes} is not supported to get initial tab`);
-}
-
-function codesDiffer(codes1: Codes, codes2: Codes): boolean {
-	return (
-		codes1.codeRegion !== codes2.codeRegion ||
-		codes1.codeDepartement !== codes2.codeDepartement ||
-		codes1.codeCommune !== codes2.codeCommune ||
-		codes1.codeEtablissement !== codes2.codeEtablissement
-	);
 }
 
 export default function Fiches({
@@ -98,42 +95,73 @@ export default function Fiches({
 	}
 
 	const tabs: Tab = [
-		...(region ? [{ id: 'region' as const, label: LEVEL_TO_LABEL_SHORTENED['region'] }] : []),
+		...(region
+			? [
+					{
+						id: 'region' as const,
+						label: LEVEL_TO_LABEL_SHORTENED['region'],
+						fullLabel: LEVEL_TO_LABEL['region'],
+					},
+				]
+			: []),
 		...(departement
-			? [{ id: 'departement' as const, label: LEVEL_TO_LABEL_SHORTENED['departement'] }]
+			? [
+					{
+						id: 'departement' as const,
+						label: LEVEL_TO_LABEL_SHORTENED['departement'],
+						fullLabel: LEVEL_TO_LABEL['departement'],
+					},
+				]
 			: []),
 		...(commune
-			? [{ id: 'commune' as const, label: LEVEL_TO_LABEL_SHORTENED['commune'] }]
+			? [
+					{
+						id: 'commune' as const,
+						label: LEVEL_TO_LABEL_SHORTENED['commune'],
+						fullLabel: LEVEL_TO_LABEL['commune'],
+					},
+				]
 			: []),
 		...(etablissement
-			? [{ id: 'etablissement' as const, label: etablissement.type_etablissement }]
+			? [
+					{
+						id: 'etablissement' as const,
+						label: TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED[
+							etablissement.type_etablissement
+						],
+						fullLabel: TYPE_ETABLISSEMENT_TO_LABEL[etablissement.type_etablissement],
+					},
+				]
 			: []),
 	];
 
 	return (
 		<div
 			ref={ficheContainerRef}
-			className={`z-fiche fixed right-0 top-0 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md`}
+			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
 		>
-			<button
-				onClick={handleClose}
-				className='absolute left-1 top-2 text-xl text-grey hover:text-black'
-			>
-				<X />
-			</button>
-			<div className='flex gap-1 pl-2'>
-				{tabs.map((tab) => (
-					<button
-						key={tab.id}
-						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
-						style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
-						onClick={() => setActiveTab(tab.id)}
-					>
-						{tab.label}
-					</button>
-				))}
-			</div>
-			<div className='p-4'>
+			<header>
+				<button
+					onClick={handleClose}
+					className='absolute left-1 top-2 text-xl text-grey hover:text-black'
+				>
+					<X />
+				</button>
+				<div className='flex gap-1 pl-2'>
+					{tabs.map((tab) => (
+						<button
+							key={tab.id}
+							className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
+							style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
+							onClick={() => setActiveTab(tab.id)}
+              title={tab.fullLabel}
+						>
+							{tab.label}
+						</button>
+					))}
+				</div>
+			</header>
+			<section className='p-4'>
 				{isFetching ? (
 					<div
 						role='alert'
@@ -156,7 +184,7 @@ export default function Fiches({
 						<AccordionCard actions={actionsShort} />
 					</>
 				)}
-			</div>
+			</section>
 		</div>
 	);
 }

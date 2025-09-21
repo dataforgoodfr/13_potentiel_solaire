@@ -42,4 +42,5 @@ export type CommunesGeoJSON = GeoJSON.FeatureCollection<
 >;
 
 // Reference keys for proper access with maplibre layer properties
+export const COMMUNE_GEOJSON_KEY_ID: keyof CommuneFeatureProperties = 'code_commune';
 export const COMMUNE_GEOJSON_KEY_NOM: keyof CommuneFeatureProperties = 'nom_commune';

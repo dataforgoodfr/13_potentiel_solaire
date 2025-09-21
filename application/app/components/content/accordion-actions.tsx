@@ -73,6 +73,18 @@ export const ELU_BODY = (
 				&nbsp;du réseau AMORCE
 			</p>
 			<p>
+				– La plaquette{' '}
+				<a
+					href='https://github.com/user-attachments/files/22429562/Plaquette_Simuler.mon.raccordement.VF.pdf'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+				>
+					Simuler mon raccordement en ligne
+				</a>
+				&nbsp;(PDF de 196.5ko) d&apos;Enedis.
+			</p>
+			<p>
 				– Le guide à l&apos;usage des collectivités locales (PDF de 1.6mo){' '}
 				<a
 					href='https://energie-partagee.org/wp-content/uploads/2020/12/BDT-2020-Guide-collectivite%CC%81s-Mieux-maitriser-de%CC%81veloppement-EnR-sur-territoire.pdf'
