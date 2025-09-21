@@ -15,14 +15,20 @@ export const LEVEL_TO_LABEL_INCLUDING_NATION: Record<Level, string> = {
 };
 
 export const LEVEL_TO_LABEL_SHORTENED: Record<Exclude<Level, 'nation'>, string> = {
-	etablissement: 'Établissement',
-	commune: 'Commune',
-	departement: 'Département',
-	region: 'Région',
+	etablissement: 'Établ.',
+	commune: 'Com.',
+	departement: 'Dépt.',
+	region: 'Rég.',
 };
 
 export const TYPE_ETABLISSEMENT_TO_LABEL: Record<TypeEtablissement, string> = {
 	Ecole: 'École',
 	Collège: 'Collège',
 	Lycée: 'Lycée',
+};
+
+export const TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED: Record<TypeEtablissement, string> = {
+	Ecole: 'ÉCL',
+	Collège: 'CLG',
+	Lycée: 'LGT',
 };

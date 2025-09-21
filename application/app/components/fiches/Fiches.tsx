@@ -11,7 +11,12 @@ import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
-import { LEVEL_TO_LABEL_SHORTENED, TYPE_ETABLISSEMENT_TO_LABEL } from '../Map/layers/layers';
+import {
+	LEVEL_TO_LABEL,
+	LEVEL_TO_LABEL_SHORTENED,
+	TYPE_ETABLISSEMENT_TO_LABEL,
+	TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED,
+} from '../Map/layers/layers';
 import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
@@ -36,7 +41,7 @@ const actionsShort = [
 ];
 
 export type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
-type Tab = { id: TabId; label?: string }[];
+type Tab = { id: TabId; label?: string; fullLabel?: string }[];
 
 interface FichesProps {
 	etablissement?: Etablissement;
@@ -98,18 +103,41 @@ export default function Fiches({
 	}
 
 	const tabs: Tab = [
-		...(region ? [{ id: 'region' as const, label: LEVEL_TO_LABEL_SHORTENED['region'] }] : []),
+		...(region
+			? [
+					{
+						id: 'region' as const,
+						label: LEVEL_TO_LABEL_SHORTENED['region'],
+						fullLabel: LEVEL_TO_LABEL['region'],
+					},
+				]
+			: []),
 		...(departement
-			? [{ id: 'departement' as const, label: LEVEL_TO_LABEL_SHORTENED['departement'] }]
+			? [
+					{
+						id: 'departement' as const,
+						label: LEVEL_TO_LABEL_SHORTENED['departement'],
+						fullLabel: LEVEL_TO_LABEL['departement'],
+					},
+				]
 			: []),
 		...(commune
-			? [{ id: 'commune' as const, label: LEVEL_TO_LABEL_SHORTENED['commune'] }]
+			? [
+					{
+						id: 'commune' as const,
+						label: LEVEL_TO_LABEL_SHORTENED['commune'],
+						fullLabel: LEVEL_TO_LABEL['commune'],
+					},
+				]
 			: []),
 		...(etablissement
 			? [
 					{
 						id: 'etablissement' as const,
-						label: TYPE_ETABLISSEMENT_TO_LABEL[etablissement.type_etablissement],
+						label: TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED[
+							etablissement.type_etablissement
+						],
+						fullLabel: TYPE_ETABLISSEMENT_TO_LABEL[etablissement.type_etablissement],
 					},
 				]
 			: []),
@@ -133,7 +161,7 @@ export default function Fiches({
 						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
 						style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
 						onClick={() => setActiveTab(tab.id)}
-            title={tab.label}
+						title={tab.fullLabel}
 					>
 						{tab.label}
 					</button>
