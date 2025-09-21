@@ -62,7 +62,7 @@ export default function NavBar() {
 							type='button'
 							aria-expanded={isOpen}
 							aria-controls='menu-principal'
-							aria-label='Toggle Menu'
+							aria-label='Ouvrir le menu'
 						>
 							{isOpen ? (
 								<X className='stroke-green' />

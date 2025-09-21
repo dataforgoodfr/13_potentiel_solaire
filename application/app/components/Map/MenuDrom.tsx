@@ -39,7 +39,16 @@ function MenuDrom() {
 
 	return (
 		<div className='mt-2 flex w-full max-w-sm flex-row justify-start gap-2 bg-transparent'>
-			<button onClick={() => setIsOpen(!isOpen)} className={buttonStyle}>
+			<button
+				onClick={() => setIsOpen(!isOpen)}
+				className={buttonStyle}
+				aria-expanded={isOpen}
+				aria-label={
+					isOpen
+						? 'Fermer le menu DROM'
+						: `Voir les établissements depuis ${activeLocation.name}`
+				}
+			>
 				{isOpen ? (
 					<X color='white' />
 				) : (

@@ -38,15 +38,34 @@ type LegendColorScale = {
 };
 
 function LegendColorScale({ thresholds, unit }: LegendColorScale) {
-	const thresholdValues = Object.entries<ColorSpecification>(thresholds);
+	const thresholdValues = Object.entries<ColorSpecification>(thresholds)
+		.map(([k, v]) => [Number(k), v] as [number, ColorSpecification])
+		.sort(([a], [b]) => a - b);
 
 	const { width, height, margin, viewBoxWidth, viewBoxheight } = SVG_CONFIG;
 	const slicesCount = thresholdValues.length;
 	const sliceWidth = (width - 2 * margin - 2 * BORDER_RADIUS) / slicesCount;
 	const sliceHeight = (height - 2 * margin) / 2;
+  const LEVEL_LABELS = ['limité', 'bon', 'élevé'];
+
+	function getAriaLabel(i: number) {
+		const start = thresholdValues[i][0];
+		const end = thresholdValues[i + 1]?.[0];
+		const startConverted = Math.round(convertKWhTo(start, unit));
+		const endConverted = end ? Math.round(convertKWhTo(end, unit)) : undefined;
+
+		if (i === 0) return `${startConverted} à ${endConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
+		if (end) return `${startConverted} à ${endConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
+		return `À partir de ${startConverted} ${unit}: Potentiel solaire ${LEVEL_LABELS[i]}`;
+	}
 
 	return (
-		<svg width={width} height={height} viewBox={`0 0 ${viewBoxWidth} ${viewBoxheight}`}>
+		<svg
+			width={width}
+			height={height}
+			viewBox={`0 0 ${viewBoxWidth} ${viewBoxheight}`}
+			aria-label='Légende du potentiel solaire'
+		>
 			<g transform={`translate(${margin}, ${margin})`}>
 				<rect
 					width={2 * BORDER_RADIUS}
@@ -55,6 +74,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 					fill={thresholdValues[0][1]}
 					fillOpacity={OPACITY}
 					rx={BORDER_RADIUS}
+          aria-label={getAriaLabel(0)}
 				/>
 				{thresholdValues.map(([thresholdValue, color], i) => (
 					<rect
@@ -64,6 +84,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 						x={sliceWidth * i + BORDER_RADIUS}
 						fill={color}
 						fillOpacity={OPACITY}
+            aria-label={getAriaLabel(i)}
 					/>
 				))}
 				<rect
@@ -73,6 +94,7 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 					fill={thresholdValues.slice(-1)[0][1]}
 					fillOpacity={OPACITY}
 					rx={BORDER_RADIUS}
+          aria-label={getAriaLabel(thresholdValues.length - 1)}
 				/>
 				{thresholdValues.map(([thresholdValue], i) => (
 					<text
