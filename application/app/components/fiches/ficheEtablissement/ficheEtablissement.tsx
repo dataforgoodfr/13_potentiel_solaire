@@ -10,16 +10,30 @@ import RattachementCard from './RattachementCard';
 
 interface FicheEtablissementProps {
 	etablissement: Etablissement;
+	ficheRef?: React.RefObject<HTMLDivElement | null>;
+	onBeforePrint?: () => void;
+	onAfterPrint?: () => void;
 }
 
-export default function FicheEtablissement({ etablissement }: FicheEtablissementProps) {
-  const donneesDisponibles = etablissement.reussite_rattachement
+export default function FicheEtablissement({
+	etablissement,
+	ficheRef,
+	onBeforePrint,
+	onAfterPrint,
+}: FicheEtablissementProps) {
+	const donneesDisponibles = etablissement.reussite_rattachement;
 
 	return (
 		<div>
 			<EtablissementCard {...etablissement} />
 			<br />
-			<ActionButtons />
+			<ActionButtons
+				ficheRef={ficheRef}
+				ficheName={etablissement.nom_etablissement}
+				onBeforePrint={onBeforePrint}
+				onAfterPrint={onAfterPrint}
+			/>
+
 			<hr className='my-4' />
 
 			{etablissement.est_seul_dans_sa_zone === false &&

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Commune } from '@/app/models/communes';
 import { Departement } from '@/app/models/departements';
@@ -135,56 +135,93 @@ export default function Fiches({
 			: []),
 	];
 
+	const [printOpen, setPrintOpen] = useState(false);
+
+	const handleBeforePrint = async () => {
+		setPrintOpen(true);
+		// wait for next frame so Accordion opens visually before print
+		await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+	};
+
+	const handleAfterPrint = async () => {
+		setPrintOpen(false);
+	};
+
 	return (
 		<div
-			ref={ficheContainerRef}
-			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
+			className={`z-fiche fixed right-0 top-0 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
 		>
-			<header>
-				<button
-					onClick={handleClose}
-					className='absolute left-1 top-2 text-xl text-grey hover:text-black'
-				>
-					<X />
-				</button>
-				<div className='flex gap-1 pl-2'>
-					{tabs.map((tab) => (
-						<button
-							key={tab.id}
-							className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
-							style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
-							onClick={() => setActiveTab(tab.id)}
-              title={tab.fullLabel}
-						>
-							{tab.label}
-						</button>
-					))}
-				</div>
-			</header>
-			<section className='p-4'>
-				{isFetching ? (
-					<div
-						role='alert'
-						aria-label='Chargement de la fiche en cours'
-						aria-live='polite'
+			<div id='fiche-root' ref={ficheContainerRef}>
+				<header>
+					<button
+						onClick={handleClose}
+						className='absolute left-1 top-2 text-xl text-grey hover:text-black print:hidden'
 					>
-						<Loading />
+						<X />
+					</button>
+					<div className='flex gap-1 pl-2 print:hidden'>
+						{tabs.map((tab) => (
+							<button
+								key={tab.id}
+								className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
+								style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
+								onClick={() => setActiveTab(tab.id)}
+								title={tab.fullLabel}
+							>
+								{tab.label}
+							</button>
+						))}
 					</div>
-				) : (
-					<>
-						{activeTab === 'region' && region && <FicheRegion region={region} />}
-						{activeTab === 'departement' && departement && (
-							<FicheDepartement departement={departement} />
-						)}
-						{activeTab === 'commune' && commune && <FicheCommune commune={commune} />}
-						{activeTab === 'etablissement' && etablissement && (
-							<FicheEtablissement etablissement={etablissement} />
-						)}
-						<hr className='my-4' />
-						<AccordionCard actions={actionsShort} />
-					</>
-				)}
-			</section>
+				</header>
+				<section className='p-4'>
+					{isFetching ? (
+						<div
+							role='alert'
+							aria-label='Chargement de la fiche en cours'
+							aria-live='polite'
+						>
+							<Loading />
+						</div>
+					) : (
+						<>
+							{activeTab === 'region' && region && (
+								<FicheRegion
+									region={region}
+									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
+								/>
+							)}
+							{activeTab === 'departement' && departement && (
+								<FicheDepartement
+									departement={departement}
+									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
+								/>
+							)}
+							{activeTab === 'commune' && commune && (
+								<FicheCommune
+									commune={commune}
+									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
+								/>
+							)}
+							{activeTab === 'etablissement' && etablissement && (
+								<FicheEtablissement
+									etablissement={etablissement}
+									ficheRef={ficheContainerRef}
+									onBeforePrint={handleBeforePrint}
+									onAfterPrint={handleAfterPrint}
+								/>
+							)}
+							<hr className='my-4' />
+							<AccordionCard actions={actionsShort} printOpen={printOpen} />
+						</>
+					)}
+				</section>
+			</div>
 		</div>
 	);
 }
