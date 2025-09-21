@@ -8,6 +8,7 @@ import { Etablissement } from '@/app/models/etablissements';
 import { Region } from '@/app/models/regions';
 import useActiveTab from '@/app/utils/hooks/useActiveTab';
 import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
+import { ALLOWED_TABS, codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
 import Loading from '../Loading';
@@ -26,11 +27,11 @@ import AccordionCard from './shared/AccordionCard';
 
 const actionsShort = [
 	{
-		title: 'Je suis un élu et je veux agir',
+		title: 'Je suis un élu ou une élue et je veux agir',
 		content: <>{ELU_BODY}</>,
 	},
 	{
-		title: 'Je suis un particulier et je veux agir',
+		title: 'Je suis un citoyen ou une citoyenne et je veux agir',
 		content: (
 			<>
 				{PARTICULIER_BODY}
@@ -40,7 +41,7 @@ const actionsShort = [
 	},
 ];
 
-export type TabId = 'region' | 'departement' | 'commune' | 'etablissement';
+export type TabId = (typeof ALLOWED_TABS)[number];
 type Tab = { id: TabId; label?: string; fullLabel?: string }[];
 
 interface FichesProps {
@@ -58,15 +59,6 @@ function getInitialTab(codes: Codes): TabId {
 	if (codes.codeRegion !== null) return 'region';
 
 	throw new Error(`Codes ${codes} is not supported to get initial tab`);
-}
-
-function codesDiffer(codes1: Codes, codes2: Codes): boolean {
-	return (
-		codes1.codeRegion !== codes2.codeRegion ||
-		codes1.codeDepartement !== codes2.codeDepartement ||
-		codes1.codeCommune !== codes2.codeCommune ||
-		codes1.codeEtablissement !== codes2.codeEtablissement
-	);
 }
 
 export default function Fiches({
@@ -146,28 +138,30 @@ export default function Fiches({
 	return (
 		<div
 			ref={ficheContainerRef}
-			className={`z-fiche fixed right-0 top-0 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md`}
+			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
 		>
-			<button
-				onClick={handleClose}
-				className='absolute left-1 top-2 text-xl text-grey hover:text-black'
-			>
-				<X />
-			</button>
-			<div className='flex gap-1 pl-2'>
-				{tabs.map((tab) => (
-					<button
-						key={tab.id}
-						className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
-						style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
-						onClick={() => setActiveTab(tab.id)}
-						title={tab.fullLabel}
-					>
-						{tab.label}
-					</button>
-				))}
-			</div>
-			<div className='p-4'>
+			<header>
+				<button
+					onClick={handleClose}
+					className='absolute left-1 top-2 text-xl text-grey hover:text-black'
+				>
+					<X />
+				</button>
+				<div className='flex gap-1 pl-2'>
+					{tabs.map((tab) => (
+						<button
+							key={tab.id}
+							className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
+							style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
+							onClick={() => setActiveTab(tab.id)}
+              title={tab.fullLabel}
+						>
+							{tab.label}
+						</button>
+					))}
+				</div>
+			</header>
+			<section className='p-4'>
 				{isFetching ? (
 					<div
 						role='alert'
@@ -190,7 +184,7 @@ export default function Fiches({
 						<AccordionCard actions={actionsShort} />
 					</>
 				)}
-			</div>
+			</section>
 		</div>
 	);
 }

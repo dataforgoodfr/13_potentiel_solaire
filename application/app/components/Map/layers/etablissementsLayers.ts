@@ -122,7 +122,7 @@ export const unclusteredPointProtegeIconLayer = {
 		['==', ['get', ETABLISSEMENT_GEOJSON_KEY_PROTECTION], true],
 	],
 	layout: {
-		'text-field': 'i',
+		'text-field': '!',
 		'text-size': 20,
 	},
 	paint: {

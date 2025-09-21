@@ -22,11 +22,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en' className='h-full'>
-			<body className='flex min-h-screen flex-col'>
+			<body className='flex min-h-screen flex-col bg-blue'>
 				<Suspense>
 					<InitialViewProvider>
 						<NavBar />
-						<main className='flex flex-1 flex-col bg-blue'>
+						<main className='flex flex-1 flex-col'>
 							<Providers>{children}</Providers>
 						</main>
 					</InitialViewProvider>

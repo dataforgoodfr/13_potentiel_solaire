@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { Menu, X } from 'lucide-react';
 
@@ -22,6 +23,7 @@ const links = [
 
 export default function NavBar() {
 	const showSearchBar = useShowSearchBar();
+	const pathname = usePathname();
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -37,6 +39,13 @@ export default function NavBar() {
 			e.preventDefault();
 			setIsOpen(!isOpen);
 		}
+	};
+
+	const isActiveLink = (href: string) => {
+		if (href === '/') {
+			return pathname === '/';
+		}
+		return pathname.startsWith(href);
 	};
 
 	return (
@@ -79,15 +88,22 @@ export default function NavBar() {
 
 					{/* Menu desktop */}
 					<nav className='hidden shrink-0 xl:flex xl:gap-4' aria-label='Menu principal'>
-						{links.map((link) => (
-							<Link
-								key={link.href}
-								href={link.href}
-								className='whitespace-nowrap text-base text-white hover:underline'
-							>
-								{link.title}
-							</Link>
-						))}
+						{links.map((link) => {
+							const isActive = isActiveLink(link.href);
+							return (
+								<Link
+									key={link.href}
+									href={link.href}
+									className={`whitespace-nowrap text-base text-white hover:underline ${
+										isActive
+											? 'font-bold underline decoration-2 underline-offset-4'
+											: ''
+									}`}
+								>
+									{link.title}
+								</Link>
+							);
+						})}
 					</nav>
 				</div>
 			</div>
@@ -95,7 +111,7 @@ export default function NavBar() {
 			{/* Menu mobile plein écran */}
 			{isOpen &&
 				createPortal(
-					<div className='z-overlay fixed inset-0 flex flex-col bg-blue'>
+					<div className='z-mobile-menu-overlay fixed inset-0 flex flex-col bg-blue'>
 						{/* Bouton de fermeture */}
 						<div className='flex items-start justify-between p-4'>
 							<button
@@ -121,19 +137,28 @@ export default function NavBar() {
 
 						{/* Liens verticaux */}
 						<div className='relative w-full space-y-4 overflow-hidden bg-green px-6 pb-20 pt-4 text-base font-bold text-darkgreen'>
-							{links.map((link) => (
-								<Link
-									key={link.href}
-									href={link.href}
-									onClick={() => setIsOpen(false)}
-									className='group flex items-center justify-between pb-2'
-								>
-									<span className='underline decoration-dotted decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid'>
-										{link.title}
-									</span>
-									<span className='text-2xl'>→</span>
-								</Link>
-							))}
+							{links.map((link) => {
+								const isActive = isActiveLink(link.href);
+								return (
+									<Link
+										key={link.href}
+										href={link.href}
+										onClick={() => setIsOpen(false)}
+										className='group flex items-center justify-between pb-2'
+									>
+										<span
+											className={`underline decoration-2 underline-offset-4 transition-all duration-300 group-hover:text-blue group-hover:decoration-blue group-hover:decoration-solid ${
+												isActive
+													? 'decoration-solid'
+													: 'decoration-dotted'
+											}`}
+										>
+											{link.title}
+										</span>
+										<span className='text-2xl'>→</span>
+									</Link>
+								);
+							})}
 							<Image
 								src={GOOD}
 								alt='Mascotte du projet : un tournesol souriant'
