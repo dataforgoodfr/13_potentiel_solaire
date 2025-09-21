@@ -19,7 +19,7 @@ interface AccordionCardProps {
 
 export default function AccordionCard({ actions }: AccordionCardProps) {
 	return (
-		<div>
+		<div className='accordion-wrapper'>
 			{actions.map((action, index) => (
 				<CollapsibleItem key={index} action={action} />
 			))}

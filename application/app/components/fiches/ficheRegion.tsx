@@ -20,9 +20,10 @@ type TabId = (typeof tabs)[number]['id'];
 
 interface FicheRegionProps {
 	region: Region;
+	ficheRef?: React.RefObject<HTMLDivElement | null>;
 }
 
-export default function FicheRegion({ region }: FicheRegionProps) {
+export default function FicheRegion({ region, ficheRef }: FicheRegionProps) {
 	const [activeTab, setActiveTab] = useState<TabId>('all');
 
 	const handleTabChange = (tab: TabId) => {
@@ -32,7 +33,7 @@ export default function FicheRegion({ region }: FicheRegionProps) {
 	return (
 		<div>
 			<CollectiviteHeaderCard type='region' nom={region.libelle_region} />
-			<ActionButtons />
+			<ActionButtons ficheRef={ficheRef} ficheName={region.libelle_region} />
 			<hr className='my-4' />
 
 			<Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />

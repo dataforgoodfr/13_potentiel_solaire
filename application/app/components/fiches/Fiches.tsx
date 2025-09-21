@@ -137,55 +137,65 @@ export default function Fiches({
 
 	return (
 		<div
-			id='fiche-root'
-			ref={ficheContainerRef}
-			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
+			className={`z-fiche fixed right-0 top-0 h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pt-1 shadow-lg md:m-4 md:h-[calc(100%-2rem)] md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md`}
 		>
-			<header>
-				<button
-					onClick={handleClose}
-					className='absolute left-1 top-2 text-xl text-grey hover:text-black print:hidden'
-				>
-					<X />
-				</button>
-				<div className='flex gap-1 pl-2'>
-					{tabs.map((tab) => (
-						<button
-							key={tab.id}
-							className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
-							style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
-							onClick={() => setActiveTab(tab.id)}
-              title={tab.fullLabel}
-						>
-							{tab.label}
-						</button>
-					))}
-				</div>
-			</header>
-			<section className='p-4'>
-				{isFetching ? (
-					<div
-						role='alert'
-						aria-label='Chargement de la fiche en cours'
-						aria-live='polite'
+			<div id='fiche-root' ref={ficheContainerRef}>
+				<header>
+					<button
+						onClick={handleClose}
+						className='absolute left-1 top-2 text-xl text-grey hover:text-black print:hidden'
 					>
-						<Loading />
+						<X />
+					</button>
+					<div className='flex gap-1 pl-2 print:hidden'>
+						{tabs.map((tab) => (
+							<button
+								key={tab.id}
+								className={`truncate rounded-md px-4 py-2 text-xs font-bold md:text-sm ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
+								style={{ flexBasis: `${(1 / tabs.length) * 100}%` }}
+								onClick={() => setActiveTab(tab.id)}
+								title={tab.fullLabel}
+							>
+								{tab.label}
+							</button>
+						))}
 					</div>
-				) : (
-					<>
-						{activeTab === 'region' && region && <FicheRegion region={region} ficheRef={ficheContainerRef} />}
-						{activeTab === 'departement' && departement && (
-							<FicheDepartement departement={departement} ficheRef={ficheContainerRef} />
-						)}
-						{activeTab === 'commune' && commune && <FicheCommune commune={commune} ficheRef={ficheContainerRef} />}
-						{activeTab === 'etablissement' && etablissement && (
-							<FicheEtablissement etablissement={etablissement} ficheRef={ficheContainerRef}/>
-						)}
-						<hr className='my-4' />
-						<AccordionCard actions={actionsShort} />
-					</>
-				)}
-			</section>
+				</header>
+				<section className='p-4'>
+					{isFetching ? (
+						<div
+							role='alert'
+							aria-label='Chargement de la fiche en cours'
+							aria-live='polite'
+						>
+							<Loading />
+						</div>
+					) : (
+						<>
+							{activeTab === 'region' && region && (
+								<FicheRegion region={region} ficheRef={ficheContainerRef} />
+							)}
+							{activeTab === 'departement' && departement && (
+								<FicheDepartement
+									departement={departement}
+									ficheRef={ficheContainerRef}
+								/>
+							)}
+							{activeTab === 'commune' && commune && (
+								<FicheCommune commune={commune} ficheRef={ficheContainerRef} />
+							)}
+							{activeTab === 'etablissement' && etablissement && (
+								<FicheEtablissement
+									etablissement={etablissement}
+									ficheRef={ficheContainerRef}
+								/>
+							)}
+							<hr className='my-4' />
+							<AccordionCard actions={actionsShort} />
+						</>
+					)}
+				</section>
+			</div>
 		</div>
 	);
 }
