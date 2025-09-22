@@ -46,7 +46,7 @@ function MenuDrom() {
 				aria-label={
 					isOpen
 						? 'Fermer le menu DROM'
-						: `Voir les établissements depuis ${activeLocation.name}`
+						: 'Ouvrir le menu DROM'
 				}
 			>
 				{isOpen ? (
@@ -63,6 +63,7 @@ function MenuDrom() {
 							onClick={() => handleTabChange(location)}
 							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : buttonHoverStyle}`}
 							aria-label={`Naviguer vers ${location.name}`}
+              aria-current={activeLocation.codeRegion === location.codeRegion ? 'page' : undefined}
 						>
 							<Image src={location.icon} alt='' width={24} height={24} />
 						</button>
