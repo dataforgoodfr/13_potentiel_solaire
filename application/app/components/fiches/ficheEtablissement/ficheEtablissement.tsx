@@ -24,7 +24,7 @@ export default function FicheEtablissement({
 	const donneesDisponibles = etablissement.reussite_rattachement;
 
 	return (
-		<div>
+		<article aria-label={`Fiche de l’établissement ${etablissement}`}>
 			<EtablissementCard {...etablissement} />
 			<br />
 			<ActionButtons
@@ -61,6 +61,6 @@ export default function FicheEtablissement({
 					</div>
 				</>
 			)}
-		</div>
+		</article>
 	);
 }

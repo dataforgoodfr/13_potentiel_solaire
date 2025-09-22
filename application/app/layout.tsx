@@ -21,7 +21,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en' className='h-full'>
+		<html lang='fr' className='h-full'>
 			<body className='flex min-h-dvh flex-col bg-blue'>
 				<Suspense>
 					<InitialViewProvider>

@@ -49,6 +49,7 @@ const InterpretationMessage = ({ niveau_potentiel }: InterpretationMessageProps)
 
 				<div className='w-2/3'>
 					<p className='text-sm font-normal md:text-base'>
+						<span className='sr-only'>Niveau de potentiel solaire : </span>
 						{SOLAR_TEXT[niveau_potentiel]}
 					</p>
 				</div>
