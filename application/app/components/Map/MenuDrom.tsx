@@ -50,14 +50,9 @@ function MenuDrom() {
 				}
 			>
 				{isOpen ? (
-					<X color='white' />
+					<X color='white' aria-hidden='true' />
 				) : (
-					<Image
-						src={activeLocation.icon}
-						alt={activeLocation.name}
-						width={24}
-						height={24}
-					/>
+					<Image src={activeLocation.icon} alt='' width={24} height={24} />
 				)}
 			</button>
 			{isOpen && (
@@ -69,7 +64,7 @@ function MenuDrom() {
 							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : buttonHoverStyle}`}
 							aria-label={`Naviguer vers ${location.name}`}
 						>
-							<Image src={location.icon} alt={location.name} width={24} height={24} />
+							<Image src={location.icon} alt='' width={24} height={24} />
 						</button>
 					))}
 				</div>

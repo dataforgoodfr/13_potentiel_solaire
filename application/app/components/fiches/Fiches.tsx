@@ -160,7 +160,7 @@ export default function Fiches({
 						className='absolute left-1 top-2 text-xl text-grey hover:text-black print:hidden'
 						aria-label='Fermer la fiche'
 					>
-						<X />
+						<X aria-hidden='true' />
 					</button>
 					<div className='flex gap-1 pl-2 print:hidden'>
 						{tabs.map((tab) => (
