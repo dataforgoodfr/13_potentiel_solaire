@@ -58,7 +58,6 @@ export default function Suggestions({ items, onSelect }: ResultsListProps) {
 				key={id}
 				className='flex grow cursor-pointer'
 				onSelect={() => onSelect(item)}
-				role='listbox'
 				aria-label='Suggestions'
 			>
 				<div className='flex items-center gap-2'>
