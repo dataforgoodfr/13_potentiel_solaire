@@ -176,7 +176,7 @@ export default function Fiches({
 						))}
 					</div>
 				</header>
-				<section className='p-4' aria-labelledby={`tab-${activeTab}`}>
+				<section className='p-4'>
 					{isFetching ? (
 						<div
 							role='alert'
