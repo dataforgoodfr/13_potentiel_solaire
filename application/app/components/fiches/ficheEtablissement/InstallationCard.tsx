@@ -17,7 +17,7 @@ const InstallationCard = ({ surfaceExploitableMax }: installationCardProps) => {
 				<Ruler aria-hidden='true' focusable='false' />
 				<p className='font-bold'>Superficie exploitable maximale : </p>
 			</div>
-			<p className='text-center font-bold text-blue' aria-label='Environ ...'>
+			<p className='text-center font-bold text-blue' aria-label='Environ'>
 				<span className='text-base' aria-hidden='true'>
 					{hasSurface ? `≈${surfaceExploitableMax}` : UNKNOWN_TEXTS.surfaceExploitableMax}
 				</span>{' '}
