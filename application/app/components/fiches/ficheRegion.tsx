@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Region } from '@/app/models/regions';
 
+import { COLOR_THRESHOLDS, COLOR_THRESHOLDS_BY_TYPE_ETABLISSEMENT } from '../Map/constants';
 import NbEtablissements from './NbEtablissements';
 import ActionButtons from './shared/ActionButtons';
 import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
@@ -57,7 +58,7 @@ export default function FicheRegion({
 						potentielSolaire={region.potentiel_solaire_total}
 						potentielNbFoyers={region.potentiel_nb_foyers_total}
 						nbEleves={region.nb_eleves_total}
-						level='region'
+						thresholds={COLOR_THRESHOLDS['region']}
 						header={
 							<NbEtablissements
 								nbEtablissements={region.nb_etablissements_total}
@@ -79,6 +80,7 @@ export default function FicheRegion({
 						potentielSolaire={region.potentiel_solaire_lycees}
 						potentielNbFoyers={region.potentiel_nb_foyers_lycees}
 						nbEleves={region.nb_eleves_lycees}
+						thresholds={COLOR_THRESHOLDS_BY_TYPE_ETABLISSEMENT['Lycée']}
 						header={
 							<NbEtablissements
 								nbEtablissements={region.nb_etablissements_lycees}

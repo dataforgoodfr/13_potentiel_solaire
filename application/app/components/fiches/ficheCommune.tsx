@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Commune } from '@/app/models/communes';
 
+import { COLOR_THRESHOLDS, COLOR_THRESHOLDS_BY_TYPE_ETABLISSEMENT } from '../Map/constants';
 import NbEtablissements from './NbEtablissements';
 import ActionButtons from './shared/ActionButtons';
 import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
@@ -56,7 +57,7 @@ export default function FicheCommune({
 						potentielSolaire={commune.potentiel_solaire_total}
 						potentielNbFoyers={commune.potentiel_nb_foyers_total}
 						nbEleves={commune.nb_eleves_total}
-						level='commune'
+						thresholds={COLOR_THRESHOLDS['commune']}
 						header={
 							<NbEtablissements
 								nbEtablissements={commune.nb_etablissements_total}
@@ -78,6 +79,7 @@ export default function FicheCommune({
 						potentielSolaire={commune.potentiel_solaire_primaires}
 						potentielNbFoyers={commune.potentiel_nb_foyers_primaires}
 						nbEleves={commune.nb_eleves_primaires}
+						thresholds={COLOR_THRESHOLDS_BY_TYPE_ETABLISSEMENT['Ecole']}
 						header={
 							<NbEtablissements
 								nbEtablissements={commune.nb_etablissements_primaires}
