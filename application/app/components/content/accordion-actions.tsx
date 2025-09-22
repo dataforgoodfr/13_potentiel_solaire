@@ -157,10 +157,15 @@ export const PARTICULIER_BODY = (
 				href={ACTION_LINKS.contactElu.url}
 				target='_blank'
 				rel='noopener noreferrer'
-				className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
+				className='my-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
 			>
 				{ACTION_LINKS.contactElu.label}
 			</a>
+			<em>
+				<strong>Information utile</strong>&nbsp;: Sur le site adresses-mairies.fr cherchez
+				votre commune dans la barre de recherche puis copiez l’adresse mail présente sur la
+				fiche de votre élu(e).
+			</em>
 		</li>
 		<li className='mb-8'>
 			Découvrez les projets de transition énergétique près de chez vous :

@@ -13,7 +13,7 @@ export const ACTION_LINKS = {
 	},
 	contactElu: {
 		label: 'Contacter par mail mon élu',
-		url: 'https://www.data.gouv.fr/reuses/adresses-mairies-fr/',
+		url: 'https://www.adresses-mairies.fr/',
 	},
 	siteDataForGood: {
 		label: 'Site de Data For Good',
