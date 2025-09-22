@@ -250,8 +250,8 @@ def segmentation_toits(data, min_surface: float = 2, debug: bool = False):
     # Border detection with change in slope
     border_x = np.abs(np.diff(slope_filtered, axis=0, prepend=slope_filtered[0:1, :])) > 40
     border_y = np.abs(np.diff(slope_filtered, axis=1, prepend=slope_filtered[:, 0:1])) > 40
-    slope_bounds = np.where(regions_mask,0,1)
     regions_mask = ~(border_x | border_y)
+    slope_bounds = np.where(regions_mask,0,1)
 
     # Border detection with high slope
     regions_mask = slope_filtered > 80
@@ -264,7 +264,7 @@ def segmentation_toits(data, min_surface: float = 2, debug: bool = False):
     # Creating clusters
     labeled_bounds, num_features = label(final_bounds == 0)
     mask = data[0] <= 0 # Mask to remove areas outside the building
-    labeled_bounds = np.where(mask, None, labeled_bounds)
+    labeled_bounds = np.where(mask, -1, labeled_bounds)
 
     # Final dataframe
     df_segment_toiture = pd.DataFrame({"label":[],"surface":[],"slope":[],"azimut":[]})
@@ -292,6 +292,6 @@ def segmentation_toits(data, min_surface: float = 2, debug: bool = False):
         })
 
     if debug:
-        return final_segment_toiture, slope_filtered, azimut_filtered
+        return final_segment_toiture, slope_filtered, azimut_filtered, labeled_bounds
 
     return final_segment_toiture
