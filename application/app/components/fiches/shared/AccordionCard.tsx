@@ -54,8 +54,16 @@ function CollapsibleItem({
 
 function CollapsibleIcon({ open }: { open: boolean }) {
 	return open ? (
-		<SquareMinus className='h-5 w-5 shrink-0 stroke-green' />
+		<SquareMinus
+			aria-hidden='true'
+			focusable='false'
+			className='h-5 w-5 shrink-0 stroke-green'
+		/>
 	) : (
-		<SquarePlus className='h-5 w-5 shrink-0 stroke-green' />
+		<SquarePlus
+			aria-hidden='true'
+			focusable='false'
+			className='h-5 w-5 shrink-0 stroke-green'
+		/>
 	);
 }

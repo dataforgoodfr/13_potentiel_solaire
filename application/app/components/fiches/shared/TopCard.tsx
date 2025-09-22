@@ -21,13 +21,15 @@ const TopCard = ({ topEtablissements }: Props) => {
 	return (
 		<div>
 			<div className='flex gap-1 text-grey'>
-				<Sun />
+				<Sun aria-hidden="true" focusable="false"/>
 				<p>Top 3 potentiel solaire :</p>
 			</div>
-			<ul className='list-none space-y-1 pl-0 font-bold text-darkgreen'>
+			<ul className='list-none space-y-1 pl-0 font-bold text-darkgreen' aria-label='Établissements classés par potentiel solaire décroissant'>
 				{topEtablissements.slice(0, 3).map((etab, index) => (
 					<li key={etab.id}>
-						{medals[index]}{' '}
+            <span aria-label={`Rang ${index + 1}`} role='img'>
+						  {medals[index]}{' '}
+            </span>
 						<Link
 							href={`/etablissements/${etab.id}`}
 							className='underline decoration-dotted decoration-2 underline-offset-4 transition hover:text-primary'

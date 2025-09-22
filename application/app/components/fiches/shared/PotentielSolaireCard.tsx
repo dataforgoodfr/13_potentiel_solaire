@@ -60,7 +60,7 @@ export default function PotentielSolaireCard({
 			{header && <div className='mb-5'>{header}</div>}
 
 			<div className='flex gap-1 text-grey'>
-				<Users />
+				<Users aria-hidden='true' focusable='false' />
 				{nbEleves !== undefined ? (
 					<>
 						<p className='font-bold'>
@@ -69,12 +69,12 @@ export default function PotentielSolaireCard({
 						</p>
 					</>
 				) : (
-					<span className='italic text-gray-500'>{UNKNOWN_TEXTS.nbEleves}</span>
+					<span className='text-gray-500 italic'>{UNKNOWN_TEXTS.nbEleves}</span>
 				)}
 			</div>
 
 			<div className='mt-5 flex gap-1 text-grey'>
-				<Zap />
+				<Zap aria-hidden='true' focusable='false' />
 				<p className='text-sm font-bold'>Potentiel de production annuelle&nbsp;:</p>
 			</div>
 			<div className='flex items-center gap-2 font-bold text-blue'>
@@ -92,7 +92,7 @@ export default function PotentielSolaireCard({
 			<br />
 
 			<div className='flex gap-1 text-grey'>
-				<HousePlug size={36} />
+				<HousePlug size={36} aria-hidden='true' focusable='false' />
 				<p className='text-sm font-bold'>
 					&nbsp;Équivalent à la consommation électrique annuelle de&nbsp;:
 				</p>
@@ -108,10 +108,10 @@ export default function PotentielSolaireCard({
 				<Popover.Root>
 					<Popover.Trigger asChild>
 						<button
-							aria-disabled='true'
-							className='rounded p-2 text-darkgreen transition hover:bg-gray-100 print:hidden'
+							aria-label="Informations sur l'équivalent de consommation"
+							className='hover:bg-gray-100 rounded p-2 text-darkgreen transition print:hidden'
 						>
-							<CircleHelp />
+							<CircleHelp aria-hidden='true' focusable='false' />
 						</button>
 					</Popover.Trigger>
 					<Popover.Portal>
