@@ -67,7 +67,7 @@ export default function FicheRegion({
 					/>
 					<hr className='my-4' />
 					<RepartitionPotentielSolaire
-						niveau='Lycées'
+						niveau='Établissements'
 						repartition={region.nb_etablissements_par_niveau_potentiel_total}
 					/>
 					<hr className='my-4' />
