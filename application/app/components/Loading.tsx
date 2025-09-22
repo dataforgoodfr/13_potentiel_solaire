@@ -9,7 +9,6 @@ export default function Loading() {
 			aria-label='Chargement en cours'
 		>
 			<Loader className='animate-spin text-primary' />
-			<span className='sr-only'>Chargement en cours</span>
 		</div>
 	);
 }

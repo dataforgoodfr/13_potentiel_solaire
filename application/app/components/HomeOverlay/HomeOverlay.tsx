@@ -30,7 +30,7 @@ export default function HomeOverlay() {
 						<div className='flex items-center justify-center px-[15px]'>
 							<button
 								className='rounded-md bg-green px-4 py-2 text-sm font-bold leading-6 text-darkgreen'
-								onClick={closeInitialView}
+								onClick={() => closeInitialView()}
                 aria-label='Fermer la fenêtre de recherche et utiliser la carte'
 							>
 								Je préfère utiliser la carte
