@@ -23,8 +23,8 @@ type Legend = { thresholds: Thresholds };
 export default function Legend({ thresholds }: Legend) {
 	const lastThreshold = Number(Object.keys(thresholds).slice(-1)[0]);
 	const lastThresholdUnit = getClosestEnergyUnit(lastThreshold);
-  const thresholdValues = Object.entries(thresholds);
-  const ariaLabel = `
+	const thresholdValues = Object.entries(thresholds);
+	const ariaLabel = `
 		Légende du potentiel solaire.
 		De 0 à ${thresholdValues[1][0]} ${lastThresholdUnit}/an : Potentiel solaire limité.
 		De ${thresholdValues[1][0]} à ${thresholdValues[2][0]} ${lastThresholdUnit}/an : Potentiel solaire bon.
@@ -65,7 +65,6 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 					fill={thresholdValues[0][1]}
 					fillOpacity={OPACITY}
 					rx={BORDER_RADIUS}
-					aria-label={`De 0 à ${Object.keys(thresholds)[1]} kWh : Potentiel solaire limité`}
 				/>
 				{thresholdValues.map(([thresholdValue, color], i) => (
 					<rect
@@ -75,11 +74,6 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 						x={sliceWidth * i + BORDER_RADIUS}
 						fill={color}
 						fillOpacity={OPACITY}
-						aria-label={
-							i === 1
-								? `De ${thresholdValues[1][0]} à ${thresholdValues[2][0]} kWh : Potentiel solaire bon`
-								: undefined
-						}
 					/>
 				))}
 				<rect
@@ -89,7 +83,6 @@ function LegendColorScale({ thresholds, unit }: LegendColorScale) {
 					fill={thresholdValues.slice(-1)[0][1]}
 					fillOpacity={OPACITY}
 					rx={BORDER_RADIUS}
-					aria-label={`À partir de ${thresholdValues.slice(-1)[0][0]} kWh : Potentiel solaire élevé`}
 				/>
 				{thresholdValues.map(([thresholdValue], i) => (
 					<text
