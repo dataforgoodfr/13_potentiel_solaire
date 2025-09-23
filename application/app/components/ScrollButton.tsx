@@ -40,7 +40,7 @@ export default function ScrollButton({ targetId, label }: ScrollButtonProps) {
 				className='fixed bottom-0 inline-flex min-w-64 justify-between bg-blue font-bold hover:bg-blue sm:min-w-72'
 			>
 				<span>{label}</span>
-				<ArrowDownCircle className='stroke-green' />
+				<ArrowDownCircle className='stroke-green' aria-hidden='true' />
 			</Button>
 		</div>
 	);
