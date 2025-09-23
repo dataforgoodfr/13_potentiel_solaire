@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ArrowDownCircle } from 'lucide-react';
@@ -8,7 +8,7 @@ interface ScrollButtonProps {
 	label: string;
 }
 
-export const ScrollButton: React.FC<ScrollButtonProps> = ({ targetId, label }) => {
+export default function ScrollButton({ targetId, label }: ScrollButtonProps) {
 	const [isTargetVisible, setIsTargetVisible] = useState(false);
 	const targetRef = useRef<HTMLElement | null>(null);
 
@@ -16,7 +16,7 @@ export const ScrollButton: React.FC<ScrollButtonProps> = ({ targetId, label }) =
 		targetRef.current = document.getElementById(targetId);
 		if (!targetRef.current) return;
 
-		const observer = new window.IntersectionObserver(
+		const observer = new IntersectionObserver(
 			([entry]) => setIsTargetVisible(entry.isIntersecting),
 			{ threshold: 0.2 }, // 20% visible triggers hide
 		);
@@ -44,5 +44,4 @@ export const ScrollButton: React.FC<ScrollButtonProps> = ({ targetId, label }) =
 			</Button>
 		</div>
 	);
-};
-export default ScrollButton;
+}

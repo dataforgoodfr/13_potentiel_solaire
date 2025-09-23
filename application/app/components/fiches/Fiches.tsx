@@ -18,7 +18,7 @@ import {
 	TYPE_ETABLISSEMENT_TO_LABEL,
 	TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED,
 } from '../Map/layers/layers';
-import { ScrollButton } from '../ScrollButton';
+import ScrollButton from '../ScrollButton';
 import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
