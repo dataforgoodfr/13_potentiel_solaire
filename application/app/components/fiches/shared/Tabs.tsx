@@ -44,8 +44,8 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 			</div>
 
 			<div className='hidden print:block'>
-				{tabs.find((t) => t.id === activeTab) && (
-					<h2 id={`panel-${activeTab}`} aria-labelledby={`tab-${activeTab}`}>
+				{activeTab && (
+					<h2>
 						{activeTab === 'all'
 							? "Tous type d'établissement"
 							: tabs.find((t) => t.id === activeTab)?.label}
