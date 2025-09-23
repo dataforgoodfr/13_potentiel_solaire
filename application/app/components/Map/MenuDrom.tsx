@@ -39,16 +39,20 @@ function MenuDrom() {
 
 	return (
 		<div className='mt-2 flex w-full max-w-sm flex-row justify-start gap-2 bg-transparent'>
-			<button onClick={() => setIsOpen(!isOpen)} className={buttonStyle}>
+			<button
+				onClick={() => setIsOpen(!isOpen)}
+				className={buttonStyle}
+				aria-expanded={isOpen}
+				aria-label={
+					isOpen
+						? 'Fermer le menu DROM'
+						: 'Ouvrir le menu DROM'
+				}
+			>
 				{isOpen ? (
-					<X color='white' />
+					<X color='white' aria-hidden='true' />
 				) : (
-					<Image
-						src={activeLocation.icon}
-						alt={activeLocation.name}
-						width={24}
-						height={24}
-					/>
+					<Image src={activeLocation.icon} alt='' width={24} height={24} />
 				)}
 			</button>
 			{isOpen && (
@@ -59,8 +63,9 @@ function MenuDrom() {
 							onClick={() => handleTabChange(location)}
 							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : buttonHoverStyle}`}
 							aria-label={`Naviguer vers ${location.name}`}
+              aria-current={activeLocation.codeRegion === location.codeRegion ? 'location' : undefined}
 						>
-							<Image src={location.icon} alt={location.name} width={24} height={24} />
+							<Image src={location.icon} alt='' width={24} height={24} />
 						</button>
 					))}
 				</div>

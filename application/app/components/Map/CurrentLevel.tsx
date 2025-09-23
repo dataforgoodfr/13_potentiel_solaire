@@ -25,7 +25,7 @@ export default function CurrentLevel({ level, levelItem, openFiche }: CurrentLev
 			aria-label={`Ouvrir la fiche de ${nom} (${LEVEL_TO_LABEL[level]})`}
 		>
 			<span className='min-w-0 truncate'>{nom}</span>
-			<MapPin size={20} />
+			<MapPin size={20} aria-hidden='true' focusable='false' />
 		</Button>
 	);
 }

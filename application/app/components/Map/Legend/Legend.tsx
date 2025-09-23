@@ -23,9 +23,23 @@ type Legend = { thresholds: Thresholds };
 export default function Legend({ thresholds }: Legend) {
 	const lastThreshold = Number(Object.keys(thresholds).slice(-1)[0]);
 	const lastThresholdUnit = getClosestEnergyUnit(lastThreshold);
+	const thresholdValues = Object.entries(thresholds);
+	const t0 = Math.round(convertKWhTo(Number(thresholdValues[0][0]), lastThresholdUnit));
+	const t1 = Math.round(convertKWhTo(Number(thresholdValues[1][0]), lastThresholdUnit));
+	const t2 = Math.round(convertKWhTo(Number(thresholdValues[2][0]), lastThresholdUnit));
+
+	const ariaLabel = `
+		Légende du potentiel solaire.
+		De ${t0} à ${t1} ${lastThresholdUnit}/an : Potentiel solaire limité.
+		De ${t1} à ${t2} ${lastThresholdUnit}/an : Potentiel solaire bon.
+		À partir de ${t2} ${lastThresholdUnit}/an : Potentiel solaire élevé.
+	`;
 
 	return (
-		<div className='pointer-events-none flex flex-grow-0 flex-col items-center rounded-md bg-blue p-1 text-xs text-white md:text-sm'>
+		<div
+			className='pointer-events-none flex flex-grow-0 flex-col items-center rounded-md bg-blue p-1 text-xs text-white md:text-sm'
+			aria-label={ariaLabel}
+		>
 			{getLabel(lastThresholdUnit)}
 			<LegendColorScale thresholds={thresholds} unit={lastThresholdUnit} />
 		</div>

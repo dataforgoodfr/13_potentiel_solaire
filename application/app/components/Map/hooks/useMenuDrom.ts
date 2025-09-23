@@ -3,7 +3,7 @@ import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { MenuDromLocation } from '../MenuDrom';
 
 const HEXAGONE_LOCATION: MenuDromLocation = {
-	name: 'hexagone',
+	name: 'Hexagone',
 	codeRegion: 'hexagone',
 	codeDepartement: 'hexagone',
 	icon: './DROMs/hexagone.svg',

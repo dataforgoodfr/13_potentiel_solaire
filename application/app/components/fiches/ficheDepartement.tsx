@@ -39,7 +39,7 @@ export default function FicheDepartement({
 	};
 
 	return (
-		<div>
+		<article aria-label={`Fiche du département ${departement.libelle_departement}`}>
 			<CollectiviteHeaderCard type='departement' nom={departement.libelle_departement} />
 			<ActionButtons
 				ficheRef={ficheRef}
@@ -96,6 +96,6 @@ export default function FicheDepartement({
 					<TopCard topEtablissements={departement.top_etablissements_colleges} />
 				</>
 			)}
-		</div>
+		</article>
 	);
 }

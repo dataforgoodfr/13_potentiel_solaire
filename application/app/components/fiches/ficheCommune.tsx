@@ -39,7 +39,7 @@ export default function FicheCommune({
 	};
 
 	return (
-		<div>
+		<article aria-label={`Fiche de la commune ${commune.nom_commune}`}>
 			<CollectiviteHeaderCard type='commune' nom={commune.nom_commune} />
 			<ActionButtons
 				ficheRef={ficheRef}
@@ -96,6 +96,6 @@ export default function FicheCommune({
 					<TopCard topEtablissements={commune.top_etablissements_primaires} />
 				</>
 			)}
-		</div>
+		</article>
 	);
 }
