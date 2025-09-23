@@ -5,19 +5,18 @@ import * as Popover from '@radix-ui/react-popover';
 import { CircleHelp, FileX, HousePlug, Users, Zap } from 'lucide-react';
 
 import { getClosestEnergyUnit, getFormattedPotentielSolaire } from '../../../utils/energy-utils';
+import { Thresholds } from '../../Map/constants';
 
 const UNKNOWN_TEXTS = {
 	potentielSolaire: '—',
 	nbEleves: "Nombre d'élèves concernés inconnu",
 };
 
-type CarteLevel = 'etablissement' | 'commune' | 'departement' | 'region';
-
 interface PotentielSolaireCardProps {
 	potentielSolaire?: number;
 	potentielNbFoyers?: number;
 	nbEleves?: number;
-	level?: CarteLevel;
+	thresholds: Thresholds;
 	header?: React.ReactNode;
 	grise?: boolean;
 }
@@ -39,7 +38,7 @@ export default function PotentielSolaireCard({
 	potentielSolaire,
 	potentielNbFoyers,
 	nbEleves,
-	level,
+	thresholds,
 	header,
 	grise,
 }: PotentielSolaireCardProps) {
@@ -78,10 +77,12 @@ export default function PotentielSolaireCard({
 				<p className='text-sm font-bold'>Potentiel de production annuelle&nbsp;:</p>
 			</div>
 			<div className='flex items-center gap-2 font-bold text-blue'>
-				{potentielSolaire !== undefined && level ? (
+				{potentielSolaire !== undefined ? (
 					<div
 						className='border-1 print-bg h-4 w-4 rounded-full border border-slate-400'
-						style={{ backgroundColor: getColorForPotentiel(level, potentielSolaire) }}
+						style={{
+							backgroundColor: getColorForPotentiel(thresholds, potentielSolaire),
+						}}
 					/>
 				) : (
 					<div className='border-1 h-4 w-4 rounded-full border border-slate-400' />

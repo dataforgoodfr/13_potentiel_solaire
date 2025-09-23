@@ -1,5 +1,6 @@
 import { Etablissement } from '@/app/models/etablissements';
 
+import { COLOR_THRESHOLDS } from '../../Map/constants';
 import ActionButtons from '../shared/ActionButtons';
 import PotentielSolaireCard from '../shared/PotentielSolaireCard';
 import EtablissementCard from './EtablissementCard';
@@ -47,7 +48,7 @@ export default function FicheEtablissement({
 				potentielSolaire={etablissement.potentiel_solaire}
 				potentielNbFoyers={etablissement.potentiel_nb_foyers}
 				nbEleves={etablissement.nb_eleves ?? undefined}
-				level='etablissement'
+				thresholds={COLOR_THRESHOLDS['etablissement']}
 				header={<InterpretationMessage niveau_potentiel={etablissement.niveau_potentiel} />}
 				grise={!donneesDisponibles}
 			/>

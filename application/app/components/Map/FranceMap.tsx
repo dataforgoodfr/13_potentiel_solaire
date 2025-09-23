@@ -510,7 +510,18 @@ export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProp
 	);
 
 	return (
-		<div className='relative flex h-full w-full flex-col'>
+		<div
+			role='application'
+			aria-label='Carte interactive de la France présentant les régions, départements, communes et établissements'
+			aria-describedby='map-description'
+			className='relative flex h-full w-full flex-col'
+		>
+			<div id='map-description' className='sr-only'>
+				Cette carte interactive montre le potentiel solaire des toits des établissements
+				scolaires à travers la France métropolitaine et les DROM. Vous pouvez explorer les
+				données visuellement ou accéder aux fiches détaillées via la barre de recherche. Les
+				informations sont également accessibles sans la carte.
+			</div>
 			<MapFromReactMapLibre
 				ref={handleMapRef}
 				initialViewState={MOBILE_VIEW_STATE}
@@ -643,7 +654,7 @@ export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProp
 					</Source>
 				)}
 				{!hideToolbar && (
-					<div className='absolute inset-x-0 bottom-24 z-map-legend flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+					<div className='z-map-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4 print:hidden'>
 						<Legend thresholds={COLOR_THRESHOLDS[level]} />
 						<MenuDrom />
 					</div>

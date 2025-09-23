@@ -96,6 +96,7 @@ export default function ActionButtons({
 				onClick={handleShare}
 				title='Partager'
 				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+        aria-label='Partager la page'
 			>
 				<Share2 className='h-5 w-5' />
 			</button>
@@ -104,6 +105,7 @@ export default function ActionButtons({
 				onClick={handleDownload}
 				title='Télécharger'
 				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
+        aria-label='Télécharger la fiche'
 			>
 				<Download />
 			</button>
