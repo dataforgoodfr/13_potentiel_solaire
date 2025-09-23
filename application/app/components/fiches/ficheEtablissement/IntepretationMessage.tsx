@@ -44,11 +44,13 @@ const InterpretationMessage = ({ niveau_potentiel }: InterpretationMessageProps)
 						width={143}
 						height={130}
 						className='absolute -bottom-16 -left-8 animate-slide-in motion-reduce:animate-none print:animate-none'
+            aria-hidden='true'
 					/>
 				</div>
 
 				<div className='w-2/3'>
 					<p className='text-sm font-normal md:text-base'>
+						<span className='sr-only'>Niveau de potentiel solaire : </span>
 						{SOLAR_TEXT[niveau_potentiel]}
 					</p>
 				</div>

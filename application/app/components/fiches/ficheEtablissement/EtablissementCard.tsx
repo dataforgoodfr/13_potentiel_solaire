@@ -6,7 +6,7 @@ type EtablissementCardProps = Pick<
 >;
 
 const UNKNOWN_TEXTS = {
-	name: 'Nom inconnu',
+	name: "Nom de l'établissement inconnu",
 	adresse: 'Adresse inconnue',
 };
 
@@ -17,12 +17,12 @@ const EtablissementCard = ({
 	adresse_3,
 }: EtablissementCardProps) => {
 	return (
-		<div className='text-blue'>
+		<article className='text-blue'>
 			<h1 className='text-2xl font-bold'>{nom_etablissement || UNKNOWN_TEXTS.name}</h1>
 			<p>{adresse_1 || UNKNOWN_TEXTS.adresse}</p>
 			{adresse_2 && <p>{adresse_2}</p>}
 			{adresse_3 && <p>{adresse_3}</p>}
-		</div>
+		</article>
 	);
 };
 

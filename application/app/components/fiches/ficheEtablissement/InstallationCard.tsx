@@ -1,7 +1,7 @@
 import { Ruler } from 'lucide-react';
 
 const UNKNOWN_TEXTS = {
-	surfaceExploitableMax: 'Non disponible',
+	surfaceExploitableMax: 'Superficie non disponible',
 };
 
 interface installationCardProps {
@@ -12,18 +12,25 @@ const InstallationCard = ({ surfaceExploitableMax }: installationCardProps) => {
 	const hasSurface = surfaceExploitableMax !== undefined;
 
 	return (
-		<div>
+		<article>
 			<div className='flex gap-1 text-sm text-grey'>
-				<Ruler />
+				<Ruler aria-hidden='true' focusable='false' />
 				<p className='font-bold'>Superficie exploitable maximale : </p>
 			</div>
-			<p className='text-center font-bold text-blue'>
-				<span className='text-base'>
+			<p
+				className='text-center font-bold text-blue'
+				aria-label={
+					hasSurface
+						? `Superficie exploitable maximale : environ ${surfaceExploitableMax} m²`
+						: `Superficie exploitable maximale : ${UNKNOWN_TEXTS.surfaceExploitableMax}`
+				}
+			>
+				<span className='text-base' aria-hidden='true'>
 					{hasSurface ? `≈${surfaceExploitableMax}` : UNKNOWN_TEXTS.surfaceExploitableMax}
 				</span>{' '}
 				{hasSurface && 'M²'}
 			</p>
-		</div>
+		</article>
 	);
 };
 export default InstallationCard;
