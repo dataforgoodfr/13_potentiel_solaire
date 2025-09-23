@@ -5,26 +5,50 @@ type TabsProps = {
 };
 
 export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
-	const activeTabObj = tabs.find((tab) => tab.id === activeTab);
+	const activeIndex = tabs.findIndex((tab) => tab.id === activeTab);
+
+	function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+		if (e.key === 'ArrowRight') {
+			e.preventDefault();
+			const next = (activeIndex + 1) % tabs.length;
+			onTabChange(tabs[next].id);
+		}
+		if (e.key === 'ArrowLeft') {
+			e.preventDefault();
+			const prev = (activeIndex - 1 + tabs.length) % tabs.length;
+			onTabChange(tabs[prev].id);
+		}
+	}
+
 	return (
 		<>
-			<div className='mb-4 flex print:hidden'>
+			<div
+				className='mb-4 flex print:hidden'
+				role='tablist'
+				aria-label="Choisir un type d'établissement"
+				onKeyDown={handleKeyDown}
+			>
 				{tabs.map((tab) => (
-					<div
+					<button
 						key={tab.id}
-						className={`w-1/2 cursor-pointer truncate rounded-md px-4 py-1 text-sm md:text-base ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
+						role='tab'
+						aria-selected={activeTab === tab.id}
+						aria-controls={`panel-${tab.id}`}
+						id={`tab-${tab.id}`}
+						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
 						onClick={() => onTabChange(tab.id)}
 					>
 						{tab.label}
-					</div>
+					</button>
 				))}
 			</div>
+
 			<div className='hidden print:block'>
-				{activeTabObj && (
+				{activeTab && (
 					<h2>
-						{activeTabObj.id === 'all'
+						{activeTab === 'all'
 							? "Tous type d'établissement"
-							: activeTabObj.label}
+							: tabs.find((t) => t.id === activeTab)?.label}
 					</h2>
 				)}
 			</div>
