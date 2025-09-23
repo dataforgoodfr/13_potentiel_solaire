@@ -4,7 +4,6 @@ const commentAgirContent: StaticPageProps = {
 	title: 'Comment agir ?',
 	sections: [
 		{
-			heading: '',
 			paragraphs: [
 				<strong key='1' className='mb-8'>
 					Merci pour votre intérêt pour la transition énergétique de votre territoire !

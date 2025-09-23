@@ -5,7 +5,6 @@ const aProposContent: StaticPageProps = {
 	title: 'À propos',
 	sections: [
 		{
-			heading: '',
 			paragraphs: [
 				<>
 					L’application <strong>Établissement Solaire</strong> est un nouvel outil pour
