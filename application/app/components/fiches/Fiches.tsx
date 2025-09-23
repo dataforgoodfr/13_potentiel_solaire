@@ -18,6 +18,7 @@ import {
 	TYPE_ETABLISSEMENT_TO_LABEL,
 	TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED,
 } from '../Map/layers/layers';
+import { ScrollButton } from '../ScrollButton';
 import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
@@ -219,11 +220,13 @@ export default function Fiches({
 									onAfterPrint={handleAfterPrint}
 								/>
 							)}
+							<ScrollButton targetId='accordion-fiches' label='Comment agir ?' />
 							<hr className='my-4' />
 							<AccordionCard
 								actions={actionsShort}
 								printOpen={printOpen}
 								contentCss='text-white'
+								id='accordion-fiches'
 							/>
 						</>
 					)}
