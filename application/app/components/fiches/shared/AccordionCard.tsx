@@ -17,11 +17,12 @@ interface AccordionCardProps {
 	}[];
 	printOpen?: boolean;
 	contentCss?: string;
+	id?: string;
 }
 
-export default function AccordionCard({ actions, printOpen, contentCss }: AccordionCardProps) {
+export default function AccordionCard({ actions, printOpen, contentCss, id }: AccordionCardProps) {
 	return (
-		<div className='accordion-wrapper'>
+		<div className='accordion-wrapper' id={id}>
 			{actions.map((action, index) => (
 				<CollapsibleItem
 					key={index}
@@ -49,7 +50,7 @@ function CollapsibleItem({
 		<Collapsible
 			open={printOpen || open}
 			onOpenChange={setOpen}
-			className='bg-darkgrey mb-2 rounded-md border border-blue p-2 text-sm text-white'
+			className='mb-2 rounded-md border border-blue bg-darkgrey p-2 text-sm text-white'
 		>
 			<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
 				<span className='pe-4 text-start'>{action.title}</span>
