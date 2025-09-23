@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import Image from 'next/image';
@@ -12,6 +12,26 @@ import { footerDescription, footerLinks, footerText, partners } from './content/
 
 export default function Footer() {
 	const [isOpen, setIsOpen] = useState(false);
+	const firstFocusableRef = useRef<HTMLHeadingElement>(null);
+
+	useEffect(() => {
+		if (isOpen && firstFocusableRef.current) {
+			firstFocusableRef.current.focus();
+		}
+	}, [isOpen]);
+
+	useEffect(() => {
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape' && isOpen) {
+				setIsOpen(false);
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [isOpen]);
 
 	return (
 		<footer className='z-footer fixed bottom-0 w-full bg-blue text-white' id='footer'>
@@ -63,12 +83,15 @@ export default function Footer() {
 							</button>
 						</div>
 
-						<div className='max-h-[75vh] overflow-y-auto bg-blue transition-all duration-500 ease-in-out'>
+						<div
+							className='max-h-[75vh] overflow-y-auto bg-blue transition-all duration-500 ease-in-out'
+							aria-live='polite'
+						>
 							<div className='mx-auto max-w-screen-xl px-6 pb-6 pt-4'>
 								{/* Open view */}
 								<div className='flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between'>
 									<div className='text-center lg:max-w-xl lg:text-left'>
-										<h2 className='text-base font-bold'>
+										<h2 className='text-base font-bold' ref={firstFocusableRef}>
 											{footerDescription.title}
 										</h2>
 										<div className='mx-auto my-2 h-[1px] w-5 bg-green lg:mx-0'></div>

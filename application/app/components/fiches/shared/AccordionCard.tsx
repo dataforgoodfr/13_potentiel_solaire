@@ -16,13 +16,19 @@ interface AccordionCardProps {
 		content: ReactNode;
 	}[];
 	printOpen?: boolean;
+	contentCss?: string;
 }
 
-export default function AccordionCard({ actions, printOpen }: AccordionCardProps) {
+export default function AccordionCard({ actions, printOpen, contentCss }: AccordionCardProps) {
 	return (
 		<div className='accordion-wrapper'>
 			{actions.map((action, index) => (
-				<CollapsibleItem key={index} action={action} printOpen={printOpen} />
+				<CollapsibleItem
+					key={index}
+					action={action}
+					printOpen={printOpen}
+					contentCss={contentCss}
+				/>
 			))}
 		</div>
 	);
@@ -31,9 +37,11 @@ export default function AccordionCard({ actions, printOpen }: AccordionCardProps
 function CollapsibleItem({
 	action,
 	printOpen = false,
+	contentCss,
 }: {
 	action: { title: ReactNode | string; content: ReactNode };
 	printOpen?: boolean;
+	contentCss?: string;
 }) {
 	const [open, setOpen] = useState(false);
 
@@ -47,7 +55,9 @@ function CollapsibleItem({
 				<span className='pe-4 text-start'>{action.title}</span>
 				<CollapsibleIcon open={open} />
 			</CollapsibleTrigger>
-			<CollapsibleContent className='mt-2 block px-4'>{action.content}</CollapsibleContent>
+			<CollapsibleContent className={`mt-2 block px-4 ${contentCss}`}>
+				{action.content}
+			</CollapsibleContent>
 		</Collapsible>
 	);
 }
