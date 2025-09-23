@@ -6,11 +6,13 @@ import aProposImgSrc from '../../public/images/a-propos.png';
 import dataForGoodImgSrc from '../../public/images/data-for-good-long.png';
 import greenpeaceImgSrc from '../../public/images/greenpeace-long.png';
 import StaticPage from '../components/StaticPage';
-import aProposContent from '../components/content/a-propos';
-import { A_PROPOS_DATA_FOR_GOOD, A_PROPOS_GREENPEACE } from '../components/content/a-propos';
+import aProposContent, {
+	A_PROPOS_DATA_FOR_GOOD,
+	A_PROPOS_GREENPEACE,
+} from '../components/content/a-propos';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
 
-const contentStyle = 'pb-4 leading-relaxed tracking-normal text-sol_ko';
+const contentStyle = 'pb-4 leading-relaxed tracking-normal';
 
 const actionsLong = [
 	{
@@ -36,7 +38,7 @@ const actionsLong = [
 				className='h-12 w-auto object-contain'
 			/>
 		),
-		content: <div className={`${contentStyle} pb-8`}>{A_PROPOS_DATA_FOR_GOOD}</div>,
+		content: <div className={contentStyle}>{A_PROPOS_DATA_FOR_GOOD}</div>,
 	},
 ];
 
@@ -72,7 +74,7 @@ export default function AProposPage() {
 				</div>
 			</div>
 
-			<AccordionCard actions={actionsLong} />
+			<AccordionCard actions={actionsLong} contentCss='text-sol_ko' />
 		</div>
 	);
 }

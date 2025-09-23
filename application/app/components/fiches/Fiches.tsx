@@ -217,7 +217,11 @@ export default function Fiches({
 								/>
 							)}
 							<hr className='my-4' />
-							<AccordionCard actions={actionsShort} printOpen={printOpen} />
+							<AccordionCard
+								actions={actionsShort}
+								printOpen={printOpen}
+								contentCss='text-white'
+							/>
 						</>
 					)}
 				</section>

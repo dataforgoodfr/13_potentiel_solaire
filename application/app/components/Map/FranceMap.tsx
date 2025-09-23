@@ -654,7 +654,7 @@ export default function FranceMap({ selectedPlaces, hideToolbar }: FranceMapProp
 					</Source>
 				)}
 				{!hideToolbar && (
-					<div className='z-map-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4'>
+					<div className='z-map-legend absolute inset-x-0 bottom-24 flex flex-col items-start justify-center px-4 md:flex-row md:items-center md:justify-center md:gap-4 print:hidden'>
 						<Legend thresholds={COLOR_THRESHOLDS[level]} />
 						<MenuDrom />
 					</div>
