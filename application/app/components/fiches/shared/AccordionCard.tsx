@@ -52,10 +52,13 @@ function CollapsibleItem({
 			onOpenChange={setOpen}
 			className='mb-2 rounded-md border border-blue bg-darkgrey p-2 text-sm text-white'
 		>
-			<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
-				<span className='pe-4 text-start'>{action.title}</span>
-				<CollapsibleIcon open={open} />
-			</CollapsibleTrigger>
+			{/* TODO: make heading configurable (h2, h3, ...) */}
+			<h2>
+				<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
+					<span className='pe-4 text-start'>{action.title}</span>
+					<CollapsibleIcon open={open} />
+				</CollapsibleTrigger>
+			</h2>
 			<CollapsibleContent className={`mt-2 block px-4 ${contentCss}`}>
 				{action.content}
 			</CollapsibleContent>

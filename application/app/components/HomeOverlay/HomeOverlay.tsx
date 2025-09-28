@@ -9,7 +9,10 @@ export default function HomeOverlay() {
 	return (
 		<div className='absolute inset-0 z-home-overlay flex h-full w-full flex-col items-center justify-start bg-blue/80 px-4 pb-16 pt-4 sm:pb-4'>
 			<div className='w-full max-w-screen-xl pb-20 pt-0 sm:pb-6 md:pt-4'>
-				<h1 className='font-verdana tracking-sm mb-12 inline-block text-[28px] font-normal leading-normal text-slate-100 sm:mb-24 lg:ms-24 lg:self-start'>
+				<h1
+					className='font-verdana tracking-sm mb-12 inline-block text-[28px] font-normal leading-normal text-slate-100 sm:mb-24 lg:ms-24 lg:self-start'
+					aria-label='Découvrez le potentiel solaire de votre école'
+				>
 					Découvrez le
 					<br />
 					<strong>potentiel solaire</strong> 🔆

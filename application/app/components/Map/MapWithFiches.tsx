@@ -19,6 +19,9 @@ export default function MapWithFiches() {
 
 	return (
 		<div className='relative flex-1 overflow-x-hidden pb-safe-bottom'>
+			{!isInitialView && (
+				<h1 className='sr-only'>Découvrez le potentiel solaire de votre école</h1>
+			)}
 			<Suspense>
 				<HomeOverlay />
 				<FranceMap selectedPlaces={selectedPlaces} hideToolbar={isInitialView} />
