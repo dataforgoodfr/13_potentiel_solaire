@@ -15,9 +15,9 @@ export type MenuDromLocation = {
 
 const buttonStyle =
 	'flex items-center justify-center rounded-md bg-blue border border-white text-sm font-semibold shadow-md flex-shrink-0' +
-	' h-[clamp(2rem,10vw,3rem)] w-[clamp(2rem,10vw,3rem)]';
+	' h-[clamp(2rem,10vw,3rem)] w-[clamp(2rem,10vw,3rem)] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue';
 const buttonActiveStyle = 'bg-slate-500';
-const buttonHoverStyle = 'hover:bg-white';
+const otherButtonStyle = 'hover:bg-white focus:bg-white';
 
 function MenuDrom() {
 	const { activeLocation, handleClickMetropole, handleClickDrom } = useMenuDrom();
@@ -43,11 +43,7 @@ function MenuDrom() {
 				onClick={() => setIsOpen(!isOpen)}
 				className={buttonStyle}
 				aria-expanded={isOpen}
-				aria-label={
-					isOpen
-						? 'Fermer le menu DROM'
-						: 'Ouvrir le menu DROM'
-				}
+				aria-label={isOpen ? 'Fermer le menu DROM' : 'Ouvrir le menu DROM'}
 			>
 				{isOpen ? (
 					<X color='white' aria-hidden='true' />
@@ -61,9 +57,13 @@ function MenuDrom() {
 						<button
 							key={location.codeRegion}
 							onClick={() => handleTabChange(location)}
-							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : buttonHoverStyle}`}
+							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : otherButtonStyle}`}
 							aria-label={`Naviguer vers ${location.name}`}
-              aria-current={activeLocation.codeRegion === location.codeRegion ? 'location' : undefined}
+							aria-current={
+								activeLocation.codeRegion === location.codeRegion
+									? 'location'
+									: undefined
+							}
 						>
 							<Image src={location.icon} alt='' width={24} height={24} />
 						</button>
