@@ -13,7 +13,7 @@ export default function BackButton({ onBack, previousLevel }: BackButtonProps) {
 	return (
 		<Button
 			onClick={onBack}
-			className='flex items-center gap-2 rounded-md border border-white bg-blue text-sm shadow-md'
+			className='flex items-center gap-2 rounded-md border border-white bg-blue text-sm shadow-md hover:bg-blue hover:underline focus:underline'
 			size='sm'
 			aria-label={LEVEL_TO_LABEL_INCLUDING_NATION[previousLevel]}
 		>

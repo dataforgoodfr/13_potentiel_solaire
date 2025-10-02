@@ -11,13 +11,17 @@ import { ArrowUpCircle } from 'lucide-react';
 import { footerDescription, footerLinks, footerText, partners } from './content/footer';
 
 export default function Footer() {
+	const hasMounted = useRef(false);
 	const [isOpen, setIsOpen] = useState(false);
-	const firstFocusableRef = useRef<HTMLHeadingElement>(null);
+	const firstFocusableRef = useRef<HTMLButtonElement>(null);
 
 	useEffect(() => {
-		if (isOpen && firstFocusableRef.current) {
-			firstFocusableRef.current.focus();
+		// avoid focusing on first mount
+		if (!hasMounted.current) {
+			hasMounted.current = true;
+			return;
 		}
+		firstFocusableRef.current?.focus();
 	}, [isOpen]);
 
 	useEffect(() => {
@@ -34,7 +38,16 @@ export default function Footer() {
 	}, [isOpen]);
 
 	return (
-		<footer className='z-footer fixed bottom-0 w-full bg-blue text-white' id='footer'>
+		<footer
+			className='fixed bottom-0 z-footer w-full bg-blue text-white'
+			id='footer'
+			tabIndex={-1}
+			onFocus={(e) => {
+				if (e.target === e.currentTarget) {
+					setIsOpen(true);
+				}
+			}}
+		>
 			{/* Only show footer bar when drawer is closed */}
 			{!isOpen && (
 				<>
@@ -44,6 +57,7 @@ export default function Footer() {
 							aria-expanded={isOpen}
 							aria-controls='footer'
 							className='flex cursor-pointer items-center gap-2'
+							ref={firstFocusableRef}
 						>
 							<ArrowUpCircle
 								className={`h-6 w-6 stroke-green transition-transform ${
@@ -64,13 +78,14 @@ export default function Footer() {
 
 			{isOpen &&
 				createPortal(
-					<div className='z-footer-drawer fixed bottom-0 left-0 right-0 bg-blue text-white'>
+					<div className='fixed bottom-0 left-0 right-0 z-footer-drawer bg-blue text-white'>
 						<div className='flex w-full items-center justify-center border-t border-green bg-blue py-2'>
 							<button
 								onClick={() => setIsOpen(!isOpen)}
 								aria-expanded={isOpen}
 								aria-controls='footer'
 								className='flex cursor-pointer items-center gap-2'
+								ref={firstFocusableRef}
 							>
 								<ArrowUpCircle
 									className={`h-6 w-6 stroke-green transition-transform ${
@@ -91,7 +106,7 @@ export default function Footer() {
 								{/* Open view */}
 								<div className='flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between'>
 									<div className='text-center lg:max-w-xl lg:text-left'>
-										<h2 className='text-base font-bold' ref={firstFocusableRef}>
+										<h2 className='text-base font-bold'>
 											{footerDescription.title}
 										</h2>
 										<div className='mx-auto my-2 h-[1px] w-5 bg-green lg:mx-0'></div>

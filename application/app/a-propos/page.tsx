@@ -17,26 +17,34 @@ const contentStyle = 'pb-4 leading-relaxed tracking-normal';
 const actionsLong = [
 	{
 		title: (
-			<Image
-				src={greenpeaceImgSrc}
-				alt='Logo de Greenpeace'
-				width={261}
-				height={37}
-				className='h-12 w-auto object-contain'
-			/>
+			<>
+				<span className='sr-only'>Greenpeace</span>
+				<Image
+					src={greenpeaceImgSrc}
+					alt=''
+					width={261}
+					height={37}
+					className='h-12 w-auto object-contain'
+					aria-hidden={true}
+				/>
+			</>
 		),
 		content: <div className={contentStyle}>{A_PROPOS_GREENPEACE}</div>,
 	},
 	{
 		title: (
-			<Image
-				src={dataForGoodImgSrc}
-				alt='Logo de Data for good'
-				width={126}
-				height={48}
-				style={{ borderRadius: '30px' }}
-				className='h-12 w-auto object-contain'
-			/>
+			<>
+				<span className='sr-only'>Data for Good</span>
+				<Image
+					src={dataForGoodImgSrc}
+					alt=''
+					width={126}
+					height={48}
+					style={{ borderRadius: '30px' }}
+					className='h-12 w-auto object-contain'
+					aria-hidden={true}
+				/>
+			</>
 		),
 		content: <div className={contentStyle}>{A_PROPOS_DATA_FOR_GOOD}</div>,
 	},
