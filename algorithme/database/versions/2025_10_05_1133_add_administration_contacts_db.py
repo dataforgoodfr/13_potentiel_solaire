@@ -44,7 +44,7 @@ WITH annuaire_raw AS (
 annuaire_marseille_expanded AS (
     SELECT
         *,
-        regexp_extract_all(lower(nom), '([0-9]{1,2})(?:er|e)?', 1) AS arr_numbers
+        regexp_extract_all(lower(nom), '([0-9]{{1,2}})(?\:er|e)?', 1) AS arr_numbers
     FROM annuaire_raw
     WHERE code_commune LIKE '132%'
 ),
