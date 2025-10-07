@@ -50,11 +50,11 @@ function CollapsibleItem({
 		<Collapsible
 			open={printOpen || open}
 			onOpenChange={setOpen}
-			className='mb-2 rounded-md border border-blue bg-darkgrey p-2 text-sm text-white'
+			className='mb-2 rounded-md border border-blue bg-darkgrey p-2 text-white'
 		>
 			{/* TODO: make heading configurable (h2, h3, ...) */}
 			<h2>
-				<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 text-sm font-bold'>
+				<CollapsibleTrigger className='flex w-full items-center justify-between px-4 py-2 font-bold'>
 					<span className='pe-4 text-start'>{action.title}</span>
 					<CollapsibleIcon open={open} />
 				</CollapsibleTrigger>

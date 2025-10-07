@@ -46,7 +46,7 @@ export default function CommentAgirPage() {
 								<Image
 									src={commentagir}
 									alt='école'
-									className='mt-8 h-auto w-full rounded-2xl object-contain'
+									className='mb-6 h-auto w-full rounded-2xl object-contain'
 									width={455}
 									height={250}
 								/>
@@ -55,7 +55,7 @@ export default function CommentAgirPage() {
 					/>
 				</div>
 
-				<div className='order-1 mt-8 hidden flex-1 shrink md:order-2 md:ml-10 md:mt-24 md:block'>
+				<div className='order-1 hidden flex-1 shrink md:order-2 md:ml-10 md:mt-24 md:block'>
 					<Image
 						src={commentagir}
 						alt='école'
@@ -66,7 +66,7 @@ export default function CommentAgirPage() {
 				</div>
 			</div>
 
-			<AccordionCard actions={actionsLong} contentCss='text-sol_ko' />
+			<AccordionCard actions={actionsLong} contentCss='text-sol_ko text-base' />
 		</div>
 	);
 }

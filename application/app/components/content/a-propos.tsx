@@ -1,46 +1,54 @@
+/* eslint-disable react/jsx-key */
 import type { StaticPageProps } from '../StaticPage';
 import { ACTION_LINKS } from './actions';
 
+/**
+ * Content for "À propos" page
+ * Reminder :
+ * - heading properties are turned into h2 by StaticPage component
+ * - paragraphs keys are handled in StaticPage component
+ */
 const aProposContent: StaticPageProps = {
 	title: 'À propos',
 	sections: [
 		{
-			heading: '',
 			paragraphs: [
-				<>
-					L’application <strong>Établissement Solaire</strong> est un nouvel outil pour
-					accélérer la transition énergétique des territoires grâce à nos écoles, collèges
-					et lycées.
-				</>,
-				<>
-					Oui, nos établissements scolaires représentent un atout indéniable : leurs toits
-					peuvent accueillir des panneaux solaires, et ainsi participer au développement
-					des énergies renouvelables sur les territoires, indispensable pour l’avenir
-					énergétique et écologique de la France.
-				</>,
-				<>
-					Quel plus beau symbole que les lieux d’épanouissement et d’apprentissage des
-					enfants pour accueillir l’avenir de la transition énergétique ?
-				</>,
-				<>
-					Destinée à la fois aux mairies, aux collectivités locales, aux parents d’élèves,
-					ou tout simplement aux citoyennes et citoyens,{' '}
-					<strong>Établissement Solaire</strong> permet d’évaluer le potentiel solaire de
-					chaque bâtiment scolaire public en France.
-				</>,
-				<>
-					Les écoles peuvent participer à la transition énergétique! L’application{' '}
-					<strong>
-						<span className='text-sol_ok'>Établissement Solaire</span> vous guide pour
-						les trouver
-					</strong>
-					.
-				</>,
-				<>
-					<strong className='text-sol_top'>
-						Ensemble, agissons pour la transition énergétique de nos territoires !
-					</strong>
-				</>,
+				<article className='space-y-6'>
+					<p>
+						L’application <strong>Établissement Solaire</strong> est un nouvel outil
+						pour accélérer la transition énergétique des territoires grâce à nos écoles,
+						collèges et lycées.
+					</p>
+					<p>
+						Oui, nos établissements scolaires représentent un atout indéniable : leurs
+						toits peuvent accueillir des panneaux solaires, et ainsi participer au
+						développement des énergies renouvelables sur les territoires, indispensable
+						pour l’avenir énergétique et écologique de la France.
+					</p>
+					<p>
+						Quel plus beau symbole que les lieux d’épanouissement et d’apprentissage des
+						enfants pour accueillir l’avenir de la transition énergétique ?
+					</p>
+					<p>
+						Destinée à la fois aux mairies, aux collectivités locales, aux parents
+						d’élèves, ou tout simplement aux citoyennes et citoyens,{' '}
+						<strong>Établissement Solaire</strong> permet d’évaluer le potentiel solaire
+						de chaque bâtiment scolaire public en France.
+					</p>
+					<p>
+						Les écoles peuvent participer à la transition énergétique! L’application{' '}
+						<strong>
+							<span className='text-sol_ok'>Établissement Solaire</span> vous guide
+							pour les trouver
+						</strong>
+						.
+					</p>
+					<p>
+						<strong className='text-sol_top'>
+							Ensemble, agissons pour la transition énergétique de nos territoires !
+						</strong>
+					</p>
+				</article>,
 			],
 		},
 	],
