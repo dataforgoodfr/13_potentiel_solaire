@@ -66,7 +66,7 @@ export default function CommentAgirPage() {
 				</div>
 			</div>
 
-			<AccordionCard actions={actionsLong} contentCss='text-sol_ko' />
+			<AccordionCard actions={actionsLong} contentCss='text-sol_ko text-base' />
 		</div>
 	);
 }
