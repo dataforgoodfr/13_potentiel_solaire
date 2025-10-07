@@ -122,12 +122,12 @@ const notreMethodologieContent: StaticPageProps = {
 			id: 'section-data',
 			paragraphs: [
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-sources-des-donnees-utilisees'
 				>
 					Sources des données utilisées
 				</h3>,
-				<h4 className='mb-2 mt-4 text-[18px] font-semibold' id='h-bd-topor-de-lign'>
+				<h4 className='mb-2 mt-4 text-[1.125rem] font-semibold' id='h-bd-topor-de-lign'>
 					<a
 						href='https://geoservices.ign.fr/bdtopo'
 						target='_blank'
@@ -155,7 +155,7 @@ const notreMethodologieContent: StaticPageProps = {
 					<p> Les données datent de mars 2025.</p>
 				</section>,
 				<h4
-					className='mb-2 mt-4 text-[18px] font-semibold'
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
 					id='h-annuaire-des-etablissements-scolaires'
 				>
 					<a
@@ -184,7 +184,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				<h4
-					className='mb-2 mt-4 text-[18px] font-semibold'
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
 					id='h-liste-des-immeubles-proteges'
 				>
 					<a
@@ -208,7 +208,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				<h4
-					className='mb-2 mt-4 text-[18px] font-semibold'
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
 					id='h-modeles-numeriques-de-surfaces-correles'
 				>
 					<a
@@ -247,7 +247,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-methode-pour-identifier-les-batiments-dun-etablissement-scolaire'
 				>
 					Méthode pour identifier les bâtiments d’un établissement scolaire
@@ -284,7 +284,7 @@ const notreMethodologieContent: StaticPageProps = {
 						l’établissement concerné.
 					</p>
 				</section>,
-				<h4 className='mb-2 mt-4 text-[18px] font-semibold' id='h-limites'>
+				<h4 className='mb-2 mt-4 text-[1.125rem] font-semibold' id='h-limites'>
 					Limites
 				</h4>, //TODO: specific lower heading style
 				<section className='space-y-4' aria-labelledby='h-limites'>
@@ -301,7 +301,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</ul>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-methode-pour-determiner-si-un-etablissement-scolaire-est-protege'
 				>
 					Méthode pour déterminer si un établissement scolaire est protégé
@@ -334,7 +334,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-calcul-de-la-surface-exploitable-maximum'
 				>
 					Calcul de la surface exploitable maximum
@@ -357,7 +357,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				//TODO: specific lower heading style
-				<h4 className='mb-2 mt-4 text-[18px] font-semibold' id='h-limites-1'>
+				<h4 className='mb-2 mt-4 text-[1.125rem] font-semibold' id='h-limites-1'>
 					Limites
 				</h4>,
 				<section className='space-y-4' aria-labelledby='h-limites-1'>
@@ -370,7 +370,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</ul>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-calcul-du-potentiel-solaire'
 				>
 					Calcul du potentiel solaire
@@ -406,7 +406,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				// TODO: specific lower heading style
-				<h4 className='mb-2 mt-4 text-[18px] font-semibold' id='h-limites-2'>
+				<h4 className='mb-2 mt-4 text-[1.125rem] font-semibold' id='h-limites-2'>
 					Limites
 				</h4>,
 				<section className='space-y-4' aria-labelledby='h-limites-2'>
@@ -428,13 +428,13 @@ const notreMethodologieContent: StaticPageProps = {
 					</ul>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-evaluation-de-la-qualite-des-resultats'
 				>
 					Evaluation de la qualité des résultats
 				</h3>,
 				<h4
-					className='mb-2 mt-4 text-[18px] font-semibold'
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
 					id='h-construction-de-lechantillon'
 				>
 					Construction de l’échantillon
@@ -482,7 +482,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-calculs-detailles-effectues-sur-lechantillon'
 				>
 					Calculs détaillés effectués sur l’échantillon
@@ -519,7 +519,10 @@ const notreMethodologieContent: StaticPageProps = {
 						</li>
 					</ul>
 				</section>,
-				<h4 className='mb-2 mt-4 text-[18px] font-semibold' id='h-resultats-de-levaluation'>
+				<h4
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
+					id='h-resultats-de-levaluation'
+				>
 					Résultats de l’évaluation
 				</h4>,
 				<section className='space-y-4' aria-labelledby='h-resultats-de-levaluation'>
@@ -569,7 +572,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</ul>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='#h-equivalent-a-la-consommation-electrique-annuel'
 				>
 					Équivalent à la consommation électrique annuel
@@ -641,7 +644,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</ul>
 				</section>,
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-pourquoi-avoir-utilise-une-methode-de-calcul-simplifiee'
 				>
 					Pourquoi avoir utilisé une méthode de calcul simplifiée ?
@@ -736,13 +739,13 @@ const notreMethodologieContent: StaticPageProps = {
 			id: 'section-web',
 			paragraphs: [
 				<h3
-					className='mb-2 mt-5 text-[20px] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-leco-conception-au-coeur-du-projet'
 				>
 					L’eco-conception au cœur du projet
 				</h3>,
 				<h4
-					className='mb-2 mt-4 text-[18px] font-semibold'
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
 					id='h-pourquoi-un-site-eco-concu'
 				>
 					Pourquoi un site éco-conçu ?
@@ -762,10 +765,13 @@ const notreMethodologieContent: StaticPageProps = {
 						aussi le cas au niveau de la conception web (UX-UI-Front end).
 					</p>
 				</section>,
-				<h4 className='mb-2 mt-4 text-[18px] font-semibold' id='h-criteres-mis-en-place'>
+				<h4
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
+					id='h-criteres-mis-en-place'
+				>
 					Critères mis en place
 				</h4>,
-				<h5 className='mb-1 mt-3 text-base font-semibold' id='h-mobile-first'>
+				<h5 className='mb-1 mt-3 text-[1rem] font-semibold' id='h-mobile-first'>
 					Mobile first
 				</h5>,
 				<p>
@@ -773,7 +779,7 @@ const notreMethodologieContent: StaticPageProps = {
 					que sur l’essentiel et développons des composants plus facilement réutilisables
 					permettant une économie de moyens.
 				</p>,
-				<h5 className='mb-1 mt-3 text-base font-semibold' id='h-composants-et-animations'>
+				<h5 className='mb-1 mt-3 text-[1rem] font-semibold' id='h-composants-et-animations'>
 					Composants et animations
 				</h5>,
 				<p>
@@ -785,7 +791,7 @@ const notreMethodologieContent: StaticPageProps = {
 					même si des compromis ont été fait pour garantir confort d’utilisation et
 					accessibilité.
 				</p>,
-				<h5 className='mb-1 mt-3 text-base font-semibold' id='h-parcours-optimises'>
+				<h5 className='mb-1 mt-3 text-[1rem] font-semibold' id='h-parcours-optimises'>
 					Parcours optimisés
 				</h5>,
 				<p>
@@ -793,7 +799,7 @@ const notreMethodologieContent: StaticPageProps = {
 					cibles), le parcours de l’utilisateur est facilité tout en réduisant la charge
 					du serveur.
 				</p>,
-				<h5 className='mb-1 mt-3 text-base font-semibold' id='h-dark-mode'>
+				<h5 className='mb-1 mt-3 text-[1rem] font-semibold' id='h-dark-mode'>
 					Dark mode
 				</h5>,
 				<p>
@@ -802,7 +808,7 @@ const notreMethodologieContent: StaticPageProps = {
 					Encore une fois un compromis a été choisi pour garantir une bonne lisibilité
 					(notamment de jour) sur les fiches.
 				</p>,
-				<h5 className='mb-1 mt-3 text-base font-semibold' id='h-formulaire-free'>
+				<h5 className='mb-1 mt-3 text-[1rem] font-semibold' id='h-formulaire-free'>
 					Formulaire-free
 				</h5>,
 				<p>
@@ -811,7 +817,7 @@ const notreMethodologieContent: StaticPageProps = {
 					formulaires de contact.
 				</p>,
 				<h5
-					className='mb-1 mt-3 text-base font-semibold'
+					className='mb-1 mt-3 text-[1rem] font-semibold'
 					id='h-utilisation-de-police-systeme'
 				>
 					Utilisation de police système
@@ -821,7 +827,7 @@ const notreMethodologieContent: StaticPageProps = {
 					l’utilisateur n’a pas besoin d’en télécharger une supplémentaire, réduisant la
 					consommation de la bande passante et accélérant le chargement du site.
 				</p>,
-				<h4 className='mb-2 mt-4 text-[18px] font-semibold' id='h-resultats'>
+				<h4 className='mb-2 mt-4 text-[1.125rem] font-semibold' id='h-resultats'>
 					Résultats
 				</h4>,
 				<section className='space-y-4' aria-labelledby='h-resultats'>
