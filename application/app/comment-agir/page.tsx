@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Image from 'next/image';
 
 import commentagir from '../../public/images/comment-agir.png';
@@ -12,6 +11,10 @@ import {
 } from '../components/content/accordion-actions';
 import commentAgirContent from '../components/content/comment-agir';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
+
+export const metadata: Metadata = {
+	title: 'Comment agir ? - Établissement Solaire',
+};
 
 const actionsLong = [
 	{
