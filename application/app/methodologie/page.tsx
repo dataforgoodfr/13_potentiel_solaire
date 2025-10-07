@@ -1,7 +1,7 @@
 'use client';
 
 import StaticPage from '../components/StaticPage';
-import notreMethodologieContent from '../components/content/notre-methodologie';
+import notreMethodologieContent from '../components/content/methodologie';
 
 export default function NotreMethodologiePage() {
 	return (
