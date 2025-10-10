@@ -27,3 +27,9 @@ codes_postaux:
   url: "https://object.files.data.gouv.fr/hydra-parquet/hydra-parquet/54535896c301b2b3928f8db6305309ad.parquet"
   filename: "codes_postaux.parquet"
   description: "base officielle des codes postaux"
+
+annuaire_administration:
+  url: "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/annuaire-de-ladministration-base-de-donnees-locales/exports/parquet?lang=fr&refine=pivotlocal%3A%22Mairie%22&timezone=Europe%2FBerlin"
+  filename: "annuaire_administration.parquet"
+  description: "Annuaire de l'administration - Base de donnees locales"
+  
