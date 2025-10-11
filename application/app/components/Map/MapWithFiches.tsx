@@ -11,7 +11,8 @@ import Fiches from '../fiches/Fiches';
 import FranceMap from './FranceMap';
 
 export default function MapWithFiches() {
-	const { etablissement, commune, departement, region, isFetching } = useSelectedPlaces();
+	const { etablissement, commune, departement, region, contactMairie, isFetching } =
+		useSelectedPlaces();
 	const [isFicheOpen] = useActiveTab();
 	const { isInitialView } = useInitialView();
 
@@ -32,6 +33,7 @@ export default function MapWithFiches() {
 					departement={departement}
 					region={region}
 					etablissement={etablissement}
+					contactMairie={contactMairie}
 					isFetching={isFetching}
 				/>
 			)}
