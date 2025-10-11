@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Image from 'next/image';
 
 import aProposImgSrc from '../../public/images/a-propos.png';
@@ -11,6 +10,10 @@ import aProposContent, {
 	A_PROPOS_GREENPEACE,
 } from '../components/content/a-propos';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
+
+export const metadata: Metadata = {
+	title: 'À propos - Établissement Solaire',
+};
 
 const contentStyle = 'pb-4 leading-relaxed tracking-normal';
 
