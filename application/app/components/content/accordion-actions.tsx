@@ -129,70 +129,74 @@ export const PARTICULIER_INTRO_LONG = (
 );
 
 export const PARTICULIER_BODY = (
-	<ul className='list-inside list-disc'>
+	<>
 		<p className='mb-6 font-bold'>
 			Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur vos
 			territoires :
 		</p>
-		<li className='mb-8 mt-2'>
-			Signer notre pétition nationale demandant des moyens et des actions d’urgence pour
-			<span className='font-bold'>
-				&nbsp;la rénovation énergétique des établissements scolaires :
-			</span>
-			<a
-				href={ACTION_LINKS.petition.url}
-				target='_blank'
-				rel='noopener noreferrer'
-				className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
-			>
-				{ACTION_LINKS.petition.label}
-			</a>
-		</li>
-		<li className='mb-8'>
-			Informer
-			<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
-			sur le potentiel solaire des écoles de la commune et interroger pour savoir ce qu’elle
-			prévoit de faire :
-			<a
-				href={ACTION_LINKS.contactElu.url}
-				target='_blank'
-				rel='noopener noreferrer'
-				className='my-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
-			>
-				{ACTION_LINKS.contactElu.label}
-			</a>
-			<em>
-				<strong>Information utile</strong>&nbsp;: Sur le site adresses-mairies.fr cherchez
-				votre commune dans la barre de recherche puis copiez l’adresse mail présente sur la
-				fiche de votre élu(e).
-			</em>
-		</li>
-		<li className='mb-8'>
-			Découvrez les projets de transition énergétique près de chez vous :
-			<p>
+		<ul className='list-inside list-disc'>
+			<li className='mb-8 mt-2'>
+				Signer notre pétition nationale demandant des moyens et des actions d’urgence pour
+				<span className='font-bold'>
+					&nbsp;la rénovation énergétique des établissements scolaires :
+				</span>
 				<a
-					href='https://energie-partagee.org/projets/'
+					href={ACTION_LINKS.petition.url}
 					target='_blank'
 					rel='noopener noreferrer'
+					className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
+				>
+					{ACTION_LINKS.petition.label}
+				</a>
+			</li>
+			<li className='mb-8'>
+				Informer
+				<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
+				sur le potentiel solaire des écoles de la commune et interroger pour savoir ce
+				qu’elle prévoit de faire :
+				<a
+					href={ACTION_LINKS.contactElu.url}
+					target='_blank'
+					rel='noopener noreferrer'
+					className='my-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
+				>
+					{ACTION_LINKS.contactElu.label}
+				</a>
+				<em>
+					<strong>Information utile</strong>&nbsp;: Sur le site adresses-mairies.fr
+					cherchez votre commune dans la barre de recherche puis copiez l’adresse mail
+					présente sur la fiche de votre élu(e).
+				</em>
+			</li>
+			<li className='mb-8'>
+				Découvrez les projets de transition énergétique près de chez vous :
+				<p>
+					<a
+						href='https://energie-partagee.org/projets/'
+						target='_blank'
+						rel='noopener noreferrer'
+						className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+					>
+						— Carte de l’énergie citoyenne
+					</a>
+				</p>
+			</li>
+		</ul>
+	</>
+);
+
+export const PARTICULIER_END = (
+	<ul className='list-inside list-disc'>
+		<li>
+			Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” :
+			<p className='mb-4'>
+				<a
+					href={ACTION_LINKS.commentAgir.url}
 					className='text-green underline decoration-dotted decoration-2 underline-offset-4'
 				>
-					— Carte de l’énergie citoyenne
+					— {ACTION_LINKS.commentAgir.label}
 				</a>
 			</p>
 		</li>
 	</ul>
-);
-
-export const PARTICULIER_END = (
-	<li>
-		Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” :
-		<p className='mb-4'>
-			<a
-				href={ACTION_LINKS.commentAgir.url}
-				className='text-green underline decoration-dotted decoration-2 underline-offset-4'
-			>
-				— {ACTION_LINKS.commentAgir.label}
-			</a>
-		</p>
-	</li>
 );
