@@ -5,12 +5,9 @@ import aProposImgSrc from '../../public/images/a-propos.png';
 import dataForGoodImgSrc from '../../public/images/data-for-good-long.png';
 import greenpeaceImgSrc from '../../public/images/greenpeace-long.png';
 import StaticPage from '../components/StaticPage';
-import aProposContent, {
-	A_PROPOS_DATA_FOR_GOOD,
-	A_PROPOS_GREENPEACE,
-} from '../components/content/a-propos';
-import { PAGE_A_PROPOS_METADATA } from '../components/content/seo';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
+import aProposContent, { A_PROPOS_DATA_FOR_GOOD, A_PROPOS_GREENPEACE } from '../content/a-propos';
+import { PAGE_A_PROPOS_METADATA } from '../content/seo';
 
 export const metadata: Metadata = PAGE_A_PROPOS_METADATA;
 

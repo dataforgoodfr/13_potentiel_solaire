@@ -8,7 +8,7 @@ import Providers from './Providers';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 import SkipLinks from './components/SkipLinks';
-import { DEFAULT_METADATA } from './components/content/seo';
+import { DEFAULT_METADATA } from './content/seo';
 import './styles/globals.css';
 import { InitialViewProvider } from './utils/providers/initialViewProvider';
 

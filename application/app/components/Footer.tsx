@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 import { ArrowUpCircle } from 'lucide-react';
 
-import { footerDescription, footerLinks, footerText, partners } from './content/footer';
+import { footerDescription, footerLinks, footerText, partners } from '../content/footer';
 
 export default function Footer() {
 	const hasMounted = useRef(false);
