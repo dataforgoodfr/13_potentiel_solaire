@@ -1,7 +1,10 @@
-'use client';
+import { Metadata } from 'next';
 
 import StaticPage from '../components/StaticPage';
-import notreMethodologieContent from '../components/content/methodologie';
+import notreMethodologieContent from '../content/methodologie';
+import { PAGE_METHODOLOGIE_METADATA } from '../content/seo';
+
+export const metadata: Metadata = PAGE_METHODOLOGIE_METADATA;
 
 export default function NotreMethodologiePage() {
 	return (

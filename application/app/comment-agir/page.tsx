@@ -1,17 +1,19 @@
-'use client';
-
+import { Metadata } from 'next';
 import Image from 'next/image';
 
 import commentagir from '../../public/images/comment-agir.png';
 import StaticPage from '../components/StaticPage';
+import AccordionCard from '../components/fiches/shared/AccordionCard';
 import {
 	ELU_BODY,
 	ELU_INTRO_LONG,
 	PARTICULIER_BODY,
 	PARTICULIER_INTRO_LONG,
-} from '../components/content/accordion-actions';
-import commentAgirContent from '../components/content/comment-agir';
-import AccordionCard from '../components/fiches/shared/AccordionCard';
+} from '../content/accordion-actions';
+import commentAgirContent from '../content/comment-agir';
+import { PAGE_COMMENT_AGIR_METADATA } from '../content/seo';
+
+export const metadata: Metadata = PAGE_COMMENT_AGIR_METADATA;
 
 const actionsLong = [
 	{

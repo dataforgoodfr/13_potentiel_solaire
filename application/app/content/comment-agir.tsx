@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import type { StaticPageProps } from '../StaticPage';
+import type { StaticPageProps } from '../components/StaticPage';
 
 /**
  * Content for "Comment agir ?" page

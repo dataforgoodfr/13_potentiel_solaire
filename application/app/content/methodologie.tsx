@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import type { StaticPageProps } from '../StaticPage';
+import type { StaticPageProps } from '../components/StaticPage';
 
 const linkStyle =
 	'text-green underline decoration-dotted decoration-2 underline-offset-4 transition hover:decoration-solid';
@@ -752,13 +752,13 @@ const notreMethodologieContent: StaticPageProps = {
 				</h4>,
 				<section className='space-y-4' aria-labelledby='h-pourquoi-un-site-eco-concu'>
 					<p>
-						Pour accompagner la démarche de Greenpeace, visant une utilisation par les
-						collectivités publiques des énergies renouvelables, et ce de manière plus
-						responsable (avec une sobriété énergétique, comme le préconise par exemple
-						le scénario NégaWatt), la réalisation de l’outil Établissement solaire a
-						pris en compte un certain nombre de critères d’éco-conception (pour la
-						plupart issus du RGESN). Ceci afin de limiter l’impact énergétique et
-						carbone de cet outil numérique.
+						Pour accompagner la démarche de Greenpeace France, visant une utilisation
+						par les collectivités publiques des énergies renouvelables, et ce de manière
+						plus responsable (avec une sobriété énergétique, comme le préconise par
+						exemple le scénario NégaWatt), la réalisation de l’outil Établissement
+						solaire a pris en compte un certain nombre de critères d’éco-conception
+						(pour la plupart issus du RGESN). Ceci afin de limiter l’impact énergétique
+						et carbone de cet outil numérique.
 						<br />
 						Ce choix de conception intervient à tous les niveaux, nous l’avons vu pour
 						la partie Data, avec l’utilisation d’une méthode de calcul simplifié. C’est

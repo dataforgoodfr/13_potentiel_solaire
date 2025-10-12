@@ -11,6 +11,7 @@ import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { ALLOWED_TABS, codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
+import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../../content/accordion-actions';
 import Loading from '../Loading';
 import {
 	LEVEL_TO_LABEL,
@@ -19,7 +20,6 @@ import {
 	TYPE_ETABLISSEMENT_TO_LABEL_SHORTENED,
 } from '../Map/layers/layers';
 import ScrollButton from '../ScrollButton';
-import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../content/accordion-actions';
 import FicheCommune from './ficheCommune';
 import FicheDepartement from './ficheDepartement';
 import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
