@@ -752,7 +752,7 @@ const notreMethodologieContent: StaticPageProps = {
 				</h4>,
 				<section className='space-y-4' aria-labelledby='h-pourquoi-un-site-eco-concu'>
 					<p>
-						Pour accompagner la démarche de Greenpeace, visant une utilisation par les
+						Pour accompagner la démarche de Greenpeace France, visant une utilisation par les
 						collectivités publiques des énergies renouvelables, et ce de manière plus
 						responsable (avec une sobriété énergétique, comme le préconise par exemple
 						le scénario NégaWatt), la réalisation de l’outil Établissement solaire a
