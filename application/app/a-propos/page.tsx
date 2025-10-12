@@ -9,11 +9,10 @@ import aProposContent, {
 	A_PROPOS_DATA_FOR_GOOD,
 	A_PROPOS_GREENPEACE,
 } from '../components/content/a-propos';
+import { PAGE_A_PROPOS_METADATA } from '../components/content/seo';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
 
-export const metadata: Metadata = {
-	title: 'À propos - Établissement Solaire',
-};
+export const metadata: Metadata = PAGE_A_PROPOS_METADATA;
 
 const contentStyle = 'pb-4 leading-relaxed tracking-normal';
 

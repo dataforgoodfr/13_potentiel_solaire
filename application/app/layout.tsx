@@ -8,19 +8,11 @@ import Providers from './Providers';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 import SkipLinks from './components/SkipLinks';
+import { DEFAULT_METADATA } from './components/content/seo';
 import './styles/globals.css';
 import { InitialViewProvider } from './utils/providers/initialViewProvider';
 
-export const metadata: Metadata = {
-	title: 'Établissement Solaire',
-	description:
-		'Découvrez Établissement Solaire, l’outil qui révèle le potentiel solaire des toits d’écoles pour accélérer la transition énergétique locale.',
-	openGraph: {
-		title: 'Établissement Solaire – Accélérez la transition énergétique grâce aux toits des écoles',
-		description:
-			"Découvrez le potentiel solaire des toitures scolaires et participez à la transition énergétique de votre territoire avec l'outil Établissement Solaire.",
-	},
-};
+export const metadata: Metadata = DEFAULT_METADATA;
 
 export default function RootLayout({
 	children,

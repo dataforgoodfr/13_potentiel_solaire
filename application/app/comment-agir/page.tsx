@@ -10,11 +10,10 @@ import {
 	PARTICULIER_INTRO_LONG,
 } from '../components/content/accordion-actions';
 import commentAgirContent from '../components/content/comment-agir';
+import { PAGE_COMMENT_AGIR_METADATA } from '../components/content/seo';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
 
-export const metadata: Metadata = {
-	title: 'Comment agir ? - Établissement Solaire',
-};
+export const metadata: Metadata = PAGE_COMMENT_AGIR_METADATA;
 
 const actionsLong = [
 	{
