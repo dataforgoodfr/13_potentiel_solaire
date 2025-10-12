@@ -1,10 +1,17 @@
+/**
+ * Footer links configuration.
+ * Each link is an object with:
+ * - title: The link text
+ * - href: The link URL
+ * - priority: The priority of the page for SEO sitemap (0.0 to 1.0)
+ */
 export const footerLinks = [
-	{ title: 'Mentions légales', href: '/mention-legales' },
+	{ title: 'Mentions légales', href: '/mention-legales', priority: 0.3 },
 	{
 		title: 'Jeu de données ouvert',
 		href: 'https://github.com/dataforgoodfr/13_potentiel_solaire',
 	},
-	{ title: 'Accessibilité du site', href: '/accessibilite-du-site' },
+	{ title: 'Accessibilité du site', href: '/accessibilite-du-site', priority: 0.3 },
 ];
 
 export const partners = [
