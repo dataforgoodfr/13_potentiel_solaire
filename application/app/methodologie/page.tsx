@@ -1,7 +1,11 @@
-'use client';
+import { Metadata } from 'next';
 
 import StaticPage from '../components/StaticPage';
 import notreMethodologieContent from '../components/content/methodologie';
+
+export const metadata: Metadata = {
+	title: 'Notre méthodologie - Établissement Solaire',
+};
 
 export default function NotreMethodologiePage() {
 	return (
