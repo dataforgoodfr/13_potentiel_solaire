@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 
 import type { Metadata } from 'next';
+import Script from 'next/script';
 
 import { Toaster } from '@/components/ui/toaster';
 
@@ -34,6 +35,7 @@ export default function RootLayout({
 				<Toaster />
 				<Footer />
 			</body>
+			<Script src='https://cdn.greenpeace.fr/js/global/main.min.js' />
 		</html>
 	);
 }
