@@ -3,13 +3,10 @@ import type { MetadataRoute } from 'next';
 import { footerLinks } from './content/footer';
 import { navBarLinks } from './content/navBar';
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-if (!baseUrl) throw new Error('NEXT_PUBLIC_BASE_URL must be set!');
-
 const defaultPageChangeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] = 'monthly';
 const defaultPagePriority: MetadataRoute.Sitemap[number]['priority'] = 0.5;
 
-function navBarSitemapElements(): MetadataRoute.Sitemap {
+function navBarSitemapElements(baseUrl: string): MetadataRoute.Sitemap {
 	const filteredNavBarLinks = navBarLinks.filter((link) => link.href.startsWith('/'));
 	return filteredNavBarLinks.map((link) => ({
 		url: `${baseUrl}${link.href}`,
@@ -18,7 +15,7 @@ function navBarSitemapElements(): MetadataRoute.Sitemap {
 	}));
 }
 
-function footerSitemapElements(): MetadataRoute.Sitemap {
+function footerSitemapElements(baseUrl: string): MetadataRoute.Sitemap {
 	const filteredFooterLinks = footerLinks.filter((link) => link.href.startsWith('/'));
 	return filteredFooterLinks.map((link) => ({
 		url: `${baseUrl}${link.href}`,
@@ -53,5 +50,7 @@ function footerSitemapElements(): MetadataRoute.Sitemap {
  * @returns This webapp's sitemap
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-	return [...navBarSitemapElements(), ...footerSitemapElements()];
+	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+	if (!baseUrl) throw new Error('NEXT_PUBLIC_BASE_URL must be set!');
+	return [...navBarSitemapElements(baseUrl), ...footerSitemapElements(baseUrl)];
 }
