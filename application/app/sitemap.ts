@@ -3,6 +3,8 @@ import type { MetadataRoute } from 'next';
 import { footerLinks } from './content/footer';
 import { navBarLinks } from './content/navBar';
 
+export const dynamic = 'force-dynamic';
+
 const defaultPageChangeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] = 'monthly';
 const defaultPagePriority: MetadataRoute.Sitemap[number]['priority'] = 0.5;
 
