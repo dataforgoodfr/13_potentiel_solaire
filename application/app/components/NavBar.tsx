@@ -103,7 +103,10 @@ export default function NavBar() {
 			{/* Menu mobile plein écran */}
 			{isOpen &&
 				createPortal(
-					<div className='fixed inset-0 z-mobile-menu-overlay flex flex-col bg-blue'>
+					<div
+						id='menu-principal'
+						className='fixed inset-0 z-mobile-menu-overlay flex flex-col bg-blue'
+					>
 						{/* Bouton de fermeture */}
 						<div className='flex items-start justify-between p-4'>
 							<button

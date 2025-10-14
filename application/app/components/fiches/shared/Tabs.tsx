@@ -1,5 +1,5 @@
 type TabsProps = {
-	tabs: { id: string; label: string }[];
+	tabs: { id: string; label: string; content: React.ReactNode }[];
 	activeTab: string;
 	onTabChange: (tabId: string) => void;
 };
@@ -21,21 +21,26 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 	}
 
 	return (
-		<>
+		<div>
 			<div
-				className='mb-4 flex print:hidden'
-				role='tablist'
+				className="mb-4 flex print:hidden"
+				role="tablist"
 				aria-label="Choisir un type d'établissement"
 				onKeyDown={handleKeyDown}
 			>
 				{tabs.map((tab) => (
 					<button
 						key={tab.id}
-						role='tab'
+						role="tab"
+						id={`tab-${tab.id}`}
 						aria-selected={activeTab === tab.id}
 						aria-controls={`panel-${tab.id}`}
-						id={`tab-${tab.id}`}
-						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
+						tabIndex={activeTab === tab.id ? 0 : -1}
+						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${
+							activeTab === tab.id
+								? 'bg-blue font-bold text-green'
+								: 'bg-green text-blue'
+						}`}
 						onClick={() => onTabChange(tab.id)}
 					>
 						{tab.label}
@@ -43,7 +48,19 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 				))}
 			</div>
 
-			<div className='hidden print:block'>
+			{tabs.map((tab) => (
+				<div
+					key={tab.id}
+					role="tabpanel"
+					id={`panel-${tab.id}`}
+					aria-labelledby={`tab-${tab.id}`}
+					hidden={activeTab !== tab.id}
+				>
+					{tab.content}
+				</div>
+			))}
+
+			<div className="hidden print:block">
 				{activeTab && (
 					<h2>
 						{activeTab === 'all'
@@ -52,6 +69,6 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 					</h2>
 				)}
 			</div>
-		</>
+		</div>
 	);
 }
