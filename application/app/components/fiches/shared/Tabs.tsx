@@ -35,7 +35,6 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 						id={`tab-${tab.id}`}
 						aria-selected={activeTab === tab.id}
 						aria-controls={`panel-${tab.id}`}
-						tabIndex={activeTab === tab.id ? 0 : -1}
 						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${
 							activeTab === tab.id
 								? 'bg-blue font-bold text-green'
@@ -47,18 +46,6 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 					</button>
 				))}
 			</div>
-
-			{tabs.map((tab) => (
-				<div
-					key={tab.id}
-					role='tabpanel'
-					id={`panel-${tab.id}`}
-					aria-labelledby={`tab-${tab.id}`}
-					hidden={activeTab !== tab.id}
-				>
-					{tab.content}
-				</div>
-			))}
 
 			<div className='hidden print:block'>
 				{activeTab && (
