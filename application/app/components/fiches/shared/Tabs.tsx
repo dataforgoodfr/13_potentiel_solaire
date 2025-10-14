@@ -1,5 +1,5 @@
 type TabsProps = {
-	tabs: { id: string; label: string; content: React.ReactNode }[];
+	tabs: { id: string; label: string }[];
 	activeTab: string;
 	onTabChange: (tabId: string) => void;
 };
