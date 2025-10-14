@@ -23,15 +23,15 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 	return (
 		<div>
 			<div
-				className="mb-4 flex print:hidden"
-				role="tablist"
+				className='mb-4 flex print:hidden'
+				role='tablist'
 				aria-label="Choisir un type d'établissement"
 				onKeyDown={handleKeyDown}
 			>
 				{tabs.map((tab) => (
 					<button
 						key={tab.id}
-						role="tab"
+						role='tab'
 						id={`tab-${tab.id}`}
 						aria-selected={activeTab === tab.id}
 						aria-controls={`panel-${tab.id}`}
@@ -51,7 +51,7 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 			{tabs.map((tab) => (
 				<div
 					key={tab.id}
-					role="tabpanel"
+					role='tabpanel'
 					id={`panel-${tab.id}`}
 					aria-labelledby={`tab-${tab.id}`}
 					hidden={activeTab !== tab.id}
@@ -60,7 +60,7 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 				</div>
 			))}
 
-			<div className="hidden print:block">
+			<div className='hidden print:block'>
 				{activeTab && (
 					<h2>
 						{activeTab === 'all'
