@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 
 import { Toaster } from '@/components/ui/toaster';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 
 import Providers from './Providers';
 import Footer from './components/Footer';
@@ -20,8 +21,12 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const isProduction = process.env.NODE_ENV === 'production';
+	const googleTagManagerId = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID;
+	const googleAnalyticsId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 	return (
 		<html lang='fr' className='h-full'>
+			{isProduction && googleTagManagerId && <GoogleTagManager gtmId={googleTagManagerId} />}
 			<body className='flex min-h-dvh flex-col bg-blue'>
 				<SkipLinks />
 				<Suspense>
@@ -36,6 +41,7 @@ export default function RootLayout({
 				<Footer />
 			</body>
 			<Script src='https://cdn.greenpeace.fr/js/global/main.min.js' />
+			{isProduction && googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}
 		</html>
 	);
 }
