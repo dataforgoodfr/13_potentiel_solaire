@@ -1,5 +1,5 @@
 type TabsProps = {
-	tabs: { id: string; label: string; content: React.ReactNode }[];
+	tabs: { id: string; label: string; content: React.ReactNode}[];
 	activeTab: string;
 	onTabChange: (tabId: string) => void;
 };
@@ -34,7 +34,6 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 						role='tab'
 						aria-selected={activeTab === tab.id}
 						aria-controls={`panel-${tab.id}`}
-						tabIndex={activeTab === tab.id ? 0 : -1}
 						id={`tab-${tab.id}`}
 						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${
 							activeTab === tab.id
