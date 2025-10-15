@@ -1,5 +1,5 @@
 type TabsProps = {
-	tabs: { id: string; label: string; content: React.ReactNode}[];
+	tabs: { id: string; label: string }[];
 	activeTab: string;
 	onTabChange: (tabId: string) => void;
 };
@@ -33,7 +33,6 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 						key={tab.id}
 						role='tab'
 						aria-selected={activeTab === tab.id}
-						aria-controls={`panel-${tab.id}`}
 						id={`tab-${tab.id}`}
 						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${
 							activeTab === tab.id
@@ -46,18 +45,6 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 					</button>
 				))}
 			</div>
-
-			{tabs.map((tab) => (
-				<div
-					key={tab.id}
-					role='tabpanel'
-					id={`panel-${tab.id}`}
-					aria-labelledby={`tab-${tab.id}`}
-					hidden={activeTab !== tab.id}
-				>
-					{tab.content}
-				</div>
-			))}
 
 			<div className='hidden print:block'>
 				{activeTab && (
