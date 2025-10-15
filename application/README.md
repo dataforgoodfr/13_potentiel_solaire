@@ -180,6 +180,12 @@ Il faut s'assurer qu'un fichier `.env` est présent à la racine du dossier appl
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
+Utile pour la production seulement :
+
+`NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID` => l'id de google tag manager
+
+`NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` => l'id de google analytics
+
 #### Lancer la version en local
 
 ```sh
