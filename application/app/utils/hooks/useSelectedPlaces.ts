@@ -1,4 +1,5 @@
 import useCommune from './useCommune';
+import useContactMairie from './useContactMairie';
 import useDepartement from './useDepartement';
 import useEtablissement from './useEtablissement';
 import useRegion from './useRegion';
@@ -17,15 +18,21 @@ export default function useSelectedPlaces() {
 	const { commune, isFetching: isFetchingCommune } = useCommune(codeCommune);
 	const { etablissement, isFetching: isFetchingEtablissement } =
 		useEtablissement(codeEtablissement);
+	const { contactMairie, isFetching: isFetchingContactMairie } = useContactMairie(codeCommune);
 
 	const isFetching =
-		isFetchingRegion || isFetchingDepartement || isFetchingCommune || isFetchingEtablissement;
+		isFetchingRegion ||
+		isFetchingDepartement ||
+		isFetchingCommune ||
+		isFetchingEtablissement ||
+		isFetchingContactMairie;
 
 	return {
 		region,
 		departement,
 		commune,
 		etablissement,
+		contactMairie,
 		isFetching,
 	};
 }

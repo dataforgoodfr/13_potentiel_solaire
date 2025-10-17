@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Commune } from '@/app/models/communes';
+import { ContactMairie } from '@/app/models/contact-mairie';
 import { Departement } from '@/app/models/departements';
 import { Etablissement } from '@/app/models/etablissements';
 import { Region } from '@/app/models/regions';
@@ -11,7 +12,14 @@ import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { ALLOWED_TABS, codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
-import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../../content/accordion-actions';
+import {
+	COMMENT_AGIR_ELU_COMMON_BODY,
+	COMMENT_AGIR_ELU_COMMON_TITLE,
+	COMMENT_AGIR_PARTICULIER_COMMON,
+	COMMENT_AGIR_PARTICULIER_COMMON_TITLE,
+	COMMENT_AGIR_PARTICULIER_FICHE,
+} from '../../content/accordion-actions';
+import ContacterMairie from '../ContacterMairie';
 import Loading from '../Loading';
 import {
 	LEVEL_TO_LABEL,
@@ -26,17 +34,29 @@ import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
 import FicheRegion from './ficheRegion';
 import AccordionCard from './shared/AccordionCard';
 
-const actionsShort = [
+const getActions = (isLevelWithContactMairie: boolean, contactMairie: ContactMairie | null) => [
 	{
-		title: 'Je suis un élu ou une élue et je veux agir',
-		content: <>{ELU_BODY}</>,
+		title: COMMENT_AGIR_ELU_COMMON_TITLE,
+		content: <>{COMMENT_AGIR_ELU_COMMON_BODY}</>,
 	},
 	{
-		title: 'Je suis un citoyen ou une citoyenne et je veux agir',
+		title: COMMENT_AGIR_PARTICULIER_COMMON_TITLE,
 		content: (
 			<>
-				{PARTICULIER_BODY}
-				{PARTICULIER_END}
+				{COMMENT_AGIR_PARTICULIER_COMMON.BODY_INTRO}
+				<ul className='mb-8 mt-2 list-inside list-disc space-y-8'>
+					<li>{COMMENT_AGIR_PARTICULIER_COMMON.BODY_SIGNER_PETITION_ITEM}</li>
+					<li>
+						{isLevelWithContactMairie ? (
+							<ContacterMairie contact={contactMairie} />
+						) : (
+							COMMENT_AGIR_PARTICULIER_FICHE.BODY_CONTACT_ELU_ITEM
+								.LEVEL_WITH_NO_CONTACT
+						)}
+					</li>
+					<li>{COMMENT_AGIR_PARTICULIER_COMMON.BODY_DECOUVRER_LES_PROJETS_ITEM}</li>
+					<li>{COMMENT_AGIR_PARTICULIER_FICHE.BODY_EN_SAVOIR_PLUS_ITEM}</li>
+				</ul>
 			</>
 		),
 	},
@@ -45,11 +65,14 @@ const actionsShort = [
 export type TabId = (typeof ALLOWED_TABS)[number];
 type Tab = { id: TabId; label?: string; fullLabel?: string }[];
 
+const LEVEL_WITH_CONTACT_MAIRIE: TabId[] = ['commune', 'etablissement'];
+
 interface FichesProps {
 	etablissement?: Etablissement;
 	commune?: Commune;
 	departement?: Departement;
 	region?: Region;
+	contactMairie?: ContactMairie;
 	isFetching?: boolean;
 }
 
@@ -67,6 +90,7 @@ export default function Fiches({
 	commune,
 	departement,
 	region,
+	contactMairie,
 	isFetching,
 }: FichesProps) {
 	const { values } = useURLParams();
@@ -148,6 +172,9 @@ export default function Fiches({
 		setPrintOpen(false);
 	};
 
+	const isLevelWithContactMairie = !!activeTab && LEVEL_WITH_CONTACT_MAIRIE.includes(activeTab);
+	const accordionActions = getActions(isLevelWithContactMairie, contactMairie ?? null);
+
 	return (
 		<div
 			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
@@ -223,7 +250,7 @@ export default function Fiches({
 							<ScrollButton targetId='accordion-fiches' label='Comment agir ?' />
 							<hr className='my-4' />
 							<AccordionCard
-								actions={actionsShort}
+								actions={accordionActions}
 								printOpen={printOpen}
 								contentCss='text-white text-sm'
 								id='accordion-fiches'
