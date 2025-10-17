@@ -13,6 +13,8 @@ IMAGE_NAME="ghcr.io/dataforgoodfr/13_potentiel_solaire_app"
 docker build \
     -t $IMAGE_NAME:latest \
 	--build-arg DATABASE_PATH=/app/database/data.duckdb \
+	--build-arg NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=$NEXT_PUBLIC_GOOGLE_ANALYTICS_ID \
+	--build-arg NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID=$NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID \
 	-f $APPLICATION_DIR/Dockerfile .
 
 # Check if the previous command was successful
