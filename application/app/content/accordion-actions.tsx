@@ -1,6 +1,17 @@
 import { ACTION_LINKS } from './actions';
 
-export const ELU_INTRO_LONG = (
+/**
+ * Content for the section "Comment agir ?" in the fiche and the dedicated page.
+ * Some content is COMMON and reused in both places.
+ * Some content is for the PAGE only.
+ * Some content is for the FICHE only.
+ * The XX_ITEM are included in <li> elements and part of a list (e.g: <ul> or <ol>).
+ */
+
+// --- Pour les élus ---
+export const COMMENT_AGIR_ELU_COMMON_TITLE = 'Je suis un élu ou une élue et je veux agir';
+
+export const COMMENT_AGIR_ELU_PAGE_INTRO = (
 	<>
 		<p className='mb-6 mt-6'>
 			Les toitures des bâtiments scolaires offrent une importante opportunité, avec un impact
@@ -22,7 +33,7 @@ export const ELU_INTRO_LONG = (
 	</>
 );
 
-export const ELU_BODY = (
+export const COMMENT_AGIR_ELU_COMMON_BODY = (
 	<ul className='list-inside list-disc'>
 		<li className='mb-8 mt-6'>
 			De nombreuses communes nous ont fait remonter leurs difficultés à financer ces projets,
@@ -100,14 +111,12 @@ export const ELU_BODY = (
 	</ul>
 );
 
-export const PARTICULIER_INTRO_SHORT = (
-	<p className='font-bold'>
-		Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur vos
-		territoires :
-	</p>
-);
+// --- Pour les particuliers ---
 
-export const PARTICULIER_INTRO_LONG = (
+export const COMMENT_AGIR_PARTICULIER_COMMON_TITLE =
+	'Je suis un citoyen ou une citoyenne et je veux agir';
+
+export const COMMENT_AGIR_PARTICULIER_PAGE_INTRO = (
 	<>
 		<p className='mb-6 mt-6'>
 			L’école est l’un des bâtiments essentiels de notre territoire : elle forme les
@@ -128,75 +137,75 @@ export const PARTICULIER_INTRO_LONG = (
 	</>
 );
 
-export const PARTICULIER_BODY = (
+export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_INTRO = (
+	<p className='mb-6 font-bold'>
+		Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur vos
+		territoires :
+	</p>
+);
+export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_SIGNER_PETITION_ITEM = (
 	<>
-		<p className='mb-6 font-bold'>
-			Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur vos
-			territoires :
+		Signer notre pétition nationale demandant des moyens et des actions d’urgence pour
+		<span className='font-bold'>
+			&nbsp;la rénovation énergétique des établissements scolaires :
+		</span>
+		<a
+			href={ACTION_LINKS.petition.url}
+			target='_blank'
+			rel='noopener noreferrer'
+			className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
+		>
+			{ACTION_LINKS.petition.label}
+		</a>
+	</>
+);
+export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_CONTACT_ELU_ITEM = (
+	<>
+		Informer
+		<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
+		sur le potentiel solaire des écoles de la commune et interroger pour savoir ce qu’elle
+		prévoit de faire :
+		<a
+			href={ACTION_LINKS.contactElu.url}
+			target='_blank'
+			rel='noopener noreferrer'
+			className='my-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
+		>
+			{ACTION_LINKS.contactElu.label}
+		</a>
+		<em>
+			<strong>Information utile</strong>&nbsp;: Sur le site adresses-mairies.fr cherchez votre
+			commune dans la barre de recherche puis copiez l’adresse mail présente sur la fiche de
+			votre élu(e).
+		</em>
+	</>
+);
+export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_DECOUVRER_LES_PROJETS_ITEM = (
+	<>
+		Découvrez les projets de transition énergétique près de chez vous :
+		<p>
+			<a
+				href='https://energie-partagee.org/projets/'
+				target='_blank'
+				rel='noopener noreferrer'
+				className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+			>
+				— Carte de l’énergie citoyenne
+			</a>
 		</p>
-		<ul className='list-inside list-disc'>
-			<li className='mb-8 mt-2'>
-				Signer notre pétition nationale demandant des moyens et des actions d’urgence pour
-				<span className='font-bold'>
-					&nbsp;la rénovation énergétique des établissements scolaires :
-				</span>
-				<a
-					href={ACTION_LINKS.petition.url}
-					target='_blank'
-					rel='noopener noreferrer'
-					className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
-				>
-					{ACTION_LINKS.petition.label}
-				</a>
-			</li>
-			<li className='mb-8'>
-				Informer
-				<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
-				sur le potentiel solaire des écoles de la commune et interroger pour savoir ce
-				qu’elle prévoit de faire :
-				<a
-					href={ACTION_LINKS.contactElu.url}
-					target='_blank'
-					rel='noopener noreferrer'
-					className='my-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
-				>
-					{ACTION_LINKS.contactElu.label}
-				</a>
-				<em>
-					<strong>Information utile</strong>&nbsp;: Sur le site adresses-mairies.fr
-					cherchez votre commune dans la barre de recherche puis copiez l’adresse mail
-					présente sur la fiche de votre élu(e).
-				</em>
-			</li>
-			<li className='mb-8'>
-				Découvrez les projets de transition énergétique près de chez vous :
-				<p>
-					<a
-						href='https://energie-partagee.org/projets/'
-						target='_blank'
-						rel='noopener noreferrer'
-						className='text-green underline decoration-dotted decoration-2 underline-offset-4'
-					>
-						— Carte de l’énergie citoyenne
-					</a>
-				</p>
-			</li>
-		</ul>
 	</>
 );
 
-export const PARTICULIER_END = (
-	<ul className='list-inside list-disc'>
-		<li>
-			Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” :
-			<p className='mb-4'>
-				<a
-					href={ACTION_LINKS.commentAgir.url}
-					className='text-green underline decoration-dotted decoration-2 underline-offset-4'
-				>
-					— {ACTION_LINKS.commentAgir.label}
-				</a>
-			</p>
-		</li>
-	</ul>
+export const COMMENT_AGIR_PARTICULIER_FICHE_BODY_EN_SAVOIR_PLUS_ITEM = (
+	<>
+		Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” :
+		<p className='mb-4'>
+			<a
+				href={ACTION_LINKS.commentAgir.url}
+				className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+			>
+				— {ACTION_LINKS.commentAgir.label}
+			</a>
+		</p>
+	</>
 );

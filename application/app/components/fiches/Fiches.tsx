@@ -12,7 +12,16 @@ import useURLParams, { Codes } from '@/app/utils/hooks/useURLParams';
 import { ALLOWED_TABS, codesDiffer } from '@/app/utils/state-utils';
 import { X } from 'lucide-react';
 
-import { ELU_BODY, PARTICULIER_BODY, PARTICULIER_END } from '../../content/accordion-actions';
+import {
+	COMMENT_AGIR_ELU_COMMON_BODY,
+	COMMENT_AGIR_ELU_COMMON_TITLE,
+	COMMENT_AGIR_PARTICULIER_COMMON_BODY_CONTACT_ELU_ITEM,
+	COMMENT_AGIR_PARTICULIER_COMMON_BODY_DECOUVRER_LES_PROJETS_ITEM,
+	COMMENT_AGIR_PARTICULIER_COMMON_BODY_INTRO,
+	COMMENT_AGIR_PARTICULIER_COMMON_BODY_SIGNER_PETITION_ITEM,
+	COMMENT_AGIR_PARTICULIER_COMMON_TITLE,
+	COMMENT_AGIR_PARTICULIER_FICHE_BODY_EN_SAVOIR_PLUS_ITEM,
+} from '../../content/accordion-actions';
 import Loading from '../Loading';
 import {
 	LEVEL_TO_LABEL,
@@ -29,15 +38,20 @@ import AccordionCard from './shared/AccordionCard';
 
 const actionsShort = [
 	{
-		title: 'Je suis un élu ou une élue et je veux agir',
-		content: <>{ELU_BODY}</>,
+		title: COMMENT_AGIR_ELU_COMMON_TITLE,
+		content: <>{COMMENT_AGIR_ELU_COMMON_BODY}</>,
 	},
 	{
-		title: 'Je suis un citoyen ou une citoyenne et je veux agir',
+		title: COMMENT_AGIR_PARTICULIER_COMMON_TITLE,
 		content: (
 			<>
-				{PARTICULIER_BODY}
-				{PARTICULIER_END}
+				{COMMENT_AGIR_PARTICULIER_COMMON_BODY_INTRO}
+				<ul className='mb-8 mt-2 list-inside list-disc space-y-8'>
+					<li>{COMMENT_AGIR_PARTICULIER_COMMON_BODY_SIGNER_PETITION_ITEM}</li>
+					<li>{COMMENT_AGIR_PARTICULIER_COMMON_BODY_CONTACT_ELU_ITEM}</li>
+					<li>{COMMENT_AGIR_PARTICULIER_COMMON_BODY_DECOUVRER_LES_PROJETS_ITEM}</li>
+					<li>{COMMENT_AGIR_PARTICULIER_FICHE_BODY_EN_SAVOIR_PLUS_ITEM}</li>
+				</ul>
 			</>
 		),
 	},
