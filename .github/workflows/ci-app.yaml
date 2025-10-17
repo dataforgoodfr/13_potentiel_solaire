@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+      NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
+      NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
     defaults:
       run:
         shell: bash -l {0}

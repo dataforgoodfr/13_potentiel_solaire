@@ -9,6 +9,8 @@ services:
       dockerfile: Dockerfile
       args:
         DATABASE_PATH: /app/database/data.duckdb
+        NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}
+        NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: ${NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID}
     # Set environment variables based on the .env file
     env_file:
       - .env
