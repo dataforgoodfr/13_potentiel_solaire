@@ -39,3 +39,10 @@ export const PAGE_A_PROPOS_METADATA: Metadata = {
 export const PAGE_METHODOLOGIE_METADATA: Metadata = {
 	title: 'Notre méthodologie',
 };
+
+/**
+ * Metadata for "Mentions légales" page
+ */
+export const PAGE_MENTIONS_LEGALES_METADATA: Metadata = {
+	title: 'Mentions légales',
+};
