@@ -1,6 +1,7 @@
 import { DuckDBPreparedStatement } from '@duckdb/node-api';
 
 import { Commune, CommuneFeature, CommunesGeoJSON } from '../models/communes';
+import { ContactMairie } from '../models/contact-mairie';
 import { Departement, DepartementsGeoJSON } from '../models/departements';
 import { Etablissement, EtablissementsGeoJSON } from '../models/etablissements';
 import { Region } from '../models/regions';
@@ -28,6 +29,11 @@ import {
 	SEARCH_VIEW_MAPPING,
 	SEARCH_VIEW_TABLE,
 } from './db-mapping';
+import {
+	ANNUAIRE_ADMINISTRATION_COLUMNS,
+	ANNUAIRE_ADMINISTRATION_TABLE,
+	CONTACT_MAIRIE_MAPPING,
+} from './db-mapping/annuaire-administration';
 import duckDbClient from './duckdb';
 
 /**
@@ -579,5 +585,35 @@ export async function fetchSearchResults(
 	} catch (error) {
 		console.error('Database Error:', error);
 		throw new Error('Failed to fetch search view rows.');
+	}
+}
+
+// ---- Annuaire administration ----
+
+export async function fetchContactMairieByCommune(id: string): Promise<ContactMairie | null> {
+	try {
+		const db = await duckDbClient();
+		const connection = await db.connect();
+
+		const prepared = await connection.prepare(
+			`
+			SELECT
+			annuaire.${ANNUAIRE_ADMINISTRATION_COLUMNS.Id} as ${CONTACT_MAIRIE_MAPPING[ANNUAIRE_ADMINISTRATION_COLUMNS.Id]},
+			annuaire.${ANNUAIRE_ADMINISTRATION_COLUMNS.Nom} as ${CONTACT_MAIRIE_MAPPING[ANNUAIRE_ADMINISTRATION_COLUMNS.Nom]},
+			annuaire.${ANNUAIRE_ADMINISTRATION_COLUMNS.Email} as ${CONTACT_MAIRIE_MAPPING[ANNUAIRE_ADMINISTRATION_COLUMNS.Email]},
+			annuaire.${ANNUAIRE_ADMINISTRATION_COLUMNS.UrlContact} as ${CONTACT_MAIRIE_MAPPING[ANNUAIRE_ADMINISTRATION_COLUMNS.UrlContact]},
+			annuaire.${ANNUAIRE_ADMINISTRATION_COLUMNS.UrlSiteMairie} as ${CONTACT_MAIRIE_MAPPING[ANNUAIRE_ADMINISTRATION_COLUMNS.UrlSiteMairie]}
+			FROM main.${ANNUAIRE_ADMINISTRATION_TABLE} annuaire
+			WHERE annuaire.${ANNUAIRE_ADMINISTRATION_COLUMNS.Id} = $1
+		`,
+		);
+		prepared.bindVarchar(1, id);
+
+		const reader = await prepared.runAndReadAll();
+		const result = reader.getRowObjectsJson()[0];
+		return result ? (result as unknown as ContactMairie) : null;
+	} catch (error) {
+		console.error('Database Error:', error);
+		throw new Error('Failed to fetch annuaire_administration rows.');
 	}
 }

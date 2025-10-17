@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Commune } from '@/app/models/communes';
+import { ContactMairie } from '@/app/models/contact-mairie';
 import { Departement } from '@/app/models/departements';
 import { Etablissement } from '@/app/models/etablissements';
 import { Region } from '@/app/models/regions';
@@ -50,6 +51,7 @@ interface FichesProps {
 	commune?: Commune;
 	departement?: Departement;
 	region?: Region;
+	contactMairie?: ContactMairie;
 	isFetching?: boolean;
 }
 
@@ -67,6 +69,7 @@ export default function Fiches({
 	commune,
 	departement,
 	region,
+	contactMairie,
 	isFetching,
 }: FichesProps) {
 	const { values } = useURLParams();
