@@ -618,15 +618,15 @@ const notreMethodologieContent: StaticPageProps = {
 							</a>
 						</li>
 						<li>
-							si on se base sur les données de RTE (160 TWh de consommation du secteur
-							résidentiel en 2019 (page 100{' '}
+							si on se base sur les données de RTE : 160 TWh de consommation du
+							secteur résidentiel en 2019 (page 100{' '}
 							<a
 								href='https://assets.rte-france.com/prod/public/2022-06/FE2050%20_Rapport%20complet_3.pdf'
 								target='_blank'
 								rel='noopener noreferrer nofollow'
 								className={linkStyle}
 							>
-								de ce doc
+								de ce document
 								<span className='sr-only'>(ouvre un nouvel onglet)</span>
 							</a>{' '}
 							- PDF de 6.2Mo) et avec 29.2 millions de foyers en 2019 (source :{' '}
