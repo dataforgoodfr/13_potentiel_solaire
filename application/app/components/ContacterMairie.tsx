@@ -1,4 +1,4 @@
-import { COMMENT_AGIR_PARTICULIER_FICHE } from '../content/accordion-actions';
+import { COMMENT_AGIR_PARTICULIER_FICHE, TEMPLATE_MAIL_ELU } from '../content/accordion-actions';
 import { ContactMairie } from '../models/contact-mairie';
 
 type ContacterMairieProps = {
@@ -22,11 +22,14 @@ export default function ContacterMairie({ contact }: ContacterMairieProps) {
 	const content = COMMENT_AGIR_PARTICULIER_FICHE.BODY_CONTACT_ELU_ITEM;
 
 	if (contact?.email) {
-		const mailtoLink = buildMailtoLink(contact.email, 'TODO_SUBJECT', 'TODO_BODY_TEXT');
+		const mailtoLink = buildMailtoLink(
+			contact.email,
+			TEMPLATE_MAIL_ELU.SUBJECT,
+			TEMPLATE_MAIL_ELU.BODY,
+		);
 		return (
 			<>
 				{content.CONTACT_AVAILABLE}
-				{/* TODO: add content of mail in mailto link */}
 				<a
 					href={mailtoLink}
 					rel='noopener noreferrer'

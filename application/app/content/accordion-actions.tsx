@@ -286,3 +286,8 @@ export const COMMENT_AGIR_PARTICULIER_COMMON = {
 		</>
 	),
 };
+
+export const TEMPLATE_MAIL_ELU = {
+	SUBJECT: "Nos écoles ont un potentiel solaire, et si nous l'utilisions ?",
+	BODY: "Madame, Monsieur le maire,\n\nJe vous invite à consulter l’outil Établissement Solaire https://etablissement-solaire.fr qui identifie le potentiel des toitures de nos écoles publiques pour y accueillir des panneaux solaires.\n\nJ'aimerais savoir si vous aviez déjà envisagé cette possibilité ou si vous seriez prêt à le faire à l'avenir ? Je vous remercie pour votre engagement,\nSincères salutations.",
+};
