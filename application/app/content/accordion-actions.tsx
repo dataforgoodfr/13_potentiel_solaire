@@ -116,96 +116,173 @@ export const COMMENT_AGIR_ELU_COMMON_BODY = (
 export const COMMENT_AGIR_PARTICULIER_COMMON_TITLE =
 	'Je suis un citoyen ou une citoyenne et je veux agir';
 
-export const COMMENT_AGIR_PARTICULIER_PAGE_INTRO = (
-	<>
-		<p className='mb-6 mt-6'>
-			L’école est l’un des bâtiments essentiels de notre territoire : elle forme les
-			générations futures, est un lieu de rencontres, d’égalité et de mixité sociale.
-		</p>
-		<p className='mb-6'>
-			Votre commune a donc un devoir d’action et d’exemplarité sur les écoles : trop d’écoles
-			ont un bâti dégradé, inadapté à des conditions d’apprentissage propices à la réussite
-			scolaire et qui peut engendrer des problèmes de santé (asthmes, allergies, problèmes
-			respiratoires, malaises, …).
-		</p>
-		<p className='mb-6'>
-			C’est pourquoi nous pensons que la transition des écoles doit être un des piliers
-			d’action de votre mairie : rénovation des bâtiments scolaires, pose de panneaux solaires
-			sur les toitures, végétalisation des cours, sensibilisation à la transition écologique,
-			…
-		</p>
-	</>
-);
+export const COMMENT_AGIR_PARTICULIER_PAGE = {
+	INTRO: (
+		<>
+			<p className='mb-6 mt-6'>
+				L’école est l’un des bâtiments essentiels de notre territoire : elle forme les
+				générations futures, est un lieu de rencontres, d’égalité et de mixité sociale.
+			</p>
+			<p className='mb-6'>
+				Votre commune a donc un devoir d’action et d’exemplarité sur les écoles : trop
+				d’écoles ont un bâti dégradé, inadapté à des conditions d’apprentissage propices à
+				la réussite scolaire et qui peut engendrer des problèmes de santé (asthmes,
+				allergies, problèmes respiratoires, malaises, …).
+			</p>
+			<p className='mb-6'>
+				C’est pourquoi nous pensons que la transition des écoles doit être un des piliers
+				d’action de votre mairie : rénovation des bâtiments scolaires, pose de panneaux
+				solaires sur les toitures, végétalisation des cours, sensibilisation à la transition
+				écologique, …
+			</p>
+		</>
+	),
+	BODY_CONTACT_ELU_ITEM: (
+		<>
+			Informer <strong>votre mairie</strong> sur le potentiel solaire des écoles de la commune
+			et interroger pour savoir ce qu’elle prévoit de faire.
+			<br />
+			Pour cela{' '}
+			<strong>
+				rendez-vous dans la zone “Je suis un citoyen ou une citoyenne et je veux agir”
+			</strong>
+			, sur les fiches commune ou établissement :
+			<p className='mb-8'>
+				<strong>
+					Si la mairie a une adresse mail identifiée, vous pouvez envoyer directement un
+					mail pré-rédigé en cliquant sur le bouton “Envoyer un mail au maire”.
+				</strong>
+			</p>
+			{/* TODO: screenshot zone en question */}
+			<p>Autres cas :</p>
+			<ul className='list-inside list-disc'>
+				<li>
+					<strong>La mairie a uniquement un formulaire de contact</strong>, nous vous
+					redirigeons vers ce formulaire et vous pourrez copier/coller le message à
+					envoyer depuis notre site.
+				</li>
+				<li>
+					<strong>La mairie a uniquement un site web</strong>, auquel cas nous vous
+					redirigeons vers ce site, avec toujours la possibilité de copier/coller le
+					message à envoyer depuis notre site.”
+				</li>
+			</ul>
+		</>
+	),
+};
 
-export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_INTRO = (
-	<p className='mb-6 font-bold'>
-		Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur vos
-		territoires :
-	</p>
-);
-export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_SIGNER_PETITION_ITEM = (
-	<>
-		Signer notre pétition nationale demandant des moyens et des actions d’urgence pour
-		<span className='font-bold'>
-			&nbsp;la rénovation énergétique des établissements scolaires :
-		</span>
-		<a
-			href={ACTION_LINKS.petition.url}
-			target='_blank'
-			rel='noopener noreferrer'
-			className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
-		>
-			{ACTION_LINKS.petition.label}
-		</a>
-	</>
-);
-export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_CONTACT_ELU_ITEM = (
-	<>
-		Informer
-		<span className='font-bold'>&nbsp;votre mairie&nbsp;</span>
-		sur le potentiel solaire des écoles de la commune et interroger pour savoir ce qu’elle
-		prévoit de faire :
-		<a
-			href={ACTION_LINKS.contactElu.url}
-			target='_blank'
-			rel='noopener noreferrer'
-			className='my-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
-		>
-			{ACTION_LINKS.contactElu.label}
-		</a>
-		<em>
-			<strong>Information utile</strong>&nbsp;: Sur le site adresses-mairies.fr cherchez votre
-			commune dans la barre de recherche puis copiez l’adresse mail présente sur la fiche de
-			votre élu(e).
-		</em>
-	</>
-);
-export const COMMENT_AGIR_PARTICULIER_COMMON_BODY_DECOUVRER_LES_PROJETS_ITEM = (
-	<>
-		Découvrez les projets de transition énergétique près de chez vous :
-		<p>
+export const COMMENT_AGIR_PARTICULIER_FICHE = {
+	BODY_CONTACT_ELU_ITEM: {
+		/**
+		 * Used when the fiche level (region, departement) has no contact info for the mairie
+		 */
+		LEVEL_WITH_NO_CONTACT: (
+			<>
+				Informer et interroger votre maire sur le potentiel solaire des écoles, en vous
+				rendant sur{' '}
+				<strong>la fiche de votre commune ou de l’établissement concerné</strong> et en
+				utilisant le bouton de contact situé dans la zone “Je suis un citoyen et je veux
+				agir”.
+			</>
+		),
+		CONTACT_AVAILABLE: (
+			<>
+				Informer <strong>votre mairie</strong> sur le potentiel solaire des écoles de la
+				commune et interroger pour savoir ce qu’elle prévoit de faire :
+			</>
+		),
+		MAIL_CONTACT: {
+			BUTTON_LABEL: 'Envoyer un mail à votre maire',
+			ALTERNATIVE: (
+				<em>
+					<strong>Si vous n’avez pas configuré votre messagerie</strong>, vous pouvez
+					copier-coller les éléments
+				</em>
+			),
+			ALTERNATIVE_LINK_TEXT: 'ci-joints (mail/objet/message)',
+		},
+		SITE_FORM_CONTACT: {
+			BUTTON_LABEL: 'Contacter votre maire via son formulaire',
+			ALTERNATIVE: (
+				<em>
+					<strong>
+						Vous pouvez utiliser les éléments suivants pour rédiger votre message au
+						maire :
+					</strong>
+				</em>
+			),
+			ALTERNATIVE_LINK_TEXT: '(objet/message)',
+		},
+		SITE_CONTACT: {
+			BUTTON_LABEL: 'Accéder au site de la mairie',
+			ALTERNATIVE: (
+				<em>
+					<strong>
+						Vous pouvez utiliser les éléments suivants pour rédiger votre message au
+						maire :
+					</strong>
+				</em>
+			),
+			ALTERNATIVE_LINK_TEXT: '(objet/message)',
+		},
+		CONTACT_NOT_AVAILABLE: (
+			<>
+				Aucun moyen de contact disponible pour votre maire. Vous pouvez vous rendre
+				directement en mairie pour demander un RDV avec le maire.
+			</>
+		),
+	},
+	BODY_EN_SAVOIR_PLUS_ITEM: (
+		<>
+			Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” :
+			<p className='mb-4'>
+				<a
+					href={ACTION_LINKS.commentAgir.url}
+					className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+				>
+					— {ACTION_LINKS.commentAgir.label}
+				</a>
+			</p>
+		</>
+	),
+};
+
+export const COMMENT_AGIR_PARTICULIER_COMMON = {
+	BODY_INTRO: (
+		<p className='mb-6 font-bold'>
+			Ensemble, nous pouvons agir concrètement pour faire avancer la transition sur vos
+			territoires :
+		</p>
+	),
+	BODY_SIGNER_PETITION_ITEM: (
+		<>
+			Signer notre pétition nationale demandant des moyens et des actions d’urgence pour
+			<span className='font-bold'>
+				&nbsp;la rénovation énergétique des établissements scolaires :
+			</span>
 			<a
-				href='https://energie-partagee.org/projets/'
+				href={ACTION_LINKS.petition.url}
 				target='_blank'
 				rel='noopener noreferrer'
-				className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+				className='mt-3 block w-full rounded-md bg-green px-4 py-2 text-center font-bold text-darkgreen'
 			>
-				— Carte de l’énergie citoyenne
+				{ACTION_LINKS.petition.label}
 			</a>
-		</p>
-	</>
-);
-
-export const COMMENT_AGIR_PARTICULIER_FICHE_BODY_EN_SAVOIR_PLUS_ITEM = (
-	<>
-		Pour plus en savoir plus, rendez-vous sur la page “Comment agir ?” :
-		<p className='mb-4'>
-			<a
-				href={ACTION_LINKS.commentAgir.url}
-				className='text-green underline decoration-dotted decoration-2 underline-offset-4'
-			>
-				— {ACTION_LINKS.commentAgir.label}
-			</a>
-		</p>
-	</>
-);
+		</>
+	),
+	BODY_DECOUVRER_LES_PROJETS_ITEM: (
+		<>
+			Découvrez les projets de transition énergétique près de chez vous :
+			<p>
+				<a
+					href='https://energie-partagee.org/projets/'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='text-green underline decoration-dotted decoration-2 underline-offset-4'
+				>
+					— Carte de l’énergie citoyenne
+				</a>
+			</p>
+		</>
+	),
+};
