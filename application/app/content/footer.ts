@@ -15,7 +15,7 @@ export const footerLinks = [
 		title: 'Jeu de données ouvert',
 		href: 'https://github.com/dataforgoodfr/13_potentiel_solaire',
 	},
-	{ title: 'Accessibilité du site', href: '/accessibilite-du-site', priority: 0.3 },
+	// { title: 'Accessibilité du site', href: '/accessibilite-du-site', priority: 0.3 },
 ];
 
 export const partners = [
