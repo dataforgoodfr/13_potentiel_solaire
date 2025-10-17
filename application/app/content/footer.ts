@@ -8,6 +8,10 @@
 export const footerLinks = [
 	{ title: 'Mentions légales', href: '/mention-legales', priority: 0.3 },
 	{
+		title: 'Politique de confidentialité',
+		href: 'https://www.greenpeace.fr/politique-de-confidentialite/',
+	},
+	{
 		title: 'Jeu de données ouvert',
 		href: 'https://github.com/dataforgoodfr/13_potentiel_solaire',
 	},
