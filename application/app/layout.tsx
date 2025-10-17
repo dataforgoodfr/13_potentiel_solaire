@@ -37,8 +37,11 @@ export default function RootLayout({
 				</Suspense>
 				<Toaster />
 				<Footer />
+				<Script
+					src='https://cdn.greenpeace.fr/js/global/main.min.js'
+					strategy='beforeInteractive'
+				/>
 			</body>
-			<Script src='https://cdn.greenpeace.fr/js/global/main.min.js' />
 			<GoogleAnalyticsClient />
 		</html>
 	);
