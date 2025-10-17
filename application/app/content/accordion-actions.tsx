@@ -164,7 +164,7 @@ export const COMMENT_AGIR_PARTICULIER_PAGE = {
 				<li>
 					<strong>La mairie a uniquement un site web</strong>, auquel cas nous vous
 					redirigeons vers ce site, avec toujours la possibilité de copier/coller le
-					message à envoyer depuis notre site.”
+					message à envoyer depuis notre site.
 				</li>
 			</ul>
 		</>
