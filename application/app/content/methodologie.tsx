@@ -877,6 +877,12 @@ const notreMethodologieContent: StaticPageProps = {
 							</a>
 						</li>
 					</ul>
+					<p className='text-sm'>
+						<em>
+							Ces évaluations ont été effectuées sur le site de test, ils seront mis à
+							jour prochainement après la mise en ligne du site officiel.
+						</em>
+					</p>
 				</section>,
 			],
 		},
