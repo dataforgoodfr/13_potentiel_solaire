@@ -33,9 +33,12 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 						key={tab.id}
 						role='tab'
 						aria-selected={activeTab === tab.id}
-						aria-controls={`panel-${tab.id}`}
 						id={`tab-${tab.id}`}
-						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${activeTab === tab.id ? 'bg-blue font-bold text-green' : 'bg-green text-blue'}`}
+						className={`w-1/2 truncate rounded-md px-4 py-1 text-sm md:text-base ${
+							activeTab === tab.id
+								? 'bg-blue font-bold text-green'
+								: 'bg-green text-blue'
+						}`}
 						onClick={() => onTabChange(tab.id)}
 					>
 						{tab.label}
