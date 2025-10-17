@@ -187,16 +187,27 @@ export default function Footer() {
 									</div>
 									<nav aria-label='footer-links'>
 										<ul className='flex flex-wrap justify-center gap-4'>
-											{footerLinks.map((link) => (
-												<li key={link.href}>
-													<Link
-														href={link.href}
-														className='text-xs text-green hover:underline'
-													>
-														{link.title}
-													</Link>
-												</li>
-											))}
+											{footerLinks.map((link) => {
+												const externalLink = !link.href.startsWith('/');
+												return (
+													<li key={link.href}>
+														<Link
+															href={link.href}
+															target={
+																externalLink ? '_blank' : undefined
+															}
+															rel={
+																externalLink
+																	? 'noopener noreferrer'
+																	: undefined
+															}
+															className='text-xs text-green hover:underline'
+														>
+															{link.title}
+														</Link>
+													</li>
+												);
+											})}
 										</ul>
 									</nav>
 								</div>
