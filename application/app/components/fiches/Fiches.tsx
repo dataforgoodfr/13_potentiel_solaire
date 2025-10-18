@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Commune } from '@/app/models/communes';
 import { ContactMairie } from '@/app/models/contact-mairie';
@@ -115,9 +115,22 @@ export default function Fiches({
 		}
 	}, [activeTab]);
 
-	function handleClose() {
+	const handleClose = useCallback(() => {
 		setActiveTab(null);
-	}
+	}, [setActiveTab]);
+
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				handleClose();
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyDown);
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [setActiveTab, handleClose]);
 
 	const tabs: Tab = [
 		...(region
