@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { toast } from '@/hooks/use-toast';
 import { Copy, CopyCheck, X } from 'lucide-react';
 
 export const UNKNOWN_TEXT = '— Contenu à venir —';
@@ -9,6 +12,7 @@ export const UNKNOWN_TEXT = '— Contenu à venir —';
 interface CopyItem {
 	label: string;
 	value: string;
+	formattedValue?: ReactNode;
 }
 
 interface PopupProps {
@@ -21,21 +25,69 @@ interface PopupProps {
 
 export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, body }) => {
 	const [copied, setCopied] = useState<{ [key: string]: boolean }>({});
+	const [isBodyExpanded, setIsBodyExpanded] = useState(false);
 
 	const handleCopy = (key: string, text: string) => {
 		navigator.clipboard.writeText(text);
 		setCopied((prev) => ({ ...prev, [key]: true }));
 		setTimeout(() => {
 			setCopied((prev) => ({ ...prev, [key]: false }));
-		}, 2000);
+		}, 4000);
+		toast({
+			title: 'Texte copié dans le presse-papiers !',
+		});
 	};
 
 	if (!isOpen) return null;
 
+	const fullBodyText = body;
+	const formattedBody = body.split('\n').map((line, i) => (
+		<p key={i} className='mb-2 whitespace-pre-wrap'>
+			{line}
+		</p>
+	));
+	const bodyLines = body.split('\n');
+	const firstLines = bodyLines.slice(0, 3).map((line, i) => (
+		<p key={i} className='mb-2 whitespace-pre-wrap'>
+			{line}
+		</p>
+	));
+	const remainingLines = bodyLines.slice(2).map((line, i) => (
+		<p key={i} className='mb-2 whitespace-pre-wrap'>
+			{line}
+		</p>
+	));
+
 	const copyItems: CopyItem[] = [
 		...(email ? [{ label: 'Mail :', value: email }] : []),
 		{ label: 'Objet :', value: subject },
-		{ label: 'Message :', value: body },
+		{
+			label: 'Message :',
+			value: fullBodyText,
+			formattedValue: (
+				<>
+					<div className='block md:hidden'>
+						{firstLines}
+						{remainingLines.length > 0 && (
+							<Collapsible
+								asChild
+								defaultOpen={false}
+								onOpenChange={setIsBodyExpanded}
+							>
+								<div>
+									<CollapsibleContent>{remainingLines}</CollapsibleContent>
+									<CollapsibleTrigger className='mt-2 text-darkgrey underline decoration-dotted decoration-2 underline-offset-4'>
+										{isBodyExpanded ? 'Voir moins' : 'Voir plus'}
+									</CollapsibleTrigger>
+								</div>
+							</Collapsible>
+						)}
+					</div>
+
+					<div className='hidden md:block'>{formattedBody}</div>
+				</>
+			),
+		},
 	];
 
 	return (
@@ -94,7 +146,7 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 										{item.label}
 									</span>
 									<span className='mt-1 break-words text-sm text-darkgrey'>
-										{value}
+										{item.formattedValue || value}
 									</span>
 								</div>
 							</div>
