@@ -23,6 +23,9 @@ interface PopupProps {
 	body: string;
 }
 
+const INFO_TRIGGER_TEXT = 'Voir plus ...';
+const INFO_HIDE_TEXT = 'Voir moins ...';
+
 export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, body }) => {
 	const [copied, setCopied] = useState<{ [key: string]: boolean }>({});
 	const [isBodyExpanded, setIsBodyExpanded] = useState(false);
@@ -77,7 +80,7 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 								<div>
 									<CollapsibleContent>{remainingLines}</CollapsibleContent>
 									<CollapsibleTrigger className='mt-2 text-darkgrey underline decoration-dotted decoration-2 underline-offset-4'>
-										{isBodyExpanded ? 'Voir moins' : 'Voir plus'}
+										{isBodyExpanded ? INFO_HIDE_TEXT : INFO_TRIGGER_TEXT}
 									</CollapsibleTrigger>
 								</div>
 							</Collapsible>
