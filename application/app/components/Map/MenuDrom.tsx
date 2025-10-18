@@ -6,6 +6,12 @@ import { X } from 'lucide-react';
 
 import useMenuDrom, { MENU_DROM_LOCATIONS } from './hooks/useMenuDrom';
 
+const LABELS = {
+	ARIA_TOGGLE_OPEN: 'Ouvrir le menu DROM',
+	ARIA_TOGGLE_CLOSE: 'Fermer le menu DROM',
+	ARIA_NAVIGATE_PREFIX: 'Naviguer vers',
+};
+
 export type MenuDromLocation = {
 	name: string;
 	codeRegion: string;
@@ -43,7 +49,7 @@ function MenuDrom() {
 				onClick={() => setIsOpen(!isOpen)}
 				className={buttonStyle}
 				aria-expanded={isOpen}
-				aria-label={isOpen ? 'Fermer le menu DROM' : 'Ouvrir le menu DROM'}
+				aria-label={isOpen ? LABELS.ARIA_TOGGLE_CLOSE : LABELS.ARIA_TOGGLE_OPEN}
 			>
 				{isOpen ? (
 					<X color='white' aria-hidden='true' />
@@ -58,7 +64,7 @@ function MenuDrom() {
 							key={location.codeRegion}
 							onClick={() => handleTabChange(location)}
 							className={`${buttonStyle} ${activeLocation.codeRegion === location.codeRegion ? buttonActiveStyle : otherButtonStyle}`}
-							aria-label={`Naviguer vers ${location.name}`}
+							aria-label={`${LABELS.ARIA_NAVIGATE_PREFIX} ${location.name}`}
 							aria-current={
 								activeLocation.codeRegion === location.codeRegion
 									? 'location'

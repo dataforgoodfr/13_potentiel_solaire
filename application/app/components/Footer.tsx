@@ -70,9 +70,7 @@ export default function Footer() {
 								}`}
 							/>
 							<span className='sr-only'>
-								{isOpen
-									? `${LABELS.ARIA_HIDE_FOOTER}`
-									: `${LABELS.ARIA_SHOW_FOOTER}`}
+								{isOpen ? LABELS.ARIA_HIDE_FOOTER : LABELS.ARIA_SHOW_FOOTER}
 							</span>
 						</button>
 					</div>
@@ -100,9 +98,7 @@ export default function Footer() {
 									}`}
 								/>
 								<span className='sr-only'>
-									{isOpen
-										? `${LABELS.ARIA_HIDE_FOOTER}`
-										: `${LABELS.ARIA_SHOW_FOOTER}`}
+									{isOpen ? LABELS.ARIA_HIDE_FOOTER : LABELS.ARIA_SHOW_FOOTER}
 								</span>
 							</button>
 						</div>
