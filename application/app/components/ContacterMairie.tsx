@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { COMMENT_AGIR_PARTICULIER_FICHE, TEMPLATE_MAIL_ELU } from '../content/accordion-actions';
 import { ContactMairie } from '../models/contact-mairie';
 import { PopUp } from './fiches/shared/PopUp';
