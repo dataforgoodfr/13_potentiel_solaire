@@ -48,22 +48,25 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 		onClose();
 	}, [onClose]);
 
-  useEffect(() => {
-    if (!isOpen) return;
+	useEffect(() => {
+		if (!isOpen) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleClose();
-      }
-    };
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				handleClose();
+			}
+		};
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, handleClose]);
+		document.addEventListener('keydown', handleKeyDown, true);
 
-  if (!isOpen) return null;
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown, true);
+		};
+	}, [isOpen, handleClose]);
+
+	if (!isOpen) return null;
 
 	const fullBodyText = body;
 	const formattedBody = body.split('\n').map((line, i) => (
