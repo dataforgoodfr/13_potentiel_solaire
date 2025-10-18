@@ -25,6 +25,9 @@ interface PopupProps {
 
 const INFO_TRIGGER_TEXT = 'Voir plus ...';
 const INFO_HIDE_TEXT = 'Voir moins ...';
+const POPUP_TITLE = 'Contenus du mail de contact';
+const POPUP_DESCRIPTION =
+	'Merci de copier/coller les éléments suivants dans le mail adressé à votre maire.';
 
 export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, body }) => {
 	const [copied, setCopied] = useState<{ [key: string]: boolean }>({});
@@ -111,11 +114,11 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 				</button>
 
 				<h2 id='popup-title' className='mb-4 text-base font-bold text-darkgrey'>
-					Contenus du mail de contact
+					{POPUP_TITLE}
 				</h2>
 
 				<p id='popup-description' className='mb-6 text-grey'>
-					Merci de copier/coller les éléments suivants dans le mail adressé à votre maire.
+					{POPUP_DESCRIPTION}
 				</p>
 
 				<div className='space-y-4'>
