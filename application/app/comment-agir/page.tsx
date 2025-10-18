@@ -5,10 +5,12 @@ import commentagir from '../../public/images/comment-agir.png';
 import StaticPage from '../components/StaticPage';
 import AccordionCard from '../components/fiches/shared/AccordionCard';
 import {
-	ELU_BODY,
-	ELU_INTRO_LONG,
-	PARTICULIER_BODY,
-	PARTICULIER_INTRO_LONG,
+	COMMENT_AGIR_ELU_COMMON_BODY,
+	COMMENT_AGIR_ELU_COMMON_TITLE,
+	COMMENT_AGIR_ELU_PAGE_INTRO,
+	COMMENT_AGIR_PARTICULIER_COMMON,
+	COMMENT_AGIR_PARTICULIER_COMMON_TITLE,
+	COMMENT_AGIR_PARTICULIER_PAGE,
 } from '../content/accordion-actions';
 import commentAgirContent from '../content/comment-agir';
 import { PAGE_COMMENT_AGIR_METADATA } from '../content/seo';
@@ -17,20 +19,25 @@ export const metadata: Metadata = PAGE_COMMENT_AGIR_METADATA;
 
 const actionsLong = [
 	{
-		title: 'Je suis un élu ou une élue et je veux agir',
+		title: COMMENT_AGIR_ELU_COMMON_TITLE,
 		content: (
 			<>
-				{ELU_INTRO_LONG}
-				{ELU_BODY}
+				{COMMENT_AGIR_ELU_PAGE_INTRO}
+				{COMMENT_AGIR_ELU_COMMON_BODY}
 			</>
 		),
 	},
 	{
-		title: 'Je suis un citoyen ou une citoyenne et je veux agir',
+		title: COMMENT_AGIR_PARTICULIER_COMMON_TITLE,
 		content: (
 			<>
-				{PARTICULIER_INTRO_LONG}
-				{PARTICULIER_BODY}
+				{COMMENT_AGIR_PARTICULIER_PAGE.INTRO}
+				{COMMENT_AGIR_PARTICULIER_COMMON.BODY_INTRO}
+				<ul className='mb-8 mt-2 list-inside list-disc space-y-8'>
+					<li>{COMMENT_AGIR_PARTICULIER_COMMON.BODY_SIGNER_PETITION_ITEM}</li>
+					<li>{COMMENT_AGIR_PARTICULIER_PAGE.BODY_CONTACT_ELU_ITEM}</li>
+					<li>{COMMENT_AGIR_PARTICULIER_COMMON.BODY_DECOUVRER_LES_PROJETS_ITEM}</li>
+				</ul>
 			</>
 		),
 	},
