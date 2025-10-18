@@ -33,7 +33,7 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 	if (!isOpen) return null;
 
 	const copyItems: CopyItem[] = [
-		{ label: 'Mail :', value: email ?? 'exemple@mairie.fr' },
+		...(email ? [{ label: 'Mail :', value: email }] : []),
 		{ label: 'Objet :', value: subject },
 		{ label: 'Message :', value: body },
 	];
