@@ -164,7 +164,6 @@ export default function Fiches({
 
 	const handleBeforePrint = async () => {
 		setPrintOpen(true);
-		// wait for next frame so Accordion opens visually before print
 		await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
 	};
 
