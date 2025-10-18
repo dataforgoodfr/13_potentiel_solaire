@@ -1,13 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { toast } from '@/hooks/use-toast';
 import { Copy, CopyCheck, X } from 'lucide-react';
-
-export const UNKNOWN_TEXT = '— Contenu à venir —';
 
 interface CopyItem {
 	label: string;
@@ -23,11 +21,11 @@ interface PopupProps {
 	body: string;
 }
 
-const INFO_TRIGGER_TEXT = 'Voir plus ...';
-const INFO_HIDE_TEXT = 'Voir moins ...';
+const INFO_TRIGGER_TEXT = 'Voir plus';
+const INFO_HIDE_TEXT = 'Voir moins';
 const POPUP_TITLE = 'Contenus du mail de contact';
 const POPUP_DESCRIPTION =
-	'Merci de copier/coller les éléments suivants dans le mail adressé à votre maire.';
+	'Vous pouvez copier/coller les éléments suivants dans le mail adressé à votre maire.';
 
 export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, body }) => {
 	const [copied, setCopied] = useState<{ [key: string]: boolean }>({});
@@ -42,6 +40,12 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 		toast({
 			title: 'Texte copié dans le presse-papiers !',
 		});
+	};
+
+	const handleClose = () => {
+		setCopied({});
+		setIsBodyExpanded(false);
+		onClose();
 	};
 
 	if (!isOpen) return null;
@@ -106,16 +110,16 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 		>
 			<div className='relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-6 shadow-lg md:p-8'>
 				<button
-					onClick={onClose}
+					onClick={() => handleClose()}
 					className='absolute right-4 top-4 text-gray-500 hover:text-gray-700'
 					aria-label='Fermer la fenêtre'
 				>
 					<X size={24} aria-hidden='true' />
 				</button>
 
-				<h2 id='popup-title' className='mb-4 text-base font-bold text-darkgrey'>
+				<h3 id='popup-title' className='mb-4 text-base font-bold text-darkgrey'>
 					{POPUP_TITLE}
-				</h2>
+				</h3>
 
 				<p id='popup-description' className='mb-6 text-grey'>
 					{POPUP_DESCRIPTION}
@@ -124,7 +128,7 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 				<div className='space-y-4'>
 					{copyItems.map((item) => {
 						const isCopied = copied[item.label];
-						const value = item.value || UNKNOWN_TEXT;
+						const value = item.value;
 
 						return (
 							<div
