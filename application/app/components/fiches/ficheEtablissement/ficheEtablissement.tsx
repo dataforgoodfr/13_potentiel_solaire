@@ -9,6 +9,10 @@ import InterpretationMessage from './IntepretationMessage';
 import ProtectionCard from './ProtectionCard';
 import RattachementCard from './RattachementCard';
 
+const LABELS = {
+	ARIA_HEADER_PREFIX: "Fiche de l'établissement",
+};
+
 interface FicheEtablissementProps {
 	etablissement: Etablissement;
 	ficheRef?: React.RefObject<HTMLDivElement | null>;
@@ -25,7 +29,7 @@ export default function FicheEtablissement({
 	const donneesDisponibles = etablissement.reussite_rattachement;
 
 	return (
-		<article aria-label={`Fiche de l’établissement ${etablissement.nom_etablissement}`}>
+		<article aria-label={`${LABELS.ARIA_HEADER_PREFIX} ${etablissement.nom_etablissement}`}>
 			<EtablissementCard {...etablissement} />
 			<br />
 			<ActionButtons

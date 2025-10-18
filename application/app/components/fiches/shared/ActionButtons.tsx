@@ -5,6 +5,11 @@ import { useReactToPrint } from 'react-to-print';
 import { toast } from '@/hooks/use-toast';
 import { Download, Share2 } from 'lucide-react';
 
+const LABELS = {
+	ARIA_SHARE: 'Partager la fiche',
+	ARIA_DOWNLOAD: 'Télécharger la fiche',
+};
+
 interface ActionButtonsProps {
 	ficheRef?: React.RefObject<HTMLDivElement | null>;
 	ficheName?: string;
@@ -95,8 +100,8 @@ export default function ActionButtons({
 			<button
 				onClick={handleShare}
 				title='Partager'
-				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
-        aria-label='Partager la page'
+				className='rounded p-2 text-darkgreen transition hover:bg-gray-100'
+				aria-label={LABELS.ARIA_SHARE}
 			>
 				<Share2 className='h-5 w-5' />
 			</button>
@@ -104,8 +109,8 @@ export default function ActionButtons({
 			<button
 				onClick={handleDownload}
 				title='Télécharger'
-				className='hover:bg-gray-100 rounded p-2 text-darkgreen transition'
-        aria-label='Télécharger la fiche'
+				className='rounded p-2 text-darkgreen transition hover:bg-gray-100'
+				aria-label={LABELS.ARIA_DOWNLOAD}
 			>
 				<Download />
 			</button>

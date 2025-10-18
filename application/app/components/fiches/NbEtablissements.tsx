@@ -3,22 +3,31 @@ import React from 'react';
 import { University } from 'lucide-react';
 
 const UNKNOWN_TEXTS = {
-	nbEtablissements: '—',
+	NB_ETABLISSEMENTS: '—',
+};
+
+const LABELS = {
+	TITLE_PREFIX: 'Nombre total',
+	NIVEAU_PRIMAIRE: "d'écoles primaires",
+	NIVEAU_COLLEGE: 'de collèges',
+	NIVEAU_LYCEE: 'de lycées',
+	NIVEAU_ETABLISSEMENTS: "d'établissements",
+	NIVEAU_UNKNOWN: 'Niveau inconnu :',
 };
 
 function getNiveauLabel(niveau?: EtablissementNiveau): string {
 	if (!niveau) return '-';
 	switch (niveau) {
 		case 'primaire':
-			return "d'écoles primaires";
+			return LABELS.NIVEAU_PRIMAIRE;
 		case 'college':
-			return 'de collèges';
+			return LABELS.NIVEAU_COLLEGE;
 		case 'lycee':
-			return 'de lycées';
+			return LABELS.NIVEAU_LYCEE;
 		case 'etablissements':
-			return "d'établissements";
+			return LABELS.NIVEAU_ETABLISSEMENTS;
 		default:
-			throw new Error(`Niveau inconnu : ${niveau}`);
+			throw new Error(`${LABELS.NIVEAU_UNKNOWN} ${niveau}`);
 	}
 }
 
@@ -34,13 +43,15 @@ const NbEtablissements: React.FC<NbEtablissementsProps> = ({ niveau, nbEtablisse
 		<>
 			<div className='flex gap-1 text-grey'>
 				<University aria-hidden='true' focusable='false' />
-				<p className='text-sm font-bold'>Nombre total {getNiveauLabel(niveau)}&nbsp;:</p>
+				<p className='text-sm font-bold'>
+					{LABELS.TITLE_PREFIX} {getNiveauLabel(niveau)}&nbsp;:
+				</p>
 			</div>
 			<p className='font-bold text-grey'>
 				<span className='ps-7 text-3xl'>
 					{nbEtablissements !== undefined && nbEtablissements !== null
 						? nbEtablissements
-						: UNKNOWN_TEXTS.nbEtablissements}
+						: UNKNOWN_TEXTS.NB_ETABLISSEMENTS}
 				</span>
 			</p>
 		</>

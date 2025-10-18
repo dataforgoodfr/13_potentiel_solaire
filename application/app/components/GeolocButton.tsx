@@ -13,6 +13,10 @@ import { getUserLocation } from '../utils/geoloc';
 import useURLParams, { Codes } from '../utils/hooks/useURLParams';
 import { useInitialView } from '../utils/providers/initialViewProvider';
 
+const LABELS = {
+	ARIA_GEOLOCATION: 'Utiliser la géolocalisation',
+};
+
 const GeolocButton: React.FC = () => {
 	const { toast } = useToast();
 	const { setCodes } = useURLParams();
@@ -70,7 +74,7 @@ const GeolocButton: React.FC = () => {
 		<button
 			type='button'
 			className='text-green hover:text-darkgreen'
-			aria-label='Utiliser la géolocalisation'
+			aria-label={LABELS.ARIA_GEOLOCATION}
 			onClick={handleClick}
 		>
 			{loading ? <Loader className='animate-spin' size={24} /> : <LocateFixed size={24} />}
