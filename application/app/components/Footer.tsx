@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { usePathname } from 'next/navigation';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,6 +15,7 @@ export default function Footer() {
 	const hasMounted = useRef(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const firstFocusableRef = useRef<HTMLButtonElement>(null);
+	const pathname = usePathname();
 
 	useEffect(() => {
 		// avoid focusing on first mount
@@ -36,6 +38,11 @@ export default function Footer() {
 			window.removeEventListener('keydown', handleKeyDown);
 		};
 	}, [isOpen]);
+
+	// Close footer when navigating to a new page
+	useEffect(() => {
+		setIsOpen(false);
+	}, [pathname]);
 
 	return (
 		<footer
