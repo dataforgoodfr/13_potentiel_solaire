@@ -1,3 +1,6 @@
+import Image from 'next/image';
+
+import localisationCtaSrc from '../../public/images/localisation-CTA.png';
 import { ACTION_LINKS } from './actions';
 
 /**
@@ -26,7 +29,7 @@ export const COMMENT_AGIR_ELU_PAGE_INTRO = (
 		<p className='mb-6'>
 			À Greenpeace France, nous pensons que pour réussir la transition énergétique des
 			bâtiments publics, ces projets solaires doivent s’inscrire dans une réflexion plus
-			générale sur l’état du bâti. Pour les bâtiments passoires énergétiques il est
+			générale sur l’état du bâti. Pour les bâtiments passoires énergétiques, il est
 			indispensable de les rénover de façon performante avant d’y installer des panneaux
 			solaires.
 		</p>
@@ -37,8 +40,8 @@ export const COMMENT_AGIR_ELU_COMMON_BODY = (
 	<ul className='list-inside list-disc'>
 		<li className='mb-8 mt-6'>
 			De nombreuses communes nous ont fait remonter leurs difficultés à financer ces projets,
-			de rénovation comme de panneaux photovoltaïques, par manque de moyens financiers mis par
-			l’État.
+			de rénovation comme d’installation de panneaux photovoltaïques, par manque de moyens
+			financiers mis par l’État.
 			<p className='font-bold'>
 				Si cela est votre cas, nous vous invitons à nous contacter à l’adresse suivante :
 			</p>
@@ -52,8 +55,9 @@ export const COMMENT_AGIR_ELU_COMMON_BODY = (
 		</li>
 		<li className='mb-10'>
 			De multiples démarches sont nécessaires pour monter un tel projet : conformité avec le
-			PLU(i) et si dans zone protégée avis des ABF, étude de faisabilité, modèle économique,
-			plan de financement, demande de subventions, demande de raccordement au réseau, …
+			PLU(i) et si dans zone protégée avis des ABF (architectes des bâtiments de France),
+			étude de faisabilité, modèle économique, plan de financement, demande de subventions,
+			demande de raccordement au réseau, …
 			<br />
 			<span className='font-bold'>
 				Voici quelques ressources pour vous aider dans l’élaboration de ces projets :
@@ -153,7 +157,13 @@ export const COMMENT_AGIR_PARTICULIER_PAGE = {
 					mail pré-rédigé en cliquant sur le bouton “Envoyer un mail au maire”.
 				</strong>
 			</p>
-			{/* TODO: screenshot zone en question */}
+			<Image
+				src={localisationCtaSrc}
+				alt="Capture d’écran de la section 'Je suis un citoyen ou une citoyenne et je veux agir' depuis une fiche"
+				className='mx-auto mb-8 h-auto w-full max-w-lg object-contain'
+				width={1468}
+				height={1428}
+			/>
 			<p>Autres cas :</p>
 			<ul className='list-inside list-disc'>
 				<li>

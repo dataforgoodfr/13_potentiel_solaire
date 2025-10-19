@@ -6,7 +6,7 @@
  * - priority: The priority of the page for SEO sitemap (0.0 to 1.0)
  */
 export const footerLinks = [
-	{ title: 'Mentions légales', href: '/mention-legales', priority: 0.3 },
+	{ title: 'Mentions légales', href: '/mentions-legales', priority: 0.3 },
 	{
 		title: 'Politique de confidentialité',
 		href: 'https://www.greenpeace.fr/politique-de-confidentialite/',
@@ -20,7 +20,7 @@ export const footerLinks = [
 
 export const partners = [
 	{
-		name: 'Greenpeace',
+		name: 'Greenpeace France',
 		logo: '/images/greenpeace.svg',
 		address: '13 rue d’Enghien',
 		city: '75010 Paris',
@@ -41,7 +41,7 @@ export const partners = [
 ];
 
 export const footerText = {
-	copyright: 'Tous droits réservés — © 2025 Greenpeace & Data for Good',
+	copyright: 'Tous droits réservés — © 2025 Greenpeace France & Data for Good',
 };
 
 export const footerDescription = {
