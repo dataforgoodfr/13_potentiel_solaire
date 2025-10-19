@@ -6,7 +6,7 @@
  * - priority: The priority of the page for SEO sitemap (0.0 to 1.0)
  */
 export const footerLinks = [
-	{ title: 'Mentions légales', href: '/mention-legales', priority: 0.3 },
+	{ title: 'Mentions légales', href: '/mentions-legales', priority: 0.3 },
 	{
 		title: 'Politique de confidentialité',
 		href: 'https://www.greenpeace.fr/politique-de-confidentialite/',
