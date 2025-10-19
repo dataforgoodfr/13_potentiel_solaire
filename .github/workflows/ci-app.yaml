@@ -2,7 +2,9 @@ name: build docker for application
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - dev
 
 jobs:
   ci-application:
