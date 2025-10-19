@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { toast } from '@/hooks/use-toast';
@@ -42,11 +42,29 @@ export const PopUp: React.FC<PopupProps> = ({ isOpen, onClose, email, subject, b
 		});
 	};
 
-	const handleClose = () => {
+	const handleClose = useCallback(() => {
 		setCopied({});
 		setIsBodyExpanded(false);
 		onClose();
-	};
+	}, [onClose]);
+
+	useEffect(() => {
+		if (!isOpen) return;
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				handleClose();
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyDown, true);
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown, true);
+		};
+	}, [isOpen, handleClose]);
 
 	if (!isOpen) return null;
 
