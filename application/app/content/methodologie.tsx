@@ -544,7 +544,7 @@ const notreMethodologieContent: StaticPageProps = {
 					<p>
 						Nous avons également comparé nos résultats avec une{' '}
 						<a
-							href='https://data.opendatasoft.com/explore/dataset/le-potentiel-solaire-des-toitures%40datailedefrance/information/?flg=fr-fr'
+							href='https://data.iledefrance.fr/explore/dataset/le-potentiel-solaire-des-toitures/information/'
 							target='_blank'
 							rel='noopener noreferrer nofollow'
 							className={linkStyle}
