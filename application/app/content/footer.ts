@@ -20,7 +20,7 @@ export const footerLinks = [
 
 export const partners = [
 	{
-		name: 'Greenpeace',
+		name: 'Greenpeace France',
 		logo: '/images/greenpeace.svg',
 		address: '13 rue d’Enghien',
 		city: '75010 Paris',
@@ -41,7 +41,7 @@ export const partners = [
 ];
 
 export const footerText = {
-	copyright: 'Tous droits réservés — © 2025 Greenpeace & Data for Good',
+	copyright: 'Tous droits réservés — © 2025 Greenpeace France & Data for Good',
 };
 
 export const footerDescription = {
