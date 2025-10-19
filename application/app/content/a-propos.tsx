@@ -57,21 +57,20 @@ export const A_PROPOS_DATA_FOR_GOOD = (
 	<>
 		<p className='mb-6 mt-6'>
 			<strong>Data For Good</strong> est une association loi 1901 créée en 2014 qui rassemble
-			une communauté de 6000+ bénévoles tech (Data Scientists, Data Analysts, Data Engineers,
+			une communauté de 7000+ bénévoles tech (Data Scientists, Data Analysts, Data Engineers,
 			Developers, UX/UI Designers, Product & Project Owners) souhaitant s‘engager pour
 			l‘intérêt général.
 		</p>
 		<p className='mb-6'>
-			Nous réalisons chaque année des saisons d‘accélération où une dizaine de projets sont
-			accompagnés par les bénévoles sur des thématiques sociales, sociétales et
-			environnementales. Nous avons ainsi accompagné, accéléré et co-construit plus de 1000
-			projets depuis 2014.
+			Nous travaillons chaque année avec une quinzaine d’associations pour co-construire des
+			projets qui oeuvrent pour la justice sociale, la démocratie et l’environnement. Nous
+			avons ainsi accompagné, accéléré et co-construit plus de 100 projets depuis 10 ans.
 		</p>
 		<p className='mb-6'>
-			Nous sommes également fervents critiques des risques et des dérives de la technologie,
-			faire partie de la communauté est aussi s‘engager pour une technologie sobre et
+			Nous sommes également fervents critiques des risques et des dérives de la technologie.
+			Faire partie de la communauté est aussi s’engager pour une technologie sobre et
 			respectueuse des enjeux sociaux et environnementaux, et accepter que la technologie
-			n‘est pas la solution à tous les problèmes.
+			n’est pas la solution à tous les problèmes.
 		</p>
 		<a
 			href={ACTION_LINKS.siteDataForGood.url}
