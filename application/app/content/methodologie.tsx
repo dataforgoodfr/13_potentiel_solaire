@@ -885,7 +885,7 @@ const notreMethodologieContent: StaticPageProps = {
 					</p>
 				</section>,
 				<h3
-					className='mb-2 mt-4 text-[1.125rem] font-semibold'
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
 					id='h-mentions-et-conditions-de-reutilisation'
 				>
 					Mentions et conditions de réutilisation
