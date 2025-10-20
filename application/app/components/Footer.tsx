@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { ArrowUpCircle } from 'lucide-react';
 
@@ -14,6 +15,7 @@ export default function Footer() {
 	const hasMounted = useRef(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const firstFocusableRef = useRef<HTMLButtonElement>(null);
+	const pathname = usePathname();
 
 	useEffect(() => {
 		// avoid focusing on first mount
@@ -36,6 +38,11 @@ export default function Footer() {
 			window.removeEventListener('keydown', handleKeyDown);
 		};
 	}, [isOpen]);
+
+	// Close footer when navigating to a new page
+	useEffect(() => {
+		setIsOpen(false);
+	}, [pathname]);
 
 	return (
 		<footer
