@@ -930,7 +930,7 @@ const notreMethodologieContent: StaticPageProps = {
 						<li>
 							©{' '}
 							<a
-								href='https://openmaptiles.data.gouv.fr '
+								href='https://openmaptiles.data.gouv.fr'
 								target='_blank'
 								rel='noopener noreferrer nofollow'
 								className={linkStyle}
