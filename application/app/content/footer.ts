@@ -13,7 +13,7 @@ export const footerLinks = [
 	},
 	{
 		title: 'Jeu de données ouvert',
-		href: 'https://github.com/dataforgoodfr/13_potentiel_solaire',
+		href: 'https://drive.google.com/drive/folders/1c2h-0lhFIzdnwxm5ojmMq1p67XBY41IA?usp=sharing',
 	},
 	// { title: 'Accessibilité du site', href: '/accessibilite-du-site', priority: 0.3 },
 ];

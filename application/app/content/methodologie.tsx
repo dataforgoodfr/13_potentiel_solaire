@@ -884,6 +884,80 @@ const notreMethodologieContent: StaticPageProps = {
 						</em>
 					</p>
 				</section>,
+				<h4
+					className='mb-2 mt-4 text-[1.125rem] font-semibold'
+					id='h-mentions-et-conditions-de-reutilisation'
+				>
+					Mentions et conditions de réutilisation
+				</h4>,
+				<section
+					className='space-y-4'
+					aria-labelledby='h-mentions-et-conditions-de-reutilisation'
+				>
+					<p>
+						L’outil <em>Établissement solaire</em> réutilise des données cartographiques
+						et géographiques issues de sources ouvertes, conformément à leurs licences
+						respectives (Licence Ouverte 2.0 – Etalab et ODbL).
+					</p>
+					<p>
+						<strong>Sources :</strong>
+					</p>
+					<ul className='list-inside list-disc'>
+						<li>
+							©{' '}
+							<a
+								href='https://maplibre.org/'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								MapLibre
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+						<li>
+							© DINUM{' '}
+							<a
+								href='https://www.data.gouv.fr'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								(data.gouv.fr)
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+						<li>
+							©{' '}
+							<a
+								href='https://openmaptiles.org/'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								OpenMapTiles
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+						<li>
+							© Contributeurs{' '}
+							<a
+								href='https://www.openstreetmap.org/copyright'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								OpenStreetMap
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+					</ul>
+					<p>
+						Les données ont été réutilisées entre mars et septembre 2025, sans
+						altération de leur sens, dans le respect des conditions fixées par leurs
+						auteurs.
+					</p>
+				</section>,
 			],
 		},
 	],
