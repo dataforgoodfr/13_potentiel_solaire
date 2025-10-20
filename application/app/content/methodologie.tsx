@@ -935,7 +935,7 @@ const notreMethodologieContent: StaticPageProps = {
 								rel='noopener noreferrer nofollow'
 								className={linkStyle}
 							>
-								OpenMapTiles
+								OpenMapTiles (data.gouv)
 								<span className='sr-only'>(ouvre un nouvel onglet)</span>
 							</a>
 						</li>
@@ -953,7 +953,7 @@ const notreMethodologieContent: StaticPageProps = {
 						</li>
 					</ul>
 					<p>
-						Les données ont été réutilisées entre mars et septembre 2025, sans
+						Nous utilisons les dernières données mise à disposition par ces sources, sans
 						altération de leur sens, dans le respect des conditions fixées par leurs
 						auteurs.
 					</p>
