@@ -884,12 +884,12 @@ const notreMethodologieContent: StaticPageProps = {
 						</em>
 					</p>
 				</section>,
-				<h4
+				<h3
 					className='mb-2 mt-4 text-[1.125rem] font-semibold'
 					id='h-mentions-et-conditions-de-reutilisation'
 				>
 					Mentions et conditions de réutilisation
-				</h4>,
+				</h3>,
 				<section
 					className='space-y-4'
 					aria-labelledby='h-mentions-et-conditions-de-reutilisation'
@@ -930,7 +930,7 @@ const notreMethodologieContent: StaticPageProps = {
 						<li>
 							©{' '}
 							<a
-								href='https://openmaptiles.org/'
+								href='https://openmaptiles.data.gouv.fr '
 								target='_blank'
 								rel='noopener noreferrer nofollow'
 								className={linkStyle}
