@@ -174,9 +174,9 @@ const notreMethodologieContent: StaticPageProps = {
 				>
 					<p>
 						Cette base recense tous les établissements scolaires. Nous avons filtré les
-						données pour ne retenir que les établissements au statut
-						<em>Public</em> et de type « École », « Collège » ou « Lycée ». Ainsi
-						filtrées, on les appellera zones d’éducation.
+						données pour ne retenir que les établissements au statut <em>Public</em> et
+						de type « École », « Collège » ou « Lycée ». Ainsi filtrées, on les
+						appellera zones d’éducation.
 					</p>
 					<p>
 						Les données utilisées datent d’avril 2025, il est possible que celles-ci
@@ -573,13 +573,13 @@ const notreMethodologieContent: StaticPageProps = {
 				</section>,
 				<h3
 					className='mb-2 mt-5 text-[1.25rem] font-semibold'
-					id='#h-equivalent-a-la-consommation-electrique-annuel'
+					id='h-equivalent-a-la-consommation-electrique-annuel'
 				>
 					Équivalent à la consommation électrique annuel
 				</h3>,
 				<section
 					className='space-y-4'
-					aria-labelledby='#h-equivalent-a-la-consommation-electrique-annuel'
+					aria-labelledby='h-equivalent-a-la-consommation-electrique-annuel'
 				>
 					<p>
 						Afin de faciliter l’interprétation des résultats, pour chaque établissement
@@ -593,7 +593,7 @@ const notreMethodologieContent: StaticPageProps = {
 						<li>
 							la consommation d&apos;électricité moyenne d&apos;une personne en France
 							était de 2 223 kWh/personne/an selon les données de l’agence ORE
-							(Opérateurs de Réseaux d’Energie) (Source :
+							(Opérateurs de Réseaux d’Energie) (Source :{' '}
 							<a
 								href='https://www.data.gouv.fr/fr/reuses/consommation-par-habitant-et-par-ville-delectricite-en-france/'
 								target='_blank'
@@ -882,6 +882,80 @@ const notreMethodologieContent: StaticPageProps = {
 							Ces évaluations ont été effectuées sur le site de test, ils seront mis à
 							jour prochainement après la mise en ligne du site officiel.
 						</em>
+					</p>
+				</section>,
+				<h3
+					className='mb-2 mt-5 text-[1.25rem] font-semibold'
+					id='h-mentions-et-conditions-de-reutilisation'
+				>
+					Mentions et conditions de réutilisation
+				</h3>,
+				<section
+					className='space-y-4'
+					aria-labelledby='h-mentions-et-conditions-de-reutilisation'
+				>
+					<p>
+						L’outil <em>Établissement solaire</em> réutilise des données cartographiques
+						et géographiques issues de sources ouvertes, conformément à leurs licences
+						respectives (Licence Ouverte 2.0 – Etalab et ODbL).
+					</p>
+					<p>
+						<strong>Sources :</strong>
+					</p>
+					<ul className='list-inside list-disc'>
+						<li>
+							©{' '}
+							<a
+								href='https://maplibre.org/'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								MapLibre
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+						<li>
+							© DINUM{' '}
+							<a
+								href='https://www.data.gouv.fr'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								(data.gouv.fr)
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+						<li>
+							©{' '}
+							<a
+								href='https://openmaptiles.data.gouv.fr'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								OpenMapTiles (data.gouv)
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+						<li>
+							© Contributeurs{' '}
+							<a
+								href='https://www.openstreetmap.org/copyright'
+								target='_blank'
+								rel='noopener noreferrer nofollow'
+								className={linkStyle}
+							>
+								OpenStreetMap
+								<span className='sr-only'>(ouvre un nouvel onglet)</span>
+							</a>
+						</li>
+					</ul>
+					<p>
+						Nous utilisons les dernières données mises à disposition par ces sources, sans
+						altération de leur sens, dans le respect des conditions fixées par leurs
+						auteurs.
 					</p>
 				</section>,
 			],

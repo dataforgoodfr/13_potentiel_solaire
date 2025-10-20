@@ -19,11 +19,16 @@ const mentionsLegalesContent: StaticPageProps = {
 			paragraphs: [
 				<section aria-labelledby='section-editeur-du-site'>
 					<p>Dénomination sociale : Greenpeace France</p>
-					<p>Forme juridique :</p>
-					<p>RCS :</p>
-					<p>Siège :</p>
-					<p>Numéro de téléphone :</p>
-					<p>Adresse email :</p>
+					<p>Forme juridique : Association loi 1901 à but non lucratif</p>
+					<p>RNA : W751087107</p>
+					<p>Siège : Greenpeace France - 13 rue d’Enghien 75010 Paris</p>
+					<p>Numéro de téléphone : 01 80 96 96 96</p>
+					<p>
+						Adresse email :{' '}
+						<a href='mailto:contact.fr@greenpeace.org' className={linkStyle}>
+							contact.fr@greenpeace.org
+						</a>
+					</p>
 				</section>,
 			],
 		},
@@ -33,19 +38,6 @@ const mentionsLegalesContent: StaticPageProps = {
 					Directeur de la publication : Jean-François Julliard, directeur général
 					Greenpeace France
 				</p>,
-			],
-		},
-		{
-			heading: 'Le Site est hébergé par :',
-			id: 'section-hebergeur-du-site',
-			paragraphs: [
-				<section aria-labelledby='section-hebergeur-du-site'>
-					<p>Dénomination sociale :</p>
-					<p>Forme juridique :</p>
-					<p>RCS :</p>
-					<p>Siège :</p>
-					<p>Numéro de téléphone :</p>
-				</section>,
 			],
 		},
 		{
@@ -160,12 +152,6 @@ const mentionsLegalesContent: StaticPageProps = {
 						les droits cités dans la source. Tout contrevenant s’expose à des poursuites
 						judiciaires.
 					</p>
-					<p>
-						Par ailleurs, des sites externes peuvent contenir des liens hypertextes
-						pointant vers notre Site, Greenpeace n’a aucun moyen légal de s’opposer à
-						cette pratique usitée dans Internet et ne saurait en aucun cas être tenu
-						pour responsable de contenus issus de sites externes à Greenpeace.
-					</p>
 				</section>,
 			],
 		},
@@ -194,6 +180,18 @@ const mentionsLegalesContent: StaticPageProps = {
 						paramétrer grâce au paramétrage de cookies disponible sur le site.
 					</p>
 					<p>
+						Vous pouvez consulter notre politique de cookies{' '}
+						<a
+							href='https://www.greenpeace.fr/politique-de-cookies/'
+							target='_blank'
+							rel='noopener noreferrer'
+							className={linkStyle}
+						>
+							ici
+						</a>
+						.
+					</p>
+					<p>
 						En savoir plus sur les données personnelles (lien vers la politique de
 						protection des données personnelles){' '}
 						<a
@@ -210,7 +208,11 @@ const mentionsLegalesContent: StaticPageProps = {
 						Chaque personne concernée dispose de droits d’accès, de rectification,
 						d’effacement, de limitation et de portabilité ainsi qu’un droit d’opposition
 						qu’elle peut exercer en contactant le Délégué à la protection des données
-						personnelles de Greenpeace : dpd@greenpeace.fr.
+						personnelles de Greenpeace :{' '}
+						<a href='mailto:dpd@greenpeace.fr' className={linkStyle}>
+							dpd@greenpeace.fr
+						</a>
+						.
 					</p>
 				</section>,
 			],
@@ -221,37 +223,18 @@ const mentionsLegalesContent: StaticPageProps = {
 			paragraphs: [
 				<section className='space-y-4' aria-labelledby='section-hebergement'>
 					<p>
-						Notre site est hébergé sur un serveur qui est situé chez un hébergeur dont
-						la politique de respect de la vie privée est identique à la nôtre. Les
-						informations figurant sur les « logs » de nos sites ne permettent pas
-						l’identification des personnes, et nous n’essayons en aucune manière
-						d’associer ces informations aux personnes qui visitent le site. Le serveur
-						recueille des informations sur les dates et heures d’accès à notre site web
-						ainsi que sur l’adresse Internet (IP) du terminal (ordinateur, smartphone,
-						tablette, etc.) à partir duquel vous avez accédé à notre site. Nous pouvons
-						ainsi suivre, anonymement, la navigation d’un utilisateur à l’intérieur de
-						notre site. Nous nous servons de ces informations pour améliorer le contenu
-						et l’ergonomie de notre site et établir des statistiques de fréquentation.
-					</p>
-				</section>,
-			],
-		},
-		{
-			heading: 'Cookies',
-			id: 'section-cookies',
-			paragraphs: [
-				<section className='space-y-4' aria-labelledby='section-cookies'>
-					<p>
-						Vous pouvez consulter notre politique de cookies{' '}
-						<a
-							href='https://www.greenpeace.fr/politique-de-cookies/'
-							target='_blank'
-							rel='noopener noreferrer'
-							className={linkStyle}
-						>
-							ici
-						</a>
-						.
+						Notre site est hébergé sur un serveur qui est situé chez un hébergeur situé
+						dans l’Union européenne dont la politique de respect de la vie privée est
+						identique à la nôtre. Les informations figurant sur les « logs » de nos
+						sites ne permettent pas l’identification des personnes, et nous n’essayons
+						en aucune manière d’associer ces informations aux personnes qui visitent le
+						site. Le serveur recueille des informations sur les dates et heures d’accès
+						à notre site web ainsi que sur l’adresse Internet (IP) du terminal
+						(ordinateur, smartphone, tablette, etc.) à partir duquel vous avez accédé à
+						notre site. Nous pouvons ainsi suivre la navigation d’un utilisateur à
+						l’intérieur de notre site. Nous nous servons de ces informations pour
+						améliorer le contenu et l’ergonomie de notre site et établir des
+						statistiques de fréquentation.
 					</p>
 				</section>,
 			],
@@ -262,15 +245,24 @@ const mentionsLegalesContent: StaticPageProps = {
 			paragraphs: [
 				<section className='space-y-4' aria-labelledby='section-tls-ssl'>
 					<p>
-						Le site http://etablissement-solaire.fr/ utilise le protocole TLS (Transpot
-						Layer Security), un protocole de sécurité qui permet à vos communications
-						par Internet de rester privées. Ce protocole offre des applications pour les
-						clients/serveurs permettant de communiquer sans être écouté-e de façon
-						indiscrète, sans que vos messages soient modifiés. Il crypte toutes les
-						informations personnelles (nom, adresse, email…) lors de leur transit entre
-						le navigateur et nos serveurs, afin que ces informations ne puissent pas
-						être lues quand elles circulent sur Internet. Quand vous êtes sur une page
-						sécurisée, le cadenas apparaît en icône dans la barre d’adresse.
+						Le site{' '}
+						<a
+							href='https://etablissement-solaire.fr/'
+							target='_blank'
+							rel='noopener noreferrer'
+							className={linkStyle}
+						>
+							https://etablissement-solaire.fr/
+						</a>{' '}
+						utilise le protocole TLS (Transpot Layer Security), un protocole de sécurité
+						qui permet à vos communications par Internet de rester privées. Ce protocole
+						offre des applications pour les clients/serveurs permettant de communiquer
+						sans être écouté-e de façon indiscrète, sans que vos messages soient
+						modifiés. Il crypte toutes les informations personnelles (nom, adresse,
+						email…) lors de leur transit entre le navigateur et nos serveurs, afin que
+						ces informations ne puissent pas être lues quand elles circulent sur
+						Internet. Quand vous êtes sur une page sécurisée, le cadenas apparaît en
+						icône dans la barre d’adresse.
 					</p>
 					<p>
 						Si nous utilisons le cryptage TLS pour protéger les informations sensibles
@@ -278,58 +270,6 @@ const mentionsLegalesContent: StaticPageProps = {
 						informations une fois stockées. Tous nos disques durs sont cryptés en amont
 						du système d’exploitation. Si, d’aventure, une machine était dérobée, les
 						données stockées sur les disques durs resteraient inaccessibles.
-					</p>
-				</section>,
-			],
-		},
-		{
-			heading: 'Autres informations',
-			id: 'section-autres-informations',
-			paragraphs: [
-				<section className='space-y-4' aria-labelledby='section-autres-informations'>
-					<p>
-						Directeur de la publication : Jean-François Julliard, directeur général
-						Greenpeace France
-					</p>
-					<p>
-						Si vous avez des questions sur les informations que nous gardons sur les
-						utilisateurs et utilisatrices du site, veuillez contacter dpd@greenpeace.fr.
-					</p>
-					<p>
-						Nos mesures de sécurité et cette politique sont réévaluées régulièrement.
-						Vous pouvez adresser toute question concernant cette politique à :
-					</p>
-					<address>
-						Responsable site web
-						<br />
-						Greenpeace France
-						<br />
-						13, rue d’Enghien
-						<br />
-						75010 Paris
-					</address>
-				</section>,
-			],
-		},
-		{
-			heading: 'Droits des personnes',
-			id: 'section-droits-des-personnes',
-			paragraphs: [
-				<section className='space-y-4' aria-labelledby='section-droits-des-personnes'>
-					<p>
-						Greenpeace France est attaché au respect de la protection des données
-						personnelles et de la vie privée des personnes avec lesquelles l’association
-						interagit et, à ce titre, vous invite à prendre connaissance de sa politique
-						de protection des données{' '}
-						<a
-							href='https://www.greenpeace.fr/politique-de-protection-des-donnees/'
-							target='_blank'
-							rel='noopener noreferrer'
-							className={linkStyle}
-						>
-							ici
-						</a>
-						.
 					</p>
 				</section>,
 			],
