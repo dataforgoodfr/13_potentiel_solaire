@@ -953,7 +953,7 @@ const notreMethodologieContent: StaticPageProps = {
 						</li>
 					</ul>
 					<p>
-						Nous utilisons les dernières données mise à disposition par ces sources, sans
+						Nous utilisons les dernières données mises à disposition par ces sources, sans
 						altération de leur sens, dans le respect des conditions fixées par leurs
 						auteurs.
 					</p>
