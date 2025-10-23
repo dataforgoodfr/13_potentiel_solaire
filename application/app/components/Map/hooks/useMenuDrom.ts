@@ -11,19 +11,19 @@ const HEXAGONE_LOCATION: MenuDromLocation = {
 
 export const MENU_DROM_LOCATIONS: MenuDromLocation[] = [
 	{
-		name: 'Guadeloupe',
+		name: 'la Guadeloupe',
 		codeRegion: '01',
 		codeDepartement: '971',
 		icon: './DROMs/guadeloupe.svg',
 	},
 	{
-		name: 'Martinique',
+		name: 'la Martinique',
 		codeRegion: '02',
 		codeDepartement: '972',
 		icon: './DROMs/martinique.svg',
 	},
 	{
-		name: 'Guyane',
+		name: 'la Guyane',
 		codeRegion: '03',
 		codeDepartement: '973',
 		icon: './DROMs/guyane.svg',

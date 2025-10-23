@@ -34,6 +34,12 @@ import FicheEtablissement from './ficheEtablissement/ficheEtablissement';
 import FicheRegion from './ficheRegion';
 import AccordionCard from './shared/AccordionCard';
 
+const LABELS = {
+	ARIA_FICHE: 'Fiche',
+	ARIA_CLOSE_FICHE: 'Fermer la fiche',
+	ARIA_LOADING: 'Chargement de la fiche en cours',
+};
+
 const getActions = (isLevelWithContactMairie: boolean, contactMairie: ContactMairie | null) => [
 	{
 		title: COMMENT_AGIR_ELU_COMMON_TITLE,
@@ -177,7 +183,6 @@ export default function Fiches({
 
 	const handleBeforePrint = async () => {
 		setPrintOpen(true);
-		// wait for next frame so Accordion opens visually before print
 		await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
 	};
 
@@ -192,14 +197,14 @@ export default function Fiches({
 		<div
 			className={`fixed right-0 top-0 z-fiche h-full w-full animate-slide-in-bottom overflow-y-auto bg-white pl-5 pr-3 pt-1 shadow-lg md:w-2/5 md:max-w-[450px] md:animate-slide-in-right md:rounded-md xl:absolute`}
 			role='region'
-			aria-label={`Fiche ${activeTab}`}
+			aria-label={`${LABELS.ARIA_FICHE} ${activeTab}`}
 		>
 			<div id='fiche-root' ref={ficheContainerRef}>
 				<header>
 					<button
 						onClick={handleClose}
 						className='absolute left-1 top-2 text-xl text-grey hover:text-black print:hidden'
-						aria-label='Fermer la fiche'
+						aria-label={LABELS.ARIA_CLOSE_FICHE}
 					>
 						<X aria-hidden='true' />
 					</button>
@@ -219,11 +224,7 @@ export default function Fiches({
 				</header>
 				<section className='p-4'>
 					{isFetching ? (
-						<div
-							role='alert'
-							aria-label='Chargement de la fiche en cours'
-							aria-live='polite'
-						>
+						<div role='alert' aria-label={LABELS.ARIA_LOADING} aria-live='polite'>
 							<Loading />
 						</div>
 					) : (
