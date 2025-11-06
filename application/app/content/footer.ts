@@ -13,7 +13,7 @@ export const footerLinks = [
 	},
 	{
 		title: 'Jeu de données ouvert',
-		href: 'https://drive.google.com/drive/folders/1c2h-0lhFIzdnwxm5ojmMq1p67XBY41IA?usp=sharing',
+		href: 'https://www.data.gouv.fr/datasets/quel-est-le-potentiel-solaire-des-toitures-des-etablissements-scolaires-publics-francais/',
 	},
 	// { title: 'Accessibilité du site', href: '/accessibilite-du-site', priority: 0.3 },
 ];
