@@ -1,0 +1,37 @@
+name: CI - Next.js Lint (PR check)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "application/**"
+      - ".github/workflows/ci-app-pr.yaml"
+
+jobs:
+  build:
+    name: Lint Next.js App in /application
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    defaults:
+      run:
+        working-directory: application
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "application/package-lock.json"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Lint Next.js app
+        run: |
+          npm run lint
