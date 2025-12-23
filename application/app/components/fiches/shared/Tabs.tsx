@@ -1,3 +1,8 @@
+const LABELS = {
+	ARIA_TABLIST: "Choisir un type d'établissement",
+	PRINT_ALL_TABS_TITLE: "Tous type d'établissement",
+};
+
 type TabsProps = {
 	tabs: { id: string; label: string }[];
 	activeTab: string;
@@ -25,7 +30,7 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 			<div
 				className='mb-4 flex print:hidden'
 				role='tablist'
-				aria-label="Choisir un type d'établissement"
+				aria-label={LABELS.ARIA_TABLIST}
 				onKeyDown={handleKeyDown}
 			>
 				{tabs.map((tab) => (
@@ -50,7 +55,7 @@ export default function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 				{activeTab && (
 					<h2>
 						{activeTab === 'all'
-							? "Tous type d'établissement"
+							? LABELS.PRINT_ALL_TABS_TITLE
 							: tabs.find((t) => t.id === activeTab)?.label}
 					</h2>
 				)}

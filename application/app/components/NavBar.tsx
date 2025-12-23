@@ -15,6 +15,11 @@ import { navBarLinks as links } from '../content/navBar';
 import useShowSearchBar from '../utils/hooks/useShowSearchBar';
 import SearchBar from './SearchBar/SearchBar';
 
+const LABELS = {
+	ARIA_CLOSE_MENU: 'Fermer le menu',
+	ARIA_OPEN_MENU: 'Ouvrir le menu',
+};
+
 export default function NavBar() {
 	const { show: showSearchBar, searchTerm } = useShowSearchBar();
 	const pathname = usePathname();
@@ -56,7 +61,7 @@ export default function NavBar() {
 							type='button'
 							aria-expanded={isOpen}
 							aria-controls='menu-principal'
-							aria-label='Ouvrir le menu'
+							aria-label={LABELS.ARIA_OPEN_MENU}
 						>
 							{isOpen ? (
 								<X className='stroke-green' />
@@ -113,7 +118,7 @@ export default function NavBar() {
 								onClick={handleToggle}
 								onKeyDown={handleClose}
 								className='text-white'
-								aria-label='Fermer le menu'
+								aria-label={LABELS.ARIA_CLOSE_MENU}
 							>
 								<X className='stroke-green' size={32} />
 							</button>

@@ -11,6 +11,11 @@ import { ArrowUpCircle } from 'lucide-react';
 
 import { footerDescription, footerLinks, footerText, partners } from '../content/footer';
 
+const LABELS = {
+	ARIA_HIDE_FOOTER: 'Cacher le pied de page',
+	ARIA_SHOW_FOOTER: 'Afficher le pied de page',
+};
+
 export default function Footer() {
 	const hasMounted = useRef(false);
 	const [isOpen, setIsOpen] = useState(false);
@@ -72,7 +77,7 @@ export default function Footer() {
 								}`}
 							/>
 							<span className='sr-only'>
-								{isOpen ? 'Cacher le pied de page' : 'Afficher le pied de page'}
+								{isOpen ? LABELS.ARIA_HIDE_FOOTER : LABELS.ARIA_SHOW_FOOTER}
 							</span>
 						</button>
 					</div>
@@ -100,7 +105,7 @@ export default function Footer() {
 									}`}
 								/>
 								<span className='sr-only'>
-									{isOpen ? 'Cacher le pied de page' : 'Afficher le pied de page'}
+									{isOpen ? LABELS.ARIA_HIDE_FOOTER : LABELS.ARIA_SHOW_FOOTER}
 								</span>
 							</button>
 						</div>

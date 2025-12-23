@@ -2,6 +2,10 @@ import { SearchResult } from '@/app/models/search';
 import { CommandItem } from '@/components/ui/command';
 import { MapPin, School } from 'lucide-react';
 
+const LABELS = {
+	ARIA_SUGGESTIONS: 'Suggestions',
+};
+
 const SOURCE_TO_LABEL: Record<Exclude<SearchResult['source'], 'etablissements'>, string> = {
 	communes: 'Commune',
 	departements: 'Département',
@@ -58,7 +62,7 @@ export default function Suggestions({ items, onSelect }: ResultsListProps) {
 				key={id}
 				className='flex grow cursor-pointer'
 				onSelect={() => onSelect(item)}
-				aria-label='Suggestions'
+				aria-label={LABELS.ARIA_SUGGESTIONS}
 			>
 				<div className='flex items-center gap-2'>
 					{icon}

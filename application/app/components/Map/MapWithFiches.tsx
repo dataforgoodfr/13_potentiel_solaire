@@ -10,6 +10,8 @@ import HomeOverlay from '../HomeOverlay/HomeOverlay';
 import Fiches from '../fiches/Fiches';
 import FranceMap from './FranceMap';
 
+const TITLE = 'Découvrez le potentiel solaire de votre école';
+
 export default function MapWithFiches() {
 	const { etablissement, commune, departement, region, contactMairie, isFetching } =
 		useSelectedPlaces();
@@ -20,9 +22,7 @@ export default function MapWithFiches() {
 
 	return (
 		<div className='relative flex-1 overflow-x-hidden pb-safe-bottom'>
-			{!isInitialView && (
-				<h1 className='sr-only'>Découvrez le potentiel solaire de votre école</h1>
-			)}
+			{!isInitialView && <h1 className='sr-only'>{TITLE}</h1>}
 			<Suspense>
 				<HomeOverlay />
 				<FranceMap selectedPlaces={selectedPlaces} hideToolbar={isInitialView} />

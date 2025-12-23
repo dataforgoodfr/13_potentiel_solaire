@@ -12,6 +12,15 @@ const UNKNOWN_TEXTS = {
 	nbEleves: "Nombre d'élèves concernés inconnu",
 };
 
+const INCOMPLETE_DATA_TEXT = 'Données incomplètes pour cet établissement';
+const NB_ELEVES_LABEL = 'élèves concernés';
+const POTENTIEL_LABEL = 'Potentiel de production annuelle : ';
+const EQUIVALENT_LABEL = ' Équivalent à la consommation électrique annuelle de : ';
+const HOUSEHOLD_LABEL_LINE_1 = 'foyers de';
+const HOUSEHOLD_LABEL_LINE_2 = '2 personnes';
+const EQUIVALENT_INFO_ARIA_LABEL = "Informations sur l'équivalent de consommation";
+const POTENTIEL_EQUIVALENT_HELP_TEXT = '5000 kWh/an pour un foyer de 2 personnes';
+
 interface PotentielSolaireCardProps {
 	potentielSolaire?: number;
 	potentielNbFoyers?: number;
@@ -32,8 +41,6 @@ const getPotentielSolaireElement = (potentiel?: number): JSX.Element => {
 	);
 };
 
-const potentielEquivalentHelpText = '5000 kWh/an pour un foyer de 2 personnes';
-
 export default function PotentielSolaireCard({
 	potentielSolaire,
 	potentielNbFoyers,
@@ -47,9 +54,7 @@ export default function PotentielSolaireCard({
 			<div className='mb-4 rounded-2xl border-8 border-solid bg-slate-100 p-6 outline-select'>
 				<div className='flex items-center text-grey'>
 					<FileX className='mt-2 h-8 w-8 flex-shrink-0 self-stretch' />
-					<p className='ml-2 text-base font-semibold'>
-						Données incomplètes pour cet établissement
-					</p>
+					<p className='ml-2 text-base font-semibold'>{INCOMPLETE_DATA_TEXT}</p>
 				</div>
 			</div>
 		);
@@ -64,17 +69,17 @@ export default function PotentielSolaireCard({
 					<>
 						<p className='font-bold'>
 							<span className='text-base'>{nbEleves.toLocaleString('fr-FR')}</span>{' '}
-							élèves concernés
+							{NB_ELEVES_LABEL}
 						</p>
 					</>
 				) : (
-					<span className='text-gray-500 italic'>{UNKNOWN_TEXTS.nbEleves}</span>
+					<span className='italic text-gray-500'>{UNKNOWN_TEXTS.nbEleves}</span>
 				)}
 			</div>
 
 			<div className='mt-5 flex gap-1 text-grey'>
 				<Zap aria-hidden='true' focusable='false' />
-				<p className='text-sm font-bold'>Potentiel de production annuelle&nbsp;:</p>
+				<p className='text-sm font-bold'>{POTENTIEL_LABEL}</p>
 			</div>
 			<div className='flex items-center gap-2 font-bold text-blue'>
 				{potentielSolaire !== undefined ? (
@@ -94,23 +99,21 @@ export default function PotentielSolaireCard({
 
 			<div className='flex gap-1 text-grey'>
 				<HousePlug size={36} aria-hidden='true' focusable='false' />
-				<p className='text-sm font-bold'>
-					&nbsp;Équivalent à la consommation électrique annuelle de&nbsp;:
-				</p>
+				<p className='text-sm font-bold'>{EQUIVALENT_LABEL}</p>
 			</div>
 			<div className='flex w-full items-center justify-between ps-7 text-darkgreen'>
 				<div className='flex items-center gap-2'>
 					<span className='text-3xl font-bold text-darkgreen'>{potentielNbFoyers}</span>
 					<div className='flex flex-col text-sm leading-tight'>
-						<span className='font-bold'>foyers de</span>
-						<span className='font-bold'>2 personnes</span>
+						<span className='font-bold'>{HOUSEHOLD_LABEL_LINE_1}</span>
+						<span className='font-bold'>{HOUSEHOLD_LABEL_LINE_2}</span>
 					</div>
 				</div>
 				<Popover.Root>
 					<Popover.Trigger asChild>
 						<button
-							aria-label="Informations sur l'équivalent de consommation"
-							className='hover:bg-gray-100 rounded p-2 text-darkgreen transition print:hidden'
+							aria-label={EQUIVALENT_INFO_ARIA_LABEL}
+							className='rounded p-2 text-darkgreen transition hover:bg-gray-100 print:hidden'
 						>
 							<CircleHelp aria-hidden='true' focusable='false' />
 						</button>
@@ -120,13 +123,13 @@ export default function PotentielSolaireCard({
 							className='z-tooltip rounded bg-blue px-3 py-1.5 text-xs text-white shadow'
 							sideOffset={5}
 						>
-							{potentielEquivalentHelpText}
+							{POTENTIEL_EQUIVALENT_HELP_TEXT}
 							<Popover.Arrow className='fill-black' />
 						</Popover.Content>
 					</Popover.Portal>
 				</Popover.Root>
 			</div>
-			<div className='ms-9 hidden italic print:block'>({potentielEquivalentHelpText})</div>
+			<div className='ms-9 hidden italic print:block'>({POTENTIEL_EQUIVALENT_HELP_TEXT})</div>
 		</div>
 	);
 }
