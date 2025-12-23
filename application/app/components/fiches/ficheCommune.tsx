@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Commune } from '@/app/models/communes';
 
 import { COLOR_THRESHOLDS, COLOR_THRESHOLDS_BY_TYPE_ETABLISSEMENT } from '../Map/constants';
-import NbEtablissements from './NbEtablissements';
+import NbEtablissements from './shared/NbEtablissements';
 import ActionButtons from './shared/ActionButtons';
 import CollectiviteHeaderCard from './shared/CollectiviteHeaderCard';
 import PotentielSolaireCard from './shared/PotentielSolaireCard';
