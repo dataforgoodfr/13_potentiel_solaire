@@ -35,7 +35,7 @@ const mentionsLegalesContent: StaticPageProps = {
 		{
 			paragraphs: [
 				<p className='mt-8'>
-					Directeur de la publication : Jean-François Julliard, directeur général
+					Directeur de la publication : Eve Karoubi, présidente de
 					Greenpeace France
 				</p>,
 			],
