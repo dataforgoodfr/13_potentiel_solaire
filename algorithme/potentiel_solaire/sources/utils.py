@@ -41,17 +41,21 @@ def download_file(
     :param url: URL to download.
     :param output_filepath: Path to save the downloaded file.
     """
-    filename = url.split('/')[-1]
+    filename = os.path.basename(output_filepath)
     if os.path.exists(output_filepath):
         logger.info(f"{filename} already exists, skipping download.")
         return
 
     logger.info(f"Downloading {filename}...")
-    response = requests.get(url, stream=True)
+    response = requests.get(url, stream=True, timeout=60)
     if response.status_code == 200:
-        with open(output_filepath, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
+        # on ecrit dans un fichier temporaire pour ne pas garder un fichier incomplet
+        # (qui serait considere comme deja telecharge) si le telechargement echoue
+        tmp_filepath = f"{output_filepath}.part"
+        with open(tmp_filepath, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024 * 1024):
                 f.write(chunk)
+        os.replace(tmp_filepath, output_filepath)
         logger.info(f"Downloaded {filename}")
         return
 

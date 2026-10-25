@@ -1,167 +1,49 @@
 import os
-import re
+import shutil
 
-import requests
-from bs4 import BeautifulSoup
 import geopandas as gpd
 
-from potentiel_solaire.constants import BD_TOPO_DATE, BD_TOPO_PAGE, DATA_FOLDER, DEFAULT_CRS
+from potentiel_solaire.constants import BD_TOPO_DATE, BD_TOPO_RESOURCE_ID, DATA_FOLDER, DEFAULT_CRS
+from potentiel_solaire.sources.geopf import get_geopf_download_links, get_geopf_resource_entries
 from potentiel_solaire.sources.utils import download_file, extract_7z, find_matching_files
-from potentiel_solaire.database.queries import get_departements
 from potentiel_solaire.logger import get_logger
 
 logger = get_logger()
 
 
-def get_urls_for_bd_topo(
-    bd_topo_page: str = BD_TOPO_PAGE,
-):
-    """Get available urls for BD TOPO data
-    
-    :param bd_topo_page: url with all urls for BD TOPO
-    :return: list of urls for BD TOPO
-    """
-    response = requests.get(bd_topo_page)
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    return [element.get("href") for element in soup.find_all("a") if element.get("href")] 
-
-
-def check_date_is_available_for_bd_topo(
-    bd_topo_urls: list[str],
+def get_bd_topo_dataset_for_departement(
+    code_departement: str,
     date: str = BD_TOPO_DATE,
-):
-    """Get the last date for BD TOPO data
-    
-    :param bd_topo_urls: list of urls for BD TOPO
-    :param date: date to check (YYYY-MM-DD)
-    :return: True if date is available, False otherwise
-    """
-    gpkg_regex = (
-        r"https?://.*BDTOPO.*TOUSTHEMES_GPKG.*D([A-Za-z0-9]{3})"
-        r"_(19\d\d|20\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]).*\.7z"
-    )
+) -> str:
+    """Get the BD TOPO dataset (all themes, gpkg format) for the departement at the given date
 
-    dates_available = set()
-    for url in bd_topo_urls:
-        match = re.match(gpkg_regex, url)
-        if match:
-            year = match.group(2)
-            month = match.group(3)
-            day = match.group(4)
-            dates_available.add(f"{year}-{month}-{day}")
-    
+    :param code_departement: code of departement
+    :param date: edition date of the BD TOPO (YYYY-MM-DD)
+    :return: title of the dataset on the Geoplateforme
+    """
+    entries = get_geopf_resource_entries(
+        resource_id=BD_TOPO_RESOURCE_ID,
+        zone=f"D{code_departement}",
+        fmt="GPKG",
+    )
+    entries = [entry for entry in entries if "TOUSTHEMES_GPKG" in entry["title"]]
+
+    dates_available = sorted({entry["edition_date"] for entry in entries})
     logger.info(
-        "BD TOPO par departement au format GPKG disponible aux dates suivantes: %s", 
+        "BD TOPO pour le departement %s au format GPKG disponible aux dates suivantes: %s",
+        code_departement,
         dates_available
     )
 
-    if date in dates_available:
-        logger.info(
-            "La BD TOPO par departement au format GPKG disponible a la date du %s",
-            date
-        )
-        return True
-    
-
-    logger.warning(
-        "La BD TOPO par departement au format GPKG n'est pas disponible a la date du %s",
-        date
-    )
-    return False
-
-
-def check_all_departements_available_for_bd_topo(
-    bd_topo_urls_for_date: list[str],
-):
-    """Check if all departements are available for BD TOPO
-
-    :param bd_topo_urls_for_date: list of urls for BD TOPO for a given date
-    :return: True if all departements are available, False otherwise
-    """
-    # on recupere la liste des departements disponibles dans la database
-    departements = get_departements()
-    departements_available = set()
-
-    # on recupere la liste des departements disponibles dans les urls
-    for url in bd_topo_urls_for_date:
-        match = re.match(r".*D([A-Za-z0-9]{3}).*", url)
-        if match:
-            departements_available.add(match.group(1))
-
-    # on verifie que tous les departements sont disponibles
-    for departement in departements:
-        if departement not in departements_available:
-            logger.warning(
-                "Le departement %s n'est pas disponible pour la BD TOPO",
-                departement
-            )
-            return False
-
-    return True
-
-
-def get_urls_for_bd_topo_gpkg(
-    bd_topo_page: str = BD_TOPO_PAGE,
-    date: str = BD_TOPO_DATE,
-):
-    """Get available urls for BD TOPO data at gpkg format for all departements
-
-    :param bd_topo_page: url with all urls for BD TOPO
-    :param date: date to check (YYYY-MM-DD)
-    :return: list of urls for BD TOPO
-    """
-    bd_topo_urls = get_urls_for_bd_topo(bd_topo_page=bd_topo_page)
-    logger.info("%s urls disponibles pour la BD TOPO", len(bd_topo_urls))
-
-    # check si la date est disponible
-    if not check_date_is_available_for_bd_topo(
-        bd_topo_urls=bd_topo_urls,
-        date=date
-    ):
+    datasets = [entry["title"] for entry in entries if entry["edition_date"] == date]
+    if len(datasets) == 0:
         raise ValueError(
-            "La date {} n'est pas disponible pour la BD TOPO".format(date)
-        )
-    
-    # on filtre les urls pour ne garder que celles qui sont a la date demandee
-    gpkg_regex_with_date = rf"https?://.*BDTOPO.*TOUSTHEMES_GPKG.*D([A-Za-z0-9]{{3}})_{date}.*\.7z"
-    bd_topo_urls_for_date = [
-        href_element for href_element in bd_topo_urls if re.search(gpkg_regex_with_date, href_element)
-    ]
-
-    # check si tous les departements sont disponibles pour la date demandee
-    if not check_all_departements_available_for_bd_topo(
-        bd_topo_urls_for_date=bd_topo_urls_for_date
-    ):
-        raise ValueError(
-            "Certains departements ne sont pas disponibles pour la BD TOPO a la date du {}"
-            .format(date)
+            "La BD TOPO du departement {} n'est pas disponible a la date du {}"
+            .format(code_departement, date)
         )
 
-    return bd_topo_urls_for_date
-
-
-def get_url_for_bd_topo_gpkg_for_departement(
-    code_departement: str,
-    bd_topo_page: str = BD_TOPO_PAGE,
-    date: str = BD_TOPO_DATE,
-):
-    """Get url to download BD TOPO data at gpkg format for the departement
-
-    :param code_departement: code of departement
-    :param bd_topo_page: url with all urls for BD TOPO
-    :param date: date to check (YYYY-MM-DD)
-    :return: url
-    """
-    gpkg_urls = get_urls_for_bd_topo_gpkg(
-        bd_topo_page=bd_topo_page, 
-        date=date
-    )
-
-    url = [url for url in gpkg_urls if re.search(rf"D{code_departement}", url)][0]
-    logger.info("url for departement %s is %s", code_departement, url)
-
-    return url
+    logger.info("dataset for departement %s is %s", code_departement, datasets[0])
+    return datasets[0]
 
 
 def find_gpkg_file_bd_topo(
@@ -191,13 +73,13 @@ def find_gpkg_file_bd_topo(
 
 def extract_bd_topo(
     code_departement: str,
-    bd_topo_page: str = BD_TOPO_PAGE,
     date: str = BD_TOPO_DATE,
     output_directory: str = DATA_FOLDER,
 ):
     """Extrait les fichiers de la BD TOPO pour un departement
 
     :param code_departement: code du departement
+    :param date: date d edition de la BD TOPO (YYYY-MM-DD)
     :param output_directory: dossier ou sauvegarder les fichiers
     :return: chemin du fichier .gpkg avec les donnees
     """
@@ -212,22 +94,35 @@ def extract_bd_topo(
                     gpkg_filepath, code_departement)
         return gpkg_filepath
 
-    # get url for download
-    url_departement = get_url_for_bd_topo_gpkg_for_departement(
+    # get urls for download (archive can be split in several parts .7z.001, .7z.002, ...)
+    dataset_id = get_bd_topo_dataset_for_departement(
         code_departement=code_departement,
-        bd_topo_page=bd_topo_page,
         date=date
     )
+    urls = get_geopf_download_links(resource_id=BD_TOPO_RESOURCE_ID, dataset_id=dataset_id)
+    if len(urls) == 0:
+        raise ValueError(f"Aucun lien de telechargement trouve pour {dataset_id}")
 
-    # download zip file
-    output_filename = url_departement.split('/')[-1]
-    output_7z_filepath = os.path.join(output_directory, output_filename)
-    download_file(url=url_departement, output_filepath=output_7z_filepath)
+    # download 7z file(s)
+    parts_filepaths = []
+    for url in urls:
+        part_filepath = os.path.join(output_directory, url.split('/')[-1])
+        download_file(url=url, output_filepath=part_filepath)
+        parts_filepaths.append(part_filepath)
 
-    # extract zip file
+    # merge parts into a single 7z file
+    output_7z_filepath = os.path.join(output_directory, f"{dataset_id}.7z")
+    if parts_filepaths != [output_7z_filepath]:
+        with open(output_7z_filepath, "wb") as output_file:
+            for part_filepath in parts_filepaths:
+                with open(part_filepath, "rb") as part_file:
+                    shutil.copyfileobj(part_file, output_file)
+                os.remove(part_filepath)
+
+    # extract 7z file
     extract_7z(input_filepath=output_7z_filepath, output_folder=output_directory)
 
-    # delete zip file
+    # delete 7z file
     os.remove(output_7z_filepath)
 
     return find_gpkg_file_bd_topo(

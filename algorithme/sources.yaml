@@ -3,8 +3,28 @@ etablissements:
   filename: "fr-en-annuaire-education.geojson"
   description: "Annuaire des etablissements scolaires francais"
 
+effectifs_ecoles:
+  url: "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-ecoles-effectifs-nb_classes/exports/parquet?select=rentree_scolaire,numero_ecole,nombre_total_eleves"
+  filename: "effectifs_ecoles.parquet"
+  description: "Nombre d'eleves par ecole et par rentree scolaire"
+
+effectifs_colleges:
+  url: "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-college-effectifs-niveau-sexe-lv/exports/parquet?select=rentree_scolaire,numero_college,nombre_eleves_total"
+  filename: "effectifs_colleges.parquet"
+  description: "Nombre d'eleves par college et par rentree scolaire"
+
+effectifs_lycees_gt:
+  url: "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-lycee_gt-effectifs-niveau-sexe-lv/exports/parquet?select=rentree_scolaire,numero_lycee,nombre_d_eleves"
+  filename: "effectifs_lycees_gt.parquet"
+  description: "Nombre d'eleves par lycee general et technologique et par rentree scolaire"
+
+effectifs_lycees_pro:
+  url: "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-lycee_pro-effectifs-niveau-sexe-lv/exports/parquet?select=rentree_scolaire,numero_lycee,nombre_d_eleves"
+  filename: "effectifs_lycees_pro.parquet"
+  description: "Nombre d'eleves par lycee professionnel et par rentree scolaire"
+
 immeubles_proteges:
-  url: "https://data.culturecommunication.gouv.fr/api/explore/v2.1/catalog/datasets/liste-des-immeubles-proteges-au-titre-des-monuments-historiques/exports/geojson?lang=fr&timezone=Europe%2FBerlin"
+  url: "https://www.data.gouv.fr/api/1/datasets/r/74376ed3-2ebd-4c5f-bf16-d5d05d151ad7"
   filename: "liste_immeubles_proteges.geojson"
   description: "Immeubles proteges en France"
 

@@ -13,8 +13,11 @@ DUCK_DB_PATH = DATABASE_FOLDER / 'potentiel_solaire.duckdb'
 DATA_FOLDER.mkdir(parents=True, exist_ok=True)
 RESULTS_FOLDER.mkdir(parents=True, exist_ok=True)
 
+# IGN Geoplateforme (API de telechargement)
+GEOPF_BASE_URL = "https://data.geopf.fr/telechargement"
+
 # BD TOPO
-BD_TOPO_PAGE = "https://geoservices.ign.fr/bdtopo"
+BD_TOPO_RESOURCE_ID = "BDTOPO"
 BD_TOPO_DATE = "2025-03-15"
 
 # projections
