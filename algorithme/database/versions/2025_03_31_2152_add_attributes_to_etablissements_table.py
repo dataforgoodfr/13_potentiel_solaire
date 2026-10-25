@@ -10,6 +10,7 @@ from typing import Sequence, Union
 from alembic import op
 
 from potentiel_solaire.sources.extract import extract_sources
+from potentiel_solaire.sources.schools_establishments import EFFECTIFS_SOURCES
 
 
 # revision identifiers, used by Alembic.
@@ -39,6 +40,17 @@ def upgrade() -> None:
     sources = extract_sources()
     etablissements_path = sources["etablissements"].filepath
 
+    # L annuaire ne contient plus le nombre d eleves : on le recupere dans les effectifs
+    # par etablissement (derniere rentree scolaire disponible, lycees GT et pro additionnes)
+    effectifs_query = "\n            UNION ALL\n".join(
+        f"""
+            SELECT {id_column} AS identifiant_de_l_etablissement,
+                   {nb_eleves_column} AS nombre_d_eleves
+            FROM read_parquet('{sources[name].filepath}')
+            QUALIFY rentree_scolaire = MAX(rentree_scolaire) OVER (PARTITION BY {id_column})"""
+        for name, (id_column, nb_eleves_column) in EFFECTIFS_SOURCES.items()
+    )
+
     op.execute("""
         INSTALL spatial;
         LOAD spatial;
@@ -63,7 +75,7 @@ def upgrade() -> None:
             code_postal = annuaire.code_postal
         FROM (
             SELECT e.identifiant_de_l_etablissement,
-                   e.nombre_d_eleves,
+                   effectifs.nombre_d_eleves,
                    e.adresse_1,
                    e.adresse_2,
                    e.adresse_3,
@@ -72,6 +84,12 @@ def upgrade() -> None:
                    ROW_NUMBER() OVER (PARTITION BY e.identifiant_de_l_etablissement ORDER BY e.identifiant_de_l_etablissement, nom_commune_matched DESC) AS row_number
             FROM ST_Read('{etablissements_path}') e
             LEFT JOIN {communes_table} c ON e.code_commune = c.code_commune
+            LEFT JOIN (
+                SELECT identifiant_de_l_etablissement, CAST(SUM(nombre_d_eleves) AS INTEGER) AS nombre_d_eleves
+                FROM ({effectifs_query}
+                )
+                GROUP BY identifiant_de_l_etablissement
+            ) effectifs ON e.identifiant_de_l_etablissement = effectifs.identifiant_de_l_etablissement
         ) AS annuaire
         WHERE etablissements.identifiant_de_l_etablissement = annuaire.identifiant_de_l_etablissement
             AND annuaire.row_number = 1
